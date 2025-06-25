@@ -1,4 +1,4 @@
-// StringValueType.h - Declares the StringValueType enum.
+// TextField.cpp - Defines the TextField class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,16 +14,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SPC_STRING_VALUE_TYPE_H
-#define SPC_STRING_VALUE_TYPE_H
+#include "TextField.h"
 
-namespace Spc
+using namespace Spc;
+
+void TextField::SetValue(std::string value)
 {
-    enum class StringValueType
+    for (int i = 0; i < size; i++)
     {
-        Text,
-        Numeric
-    };    
+        if (i < value.size())
+            data[i] = value[i];
+        else
+            data[i] = 0;
+    }
 }
-
-#endif

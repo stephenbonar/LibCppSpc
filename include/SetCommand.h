@@ -14,32 +14,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SET_COMMAND_H
-#define SET_COMMAND_H
+#ifndef SPC_SET_COMMAND_H
+#define SPC_SET_COMMAND_H
 
 #include <memory>
 #include <string>
-#include "ID666ExtendedItem.h"
+#include "ExtendedTagItem.h"
 
-/// @brief Represents the parameters of a set operation.
-/// @tparam T The type of SPC field being set.
-template<typename T>
-struct SetCommand
+namespace Spc
 {
-    /// @brief A pointer to the field on the binary tag.
-    T* binaryField;
+    /// @brief Represents the parameters of a set operation.
+    /// @tparam T The type of SPC field being set.
+    template<typename T>
+    struct SetCommand
+    {
+        /// @brief A pointer to the field on the binary tag.
+        T* binaryField;
 
-    /// @brief A pointer to the field on the text tag.
-    T* textField;
+        /// @brief A pointer to the field on the text tag.
+        T* textField;
 
-    /// @brief The extended item ID.
-    int extendedID;
+        /// @brief The extended item ID.
+        int extendedID;
 
-    /// @brief The extended item type.
-    int extendedType;
+        /// @brief The extended item type.
+        int extendedType;
 
-    /// @brief The value to set on the field.
-    std::string value;
-};
+        /// @brief The value to set on the field.
+        std::string value;
+    };
+}
 
 #endif

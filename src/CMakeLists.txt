@@ -15,23 +15,21 @@
 # limitations under the License.
 
 set(SOURCES 
-    SpcHeader.cpp
-    ID666BinaryTag.cpp
-    ID666TextTag.cpp
-    ID666ExtendedTag.cpp
-    SpcFileStream.cpp
-    SpcFormat.cpp
-    SpcStruct.cpp
-    SpcHeader.cpp
-    ID666ExtendedItem.cpp
-    SpcDateField.cpp
-    SpcNumericField.cpp
-    SpcEmulatorField.cpp
-    SpcFile.cpp
-    SpcTrackField.cpp
-    SpcTextField.cpp
+    Header.cpp
+    BinaryTag.cpp
+    TextTag.cpp
+    ExtendedTag.cpp
+    FileStream.cpp
+    Format.cpp
+    DataStructure.cpp
+    ExtendedTagItem.cpp
+    DateField.cpp
+    NumericField.cpp
+    EmulatorField.cpp
+    File.cpp
+    TrackField.cpp
+    TextField.cpp
     StringDelimiter.cpp
-    StringToken.cpp
     StringTokenizer.cpp)
 
 set(INCLUDES 

@@ -1,4 +1,4 @@
-// StringValueType.h - Declares the StringValueType enum.
+// NumericType.h - Declares the NumericType enum.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,16 +14,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SPC_STRING_VALUE_TYPE_H
-#define SPC_STRING_VALUE_TYPE_H
+#ifndef SPC_NUMERIC_TYPE_H
+#define SPC_NUMERIC_TYPE_H
 
 namespace Spc
 {
-    enum class StringValueType
+    enum class NumericType
     {
+        Binary,
         Text,
-        Numeric
-    };    
+        Either
+    };
 }
 
 #endif

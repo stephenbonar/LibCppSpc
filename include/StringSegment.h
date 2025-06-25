@@ -14,23 +14,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef STRING_SEGMENT_H
-#define STRING_SEGMENT_H
+#ifndef SPC_STRING_SEGMENT_H
+#define SPC_STRING_SEGMENT_H
 
 #include <string>
 #include <sstream>
 #include "StringSegmentType.h"
 
-class StringSegment
+namespace Spc
 {
-public:
-    virtual ~StringSegment() = default;
+    class StringSegment
+    {
+    public:
+        virtual ~StringSegment() = default;
 
-    virtual std::string Value() const = 0;
+        virtual std::string Value() const = 0;
 
-    virtual StringSegmentType SegmentType() const = 0;
+        virtual StringSegmentType SegmentType() const = 0;
 
-    //virtual void Parse(std::string& text) = 0;
-};
+        //virtual void Parse(std::string& text) = 0;
+    };
+}
 
 #endif

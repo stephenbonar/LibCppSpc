@@ -14,32 +14,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef STRING_DELIMITER_H
-#define STRING_DELIMITER_H
+#ifndef SPC_STRING_DELIMITER_H
+#define SPC_STRING_DELIMITER_H
 
 #include <sstream>
 #include "StringSegment.h"
 
-class StringDelimiter : public StringSegment
+namespace Spc
 {
-public:
-    StringDelimiter(std::string value) 
-        : value{ value }, segmentType{ StringSegmentType::Delimiter }
-    { }
-
-    virtual int GetIndex(std::string text) const;
-
-    virtual std::string Value() const override { return value; }
-
-    virtual StringSegmentType SegmentType() const override 
+    class StringDelimiter : public StringSegment
     {
-        return segmentType; 
-    }
+    public:
+        StringDelimiter(std::string value) 
+            : value{ value }, segmentType{ StringSegmentType::Delimiter }
+        { }
 
-    //virtual void Parse(std::string& text) override;
-private:
-    std::string value;
-    StringSegmentType segmentType;
-};
+        virtual int GetIndex(std::string text) const;
+
+        virtual std::string Value() const override { return value; }
+
+        virtual StringSegmentType SegmentType() const override 
+        {
+            return segmentType; 
+        }
+    private:
+        std::string value;
+        StringSegmentType segmentType;
+    };
+}
 
 #endif

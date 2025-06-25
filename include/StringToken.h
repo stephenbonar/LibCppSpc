@@ -14,49 +14,44 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef STRING_TOKEN_H
-#define STRING_TOKEN_H
+#ifndef SPC_STRING_TOKEN_H
+#define SPC_STRING_TOKEN_H
 
 #include "StringSegment.h"
 #include "StringSegmentType.h"
 #include "StringDelimiter.h"
 #include "StringValueType.h"
 
-class StringToken : public StringSegment
+namespace Spc
 {
-public:
-    StringToken(std::string name, StringValueType valueType) :
-        name{ name },
-        valueType{ valueType }, 
-        segmentType{ StringSegmentType::Token }
-    { }
-
-    virtual std::string Name() const { return name; }
-
-    virtual StringValueType ValueType() const { return valueType; }
-
-    /*
-    virtual void SetDelimiter(std::shared_ptr<StringDelimiter> delimiter) 
+    class StringToken : public StringSegment
     {
-        this->delimiter = delimiter; 
-    }
-    */
-    virtual void SetValue(std::string value) { this->value = value; }
+    public:
+        StringToken(std::string name, StringValueType valueType) :
+            name{ name },
+            valueType{ valueType }, 
+            segmentType{ StringSegmentType::Token }
+        { }
 
-    virtual std::string Value() const override { return value; }
+        virtual std::string Name() const { return name; }
 
-    virtual StringSegmentType SegmentType() const override 
-    {
-        return segmentType; 
-    }
+        virtual StringValueType ValueType() const { return valueType; }
 
-    //virtual void Parse(std::string& text) override;
-private:
-    std::string name;
-    std::string value;
-    StringValueType valueType;
-    StringSegmentType segmentType;
-    std::shared_ptr<StringDelimiter> delimiter;
-};
+        virtual void SetValue(std::string value) { this->value = value; }
+
+        virtual std::string Value() const override { return value; }
+
+        virtual StringSegmentType SegmentType() const override 
+        {
+            return segmentType; 
+        }
+    private:
+        std::string name;
+        std::string value;
+        StringValueType valueType;
+        StringSegmentType segmentType;
+        std::shared_ptr<StringDelimiter> delimiter;
+    };
+}
 
 #endif

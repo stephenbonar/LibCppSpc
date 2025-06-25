@@ -14,13 +14,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef STRING_SEGMENT_TYPE_H
-#define STRING_SEGMENT_TYPE_H
+#ifndef SPC_STRING_SEGMENT_TYPE_H
+#define SPC_STRING_SEGMENT_TYPE_H
 
-enum class StringSegmentType
+namespace Spc
 {
-    Token,
-    Delimiter
-};
+    enum class StringSegmentType
+    {
+        Token,
+        Delimiter
+    };
+}
 
 #endif

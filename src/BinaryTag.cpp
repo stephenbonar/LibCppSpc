@@ -1,4 +1,4 @@
-// StringValueType.h - Declares the StringValueType enum.
+// BinaryTag.cpp - Defines the BinaryTag class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,16 +14,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SPC_STRING_VALUE_TYPE_H
-#define SPC_STRING_VALUE_TYPE_H
+#include "BinaryTag.h"
 
-namespace Spc
+using namespace Spc;
+
+BinaryTag::BinaryTag()
 {
-    enum class StringValueType
-    {
-        Text,
-        Numeric
-    };    
+    spcFields.push_back(&songTitle);
+    spcFields.push_back(&gameTitle);
+    spcFields.push_back(&dumperName);
+    spcFields.push_back(&comments);
+    spcFields.push_back(&dateDumped);
+    spcFields.push_back(&songLength);
+    spcFields.push_back(&fadeLength);
+    spcFields.push_back(&songArtist);
+    spcFields.push_back(&defaultChannelState);
+    spcFields.push_back(&emulatorUsed);
+    spcFields.push_back(&reserved);
 }
-
-#endif

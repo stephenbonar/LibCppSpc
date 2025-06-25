@@ -16,6 +16,8 @@
 
 #include "StringTokenizer.h"
 
+using namespace Spc;
+
 void StringTokenizer::ParsePattern(std::string pattern)
 {
     constexpr char noMoreChars{ -1 };

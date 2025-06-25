@@ -14,8 +14,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef STRING_TOKENIZER_H
-#define STRING_TOKENIZER_H
+#ifndef SPC_STRING_TOKENIZER_H
+#define SPC_STRING_TOKENIZER_H
 
 #include <string>
 #include <sstream>
@@ -26,32 +26,39 @@
 #include "StringToken.h"
 #include "StringSegment.h"
 
-class StringTokenizer
+namespace Spc
 {
-public:
-    StringTokenizer(std::string pattern) { ParsePattern(pattern); }
+    class StringTokenizer
+    {
+    public:
+        StringTokenizer(std::string pattern) { ParsePattern(pattern); }
 
-    std::vector<std::shared_ptr<StringToken>> Tokenize(std::string text);
+        std::vector<std::shared_ptr<StringToken>> Tokenize(std::string text);
 
-    std::vector<std::shared_ptr<StringSegment>> Segments() { return segments; }
-private:
-    std::vector<std::shared_ptr<StringSegment>> segments;
+        std::vector<std::shared_ptr<StringSegment>> Segments()
+        {
+            return segments; 
+        }
+    private:
+        std::vector<std::shared_ptr<StringSegment>> segments;
 
-    void AddDelimiter(std::stringstream& stream);
+        void AddDelimiter(std::stringstream& stream);
 
-    void AddToken(std::stringstream& stream);
+        void AddToken(std::stringstream& stream);
 
-    std::shared_ptr<StringToken> InitToken(std::string name);
+        std::shared_ptr<StringToken> InitToken(std::string name);
 
-    void ParsePattern(std::string pattern);
+        void ParsePattern(std::string pattern);
 
-    void ParseToken(std::shared_ptr<StringToken> token, std::string& text);
+        void ParseToken(std::shared_ptr<StringToken> token, std::string& text);
 
-    void ParseToken(std::shared_ptr<StringToken> token, 
-                    std::shared_ptr<StringSegment> next,
-                    std::string& text);
+        void ParseToken(std::shared_ptr<StringToken> token, 
+                        std::shared_ptr<StringSegment> next,
+                        std::string& text);
 
-    void ParseDelimiter(std::shared_ptr<StringDelimiter>, std::string& text);
-};
+        void ParseDelimiter(std::shared_ptr<StringDelimiter>, 
+                            std::string& text);
+    };
+}
 
 #endif

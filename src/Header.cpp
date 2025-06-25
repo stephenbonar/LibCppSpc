@@ -1,4 +1,4 @@
-// StringValueType.h - Declares the StringValueType enum.
+// Header.h - Defines the Header struct.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,16 +14,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SPC_STRING_VALUE_TYPE_H
-#define SPC_STRING_VALUE_TYPE_H
+#include "Header.h"
 
-namespace Spc
+using namespace Spc;
+
+Header::Header()
 {
-    enum class StringValueType
-    {
-        Text,
-        Numeric
-    };    
+    spcFields.push_back(&ID);
+    spcFields.push_back(&separator);
+    spcFields.push_back(&containsTag);
+    spcFields.push_back(&versionMinor);
+    spcFields.push_back(&pcRegister);
+    spcFields.push_back(&aRegister);
+    spcFields.push_back(&xRegister);
+    spcFields.push_back(&yRegister);
+    spcFields.push_back(&pswRegister);
+    spcFields.push_back(&spRegister);
+    spcFields.push_back(&reserved);
 }
-
-#endif

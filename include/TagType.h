@@ -1,4 +1,4 @@
-// StringValueType.h - Declares the StringValueType enum.
+// TagType.h - Declares the TagType enum.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,16 +14,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SPC_STRING_VALUE_TYPE_H
-#define SPC_STRING_VALUE_TYPE_H
+#ifndef SPC_TAG_TYPE_H
+#define SPC_TAG_TYPE_H
 
 namespace Spc
 {
-    enum class StringValueType
+    /// @brief Represents the type of the ID666 tag.
+    enum class TagType
     {
+        /// @brief The tag has binary representation of numeric values.
+        Binary,
+
+        /// @brief The tag has text representation of numeric values.
         Text,
-        Numeric
-    };    
+
+        /// @brief The tag has text offsets, but some numeric values are binary.
+        TextMixed
+    };
 }
 
 #endif

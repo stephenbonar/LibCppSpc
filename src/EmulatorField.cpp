@@ -1,4 +1,4 @@
-// StringValueType.h - Declares the StringValueType enum.
+// EmulatorField.cpp - Defines the EmulatorField class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,16 +14,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SPC_STRING_VALUE_TYPE_H
-#define SPC_STRING_VALUE_TYPE_H
+#include "EmulatorField.h"
 
-namespace Spc
+using namespace Spc;
+
+std::string EmulatorField::ToString() const
 {
-    enum class StringValueType
+    switch (DetectValue())
     {
-        Text,
-        Numeric
-    };    
+        case 1:
+            return "ZSNES";
+        case 2:
+            return "SNES9X";
+        default:
+            return "Unknown";
+    }
 }
-
-#endif

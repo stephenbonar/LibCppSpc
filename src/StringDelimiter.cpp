@@ -16,6 +16,8 @@
 
 #include "StringDelimiter.h"
 
+using namespace Spc;
+
 int StringDelimiter::GetIndex(std::string text) const
 {
     int index{ -1 };
