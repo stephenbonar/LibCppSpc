@@ -32,9 +32,6 @@ set(SOURCES
     StringDelimiter.cpp
     StringTokenizer.cpp)
 
-set(INCLUDES 
-    ${PROJECT_SOURCE_DIR}/include)
-
 set(LIBRARIES LibCppBinary)
 
 # Resolve DOWNLOAD_EXTRACT_TIMESTAMP warning policy by using new behavior.
@@ -58,6 +55,6 @@ add_library(LibCppSpc ${SOURCES})
 set_target_properties(LibCppBinary PROPERTIES PREFIX "")
 set_target_properties(LibCppSpc PROPERTIES PREFIX "")
 
-target_include_directories(LibCppSpc PUBLIC ${INCLUDES})
+target_include_directories(LibCppSpc PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 target_link_libraries(LibCppSpc ${LIBRARIES})
