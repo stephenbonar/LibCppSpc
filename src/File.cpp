@@ -164,7 +164,7 @@ BinaryField File::MutedVoices() const
 NumericField File::LoopTimes() const
 {
     return GetField<NumericField>(extendedTag.loopTimes.get(), 
-                                  extendedLoopLengthID, 
+                                  extendedLoopTimesID, 
                                   1);
 }
 
