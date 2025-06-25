@@ -23,7 +23,7 @@
 #include "DateField.h"
 #include "EmulatorField.h"
 #include "ExtendedTag.h"
-#include "ExtentedTagItem.h"
+#include "ExtendedTagItem.h"
 #include "Field.h"
 #include "File.h"
 #include "FileStream.h"
