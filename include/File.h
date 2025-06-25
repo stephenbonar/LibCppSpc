@@ -86,7 +86,7 @@ namespace Spc
 
         bool HeaderContainsTag() const { return headerContainsTag; }
 
-        Header Header() const { return header; }
+        Spc::Header Header() const { return header; }
 
         Spc::TagType TagType() const { return tagType; }
 

@@ -49,7 +49,7 @@ namespace Spc
 
         /// @brief Determines the type of ID666 tag the file uses.
         /// @return The type of ID666 tag.
-        TagType TagType();
+        Spc::TagType TagType();
 
         /// @brief Determines if the SPC file's header contains an ID666 tag.
         /// @return Returns true if it contains a tag, otherwise false.
