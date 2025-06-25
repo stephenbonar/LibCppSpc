@@ -18,7 +18,7 @@
 
 using namespace Spc;
 
-void PadItem(ExtendedTagItem* item)
+void Spc::PadItem(ExtendedTagItem* item)
 {
     auto size = std::static_pointer_cast<NumericField>(item->data);
 
@@ -743,7 +743,7 @@ void File::TagToFileName(std::string pattern)
     Save(RemoveInvalidChars(fileNameStream.str()));
 }
 
-std::string RemoveInvalidChars(std::string fileName)
+std::string Spc::RemoveInvalidChars(std::string fileName)
 {
     std::stringstream cleanFileName;
 

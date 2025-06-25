@@ -18,7 +18,7 @@
 
 using namespace Spc;
 
-std::string FormatValue(std::string label, std::string value)
+std::string Spc::FormatValue(std::string label, std::string value)
 {
     // This value is enough to fit all labels with at least one space after.
     constexpr int labelSize{ 22 };
@@ -53,7 +53,7 @@ std::string FormatValue(std::string label, std::string value)
     return stream.str();
 }
 
-std::string FormatField(Field* field)
+std::string Spc::FormatField(Field* field)
 {
     return Spc::FormatValue(field->Label(), field->ToString());
 }
