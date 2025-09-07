@@ -677,7 +677,7 @@ void File::FileNameToTag(std::string pattern)
 
     StringTokenizer tokenizer{ pattern };
     std::vector<std::shared_ptr<StringToken>> tokens = 
-        tokenizer.Tokenize(path);
+        tokenizer.Tokenize(Name());
 
     for (std::shared_ptr<StringToken> token : tokens)
     {
