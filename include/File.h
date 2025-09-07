@@ -65,9 +65,9 @@ namespace Spc
     {
     public:
         /// @brief Constructor; creates a new instance of ScpFile.
-        /// @param fileName The file name / path to the SpcFile.
-        File(std::string fileName) : 
-            fileName{ fileName }, 
+        /// @param path The file name / path to the SpcFile.
+        File(std::string path) : 
+            path{ path }, 
             hasLoaded{ false }, 
             tagType{ TagType::Text },
             hasExtendedTag{ false },
@@ -78,7 +78,12 @@ namespace Spc
             extraRam{ 64 }
         {}
 
-        std::string FileName() const { return fileName; }
+        std::string Name() const 
+        {
+            return std::filesystem::path(path).filename().string();
+        }
+
+        std::string Path() const { return path; }
 
         bool HasLoaded() const { return hasLoaded; }
 
@@ -94,7 +99,10 @@ namespace Spc
 
         Spc::TextTag TextTag() const { return textTag; }
 
-        Binary::ChunkHeader ExtendedTagHeader() const { return extendedTagHeader; }
+        Binary::ChunkHeader ExtendedTagHeader() const 
+        { 
+            return extendedTagHeader; 
+        }
 
         Spc::ExtendedTag ExtendedTag() const { return extendedTag; }
 
@@ -192,7 +200,7 @@ namespace Spc
 
         void TagToFileName(std::string pattern);
     private:
-        std::string fileName;
+        std::string path;
         bool hasLoaded;
         bool hasExtendedTag;
         bool headerContainsTag;

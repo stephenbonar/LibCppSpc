@@ -398,7 +398,7 @@ bool File::Load()
     // Initialize the extended tag; sets all members to nulltpr.
     extendedTag = ExtendedTag();
 
-    FileStream file{ fileName };
+    FileStream file{ path };
     file.Open(Binary::FileMode::Read);
 
     if (!file.IsOpen())
@@ -494,15 +494,15 @@ bool File::Load()
 
 bool File::Save()
 {
-    return Save(fileName);
+    return Save(path);
 }
 
-bool File::Save(std::string outFileName)
+bool File::Save(std::string outPath)
 {
     if (!hasLoaded)
         return false;
 
-    FileStream stream{ outFileName };
+    FileStream stream{ outPath };
     stream.Open(Binary::FileMode::Write);
 
     if (!stream.IsOpen())
@@ -677,7 +677,7 @@ void File::FileNameToTag(std::string pattern)
 
     StringTokenizer tokenizer{ pattern };
     std::vector<std::shared_ptr<StringToken>> tokens = 
-        tokenizer.Tokenize(fileName);
+        tokenizer.Tokenize(path);
 
     for (std::shared_ptr<StringToken> token : tokens)
     {
