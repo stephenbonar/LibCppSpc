@@ -740,7 +740,13 @@ void File::TagToFileName(std::string pattern)
         }
     }
 
-    Save(RemoveInvalidChars(fileNameStream.str()));
+    std::filesystem::path fullPath{ path };
+    std::filesystem::path parentPath = fullPath.parent_path();
+
+    // Ensure the parent path ends with a directory separator.
+    parentPath /= "";
+
+    Save(RemoveInvalidChars(parentPath.string() + fileNameStream.str()));
 }
 
 std::string Spc::RemoveInvalidChars(std::string fileName)
