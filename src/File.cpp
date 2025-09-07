@@ -746,7 +746,9 @@ void File::TagToFileName(std::string pattern)
     // Ensure the parent path ends with a directory separator.
     parentPath /= "";
 
-    Save(RemoveInvalidChars(parentPath.string() + fileNameStream.str()));
+    std::string fileName = RemoveInvalidChars(fileNameStream.str());
+
+    Save(parentPath.string() + fileName);
 }
 
 std::string Spc::RemoveInvalidChars(std::string fileName)
