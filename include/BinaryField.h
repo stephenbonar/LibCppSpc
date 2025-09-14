@@ -22,11 +22,17 @@
 
 namespace Spc
 {
-    /// @brief Represents a field that should be formatted as binary by default.
+    /// @brief Represents an Spc::NumericField formatted as binary by default.
+    ///
+    /// This class is a specialization of Spc::NumericField that is always
+    /// treated as containing a binary representation of a number. It provides
+    /// methods for converting the field's data to and from a binary string
+    /// representation such as "00100101". It is used for representing fields
+    /// that should be interpreted as binary numbers, such as flags or bitmasks.
     class BinaryField : public NumericField
     {
     public:
-        /// @brief Constructor; creates a new instance of SpcBinaryField.
+        /// @brief Constructor; creates a new instance of Spc::BinaryField.
         /// @param label The label to use when outputing the field. 
         /// @param offset The offset where the field can be found in the file.
         /// @param size The size of the field, in bytes.
@@ -43,12 +49,15 @@ namespace Spc
             return Binary::RawField::ToString(Binary::StringFormat::Bin);
         }
 
-        virtual void SetValue(std::string value) override
-        {
-            int binaryValue = std::stoi(value, nullptr, 2);
-            NumericField::SetValue(binaryValue);
-        }
+        /// @brief Sets value using a string representation of a binary number.
+        /// @param value A string representation of the binary number to set.
+        /// @pre The string must only contain '0' and '1' characters.
+        /// @post The field's data is updated to represent the specified value.
+        virtual void SetValue(std::string value) override;
 
+        // In C++, base class methods are hidden by derived class methods with 
+        // the same name. In order to call the base class version of SetValue,
+        // we need to bring it into scope with a using declaration.
         using NumericField::SetValue;
     };
 }

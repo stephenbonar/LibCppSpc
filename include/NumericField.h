@@ -29,8 +29,8 @@ namespace Spc
     /// Numeric fields can contain either a text or binary representation of a
     /// number and have some detetion capabilities to determine what kind of
     /// representation is contained within. It also provides different methods
-    /// of retrieving the value depending on if the field should always interpret
-    /// the data as binary or if it could possibly contain both. 
+    /// of retrieving the value depending on if the field should always 
+    /// interpret the data as binary or if it could possibly contain both. 
     class NumericField : public Field
     {
     public:
@@ -96,6 +96,8 @@ namespace Spc
         {
             return Binary::RawField::ToString(format);
         }
+
+        NumericType Type() const { return type; }
 
         virtual void SetValue(int value);
         

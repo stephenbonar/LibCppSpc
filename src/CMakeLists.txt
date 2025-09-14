@@ -15,6 +15,7 @@
 # limitations under the License.
 
 set(SOURCES 
+    BinaryField.cpp
     Header.cpp
     BinaryTag.cpp
     TextTag.cpp

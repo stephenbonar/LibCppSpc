@@ -28,12 +28,12 @@ namespace Spc
 {
     /// @brief Represents a binary format ID666 tag.
     ///
-    /// ID666 tags are the metadata tags stored in the header of an SPC file and
-    /// come in two formats: text or binary. Binary formatted tags tend to store 
-    /// numeric values as unsigned binary integers, although some SCP dumps
-    /// use a mixture of text and binary numbers. That said, text and binary tags
-    /// have slightly different offsets, and dumps that mix text and binary still
-    /// tend to use the offsets of one format or the other.
+    /// ID666 tags are the metadata tags stored in the header of an SPC file 
+    /// and come in two formats: text or binary. Binary formatted tags tend to 
+    /// store numeric values as unsigned binary integers, although some SCP 
+    /// dumps use a mixture of text and binary numbers. That said, text and 
+    /// binary tags have slightly different offsets, and dumps that mix text 
+    /// and binary still tend to use the offsets of one format or the other.
     struct BinaryTag : public DataStructure
     {
         /// @brief The title of the song.
@@ -71,9 +71,9 @@ namespace Spc
         /// The exact purpose of this field is unclear from the documentation
         /// and other source code availabe. In the file format documentation, 
         /// this field is called "default channel disables". The best I can 
-        /// gather is it
-        /// determines if the default state of each channel, where 0 = channels
-        /// are all enabled by default, and 1 = channels are disabled by default
+        /// gather is it determines if the default state of each channel, where
+        /// 0 = channels are all enabled by default, and 1 = channels are 
+        /// disabled by default.
         NumericField defaultChannelState
         {
             "Default Channel State", 0xD0, 1, NumericType::Binary
@@ -86,14 +86,14 @@ namespace Spc
         };
 
         /// @brief Bytes reserved for use in future versions of the SPC format.
-        Field reserved{ "Reserved", 0xD2, 45 };
+        Field reserved{ "Reserved", 0xD2, 46 };
 
         /// @brief Default constructor; initalizes the labeled fields list.
         ///
         /// While this is a standard struct with public fields, it is also an 
-        /// SpcStruct, which maintains an internal vector of labeled pointers to
-        /// each public field accessible via the SpcFields() method. The 
-        /// constructor initializes this internal vector.
+        /// Spc::DataStructure, which maintains an internal vector of labeled 
+        /// pointers to each public field accessible via the SpcFields() 
+        /// method. The constructor initializes this internal vector.
         BinaryTag();
 
         /// @brief Gets list of pointers to this struct's fields.
@@ -104,10 +104,10 @@ namespace Spc
         /// label: value
         ///
         /// This method is also called by the Fields() method to get a pointer 
-        /// to each field so SpcFileStream can read this struct from and write 
-        /// it to an SPC file in a cross platform way, preserving the order, 
-        /// size, and endianness of each field no matter which architecture the 
-        /// program runs on.
+        /// to each field so Spc::FileStream can read this struct from and 
+        /// write it to an SPC file in a cross platform way, preserving the 
+        /// order, size, and endianness of each field no matter which 
+        /// architecture the program runs on.
         std::vector<Field*> SpcFields() const override { return spcFields; }
     private:
         std::vector<Field*> spcFields;
