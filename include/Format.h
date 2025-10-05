@@ -23,6 +23,12 @@
 
 namespace Spc
 {
+    // This value is enough to fit all labels with at least one space after.
+    inline constexpr int labelSize{ 22 };
+
+    // This value perfectly wraps hexadecimal output.
+    inline constexpr int valueChunkSize{ 54 };
+
     /// @brief Formats the specified value prefixed with the specified label.
     /// @param label The label to use.
     /// @param value The value to label.

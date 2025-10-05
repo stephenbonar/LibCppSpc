@@ -36,7 +36,8 @@ FetchContent_MakeAvailable(googletest)
 # Defines the test executable target.
 add_executable(libcppspctests
                BinaryFieldTests.cpp
-               BinaryTagTests.cpp)
+               BinaryTagTests.cpp
+               DataStructureTests.cpp)
 
 # Links the libraries to the test executable target.
 target_link_libraries(libcppspctests

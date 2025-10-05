@@ -20,12 +20,6 @@ using namespace Spc;
 
 std::string Spc::FormatValue(std::string label, std::string value)
 {
-    // This value is enough to fit all labels with at least one space after.
-    constexpr int labelSize{ 22 };
-
-    // This value perfectly wraps hexadecimal output.
-    constexpr int valueChunkSize{ 54 };
-
     std::stringstream stream;
     stream << std::setw(labelSize) << std::left << label << ": ";
     

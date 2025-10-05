@@ -27,18 +27,19 @@
 
 namespace Spc
 {
-    /// @brief Abstract base struct representing a binary data structure in an SPC.
+    /// @brief Abstract base struct representing an SPC binary data structure.
     ///
     /// Adds a ToString() method to the original Binary::DataStructure for
-    /// displaying SPC file data. Each field in the structure is labeled so when
-    /// ToString() is called, the resulting string lists each field in the format,
+    /// displaying SPC file data. Each field in the structure is labeled so 
+    /// when ToString() is called, the resulting string lists each field in the
+    /// format,
     ///
     /// label: value
     ///
-    /// Any struct representing a data structure in an SPC file should inherit from
-    /// this struct. It provides a default implementation for the Fields(), Size(),
-    /// and ToString() methods so all the inheriting struct needs to provide is
-    /// an implementation for SpcFields(). 
+    /// Any struct representing a data structure in an SPC file should inherit
+    /// from this struct. It provides a default implementation for the 
+    /// Fields(), Size(), and ToString() methods so all the inheriting struct 
+    /// needs to provide is an implementation for SpcFields(). 
     struct DataStructure : Binary::DataStructure
     {
         /// @brief Provides a vector of raw pointers to the structure's fields.
@@ -72,14 +73,15 @@ namespace Spc
         ///
         /// label: value
         ///
-        /// This method is also called by the Fields() method to get a pointer to
-        /// each field so SpcFileStream can read this struct from and write it to
-        /// an SPC file in a cross platform way, preserving the order, size, and
-        /// endianness of each field no matter which architecture the program runs
-        /// on.
+        /// This method is also called by the Fields() method to get a pointer 
+        /// to each field so Spc::FileStream can read this struct from and write 
+        /// it to an SPC file in a cross platform way, preserving the order, 
+        /// size, and endianness of each field no matter which architecture the
+        /// program runs on.
         ///
-        /// Structs that inherit from this struct should provide an implementation
-        /// for this method that generates the vector in the correct order.
+        /// Structs that inherit from this struct should provide an 
+        /// implementation for this method that generates the vector in the 
+        /// correct order.
         ///
         /// @return A vector containing pointers to the SpcFields.
         virtual std::vector<Field*> SpcFields() const = 0;
