@@ -37,10 +37,9 @@ namespace Spc
         /// @param label The label to use when outputing the field. 
         /// @param offset The offset where the field can be found in the file.
         /// @param size The size of the field, in bytes.
-        DateField(std::string label, uintmax_t offset, size_t size) 
-            : Field{ label, offset, size }
-        { }
-
+        /// @invariant Size must be at least 11 bytes.
+        DateField(std::string label, uintmax_t offset, size_t size);
+            
         /// @brief Determines if the field has a text representation of date.
         /// @return True if it has a text representation or false if binary.
         bool IsText() const;
@@ -53,10 +52,18 @@ namespace Spc
         /// @return Returns true if it is set, otherwise false.
         bool IsSet() const;
 
+        /// @brief Gets the date value as a string.
+        /// @return The date value as a string.
         std::string Value() const;
 
+        /// @brief Sets the date value and stores it in text format.
+        /// @param value The date value as a string.
+        /// @pre The value should be in MM/DD/YYYY format.
         void SetTextValue(std::string value);
 
+        /// @brief Sets the date value and stores it in binary format.
+        /// @param value The date value as a string.
+        /// @pre The value should be in MM/DD/YYYY format.
         void SetBinaryValue(std::string value);
 
         /// @brief Converts the field's data to a string representation.

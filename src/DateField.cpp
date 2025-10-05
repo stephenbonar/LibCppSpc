@@ -18,6 +18,13 @@
 
 using namespace Spc;
 
+DateField::DateField(std::string label, uintmax_t offset, size_t size)
+    : Field{ label, offset, size }
+{
+    if (size < 11)
+        throw std::invalid_argument{ "DateField size must be at least 11." };
+}
+
 bool DateField::IsText() const
 {
     for (int i = 0; i < size; i++)
@@ -103,6 +110,13 @@ void DateField::SetTextValue(std::string value)
         // The last byte of the 11 byte date field should always be null.
         data[10] = 0;
     }
+    else
+    {
+        throw std::invalid_argument
+        {
+            "Date value must be in MM/DD/YYYY format." 
+        };
+    }
 }
 
 void DateField::SetBinaryValue(std::string value)
@@ -129,5 +143,12 @@ void DateField::SetBinaryValue(std::string value)
         // The remaining bytes should all be unused in a binary formatted date.
         for (int i = 4; i < 11; i++)
             data[i] = 0;
+    }
+    else
+    {
+        throw std::invalid_argument
+        {
+            "Date value must be in MM/DD/YYYY format." 
+        };
     }
 }
