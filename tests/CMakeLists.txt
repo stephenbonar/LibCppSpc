@@ -38,7 +38,8 @@ add_executable(libcppspctests
                BinaryFieldTests.cpp
                BinaryTagTests.cpp
                DataStructureTests.cpp
-               DateFieldTests.cpp)
+               DateFieldTests.cpp
+               EmulatorFieldTests.cpp) # Added EmulatorFieldTests.cpp here
 
 # Links the libraries to the test executable target.
 target_link_libraries(libcppspctests
@@ -50,4 +51,5 @@ target_link_libraries(libcppspctests
 # Sets the include directories the exectable target needs for linking.
 target_include_directories(libcppspctests 
                            PRIVATE
-                           ${PROJECT_SOURCE_DIR}/include)
+                           ${PROJECT_SOURCE_DIR}/include
+                           ${CMAKE_CURRENT_SOURCE_DIR}) # Ensure MockEmulatorField.h is included
