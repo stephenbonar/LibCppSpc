@@ -58,8 +58,9 @@ namespace Spc
 {
     /// @brief Represents an item in the extended ID666 tag.
     ///
-    /// The extended ID666 tag is an IFF chunk that contains multiple sub-chunks
-    /// representing items in the tag. This struct represents those sub-chunks.
+    /// The extended ID666 tag is an IFF chunk that contains multiple 
+    /// sub-chunks representing items in the tag. This struct represents those 
+    /// sub-chunks.
     struct ExtendedTagItem : public DataStructure
     {
         /// @brief Default constructor; creates new instance of ExtendedTagItem.
@@ -75,7 +76,7 @@ namespace Spc
         /// 4 = The value is in extendedData and represents a 32-bit integer.
         std::shared_ptr<NumericField> type;
 
-        /// @brief Depending on the type, represents either data length or value.
+        /// @brief Depending on type, represents either data length or value.
         std::shared_ptr<Field> data;
 
         /// @brief Contains the item value if type is not 0.
@@ -91,11 +92,12 @@ namespace Spc
         ///
         /// label: value
         ///
-        /// This method is also called by the Fields() method to get a pointer to
-        /// each field so SpcFileStream can read this struct from and write it to
-        /// an SPC file in a cross platform way, preserving the order, size, and
-        /// endianness of each field no matter which architecture the program runs
-        /// on.
+        /// This method is also called by the Fields() method to get a pointer
+        /// to each field so SpcFileStream can read this struct from and write
+        /// it to each field so SpcFileStream can read this struct from and 
+        /// write it to an SPC file in a cross platform way, preserving the 
+        /// order, size, and endianness of each field no matter which 
+        /// architecture the program runs on.
         std::vector<Field*> SpcFields() const override;
     };
 }
