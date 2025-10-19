@@ -398,26 +398,26 @@ bool File::Load()
     // Initialize the extended tag; sets all members to nulltpr.
     extendedTag = ExtendedTag();
 
-    FileStream file{ path };
-    file.Open(Binary::FileMode::Read);
+    FileStream stream{ path };
+    stream.Open(Binary::FileMode::Read);
 
-    if (!file.IsOpen())
+    if (!stream.IsOpen())
         return false;
 
-    file.Read(&header);
+    stream.Read(&header);
 
-    if (file.HeaderContainsTag())
+    if (stream.HeaderContainsTag())
     {
         headerContainsTag = true;
-        tagType = file.TagType();
+        tagType = stream.TagType();
 
         if (tagType == TagType::Binary)
         {
-            file.Read(&binaryTag);
+            stream.Read(&binaryTag);
         }
         else
         {
-            file.Read(&textTag);
+            stream.Read(&textTag);
 
             if (tagType == TagType::TextMixed)
             {
@@ -427,15 +427,15 @@ bool File::Load()
         }
     }
 
-    file.Read(&spcRam);
-    file.Read(&dspRegisters);
-    file.Read(&unused);
-    file.Read(&extraRam);
+    stream.Read(&spcRam);
+    stream.Read(&dspRegisters);
+    stream.Read(&unused);
+    stream.Read(&extraRam);
 
-    if (file.HasExtendedTag())
+    if (stream.HasExtendedTag())
     {
         hasExtendedTag = true;
-        file.Read(&extendedTagHeader);
+        stream.Read(&extendedTagHeader);
         std::string id = extendedTagHeader.id.Value();
         std::string size = extendedTagHeader.dataSize.ToString();
         size_t sizeRemaining = extendedTagHeader.dataSize.Value();
@@ -443,7 +443,7 @@ bool File::Load()
         while (sizeRemaining > 0)
         {
             auto item = std::make_shared<ExtendedTagItem>();
-            file.Read(item.get());
+            stream.Read(item.get());
 
             switch (item->type->Value())
             {
@@ -461,12 +461,12 @@ bool File::Load()
                     size_t dataSize = data->Value();
                     sizeRemaining -= item->Size();
                     sizeRemaining -= dataSize;
-                    LoadTextItem(item, file);
+                    LoadTextItem(item, stream);
                     PadItem(item.get());
 
                     if (item->padding != nullptr)
                     {
-                        file.Read(item->padding.get());
+                        stream.Read(item->padding.get());
                         sizeRemaining -= item->padding->Size();
                     }
 
@@ -479,7 +479,7 @@ bool File::Load()
                     auto data = std::static_pointer_cast<NumericField>(
                         item->data);
                     sizeRemaining -= data->Value();
-                    LoadNumericItem(item, file);                    
+                    LoadNumericItem(item, stream);                    
                     break;
                 }
                 default:

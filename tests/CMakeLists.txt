@@ -41,7 +41,9 @@ add_executable(libcppspctests
                DateFieldTests.cpp
                EmulatorFieldTests.cpp
                ExtendedTagTests.cpp
-               ExtendedTagItemTests.cpp)
+               ExtendedTagItemTests.cpp
+               FieldTests.cpp
+               FileTests.cpp)
 
 # Links the libraries to the test executable target.
 target_link_libraries(libcppspctests
