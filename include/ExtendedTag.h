@@ -32,69 +32,73 @@ namespace Spc
 {
     /// @brief Represents the extended ID666 tag data.
     ///
-    /// The extended ID666 tag items are typically used when a value, such as the
-    /// song name, is too large to store in the header of the SPC file. For
+    /// The extended ID666 tag items are typically used when a value, such as 
+    /// the song name, is too large to store in the header of the SPC file. For
     /// instance, song title is only 32 bytes long in the header. If the song
-    /// title is greater than 32 bytes, the song name extended item should be used
-    /// to store the complete value while song title in the header should store a
-    /// truncated version according to the SPC file format specification.
+    /// title is greater than 32 bytes, the song name extended item should be
+    /// used to store the complete value while song title in the header should 
+    /// store a truncated version according to the SPC file format 
+    /// specification.
     ///
-    /// That said, there is some information that is exclusive to the extended tag,
-    /// such as the OST album title or track numbers, as well as some song length,
-    /// loop, and timing information.
+    /// That said, there is some information that is exclusive to the extended 
+    /// tag, such as the OST album title or track numbers, as well as some song 
+    /// length, loop, and timing information.
     ///
-    /// Finally, there are some extended items where, according to the 
+    /// Finally, there are some extended items that, according to the 
     /// specification, should never be used like emulator used. This is because
-    /// the corresponding field in the SPC file header will always be large enough.
-    /// It is not clear why such fields were included in the extended tag data.
+    /// the corresponding field in the SPC file header will always be large 
+    /// enough. It is not clear why such fields were included in the extended 
+    /// tag data.
     ///
     /// All fields are ID666ExtendedItem pointers. Any pointers that are null
     /// indicate that extended item does not exist in the tag.
     struct ExtendedTag : public DataStructure
     {
-        /// @brief The extended version of song title, which can be 4 - 256 bytes.
+        /// @brief The extended version of song title (4 - 256 bytes).
         std::shared_ptr<ExtendedTagItem> songName;
-        
-        /// @brief The extended version of game title, which can be 4 - 256 bytes.
+
+        /// @brief The extended version of game title (4 - 256 bytes).
         std::shared_ptr<ExtendedTagItem> gameName;
 
-        /// @brief The extended version of song artist, which can be 4 - 256 bytes.
+        /// @brief The extended version of song artist (4 - 256 bytes).
         std::shared_ptr<ExtendedTagItem> artistName;
 
-        /// @brief The extended version of dumper name, which can be 4 - 256 bytes.
+        /// @brief The extended version of dumper name (4 - 256 bytes).
         std::shared_ptr<ExtendedTagItem> dumperName;
 
-        /// @brief The extended version of date dumped, which is 4 bytes.
+        /// @brief The extended version of date dumped (4 bytes).
         ///
-        /// In theory, this tag will never be set if strictly following the spec.
+        /// In theory, this tag will never be set if strictly following the
+        /// spec.
         std::shared_ptr<ExtendedTagItem> dateDumped;
 
-        /// @brief The extended version of emulator used, which is 1 byte.
+        /// @brief The extended version of emulator used (1 byte).
         ///
-        /// In theory, this tag will never be set if strictly following the spec.
+        /// In theory, this tag will never be set if strictly following the
+        /// spec.
         std::shared_ptr<ExtendedTagItem> emulatorUsed;
 
-        /// @brief The extended version of comments, which is 4 - 256 bytes.
+        /// @brief The extended version of comments (4 - 256 bytes).
         std::shared_ptr<ExtendedTagItem> comments;
 
-        /// @brief The title of the original soundtrack, which is 4 - 256 bytes.
+        /// @brief The title of the original soundtrack (4 - 256 bytes).
         ///
         /// This field is exclusive to the extended tag.
         std::shared_ptr<ExtendedTagItem> ostTitle;
 
-        /// @brief The original soundtrack disc number, which is 1 byte.
+        /// @brief The original soundtrack disc number (1 byte).
         ///
         /// This field is exclusive to the extended tag.
         std::shared_ptr<ExtendedTagItem> ostDisc;
 
-        /// @brief The original soundtrack track number, which is 2 bytes.
+        /// @brief The original soundtrack track number (2 bytes).
         ///
         /// Upper byte is 0 - 99, lower byte is an optional ASCII character.
         ///
         /// This field is exclusive to the extended tag.
         std::shared_ptr<ExtendedTagItem> ostTrack;
 
-        /// @brief The publisher of the game, which is 4 - 256 bytes. 
+        /// @brief The publisher of the game (4 - 256 bytes).
         ///
         /// This field is exclusive to the extended tag.
         std::shared_ptr<ExtendedTagItem> publisherName;
@@ -160,14 +164,15 @@ namespace Spc
         ///
         /// label: value
         ///
-        /// This method is also called by the Fields() method to get a pointer to
-        /// each field so SpcFileStream can read this struct from and write it to
-        /// an SPC file in a cross platform way, preserving the order, size, and
-        /// endianness of each field no matter which architecture the program runs
-        /// on.
+        /// This method is also called by the Fields() method to get a pointer
+        /// to each field so SpcFileStream can read this struct from and write 
+        /// it to an SPC file in a cross platform way, preserving the order, 
+        /// size, and endianness of each field no matter which architecture the
+        /// program runs on.
         ///
-        /// Structs that inherit from this struct should provide an implementation
-        /// for this method that generates the vector in the correct order.
+        /// Structs that inherit from this struct should provide an 
+        /// implementation for this method that generates the vector in the 
+        /// correct order.
         ///
         /// @return A vector containing pointers to the SpcFields.
         std::vector<Field*> SpcFields() const override;
