@@ -1,4 +1,4 @@
-// FileStream.h - Declares the FileStream class.
+// StandardFileStream.h - Declares the StandardFileStream class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,8 +14,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SPC_FILE_STREAM_H
-#define SPC_FILE_STREAM_H
+#ifndef SPC_STANDARD_FILE_STREAM_H
+#define SPC_STANDARD_FILE_STREAM_H
 
 #include <string>
 #include "LibCppBinary.h"
@@ -26,9 +26,7 @@
 #include "TagType.h"
 #include "DateField.h"
 #include "NumericField.h"
-
-inline constexpr int headerContainsTag{ 26 };
-inline constexpr int tagOffset{ 0x2E };
+#include "FileStream.h"
 
 namespace Spc
 {
@@ -36,30 +34,30 @@ namespace Spc
     ///
     /// Provides methods for reading from, writing to, and analyzing an SPC 
     /// file. Adds SPC specific functionality to Binary::RawFileStream.
-    class FileStream : public virtual Binary::FileStream
+    class StandardFileStream : 
+        public Binary::RawFileStream, public Spc::FileStream
     {
     public:
-        /*
         /// @brief Constructor; creates a new SPC file using a file name.
         /// @param fileName The name of the SPC file to use.
-        FileStream(std::string fileName) : Binary::RawFileStream{ fileName }
+        StandardFileStream(std::string fileName) 
+            : Binary::RawFileStream{ fileName }
         { }
-        */
 
         /// @brief Sets the stream position to the extended tag, if available.
-        virtual void SeekExtendedTag() = 0;
+        void SeekExtendedTag() override;
 
         /// @brief Determines the type of ID666 tag the file uses.
         /// @return The type of ID666 tag.
-        virtual Spc::TagType TagType() = 0;
+        Spc::TagType TagType() override;
 
         /// @brief Determines if the SPC file's header contains an ID666 tag.
         /// @return Returns true if it contains a tag, otherwise false.
-        virtual bool HeaderContainsTag() = 0;
+        bool HeaderContainsTag() override;
 
         /// @brief Determines if the SPC file contains an extended ID666 tag.
         /// @return Returns true if it has an extended tag, otherwise false.
-        virtual bool HasExtendedTag() = 0;
+        bool HasExtendedTag() override;
     };
 }
 

@@ -18,6 +18,36 @@
 
 using namespace Spc;
 
+File::File(std::string path, std::shared_ptr<FileStream> stream) :
+    path{ path }, 
+    hasLoaded{ false }, 
+    tagType{ TagType::Text },
+    hasExtendedTag{ false },
+    headerContainsTag{ false },
+    spcRam{ 65536 },
+    dspRegisters{ 128 },
+    unused{ 64 },
+    extraRam{ 64 },
+    stream{ stream }
+{
+
+}
+
+File::File(std::string path) :
+    path{ path }, 
+    hasLoaded{ false }, 
+    tagType{ TagType::Text },
+    hasExtendedTag{ false },
+    headerContainsTag{ false },
+    spcRam{ 65536 },
+    dspRegisters{ 128 },
+    unused{ 64 },
+    extraRam{ 64 }
+{
+    auto defaultStream = std::make_shared<StandardFileStream>(path);
+    stream = defaultStream;
+}
+
 void Spc::PadItem(ExtendedTagItem* item)
 {
     auto size = std::static_pointer_cast<NumericField>(item->data);
@@ -36,143 +66,143 @@ void Spc::PadItem(ExtendedTagItem* item)
 
 TextField File::SongTitle() const
 {
-    return GetField<TextField>(binaryTag.songTitle,
-                               textTag.songTitle, 
-                               extendedTag.songName.get());
+    return SelectField<TextField>(binaryTag.songTitle,
+                                  textTag.songTitle, 
+                                  extendedTag.songName.get());
 }
 
 TextField File::GameTitle() const
 {
-    return GetField<TextField>(binaryTag.gameTitle,
-                               textTag.gameTitle, 
-                               extendedTag.gameName.get());
+    return SelectField<TextField>(binaryTag.gameTitle,
+                                  textTag.gameTitle, 
+                                  extendedTag.gameName.get());
 }
 
 TextField File::DumperName() const
 {
-    return GetField<TextField>(binaryTag.dumperName,
-                               textTag.dumperName, 
-                               extendedTag.dumperName.get());
+    return SelectField<TextField>(binaryTag.dumperName,
+                                  textTag.dumperName, 
+                                  extendedTag.dumperName.get());
 }
 
 TextField File::Comments() const
 {
-    return GetField<TextField>(binaryTag.comments,
-                               textTag.comments, 
-                               extendedTag.comments.get());
+    return SelectField<TextField>(binaryTag.comments,
+                                  textTag.comments, 
+                                  extendedTag.comments.get());
 }
 
 DateField File::DateDumped() const
 {
-    return GetField<DateField>(binaryTag.dateDumped,
-                               textTag.dateDumped, 
-                               extendedTag.dateDumped.get());
+    return SelectField<DateField>(binaryTag.dateDumped,
+                                  textTag.dateDumped, 
+                                  extendedTag.dateDumped.get());
 }
 
 NumericField File::SongLength() const
 {
-    return GetField<NumericField>(binaryTag.songLength, textTag.songLength);
+    return SelectField<NumericField>(binaryTag.songLength, textTag.songLength);
 }
 
 NumericField File::FadeLength() const
 {
-    return GetField<NumericField>(binaryTag.fadeLength, textTag.fadeLength);
+    return SelectField<NumericField>(binaryTag.fadeLength, textTag.fadeLength);
 }
 
 TextField File::SongArtist() const
 {
-    return GetField<TextField>(binaryTag.songArtist, 
-                               textTag.songArtist, 
-                               extendedTag.artistName.get());
+    return SelectField<TextField>(binaryTag.songArtist, 
+                                  textTag.songArtist, 
+                                  extendedTag.artistName.get());
 }
 
 NumericField File::DefaultChannelState() const
 {
-    return GetField<NumericField>(binaryTag.defaultChannelState, 
-                                  textTag.defaultChannelState);
+    return SelectField<NumericField>(binaryTag.defaultChannelState, 
+                                     textTag.defaultChannelState);
 }
 
 EmulatorField File::EmulatorUsed() const
 {
-    return GetField<EmulatorField>(binaryTag.emulatorUsed, 
-                                   textTag.emulatorUsed, 
-                                   extendedTag.emulatorUsed.get());
+    return SelectField<EmulatorField>(binaryTag.emulatorUsed, 
+                                      textTag.emulatorUsed, 
+                                      extendedTag.emulatorUsed.get());
 }
 
 TextField File::OstTitle() const
 {
-    return GetField<TextField>(extendedTag.ostTitle.get(), 
-                               extendedOSTTitleID, 
-                               1);
+    return SelectField<TextField>(extendedTag.ostTitle.get(), 
+                                  extendedOSTTitleID, 
+                                  1);
 }
 
 NumericField File::OstDisc() const
 {
-    return GetField<NumericField>(extendedTag.ostDisc.get(),
-                                  extendedOSTDiscID,
-                                  4);
+    return SelectField<NumericField>(extendedTag.ostDisc.get(),
+                                     extendedOSTDiscID,
+                                     4);
 }
 
 TrackField File::OstTrack() const
 {
-    return GetField<TrackField>(extendedTag.ostTrack.get(), 
-                                extendedOSTTrackID, 
-                                1);
+    return SelectField<TrackField>(extendedTag.ostTrack.get(), 
+                                   extendedOSTTrackID, 
+                                   1);
 }
 
 TextField File::PublisherName() const
 {
-    return GetField<TextField>(extendedTag.publisherName.get(), 
-                               extendedPublisherNameID, 
-                               1);
+    return SelectField<TextField>(extendedTag.publisherName.get(), 
+                                  extendedPublisherNameID, 
+                                  1);
 }
 
 NumericField File::CopyrightYear() const
 {
-    return GetField<NumericField>(extendedTag.copyrightYear.get(), 
-                                  extendedCopyrightYearID, 
-                                  1);
+    return SelectField<NumericField>(extendedTag.copyrightYear.get(), 
+                                     extendedCopyrightYearID, 
+                                     1);
 }
 
 NumericField File::IntroLength() const
 {
-    return GetField<NumericField>(extendedTag.introLength.get(), 
-                                  extendedIntroLengthID, 
-                                  1);
+    return SelectField<NumericField>(extendedTag.introLength.get(), 
+                                     extendedIntroLengthID, 
+                                     1);
 }
 
 NumericField File::LoopLength() const
 {
-    return GetField<NumericField>(extendedTag.loopLength.get(), 
-                                  extendedLoopLengthID, 
-                                  1);
+    return SelectField<NumericField>(extendedTag.loopLength.get(), 
+                                     extendedLoopLengthID, 
+                                     1);
 }
 
 NumericField File::EndLength() const
 {
-    return GetField<NumericField>(extendedTag.endLength.get(), 
-                                  extendedEndLengthID, 1);
+    return SelectField<NumericField>(extendedTag.endLength.get(), 
+                                     extendedEndLengthID, 1);
 }
 
 BinaryField File::MutedVoices() const
 {
-    return GetField<BinaryField>(extendedTag.mutedVoices.get(), 
-                                 extendedMutedVoicesID, 
-                                 1);
+    return SelectField<BinaryField>(extendedTag.mutedVoices.get(), 
+                                    extendedMutedVoicesID, 
+                                    1);
 }
 
 NumericField File::LoopTimes() const
 {
-    return GetField<NumericField>(extendedTag.loopTimes.get(), 
-                                  extendedLoopTimesID, 
-                                  1);
+    return SelectField<NumericField>(extendedTag.loopTimes.get(), 
+                                     extendedLoopTimesID, 
+                                     1);
 }
 
 NumericField File::PreampLevel() const
 {
-    return GetField<NumericField>(extendedTag.preampLevel.get(), 
-                                  extendedPreampLevelID, 
-                                  1);
+    return SelectField<NumericField>(extendedTag.preampLevel.get(), 
+                                     extendedPreampLevelID, 
+                                     1);
 }
 
 void File::SetSongTitle(std::string value)
@@ -398,26 +428,26 @@ bool File::Load()
     // Initialize the extended tag; sets all members to nulltpr.
     extendedTag = ExtendedTag();
 
-    FileStream stream{ path };
-    stream.Open(Binary::FileMode::Read);
+    //FileStream stream{ path };
+    stream->Open(Binary::FileMode::Read);
 
-    if (!stream.IsOpen())
+    if (!stream->IsOpen())
         return false;
 
-    stream.Read(&header);
+    stream->Read(&header);
 
-    if (stream.HeaderContainsTag())
+    if (stream->HeaderContainsTag())
     {
         headerContainsTag = true;
-        tagType = stream.TagType();
+        tagType = stream->TagType();
 
         if (tagType == TagType::Binary)
         {
-            stream.Read(&binaryTag);
+            stream->Read(&binaryTag);
         }
         else
         {
-            stream.Read(&textTag);
+            stream->Read(&textTag);
 
             if (tagType == TagType::TextMixed)
             {
@@ -427,15 +457,15 @@ bool File::Load()
         }
     }
 
-    stream.Read(&spcRam);
-    stream.Read(&dspRegisters);
-    stream.Read(&unused);
-    stream.Read(&extraRam);
+    stream->Read(&spcRam);
+    stream->Read(&dspRegisters);
+    stream->Read(&unused);
+    stream->Read(&extraRam);
 
-    if (stream.HasExtendedTag())
+    if (stream->HasExtendedTag())
     {
         hasExtendedTag = true;
-        stream.Read(&extendedTagHeader);
+        stream->Read(&extendedTagHeader);
         std::string id = extendedTagHeader.id.Value();
         std::string size = extendedTagHeader.dataSize.ToString();
         size_t sizeRemaining = extendedTagHeader.dataSize.Value();
@@ -443,7 +473,7 @@ bool File::Load()
         while (sizeRemaining > 0)
         {
             auto item = std::make_shared<ExtendedTagItem>();
-            stream.Read(item.get());
+            stream->Read(item.get());
 
             switch (item->type->Value())
             {
@@ -466,7 +496,7 @@ bool File::Load()
 
                     if (item->padding != nullptr)
                     {
-                        stream.Read(item->padding.get());
+                        stream->Read(item->padding.get());
                         sizeRemaining -= item->padding->Size();
                     }
 
@@ -479,7 +509,7 @@ bool File::Load()
                     auto data = std::static_pointer_cast<NumericField>(
                         item->data);
                     sizeRemaining -= data->Value();
-                    LoadNumericItem(item, stream);                    
+                    LoadNumericItem(item, stream.get());                    
                     break;
                 }
                 default:
@@ -494,37 +524,32 @@ bool File::Load()
 
 bool File::Save()
 {
-    return Save(path);
-}
-
-bool File::Save(std::string outPath)
-{
     if (!hasLoaded)
         return false;
 
-    FileStream stream{ outPath };
-    stream.Open(Binary::FileMode::Write);
+    //FileStream stream{ outPath };
+    stream->Open(Binary::FileMode::Write);
 
-    if (!stream.IsOpen())
+    if (!stream->IsOpen())
         return false;
 
-    stream.Write(&header);
+    stream->Write(&header);
 
     if (tagType == TagType::Binary)
-        stream.Write(&binaryTag);
+        stream->Write(&binaryTag);
     else
-        stream.Write(&textTag);
+        stream->Write(&textTag);
 
-    stream.Write(&spcRam);
-    stream.Write(&dspRegisters);
-    stream.Write(&unused);
-    stream.Write(&extraRam);
+    stream->Write(&spcRam);
+    stream->Write(&dspRegisters);
+    stream->Write(&unused);
+    stream->Write(&extraRam);
 
     if (hasExtendedTag)
     {
         extendedTagHeader.dataSize.SetValue(extendedTag.Size());
-        stream.Write(&extendedTagHeader);
-        stream.Write(&extendedTag);
+        stream->Write(&extendedTagHeader);
+        stream->Write(&extendedTag);
     }
 
     return true;
@@ -580,8 +605,7 @@ void File::LoadHeaderItem(std::shared_ptr<ExtendedTagItem> item)
     }
 }
 
-void File::LoadTextItem(std::shared_ptr<ExtendedTagItem> item, 
-                        FileStream& stream)
+void File::LoadTextItem(std::shared_ptr<ExtendedTagItem> item)
 {
     auto data = std::static_pointer_cast<NumericField>(item->data);
     const uintmax_t size{ data->Value() };
@@ -591,44 +615,43 @@ void File::LoadTextItem(std::shared_ptr<ExtendedTagItem> item,
     {
         case extendedSongNameID:
             item->extendedData = InitExtendedField<TextField>(id, size);
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             extendedTag.songName = item;
             break;
         case extendedGameNameID:
             item->extendedData = InitExtendedField<TextField>(id, size);
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             extendedTag.gameName = item;
             break;
         case extendedArtistNameID:
             item->extendedData = InitExtendedField<TextField>(id, size);
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             extendedTag.artistName = item;
             break;
         case extendedDumperNameID:
             item->extendedData = InitExtendedField<TextField>(id, size);
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             extendedTag.dumperName = item;
             break;
         case extendedCommentsID:
             item->extendedData = InitExtendedField<TextField>(id, size);
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             extendedTag.comments = item;
             break;
         case extendedOSTTitleID:
             item->extendedData = InitExtendedField<TextField>(id, size);
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             extendedTag.ostTitle = item;
             break;
         case extendedPublisherNameID:
             item->extendedData = InitExtendedField<TextField>(id, size);
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             extendedTag.publisherName = item;
             break;
     }
 }
 
-void File::LoadNumericItem(std::shared_ptr<ExtendedTagItem> item, 
-                           FileStream& stream)
+void File::LoadNumericItem(std::shared_ptr<ExtendedTagItem> item)
 {
     //constexpr uintmax_t offset{ extendedTagOffset };
     auto data = std::static_pointer_cast<NumericField>(item->data);
@@ -640,32 +663,32 @@ void File::LoadNumericItem(std::shared_ptr<ExtendedTagItem> item,
         case extendedDateDumpedID:
             item->extendedData = InitExtendedField<DateField>(id, size);
             extendedTag.dateDumped = item;
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             break;
         case extendedIntroLengthID:
             item->extendedData = InitExtendedField<NumericField>(id, size);
             extendedTag.introLength = item;
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             break;
         case extendedLoopLengthID:
             item->extendedData = InitExtendedField<NumericField>(id, size);
             extendedTag.loopLength = item;
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             break;
         case extendedEndLengthID:
             item->extendedData = InitExtendedField<NumericField>(id, size);
             extendedTag.endLength = item;
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             break;
         case extendedFadeLengthID:
             item->extendedData = InitExtendedField<NumericField>(id, size);
             extendedTag.fadeLength = item;
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             break;
         case extendedPreampLevelID:
             item->extendedData = InitExtendedField<NumericField>(id, size);
             extendedTag.preampLevel = item;
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             break;
     }
 }

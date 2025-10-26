@@ -31,7 +31,7 @@
 #include "ExtendedTagItem.h"
 #include "TagType.h"
 #include "SetCommand.h"
-#include "FileStream.h"
+#include "StandardFileStream.h"
 #include "StringTokenizer.h"
 
 namespace Spc
@@ -66,17 +66,9 @@ namespace Spc
     public:
         /// @brief Constructor; creates a new instance of ScpFile.
         /// @param path The file name / path to the SpcFile.
-        File(std::string path) : 
-            path{ path }, 
-            hasLoaded{ false }, 
-            tagType{ TagType::Text },
-            hasExtendedTag{ false },
-            headerContainsTag{ false },
-            spcRam{ 65536 },
-            dspRegisters{ 128 },
-            unused{ 64 },
-            extraRam{ 64 }
-        {}
+        File(std::string path, std::shared_ptr<FileStream> stream);
+
+        File(std::string path); 
 
         std::string Name() const 
         {
@@ -194,7 +186,7 @@ namespace Spc
 
         bool Save();
 
-        bool Save(std::string outFileName);
+        //bool Save(std::string outFileName);
 
         void FileNameToTag(std::string pattern);
 
@@ -214,14 +206,15 @@ namespace Spc
         Binary::RawField extraRam;
         Binary::ChunkHeader extendedTagHeader;
         Spc::ExtendedTag extendedTag;
+        std::shared_ptr<FileStream> stream;
 
-        /// @brief Gets the correct field based on the file's tag type.
+        /// @brief Selects correct field based on the file's tag type.
         /// @tparam T The type of the field.
         /// @param binaryField A reference to the binary version of the field.
         /// @param textField A reference to the text version of the field.
-        /// @return The correct version of the field.
+        /// @return The selected field.
         template<typename T>
-        T GetField(const T& binaryField, const T& textField) const
+        T SelectField(const T& binaryField, const T& textField) const
         {
             if (tagType == TagType::Binary)
                 return binaryField;
@@ -229,14 +222,14 @@ namespace Spc
                 return textField;
         }
 
-        /// @brief Gets the field associated with the specified extended item.
+        /// @brief Selects field associated with the specified extended item.
         /// @tparam T The type of the field.
         /// @param item The item to get the field from.
         /// @param id The extended item ID.
         /// @param defaultSize The size to use if no existing item is found.
-        /// @return The field to get.
+        /// @return The selected field.
         template<typename T>
-        T GetField(ExtendedTagItem* item, int id, int defaultSize) const
+        T SelectField(ExtendedTagItem* item, int id, int defaultSize) const
         {
             if (item != nullptr)
             {
@@ -269,14 +262,14 @@ namespace Spc
             return *InitExtendedField<T>(id, defaultSize);
         }
 
-        /// @brief Gets the correct field out of the specified fields / items.
+        /// @brief Selects correct field out of the specified fields / items.
         /// @tparam T The type of the field to get.
         /// @param binaryField The binary version of the field.
         /// @param textField The extended version of the field.
         /// @param item The extended item.
-        /// @return The correct field.
+        /// @return The selected field.
         template<typename T>
-        T GetField(const T& binaryField, 
+        T SelectField(const T& binaryField, 
                 const T& textField, 
                 ExtendedTagItem* item) const
         {
@@ -412,11 +405,9 @@ namespace Spc
 
         void LoadHeaderItem(std::shared_ptr<ExtendedTagItem> item);
 
-        void LoadTextItem(std::shared_ptr<ExtendedTagItem> item, 
-                          FileStream& stream);
+        void LoadTextItem(std::shared_ptr<ExtendedTagItem> item);
 
-        void LoadNumericItem(std::shared_ptr<ExtendedTagItem> item, 
-                             FileStream& stream);
+        void LoadNumericItem(std::shared_ptr<ExtendedTagItem> item);
     };
 
     std::string RemoveInvalidChars(std::string filename);

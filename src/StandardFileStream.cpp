@@ -14,11 +14,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "FileStream.h"
+#include "StandardFileStream.h"
 
 using namespace Spc;
 
-TagType FileStream::TagType()
+TagType StandardFileStream::TagType()
 {
     // Preserve the existing position as we have to jump around in the file to
     // determine if the tag is binary and we need to get back to where we were.
@@ -76,7 +76,7 @@ TagType FileStream::TagType()
     return TagType::Text;
 }
 
-bool FileStream::HeaderContainsTag()
+bool StandardFileStream::HeaderContainsTag()
 {
     uintmax_t previousPosition = Position();
     SetPosition(0);
@@ -90,7 +90,7 @@ bool FileStream::HeaderContainsTag()
     return false;
 }
 
-bool FileStream::HasExtendedTag()
+bool StandardFileStream::HasExtendedTag()
 {
     if (FileSize() > extendedTagOffset)
     {
@@ -109,7 +109,7 @@ bool FileStream::HasExtendedTag()
     return false;
 }
 
-void FileStream::SeekExtendedTag()
+void StandardFileStream::SeekExtendedTag()
 {
     SetPosition(extendedTagOffset);
 }
