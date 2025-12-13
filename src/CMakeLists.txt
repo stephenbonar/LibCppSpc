@@ -20,7 +20,6 @@ set(SOURCES
     BinaryTag.cpp
     TextTag.cpp
     ExtendedTag.cpp
-    FileStream.cpp
     Format.cpp
     DataStructure.cpp
     ExtendedTagItem.cpp
@@ -45,7 +44,7 @@ endif()
 include(FetchContent)
 FetchContent_Declare(
     LibCppBinary
-    URL https://github.com/stephenbonar/LibCppBinary/archive/8a8eff1046f81805aacaa6652bd8f0259819341f.zip
+    URL https://github.com/stephenbonar/LibCppBinary/archive/1e81da277fcbf1db041ae0afa9f421d49e8b9c2f.zip
 )
 
 # Makes GoogleTest available at configure time rather than build time. 

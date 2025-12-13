@@ -18,6 +18,7 @@
 #define FILE_TESTS_H
 
 #include <gtest/gtest.h>
+#include "MockFileStream.h"
 #include "File.h"
 
 class FileTests : public ::testing::Test 
@@ -25,6 +26,7 @@ class FileTests : public ::testing::Test
 protected:
     void SetUp() override;
     
+    std::shared_ptr<MockFileStream> mockStream;
     std::unique_ptr<Spc::File> file;
     std::string testPath;
 };

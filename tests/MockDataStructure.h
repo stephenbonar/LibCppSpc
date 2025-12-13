@@ -1,4 +1,4 @@
-// MockDataStructure.h - Declares the MockDataDataStructure class and tests.
+// MockDataStructure.h - Declares the MockDataDataStructure class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //

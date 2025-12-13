@@ -19,7 +19,8 @@
 void FileTests::SetUp() 
 {
     testPath = "C:/test/file.spc";
-    file = std::make_unique<Spc::File>(testPath);
+    mockStream = std::make_shared<MockFileStream>();
+    file = std::make_unique<Spc::File>(testPath, mockStream);
 }
 
 TEST_F(FileTests, PathReflectsConstructorValue) 

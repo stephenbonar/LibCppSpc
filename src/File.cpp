@@ -398,26 +398,26 @@ bool File::Load()
     // Initialize the extended tag; sets all members to nulltpr.
     extendedTag = ExtendedTag();
 
-    FileStream stream{ path };
-    stream.Open(Binary::FileMode::Read);
+    //FileStream stream{ path };
+    stream->Open(Binary::FileMode::Read);
 
-    if (!stream.IsOpen())
+    if (!stream->IsOpen())
         return false;
 
-    stream.Read(&header);
+    stream->Read(&header);
 
-    if (stream.HeaderContainsTag())
+    if (ReadHeaderContainsTag())
     {
         headerContainsTag = true;
-        tagType = stream.TagType();
+        tagType = ReadTagType();
 
         if (tagType == TagType::Binary)
         {
-            stream.Read(&binaryTag);
+            stream->Read(&binaryTag);
         }
         else
         {
-            stream.Read(&textTag);
+            stream->Read(&textTag);
 
             if (tagType == TagType::TextMixed)
             {
@@ -427,15 +427,15 @@ bool File::Load()
         }
     }
 
-    stream.Read(&spcRam);
-    stream.Read(&dspRegisters);
-    stream.Read(&unused);
-    stream.Read(&extraRam);
+    stream->Read(&spcRam);
+    stream->Read(&dspRegisters);
+    stream->Read(&unused);
+    stream->Read(&extraRam);
 
-    if (stream.HasExtendedTag())
+    if (ReadHasExtendedTag())
     {
         hasExtendedTag = true;
-        stream.Read(&extendedTagHeader);
+        stream->Read(&extendedTagHeader);
         std::string id = extendedTagHeader.id.Value();
         std::string size = extendedTagHeader.dataSize.ToString();
         size_t sizeRemaining = extendedTagHeader.dataSize.Value();
@@ -443,7 +443,7 @@ bool File::Load()
         while (sizeRemaining > 0)
         {
             auto item = std::make_shared<ExtendedTagItem>();
-            stream.Read(item.get());
+            stream->Read(item.get());
 
             switch (item->type->Value())
             {
@@ -461,12 +461,12 @@ bool File::Load()
                     size_t dataSize = data->Value();
                     sizeRemaining -= item->Size();
                     sizeRemaining -= dataSize;
-                    LoadTextItem(item, stream);
+                    LoadTextItem(item);
                     PadItem(item.get());
 
                     if (item->padding != nullptr)
                     {
-                        stream.Read(item->padding.get());
+                        stream->Read(item->padding.get());
                         sizeRemaining -= item->padding->Size();
                     }
 
@@ -479,7 +479,7 @@ bool File::Load()
                     auto data = std::static_pointer_cast<NumericField>(
                         item->data);
                     sizeRemaining -= data->Value();
-                    LoadNumericItem(item, stream);                    
+                    LoadNumericItem(item);                    
                     break;
                 }
                 default:
@@ -502,29 +502,31 @@ bool File::Save(std::string outPath)
     if (!hasLoaded)
         return false;
 
-    FileStream stream{ outPath };
-    stream.Open(Binary::FileMode::Write);
+    //FileStream* stream = new FileStream{ outPath };
+    stream->Open(Binary::FileMode::Write);
 
-    if (!stream.IsOpen())
+    if (!stream->IsOpen()) 
+    {
         return false;
+    }
 
-    stream.Write(&header);
+    stream->Write(&header);
 
     if (tagType == TagType::Binary)
-        stream.Write(&binaryTag);
+        stream->Write(&binaryTag);
     else
-        stream.Write(&textTag);
+        stream->Write(&textTag);
 
-    stream.Write(&spcRam);
-    stream.Write(&dspRegisters);
-    stream.Write(&unused);
-    stream.Write(&extraRam);
+    stream->Write(&spcRam);
+    stream->Write(&dspRegisters);
+    stream->Write(&unused);
+    stream->Write(&extraRam);
 
     if (hasExtendedTag)
     {
         extendedTagHeader.dataSize.SetValue(extendedTag.Size());
-        stream.Write(&extendedTagHeader);
-        stream.Write(&extendedTag);
+        stream->Write(&extendedTagHeader);
+        stream->Write(&extendedTag);
     }
 
     return true;
@@ -580,8 +582,7 @@ void File::LoadHeaderItem(std::shared_ptr<ExtendedTagItem> item)
     }
 }
 
-void File::LoadTextItem(std::shared_ptr<ExtendedTagItem> item, 
-                        FileStream& stream)
+void File::LoadTextItem(std::shared_ptr<ExtendedTagItem> item)
 {
     auto data = std::static_pointer_cast<NumericField>(item->data);
     const uintmax_t size{ data->Value() };
@@ -591,44 +592,43 @@ void File::LoadTextItem(std::shared_ptr<ExtendedTagItem> item,
     {
         case extendedSongNameID:
             item->extendedData = InitExtendedField<TextField>(id, size);
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             extendedTag.songName = item;
             break;
         case extendedGameNameID:
             item->extendedData = InitExtendedField<TextField>(id, size);
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             extendedTag.gameName = item;
             break;
         case extendedArtistNameID:
             item->extendedData = InitExtendedField<TextField>(id, size);
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             extendedTag.artistName = item;
             break;
         case extendedDumperNameID:
             item->extendedData = InitExtendedField<TextField>(id, size);
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             extendedTag.dumperName = item;
             break;
         case extendedCommentsID:
             item->extendedData = InitExtendedField<TextField>(id, size);
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             extendedTag.comments = item;
             break;
         case extendedOSTTitleID:
             item->extendedData = InitExtendedField<TextField>(id, size);
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             extendedTag.ostTitle = item;
             break;
         case extendedPublisherNameID:
             item->extendedData = InitExtendedField<TextField>(id, size);
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             extendedTag.publisherName = item;
             break;
     }
 }
 
-void File::LoadNumericItem(std::shared_ptr<ExtendedTagItem> item, 
-                           FileStream& stream)
+void File::LoadNumericItem(std::shared_ptr<ExtendedTagItem> item)
 {
     //constexpr uintmax_t offset{ extendedTagOffset };
     auto data = std::static_pointer_cast<NumericField>(item->data);
@@ -640,32 +640,32 @@ void File::LoadNumericItem(std::shared_ptr<ExtendedTagItem> item,
         case extendedDateDumpedID:
             item->extendedData = InitExtendedField<DateField>(id, size);
             extendedTag.dateDumped = item;
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             break;
         case extendedIntroLengthID:
             item->extendedData = InitExtendedField<NumericField>(id, size);
             extendedTag.introLength = item;
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             break;
         case extendedLoopLengthID:
             item->extendedData = InitExtendedField<NumericField>(id, size);
             extendedTag.loopLength = item;
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             break;
         case extendedEndLengthID:
             item->extendedData = InitExtendedField<NumericField>(id, size);
             extendedTag.endLength = item;
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             break;
         case extendedFadeLengthID:
             item->extendedData = InitExtendedField<NumericField>(id, size);
             extendedTag.fadeLength = item;
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             break;
         case extendedPreampLevelID:
             item->extendedData = InitExtendedField<NumericField>(id, size);
             extendedTag.preampLevel = item;
-            stream.Read(item->extendedData.get());
+            stream->Read(item->extendedData.get());
             break;
     }
 }
@@ -749,6 +749,102 @@ void File::TagToFileName(std::string pattern)
     std::string fileName = RemoveInvalidChars(fileNameStream.str());
 
     Save(parentPath.string() + fileName);
+}
+
+Spc::TagType File::ReadTagType()
+{
+    // Preserve the existing position as we have to jump around in the file to
+    // determine if the tag is binary and we need to get back to where we were.
+    uintmax_t previousPosition = stream->Position();
+
+    Spc::BinaryTag tag;
+
+    stream->SetPosition(tag.songTitle.Offset());
+    stream->Read(&tag);
+
+    if (!tag.dateDumped.IsText() || 
+        !tag.songLength.IsText() || 
+        !tag.fadeLength.IsText())
+    {
+        // While we're pretty sure we're binary at this point, let's make 
+        // absolutely sure. Some older dumps use text offsets but still store
+        // times as binary. Let's check the bytes that are normally unused in
+        // a binary tag for any non-zero values.
+        if (tag.dateDumped.IsSet())
+        {
+            if (!tag.dateDumped.HasUnusedArea())
+            {
+                stream->SetPosition(previousPosition);
+                return TagType::TextMixed;
+            }
+        }
+
+        // If the first byte of artist is 0 but the byte immediately
+        // following is non-zero, this suggests the artist value was shifted
+        // over by 1, which means we're using text tag offsets.
+        if (tag.songArtist.Data()[0] == 0 && tag.songArtist.Data()[1] != 0)
+        {
+            stream->SetPosition(previousPosition);
+            return TagType::TextMixed;
+        }
+
+        // The reserved bytes should also be empty if the offsets are
+        // for a binary tag.
+        for (int i = 0; i < tag.reserved.Size(); i++)
+        {
+            if (tag.reserved.Data()[i] != 0)
+            {
+                stream->SetPosition(previousPosition);
+                return TagType::TextMixed;
+            }
+        }
+
+        // If we've made it this far, we can be pretty sure we're using
+        // binary offsets.
+        stream->SetPosition(previousPosition);
+        return TagType::Binary;
+    }
+
+    stream->SetPosition(previousPosition);
+    return TagType::Text;
+}
+
+bool File::ReadHeaderContainsTag()
+{
+    uintmax_t previousPosition = stream->Position();
+    stream->SetPosition(0);
+    Spc::Header header;
+    stream->Read(&header);
+    stream->SetPosition(previousPosition);
+
+    if (header.containsTag.Value() == headerContainsTag)
+        return true;
+    
+    return false;
+}
+
+bool File::ReadHasExtendedTag()
+{
+    if (stream->FileSize() > extendedTagOffset)
+    {
+        uintmax_t previousPosition = stream->Position();
+        stream->SetPosition(extendedTagOffset);
+        std::shared_ptr<Binary::ChunkHeader> headerPtr 
+            = stream->FindNextChunk("xid6");
+        stream->SetPosition(previousPosition);
+
+        if (headerPtr == nullptr)
+            return false;
+
+        return true;
+    }
+
+    return false;
+}
+
+void File::SeekExtendedTag()
+{
+    stream->SetPosition(extendedTagOffset);
 }
 
 std::string Spc::RemoveInvalidChars(std::string fileName)

@@ -31,7 +31,6 @@
 #include "ExtendedTagItem.h"
 #include "TagType.h"
 #include "SetCommand.h"
-#include "FileStream.h"
 #include "StringTokenizer.h"
 
 namespace Spc
@@ -76,7 +75,25 @@ namespace Spc
             dspRegisters{ 128 },
             unused{ 64 },
             extraRam{ 64 }
-        {}
+        {
+            stream = std::make_shared<Binary::StandardFileStream>(path);
+        }
+
+        /// @brief Constructor; creates a new instance of ScpFile.
+        /// @param path The file name / path to the SpcFile.
+        File(std::string path, std::shared_ptr<Binary::FileStream> stream) : 
+            path{ path }, 
+            hasLoaded{ false }, 
+            tagType{ TagType::Text },
+            hasExtendedTag{ false },
+            headerContainsTag{ false },
+            spcRam{ 65536 },
+            dspRegisters{ 128 },
+            unused{ 64 },
+            extraRam{ 64 },
+            stream{ stream }
+        {
+        }
 
         std::string Name() const 
         {
@@ -214,6 +231,7 @@ namespace Spc
         Binary::RawField extraRam;
         Binary::ChunkHeader extendedTagHeader;
         Spc::ExtendedTag extendedTag;
+        std::shared_ptr<Binary::FileStream> stream;
 
         /// @brief Gets the correct field based on the file's tag type.
         /// @tparam T The type of the field.
@@ -412,11 +430,24 @@ namespace Spc
 
         void LoadHeaderItem(std::shared_ptr<ExtendedTagItem> item);
 
-        void LoadTextItem(std::shared_ptr<ExtendedTagItem> item, 
-                          FileStream& stream);
+        void LoadTextItem(std::shared_ptr<ExtendedTagItem> item);
 
-        void LoadNumericItem(std::shared_ptr<ExtendedTagItem> item, 
-                             FileStream& stream);
+        void LoadNumericItem(std::shared_ptr<ExtendedTagItem> item);
+
+        /// @brief Sets the stream position to the extended tag, if available.
+        void SeekExtendedTag();
+
+        /// @brief Determines the type of ID666 tag the file uses.
+        /// @return The type of ID666 tag.
+        Spc::TagType ReadTagType();
+
+        /// @brief Determines if the SPC file's header contains an ID666 tag.
+        /// @return Returns true if it contains a tag, otherwise false.
+        bool ReadHeaderContainsTag();
+
+        /// @brief Determines if the SPC file contains an extended ID666 tag.
+        /// @return Returns true if it has an extended tag, otherwise false.
+        bool ReadHasExtendedTag();
     };
 
     std::string RemoveInvalidChars(std::string filename);
