@@ -16,7 +16,10 @@
 
 #include "ID666TagTests.h"
 
-constexpr char testTextData[] = {
+// The raw data needs to be unsigned char arrays to avoid sign extension issues
+// on certain platforms. They are then cast to const char* for copying into the 
+// tag data.
+constexpr unsigned char rawTextData[] = {
     // 0x2E: Song title (32 bytes)
     'T','e','s','t',' ','S','o','n','g',' ','T','i','t','l','e',' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
     // 0x4E: Game title (32 bytes)
@@ -45,7 +48,7 @@ constexpr char testTextData[] = {
     0,0,0,0,0
 };
 
-constexpr char testBinaryData[] = {
+constexpr unsigned char rawBinaryData[] = {
     // 0x2E: Song title (32 bytes)
     'T','e','s','t',' ','S','o','n','g',' ','T','i','t','l','e',' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
     // 0x4E: Game title (32 bytes)
@@ -76,7 +79,7 @@ constexpr char testBinaryData[] = {
     0,0,0,0,0,0
 };
 
-constexpr char testMixedData[] = {
+constexpr unsigned char rawMixedData[] = {
     // 0x2E: Song title (32 bytes)
     'T','e','s','t',' ','S','o','n','g',' ','T','i','t','l','e',' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
     // 0x4E: Game title (32 bytes)
@@ -108,6 +111,9 @@ constexpr char testMixedData[] = {
 void ID666TagTests::SetUp() 
 {
     tag = std::make_unique<Spc::ID666Tag>();
+    textData = reinterpret_cast<const char*>(rawTextData);
+    binaryData = reinterpret_cast<const char*>(rawBinaryData);
+    mixedData = reinterpret_cast<const char*>(rawMixedData);
 }
 
 TEST_F(ID666TagTests, InitializesProperly)
@@ -122,213 +128,293 @@ TEST_F(ID666TagTests, InitializesProperly)
 
 TEST_F(ID666TagTests, GetsTextSongTitleProperly)
 {
-    std::memcpy(tag->Data()->Data(), testTextData, Spc::id666TagSize);
+    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
+    Spc::TextField songTitle = tag->SongTitle();
 
-    EXPECT_EQ("Song Title", tag->SongTitle().Label());
-    EXPECT_EQ(Spc::songTitleInfo.textOffset, tag->SongTitle().Offset());
-    EXPECT_EQ(Spc::songTitleInfo.textSize, tag->SongTitle().Size());
-    EXPECT_EQ("Test Song Title ABCDEFGHIJKLMNOP", tag->SongTitle().Value());
+    EXPECT_EQ("Song Title", songTitle.Label());
+    EXPECT_EQ(Spc::songTitleInfo.textOffset, songTitle.Offset());
+    EXPECT_EQ(Spc::songTitleInfo.textSize, songTitle.Size());
+    EXPECT_EQ("Test Song Title ABCDEFGHIJKLMNOP", songTitle.Value());
 }
 
 TEST_F(ID666TagTests, GetsBinarySongTitleProperly)
 {
-    std::memcpy(tag->Data()->Data(), testBinaryData, Spc::id666TagSize);
+    std::memcpy(tag->Data()->Data(), binaryData, Spc::id666TagSize);
+    Spc::TextField songTitle = tag->SongTitle();
 
-    EXPECT_EQ("Song Title", tag->SongTitle().Label());
-    EXPECT_EQ(Spc::songTitleInfo.binaryOffset, tag->SongTitle().Offset());
-    EXPECT_EQ(Spc::songTitleInfo.binarySize, tag->SongTitle().Size());
-    EXPECT_EQ("Test Song Title ABCDEFGHIJKLMNOP", tag->SongTitle().Value());
+    EXPECT_EQ("Song Title", songTitle.Label());
+    EXPECT_EQ(Spc::songTitleInfo.binaryOffset, songTitle.Offset());
+    EXPECT_EQ(Spc::songTitleInfo.binarySize, songTitle.Size());
+    EXPECT_EQ("Test Song Title ABCDEFGHIJKLMNOP", songTitle.Value());
 }
 
 TEST_F(ID666TagTests, GetsMixedSongTitleProperly)
 {
-    std::memcpy(tag->Data()->Data(), testMixedData, Spc::id666TagSize);
+    std::memcpy(tag->Data()->Data(), mixedData, Spc::id666TagSize);
+    Spc::TextField songTitle = tag->SongTitle();
 
-    EXPECT_EQ("Song Title", tag->SongTitle().Label());
-    EXPECT_EQ(Spc::songTitleInfo.textOffset, tag->SongTitle().Offset());
-    EXPECT_EQ(Spc::songTitleInfo.textSize, tag->SongTitle().Size());
-    EXPECT_EQ("Test Song Title ABCDEFGHIJKLMNOP", tag->SongTitle().Value());
+    EXPECT_EQ("Song Title", songTitle.Label());
+    EXPECT_EQ(Spc::songTitleInfo.textOffset, songTitle.Offset());
+    EXPECT_EQ(Spc::songTitleInfo.textSize, songTitle.Size());
+    EXPECT_EQ("Test Song Title ABCDEFGHIJKLMNOP", songTitle.Value());
 }
 
 TEST_F(ID666TagTests, GetsExtendedSongTitleProperly)
 {
-    std::memcpy(tag->Data()->Data(), testTextData, Spc::id666TagSize);
-    tag->ExtendedData()->songName = std::make_shared<Spc::ID666ExtendedItem>();
-    tag->ExtendedData()->songName->id->SetValue(Spc::extendedSongNameID);
-    tag->ExtendedData()->songName->type->SetValue(Spc::extendedTypeString);
-    auto extendedSongTile = std::make_shared<Spc::TextField>(
+    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
+    std::shared_ptr<Spc::ID666ExtendedData> extData = tag->ExtendedData();
+
+    auto itemExtData = std::make_shared<Spc::TextField>(
         "Test Song Title ABCDEFGHIJKLMNOP Extended", 
         Spc::extendedTagOffset, 
         42);
-    tag->ExtendedData()->songName->data = std::make_shared<Spc::NumericField>(
-        "Data", 
-        0, 
-        42);
-    tag->ExtendedData()->songName->extendedData = extendedSongTile;
+    auto item = std::make_shared<Spc::ID666ExtendedItem>();
+    item->id->SetValue(Spc::extendedSongNameID);
+    item->type->SetValue(Spc::extendedTypeString);
+    item->data = std::make_shared<Spc::NumericField>("Data", 0, 42);
+    item->extendedData = itemExtData;
+    extData->songName = item;
 
-    EXPECT_EQ("Song Title", tag->SongTitle().Label());
-    EXPECT_EQ(Spc::extendedTagOffset, tag->SongTitle().Offset());
-    EXPECT_EQ(42, tag->SongTitle().Size());
-    EXPECT_EQ(extendedSongTile->Value(), tag->SongTitle().Value());
+    Spc::TextField songTitle = tag->SongTitle();
+
+    EXPECT_EQ("Song Title", songTitle.Label());
+    EXPECT_EQ(Spc::extendedTagOffset, songTitle.Offset());
+    EXPECT_EQ(42, songTitle.Size());
+    EXPECT_EQ(itemExtData->Value(), songTitle.Value());
 }
 
 // --- GameTitle tests ---
 
 TEST_F(ID666TagTests, GetsTextGameTitleProperly)
 {
-    std::memcpy(tag->Data()->Data(), testTextData, Spc::id666TagSize);
+    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
+    Spc::TextField gameTitle = tag->GameTitle();
 
-    EXPECT_EQ("Game Title", tag->GameTitle().Label());
-    EXPECT_EQ(Spc::gameTitleInfo.textOffset, tag->GameTitle().Offset());
-    EXPECT_EQ(Spc::gameTitleInfo.textSize, tag->GameTitle().Size());
-    EXPECT_EQ("Test Game Title 1234567890XYZQRS", tag->GameTitle().Value());
+    EXPECT_EQ("Game Title", gameTitle.Label());
+    EXPECT_EQ(Spc::gameTitleInfo.textOffset, gameTitle.Offset());
+    EXPECT_EQ(Spc::gameTitleInfo.textSize, gameTitle.Size());
+    EXPECT_EQ("Test Game Title 1234567890XYZQRS", gameTitle.Value());
 }
 
 TEST_F(ID666TagTests, GetsBinaryGameTitleProperly)
 {
-    std::memcpy(tag->Data()->Data(), testBinaryData, Spc::id666TagSize);
+    std::memcpy(tag->Data()->Data(), binaryData, Spc::id666TagSize);
+    Spc::TextField gameTitle = tag->GameTitle();
 
-    EXPECT_EQ("Game Title", tag->GameTitle().Label());
-    EXPECT_EQ(Spc::gameTitleInfo.binaryOffset, tag->GameTitle().Offset());
-    EXPECT_EQ(Spc::gameTitleInfo.binarySize, tag->GameTitle().Size());
-    EXPECT_EQ("Test Game Title 1234567890XYZQRS", tag->GameTitle().Value());
+    EXPECT_EQ("Game Title", gameTitle.Label());
+    EXPECT_EQ(Spc::gameTitleInfo.binaryOffset, gameTitle.Offset());
+    EXPECT_EQ(Spc::gameTitleInfo.binarySize, gameTitle.Size());
+    EXPECT_EQ("Test Game Title 1234567890XYZQRS", gameTitle.Value());
 }
 
 TEST_F(ID666TagTests, GetsMixedGameTitleProperly)
 {
-    std::memcpy(tag->Data()->Data(), testMixedData, Spc::id666TagSize);
+    std::memcpy(tag->Data()->Data(), mixedData, Spc::id666TagSize);
+    Spc::TextField gameTitle = tag->GameTitle();
 
-    EXPECT_EQ("Game Title", tag->GameTitle().Label());
-    EXPECT_EQ(Spc::gameTitleInfo.textOffset, tag->GameTitle().Offset());
-    EXPECT_EQ(Spc::gameTitleInfo.textSize, tag->GameTitle().Size());
-    EXPECT_EQ("Test Game Title 1234567890XYZQRS", tag->GameTitle().Value());
+    EXPECT_EQ("Game Title", gameTitle.Label());
+    EXPECT_EQ(Spc::gameTitleInfo.textOffset, gameTitle.Offset());
+    EXPECT_EQ(Spc::gameTitleInfo.textSize, gameTitle.Size());
+    EXPECT_EQ("Test Game Title 1234567890XYZQRS", gameTitle.Value());
 }
 
 TEST_F(ID666TagTests, GetsExtendedGameTitleProperly)
 {
-    std::memcpy(tag->Data()->Data(), testTextData, Spc::id666TagSize);
-    tag->ExtendedData()->gameName = std::make_shared<Spc::ID666ExtendedItem>();
-    tag->ExtendedData()->gameName->id->SetValue(Spc::extendedGameNameID);
-    tag->ExtendedData()->gameName->type->SetValue(Spc::extendedTypeString);
-    auto extendedGameTitle = std::make_shared<Spc::TextField>(
+    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
+    auto extData = tag->ExtendedData();
+
+    auto itemExtData = std::make_shared<Spc::TextField>(
         "Test Game Title 1234567890XYZQRS Extended",
         Spc::extendedTagOffset,
         40);
-    tag->ExtendedData()->gameName->data = std::make_shared<Spc::NumericField>(
-        "Data",
-        0,
-        40);
-    tag->ExtendedData()->gameName->extendedData = extendedGameTitle;   
-    EXPECT_EQ("Game Title", tag->GameTitle().Label());
-    EXPECT_EQ(Spc::extendedTagOffset, tag->GameTitle().Offset());
-    EXPECT_EQ(40, tag->GameTitle().Size());
-    EXPECT_EQ(extendedGameTitle->Value(), tag->GameTitle().Value());
+    auto item = std::make_shared<Spc::ID666ExtendedItem>();
+    item->id->SetValue(Spc::extendedGameNameID);
+    item->type->SetValue(Spc::extendedTypeString);
+    item->data = std::make_shared<Spc::NumericField>("Data", 0, 40);
+    item->extendedData = itemExtData; 
+    extData->gameName = item;
+
+    Spc::TextField gameTitle = tag->GameTitle();
+
+    EXPECT_EQ("Game Title", gameTitle.Label());
+    EXPECT_EQ(Spc::extendedTagOffset, gameTitle.Offset());
+    EXPECT_EQ(40, gameTitle.Size());
+    EXPECT_EQ(itemExtData->Value(), gameTitle.Value());
 }
 
 // --- Dumper tests ---
 
 TEST_F(ID666TagTests, GetsTextDumperNameProperly)
 {
-    std::memcpy(tag->Data()->Data(), testTextData, Spc::id666TagSize);
+    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
+    Spc::TextField dumperName = tag->DumperName();
 
-    EXPECT_EQ("Dumper Name", tag->DumperName().Label());
-    EXPECT_EQ(Spc::dumperNameInfo.textOffset, tag->DumperName().Offset());
-    EXPECT_EQ(Spc::dumperNameInfo.textSize, tag->DumperName().Size());
-    EXPECT_EQ("DumperName123456", tag->DumperName().Value());
+    EXPECT_EQ("Dumper Name", dumperName.Label());
+    EXPECT_EQ(Spc::dumperNameInfo.textOffset, dumperName.Offset());
+    EXPECT_EQ(Spc::dumperNameInfo.textSize, dumperName.Size());
+    EXPECT_EQ("DumperName123456", dumperName.Value());
 }
 
 TEST_F(ID666TagTests, GetsBinaryDumperNameProperly)
 {
-    std::memcpy(tag->Data()->Data(), testBinaryData, Spc::id666TagSize);
+    std::memcpy(tag->Data()->Data(), binaryData, Spc::id666TagSize);
+    Spc::TextField dumperName = tag->DumperName();
 
-    EXPECT_EQ("Dumper Name", tag->DumperName().Label());
-    EXPECT_EQ(Spc::dumperNameInfo.binaryOffset, tag->DumperName().Offset());
-    EXPECT_EQ(Spc::dumperNameInfo.binarySize, tag->DumperName().Size());
-    EXPECT_EQ("DumperName123456", tag->DumperName().Value());
+    EXPECT_EQ("Dumper Name", dumperName.Label());
+    EXPECT_EQ(Spc::dumperNameInfo.binaryOffset, dumperName.Offset());
+    EXPECT_EQ(Spc::dumperNameInfo.binarySize, dumperName.Size());
+    EXPECT_EQ("DumperName123456", dumperName.Value());
 }
 
 TEST_F(ID666TagTests, GetsMixedDumperNameProperly)
 {
-    std::memcpy(tag->Data()->Data(), testMixedData, Spc::id666TagSize);
+    std::memcpy(tag->Data()->Data(), mixedData, Spc::id666TagSize);
+    Spc::TextField dumperName = tag->DumperName();
 
-    EXPECT_EQ("Dumper Name", tag->DumperName().Label());
-    EXPECT_EQ(Spc::dumperNameInfo.textOffset, tag->DumperName().Offset());
-    EXPECT_EQ(Spc::dumperNameInfo.textSize, tag->DumperName().Size());
-    EXPECT_EQ("DumperName123456", tag->DumperName().Value());
+    EXPECT_EQ("Dumper Name", dumperName.Label());
+    EXPECT_EQ(Spc::dumperNameInfo.textOffset, dumperName.Offset());
+    EXPECT_EQ(Spc::dumperNameInfo.textSize, dumperName.Size());
+    EXPECT_EQ("DumperName123456", dumperName.Value());
 }
 
 TEST_F(ID666TagTests, GetsExtendedDumperProperly)
 {
-    std::memcpy(tag->Data()->Data(), testTextData, Spc::id666TagSize);
-    tag->ExtendedData()->dumperName = std::make_shared<Spc::ID666ExtendedItem>();
-    tag->ExtendedData()->dumperName->id->SetValue(Spc::extendedDumperNameID);
-    tag->ExtendedData()->dumperName->type->SetValue(Spc::extendedTypeString);
-    auto extendedDumperName = std::make_shared<Spc::TextField>(
+    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
+    auto extData = tag->ExtendedData();
+
+    auto itemExtData = std::make_shared<Spc::TextField>(
         "DumperName123456 Extended",
         Spc::extendedTagOffset,
         24);
-    tag->ExtendedData()->dumperName->data = std::make_shared<Spc::NumericField>(
-        "Data",
-        0,
-        24);
-    tag->ExtendedData()->dumperName->extendedData = extendedDumperName;
+    auto item = std::make_shared<Spc::ID666ExtendedItem>();
+    item->id->SetValue(Spc::extendedDumperNameID);
+    item->type->SetValue(Spc::extendedTypeString);
+    item->data = std::make_shared<Spc::NumericField>("Data", 0, 24);
+    item->extendedData = itemExtData;
+    extData->dumperName = item;
 
-    EXPECT_EQ("Dumper Name", tag->DumperName().Label());
-    EXPECT_EQ(Spc::extendedTagOffset, tag->DumperName().Offset());
-    EXPECT_EQ(24, tag->DumperName().Size());
-    EXPECT_EQ(extendedDumperName->Value(), tag->DumperName().Value());
+    Spc::TextField dumperName = tag->DumperName();
+
+    EXPECT_EQ("Dumper Name", dumperName.Label());
+    EXPECT_EQ(Spc::extendedTagOffset, dumperName.Offset());
+    EXPECT_EQ(24, dumperName.Size());
+    EXPECT_EQ(itemExtData->Value(), dumperName.Value());
 }
 
 // --- Comments tests ---
 
 TEST_F(ID666TagTests, GetsTextCommentsProperly)
 {
-    std::memcpy(tag->Data()->Data(), testTextData, Spc::id666TagSize);
+    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
+    Spc::TextField comments = tag->Comments();
 
-    EXPECT_EQ("Comments", tag->Comments().Label());
-    EXPECT_EQ(Spc::commentsInfo.textOffset, tag->Comments().Offset());
-    EXPECT_EQ(Spc::commentsInfo.textSize, tag->Comments().Size());
-    EXPECT_EQ("Test Comments ABCDEFGHIJKLMNOPQR", tag->Comments().Value());
+    EXPECT_EQ("Comments", comments.Label());
+    EXPECT_EQ(Spc::commentsInfo.textOffset, comments.Offset());
+    EXPECT_EQ(Spc::commentsInfo.textSize, comments.Size());
+    EXPECT_EQ("Test Comments ABCDEFGHIJKLMNOPQR", comments.Value());
 }
 
 TEST_F(ID666TagTests, GetsBinaryCommentsProperly)
 {
-    std::memcpy(tag->Data()->Data(), testBinaryData, Spc::id666TagSize);
+    std::memcpy(tag->Data()->Data(), binaryData, Spc::id666TagSize);
+    Spc::TextField comments = tag->Comments();
 
-    EXPECT_EQ("Comments", tag->Comments().Label());
-    EXPECT_EQ(Spc::commentsInfo.binaryOffset, tag->Comments().Offset());
-    EXPECT_EQ(Spc::commentsInfo.binarySize, tag->Comments().Size());
-    EXPECT_EQ("Test Comments ABCDEFGHIJKLMNOPQR", tag->Comments().Value());
+    EXPECT_EQ("Comments", comments.Label());
+    EXPECT_EQ(Spc::commentsInfo.binaryOffset, comments.Offset());
+    EXPECT_EQ(Spc::commentsInfo.binarySize, comments.Size());
+    EXPECT_EQ("Test Comments ABCDEFGHIJKLMNOPQR", comments.Value());
 }
 
 TEST_F(ID666TagTests, GetsMixedCommentsProperly)
 {
-    std::memcpy(tag->Data()->Data(), testMixedData, Spc::id666TagSize);
+    std::memcpy(tag->Data()->Data(), mixedData, Spc::id666TagSize);
+    Spc::TextField comments = tag->Comments();
 
-    EXPECT_EQ("Comments", tag->Comments().Label());
-    EXPECT_EQ(Spc::commentsInfo.textOffset, tag->Comments().Offset());
-    EXPECT_EQ(Spc::commentsInfo.textSize, tag->Comments().Size());
-    EXPECT_EQ("Test Comments ABCDEFGHIJKLMNOPQR", tag->Comments().Value());
+    EXPECT_EQ("Comments", comments.Label());
+    EXPECT_EQ(Spc::commentsInfo.textOffset, comments.Offset());
+    EXPECT_EQ(Spc::commentsInfo.textSize, comments.Size());
+    EXPECT_EQ("Test Comments ABCDEFGHIJKLMNOPQR", comments.Value());
 }
 
 TEST_F(ID666TagTests, GetsExtendedCommentsProperly)
 {
-    std::memcpy(tag->Data()->Data(), testTextData, Spc::id666TagSize);
-    tag->ExtendedData()->comments = std::make_shared<Spc::ID666ExtendedItem>();
-    tag->ExtendedData()->comments->id->SetValue(Spc::extendedCommentsID);
-    tag->ExtendedData()->comments->type->SetValue(Spc::extendedTypeString);
-    auto extendedComments = std::make_shared<Spc::TextField>(
+    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
+    auto extData = tag->ExtendedData();
+
+    auto extItemData = std::make_shared<Spc::TextField>(
         "Test Comments ABCDEFGHIJKLMNOPQR Extended",
         Spc::extendedTagOffset,
         48);
-    tag->ExtendedData()->comments->data = std::make_shared<Spc::NumericField>(
-        "Data",
-        0,
-        48);
-    tag->ExtendedData()->comments->extendedData = extendedComments;
+    auto item = std::make_shared<Spc::ID666ExtendedItem>();
+    item->id->SetValue(Spc::extendedCommentsID);
+    item->type->SetValue(Spc::extendedTypeString);
+    item->data = std::make_shared<Spc::NumericField>("Data", 0, 48);
+    item->extendedData = extItemData;
+    extData->comments = item;
 
-    EXPECT_EQ("Comments", tag->Comments().Label());
-    EXPECT_EQ(Spc::extendedTagOffset, tag->Comments().Offset());
-    EXPECT_EQ(48, tag->Comments().Size());
-    EXPECT_EQ(extendedComments->Value(), tag->Comments().Value());
+    Spc::TextField tagComments = tag->Comments();
+
+    EXPECT_EQ("Comments", tagComments.Label());
+    EXPECT_EQ(Spc::extendedTagOffset, tagComments.Offset());
+    EXPECT_EQ(48, tagComments.Size());
+    EXPECT_EQ(extItemData->Value(), tagComments.Value());
+}
+
+// --- DateDumped tests ---
+
+TEST_F(ID666TagTests, GetsTextDateDumpedProperly)
+{
+    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
+    Spc::DateField dateDumped = tag->DateDumped();
+
+    EXPECT_EQ("Date Dumped", dateDumped.Label());
+    EXPECT_EQ(Spc::dateDumpedInfo.textOffset, dateDumped.Offset());
+    EXPECT_EQ(Spc::dateDumpedInfo.textSize, dateDumped.Size());
+    EXPECT_EQ("01/23/2025", dateDumped.Value());
+}
+
+TEST_F(ID666TagTests, GetsBinaryDateDumpedProperly)
+{
+    std::memcpy(tag->Data()->Data(), binaryData, Spc::id666TagSize);
+    Spc::DateField dateDumped = tag->DateDumped();
+
+    EXPECT_EQ("Date Dumped", dateDumped.Label());
+    EXPECT_EQ(Spc::dateDumpedInfo.binaryOffset, dateDumped.Offset());
+    EXPECT_EQ(Spc::dateDumpedInfo.binarySize, dateDumped.Size());
+    EXPECT_EQ("06/01/2024", dateDumped.Value());
+}
+
+TEST_F(ID666TagTests, GetsMixedDateDumpedProperly)
+{
+    std::memcpy(tag->Data()->Data(), mixedData, Spc::id666TagSize);
+    Spc::DateField dateDumped = tag->DateDumped();
+
+    EXPECT_EQ("Date Dumped", dateDumped.Label());
+    EXPECT_EQ(Spc::dateDumpedInfo.textOffset, dateDumped.Offset());
+    EXPECT_EQ(Spc::dateDumpedInfo.textSize, dateDumped.Size());
+    EXPECT_EQ("01/23/2025", dateDumped.Value());
+}
+
+TEST_F(ID666TagTests, GetsExtendedDateDumpedProperly)
+{
+    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
+    auto extData = tag->ExtendedData();
+
+    auto extItemData = std::make_shared<Spc::DateField>(
+        "01/23/2025",
+        Spc::extendedTagOffset,
+        12);
+    auto item = std::make_shared<Spc::ID666ExtendedItem>();
+    item->id->SetValue(Spc::extendedDateDumpedID);
+    item->type->SetValue(Spc::extendedTypeString);
+    item->data = std::make_shared<Spc::NumericField>("Data", 0, 12);
+    item->extendedData = extItemData;
+    extData->dateDumped = item;
+
+    Spc::DateField dateDumped = tag->DateDumped();
+
+    EXPECT_EQ("Date Dumped", dateDumped.Label());
+    EXPECT_EQ(Spc::extendedTagOffset, dateDumped.Offset());
+    EXPECT_EQ(12, dateDumped.Size());
+    EXPECT_EQ(extItemData->Value(), dateDumped.Value());
 }

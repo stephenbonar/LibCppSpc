@@ -31,6 +31,7 @@ namespace Spc
     constexpr FieldInfo gameTitleInfo{ 0x4E, 32, 0x4E, 32 };
     constexpr FieldInfo dumperNameInfo{ 0x6E, 16, 0x6E, 16 };
     constexpr FieldInfo commentsInfo{ 0x7E, 32, 0x7E, 32 };
+    constexpr FieldInfo dateDumpedInfo{ 0x9E, 11, 0x9E, 4 };
 }
 
 #endif

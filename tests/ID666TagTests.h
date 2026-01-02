@@ -17,6 +17,7 @@
 #ifndef ID666_TAG_TESTS_H
 #define ID666_TAG_TESTS_H
 
+#include <vector>
 #include <gtest/gtest.h>
 #include "ID666Tag.h"
 
@@ -27,7 +28,9 @@ protected:
     
     std::unique_ptr<Spc::ID666Tag> tag;
 
-    
+    const char* textData;
+    const char* binaryData;
+    const char* mixedData;
 };
 
 #endif
