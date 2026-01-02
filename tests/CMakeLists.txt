@@ -40,8 +40,9 @@ add_executable(libcppspctests
                DataStructureTests.cpp
                DateFieldTests.cpp
                EmulatorFieldTests.cpp
-               ExtendedTagTests.cpp
-               ExtendedTagItemTests.cpp
+               ID666ExtendedDataTests.cpp
+               ID666ExtendedItemTests.cpp
+               ID666TagTests.cpp
                FieldTests.cpp
                FileTests.cpp)
 

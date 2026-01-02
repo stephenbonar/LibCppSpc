@@ -1,4 +1,4 @@
-// ExtendedTagTests.h - Declares the ExtendedTagTests class and tests.
+// ID666ExtendedItemTests.h - Declares the ID666ExtendedItemTests class and tests.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,21 +14,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef EXTENDED_TAG_TESTS_H
-#define EXTENDED_TAG_TESTS_H
+#ifndef ID666_EXTENDED_ITEM_TESTS_H
+#define ID666_EXTENDED_ITEM_TESTS_H
 
-#include <memory>
 #include <gtest/gtest.h>
-#include "ExtendedTag.h"
-#include "ExtendedTagItem.h"
+#include "Field.h"
+#include "NumericField.h"
+#include "ID666ExtendedItem.h"
 
-class ExtendedTagTests : public ::testing::Test
+class ID666ExtendedItemTests : public ::testing::Test 
 {
 protected:
-    void InitStringItem(std::shared_ptr<Spc::ExtendedTagItem>& item, 
-                        std::string value);
+    void SetUp() override;
 
-    Spc::ExtendedTag extendedTag;
+    std::unique_ptr<Spc::ID666ExtendedItem> item;
 };
 
 #endif

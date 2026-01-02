@@ -1,4 +1,4 @@
-// ExtendedTagItem.cpp - Defines the ExtendedTagItem class.
+// ID666ExtendedItem.cpp - Defines the ID666ExtendedItem class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "ExtendedTagItem.h"
+#include "ID666ExtendedItem.h"
 
 using namespace Spc;
 
@@ -41,7 +41,7 @@ const std::map<int, std::string> extendedFieldLabels
     { extendedPreampLevelID, "Preamp Level*" }
 };
 
-ExtendedTagItem::ExtendedTagItem()
+ID666ExtendedItem::ID666ExtendedItem()
 {
     id = std::make_shared<NumericField>("Item ID", 
                                         extendedTagOffset, 
@@ -54,7 +54,7 @@ ExtendedTagItem::ExtendedTagItem()
                                           extendedTagDataSize);
 }
 
-std::vector<Field*> ExtendedTagItem::SpcFields() const
+std::vector<Field*> ID666ExtendedItem::SpcFields() const
 {
     std::vector<Field*> fields;
     fields.push_back(id.get());

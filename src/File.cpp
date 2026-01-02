@@ -18,7 +18,7 @@
 
 using namespace Spc;
 
-void Spc::PadItem(ExtendedTagItem* item)
+void Spc::PadItem(ID666ExtendedItem* item)
 {
     auto size = std::static_pointer_cast<NumericField>(item->data);
 
@@ -396,7 +396,7 @@ void File::SetPreampLevel(std::string value)
 bool File::Load()
 {
     // Initialize the extended tag; sets all members to nulltpr.
-    extendedTag = ExtendedTag();
+    extendedTag = ID666ExtendedData();
 
     //FileStream stream{ path };
     stream->Open(Binary::FileMode::Read);
@@ -442,7 +442,7 @@ bool File::Load()
 
         while (sizeRemaining > 0)
         {
-            auto item = std::make_shared<ExtendedTagItem>();
+            auto item = std::make_shared<ID666ExtendedItem>();
             stream->Read(item.get());
 
             switch (item->type->Value())
@@ -532,7 +532,7 @@ bool File::Save(std::string outPath)
     return true;
 }
 
-void File::LoadHeaderItem(std::shared_ptr<ExtendedTagItem> item)
+void File::LoadHeaderItem(std::shared_ptr<ID666ExtendedItem> item)
 {
     switch (item->id->Value())
     {
@@ -582,7 +582,7 @@ void File::LoadHeaderItem(std::shared_ptr<ExtendedTagItem> item)
     }
 }
 
-void File::LoadTextItem(std::shared_ptr<ExtendedTagItem> item)
+void File::LoadTextItem(std::shared_ptr<ID666ExtendedItem> item)
 {
     auto data = std::static_pointer_cast<NumericField>(item->data);
     const uintmax_t size{ data->Value() };
@@ -628,7 +628,7 @@ void File::LoadTextItem(std::shared_ptr<ExtendedTagItem> item)
     }
 }
 
-void File::LoadNumericItem(std::shared_ptr<ExtendedTagItem> item)
+void File::LoadNumericItem(std::shared_ptr<ID666ExtendedItem> item)
 {
     //constexpr uintmax_t offset{ extendedTagOffset };
     auto data = std::static_pointer_cast<NumericField>(item->data);

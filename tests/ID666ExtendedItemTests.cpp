@@ -1,4 +1,4 @@
-// ExtendedTagItemTests.cpp - Defines the ExtendedTagItemTests class and tests.
+// ID666ExtendedItemTests.cpp - Defines the ID666ExtendedItemTests class and tests.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,35 +14,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "ExtendedTagItemTests.h"
+#include "ID666ExtendedItemTests.h"
 
-void ExtendedTagItemTests::SetUp() 
+void ID666ExtendedItemTests::SetUp() 
 {
-    item = std::make_unique<Spc::ExtendedTagItem>();
+    item = std::make_unique<Spc::ID666ExtendedItem>();
 }
 
-TEST_F(ExtendedTagItemTests, IdFieldIsInitializedProperly) 
+TEST_F(ID666ExtendedItemTests, IdFieldIsInitializedProperly) 
 {
     EXPECT_EQ(item->id->Label(), "Item ID");
-    EXPECT_EQ(item->id->Offset(), extendedTagOffset);
-    EXPECT_EQ(item->id->Size(), extendedTagIDSize);
+    EXPECT_EQ(item->id->Offset(), Spc::extendedTagOffset);
+    EXPECT_EQ(item->id->Size(), Spc::extendedTagIDSize);
 }
 
-TEST_F(ExtendedTagItemTests, TypeFieldIsInitializedProperly)
+TEST_F(ID666ExtendedItemTests, TypeFieldIsInitializedProperly)
 {
     EXPECT_EQ(item->type->Label(), "Item Type");
-    EXPECT_EQ(item->type->Offset(), extendedTagOffset);
-    EXPECT_EQ(item->type->Size(), extendedTagTypeSize);
+    EXPECT_EQ(item->type->Offset(), Spc::extendedTagOffset);
+    EXPECT_EQ(item->type->Size(), Spc::extendedTagTypeSize);
 }
 
-TEST_F(ExtendedTagItemTests, DataFieldIsInitializedProperly) 
+TEST_F(ID666ExtendedItemTests, DataFieldIsInitializedProperly) 
 {
     EXPECT_EQ(item->data->Label(), "Item Data");
-    EXPECT_EQ(item->data->Offset(), extendedTagOffset);
-    EXPECT_EQ(item->data->Size(), extendedTagDataSize);
+    EXPECT_EQ(item->data->Offset(), Spc::extendedTagOffset);
+    EXPECT_EQ(item->data->Size(), Spc::extendedTagDataSize);
 }
 
-TEST_F(ExtendedTagItemTests, SpcFieldsMethodReturnsAllFields)
+TEST_F(ID666ExtendedItemTests, SpcFieldsMethodReturnsAllFields)
 {
     std::vector<Spc::Field*> fields = item->SpcFields();
     
@@ -52,10 +52,10 @@ TEST_F(ExtendedTagItemTests, SpcFieldsMethodReturnsAllFields)
     EXPECT_EQ(item->data.get(), fields[2]);
 }
 
-TEST_F(ExtendedTagItemTests, SpcFieldsMethodReturnsAdditionalFieldsIfNotNull)
+TEST_F(ID666ExtendedItemTests, SpcFieldsMethodReturnsAdditionalFieldsIfNotNull)
 {
-    item->id->SetValue(extendedSongNameID);
-    item->type->SetValue(extendedTypeString);
+    item->id->SetValue(Spc::extendedSongNameID);
+    item->type->SetValue(Spc::extendedTypeString);
 
     // Data is a pointer to the base class, so we need to cast it to 
     // NumericField since we know it is numeric when extended type is string.
@@ -67,7 +67,7 @@ TEST_F(ExtendedTagItemTests, SpcFieldsMethodReturnsAdditionalFieldsIfNotNull)
 
     // Create the extended data field as a TextField since it should be string.
     auto extendedData = std::make_shared<Spc::TextField>(
-        "Extended Data", extendedTagOffset, 5);
+        "Extended Data", Spc::extendedTagOffset, 5);
      
     extendedData->SetValue("Test ");
 
@@ -75,7 +75,7 @@ TEST_F(ExtendedTagItemTests, SpcFieldsMethodReturnsAdditionalFieldsIfNotNull)
 
     // Create the padding field to align on a 4-byte boundary.
     item->padding = std::make_shared<Spc::TextField>(
-        "Padding", extendedTagOffset, 3);
+        "Padding", Spc::extendedTagOffset, 3);
 
     std::vector<Spc::Field*> fields = item->SpcFields();
 

@@ -1,4 +1,4 @@
-// ExtendedTagItem.h - Declares the ExtendedTagItem class.
+// ID666ExtendedItem.h - Declares the ID666ExtendedItem class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -21,50 +21,50 @@
 #include "NumericField.h"
 #include "TextField.h"
 
-#ifndef SPC_EXTENDED_TAG_ITEM_H
-#define SPC_EXTENDED_TAG_ITEM_H
+#ifndef SPC_ID666_EXTENDED_ITEM_H
+#define SPC_ID666_EXTENDED_ITEM_H
 
 extern const std::map<int, std::string> extendedFieldLabels;
 
-inline constexpr uint8_t extendedSongNameID{ 0x1 };
-inline constexpr uint8_t extendedGameNameID{ 0x2 };
-inline constexpr uint8_t extendedArtistNameID{ 0x3 };
-inline constexpr uint8_t extendedDumperNameID{ 0x4 };
-inline constexpr uint8_t extendedDateDumpedID{ 0x5 };
-inline constexpr uint8_t extendedEmulatorUsedID{ 0x6 };
-inline constexpr uint8_t extendedCommentsID{ 0x7 };
-inline constexpr uint8_t extendedOSTTitleID{ 0x10 };
-inline constexpr uint8_t extendedOSTDiscID{ 0x11 };
-inline constexpr uint8_t extendedOSTTrackID{ 0x12 };
-inline constexpr uint8_t extendedPublisherNameID{ 0x13 };
-inline constexpr uint8_t extendedCopyrightYearID{ 0x14 };
-inline constexpr uint8_t extendedIntroLengthID{ 0x30 };
-inline constexpr uint8_t extendedLoopLengthID{ 0x31 };
-inline constexpr uint8_t extendedEndLengthID{ 0x32 };
-inline constexpr uint8_t extendedFadeLengthID{ 0x33 };
-inline constexpr uint8_t extendedMutedVoicesID{ 0x34 };
-inline constexpr uint8_t extendedLoopTimesID{ 0x35 };
-inline constexpr uint8_t extendedPreampLevelID{ 0x36 };
-inline constexpr uint8_t extendedTypeDataInHeader{ 0 };
-inline constexpr uint8_t extendedTypeString{ 1 };
-inline constexpr uint8_t extendedTypeInteger{ 4 };
-inline constexpr uint8_t extendedTagIDSize{ 1 };
-inline constexpr uint8_t extendedTagTypeSize{ 1 };
-inline constexpr uint8_t extendedTagDataSize{ 2 };
-inline constexpr uint8_t extendedTagStringMaxSize{ 255 };
-inline constexpr int extendedTagOffset{ 0x10200 };
-
 namespace Spc
 {
+    inline constexpr uint8_t extendedSongNameID{ 0x1 };
+    inline constexpr uint8_t extendedGameNameID{ 0x2 };
+    inline constexpr uint8_t extendedArtistNameID{ 0x3 };
+    inline constexpr uint8_t extendedDumperNameID{ 0x4 };
+    inline constexpr uint8_t extendedDateDumpedID{ 0x5 };
+    inline constexpr uint8_t extendedEmulatorUsedID{ 0x6 };
+    inline constexpr uint8_t extendedCommentsID{ 0x7 };
+    inline constexpr uint8_t extendedOSTTitleID{ 0x10 };
+    inline constexpr uint8_t extendedOSTDiscID{ 0x11 };
+    inline constexpr uint8_t extendedOSTTrackID{ 0x12 };
+    inline constexpr uint8_t extendedPublisherNameID{ 0x13 };
+    inline constexpr uint8_t extendedCopyrightYearID{ 0x14 };
+    inline constexpr uint8_t extendedIntroLengthID{ 0x30 };
+    inline constexpr uint8_t extendedLoopLengthID{ 0x31 };
+    inline constexpr uint8_t extendedEndLengthID{ 0x32 };
+    inline constexpr uint8_t extendedFadeLengthID{ 0x33 };
+    inline constexpr uint8_t extendedMutedVoicesID{ 0x34 };
+    inline constexpr uint8_t extendedLoopTimesID{ 0x35 };
+    inline constexpr uint8_t extendedPreampLevelID{ 0x36 };
+    inline constexpr uint8_t extendedTypeDataInHeader{ 0 };
+    inline constexpr uint8_t extendedTypeString{ 1 };
+    inline constexpr uint8_t extendedTypeInteger{ 4 };
+    inline constexpr uint8_t extendedTagIDSize{ 1 };
+    inline constexpr uint8_t extendedTagTypeSize{ 1 };
+    inline constexpr uint8_t extendedTagDataSize{ 2 };
+    inline constexpr uint8_t extendedTagStringMaxSize{ 255 };
+    inline constexpr int extendedTagOffset{ 0x10200 };
+    
     /// @brief Represents an item in the extended ID666 tag.
     ///
     /// The extended ID666 tag is an IFF chunk that contains multiple 
     /// sub-chunks representing items in the tag. This struct represents those 
     /// sub-chunks.
-    struct ExtendedTagItem : public DataStructure
+    struct ID666ExtendedItem : public DataStructure
     {
-        /// @brief Default constructor; creates new instance of ExtendedTagItem.
-        ExtendedTagItem();
+        /// @brief Default constructor; creates new instance of ID666ExtendedItem.
+        ID666ExtendedItem();
         
         /// @brief Determines which extended item this instance represents.
         std::shared_ptr<NumericField> id;

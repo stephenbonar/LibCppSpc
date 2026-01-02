@@ -27,8 +27,8 @@
 #include "Header.h"
 #include "BinaryTag.h"
 #include "TextTag.h"
-#include "ExtendedTag.h"
-#include "ExtendedTagItem.h"
+#include "ID666ExtendedData.h"
+#include "ID666ExtendedItem.h"
 #include "TagType.h"
 #include "SetCommand.h"
 #include "StringTokenizer.h"
@@ -57,7 +57,7 @@ namespace Spc
 
     /// @brief Allocates the correct number of padding bytes on specified item.
     /// @param item The item to allocate padding bytes for.
-    void PadItem(ExtendedTagItem* item);
+    void PadItem(ID666ExtendedItem* item);
 
     /// @brief Represents an SPC file.
     class File
@@ -121,7 +121,7 @@ namespace Spc
             return extendedTagHeader; 
         }
 
-        Spc::ExtendedTag ExtendedTag() const { return extendedTag; }
+        Spc::ID666ExtendedData ExtendedTag() const { return extendedTag; }
 
         TextField SongTitle() const;
 
@@ -230,7 +230,7 @@ namespace Spc
         Binary::RawField unused;
         Binary::RawField extraRam;
         Binary::ChunkHeader extendedTagHeader;
-        Spc::ExtendedTag extendedTag;
+        Spc::ID666ExtendedData extendedTag;
         std::shared_ptr<Binary::FileStream> stream;
 
         /// @brief Gets the correct field based on the file's tag type.
@@ -254,7 +254,7 @@ namespace Spc
         /// @param defaultSize The size to use if no existing item is found.
         /// @return The field to get.
         template<typename T>
-        T GetField(ExtendedTagItem* item, int id, int defaultSize) const
+        T GetField(ID666ExtendedItem* item, int id, int defaultSize) const
         {
             if (item != nullptr)
             {
@@ -296,7 +296,7 @@ namespace Spc
         template<typename T>
         T GetField(const T& binaryField, 
                 const T& textField, 
-                ExtendedTagItem* item) const
+                ID666ExtendedItem* item) const
         {
             // If the item is not null, the extended version of the field should
             // be used.
@@ -342,7 +342,7 @@ namespace Spc
         /// @param cmd The parameters used to set the field.
         /// @param item The extended item to set.
         template<typename T>
-        void SetField(SetCommand<T> cmd, std::shared_ptr<ExtendedTagItem>& item)
+        void SetField(SetCommand<T> cmd, std::shared_ptr<ID666ExtendedItem>& item)
         {
             T* field;
             SetField(cmd, field);
@@ -359,7 +359,7 @@ namespace Spc
         /// @param item The extended item to set the field on.
         template<typename T>
         void SetExtendedItem(SetCommand<T> cmd, 
-                            std::shared_ptr<ExtendedTagItem>& item)
+                            std::shared_ptr<ID666ExtendedItem>& item)
         {
             // If we're setting an extended tag item, it means the file now has
             // extended tag data even if it didn't before.
@@ -367,7 +367,7 @@ namespace Spc
 
             // Initialize a new extended tag item and set it to the correct id
             // and type so it can be written to the file properly.
-            item = std::make_shared<ExtendedTagItem>();
+            item = std::make_shared<ID666ExtendedItem>();
             item->id->SetValue(cmd.extendedID);
             item->type->SetValue(cmd.extendedType);
 
@@ -428,11 +428,11 @@ namespace Spc
             }
         }
 
-        void LoadHeaderItem(std::shared_ptr<ExtendedTagItem> item);
+        void LoadHeaderItem(std::shared_ptr<ID666ExtendedItem> item);
 
-        void LoadTextItem(std::shared_ptr<ExtendedTagItem> item);
+        void LoadTextItem(std::shared_ptr<ID666ExtendedItem> item);
 
-        void LoadNumericItem(std::shared_ptr<ExtendedTagItem> item);
+        void LoadNumericItem(std::shared_ptr<ID666ExtendedItem> item);
 
         /// @brief Sets the stream position to the extended tag, if available.
         void SeekExtendedTag();

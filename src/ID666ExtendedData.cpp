@@ -1,4 +1,4 @@
-// ExtendedTag.h - Defines the ExtendedTag class.
+// ID666ExtendedData.cpp - Defines the ID666ExtendedData class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,11 +14,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "ExtendedTag.h"
+#include "ID666ExtendedData.h"
 
 using namespace Spc;
 
-Binary::ChunkHeader ExtendedTag::Header() const
+Binary::ChunkHeader ID666ExtendedData::Header() const
 {
     Binary::ChunkHeader header;
     header.id.SetValue("xid6");
@@ -26,10 +26,10 @@ Binary::ChunkHeader ExtendedTag::Header() const
     return header;
 }
 
-std::vector<Field*> ExtendedTag::SpcFields() const
+std::vector<Field*> ID666ExtendedData::SpcFields() const
 {
     std::vector<Field*> nonNullFields;
-    std::vector<ExtendedTagItem*> items;
+    std::vector<ID666ExtendedItem*> items;
 
     items.push_back(songName.get());
     items.push_back(gameName.get());
@@ -51,7 +51,7 @@ std::vector<Field*> ExtendedTag::SpcFields() const
     items.push_back(loopTimes.get());
     items.push_back(preampLevel.get());
 
-    for (ExtendedTagItem* item : items)
+    for (ID666ExtendedItem* item : items)
     {
         if (item != nullptr)
         {
