@@ -20,12 +20,12 @@ using namespace Spc;
 
 uint8_t TrackField::Value() const
 {
-    return static_cast<uint8_t>(data[1]);
+    return static_cast<uint8_t>(rawData[1]);
 }
 
 char TrackField::Suffix() const
 {
-    return data[0];
+    return rawData[0];
 }
 
 std::string TrackField::ToString() const
@@ -49,7 +49,7 @@ void TrackField::SetValue(std::string value)
     stream >> trackNo;
 
     if (stream >> trackChar)
-        data[0] = trackChar;
+        rawData[0] = trackChar;
 
-    data[1] = trackNo;
+    rawData[1] = trackNo;
 }

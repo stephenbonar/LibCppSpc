@@ -23,8 +23,8 @@ void TextField::SetValue(std::string value)
     for (int i = 0; i < size; i++)
     {
         if (i < value.size())
-            data[i] = value[i];
+            rawData[i] = value[i];
         else
-            data[i] = 0;
+            rawData[i] = 0;
     }
 }

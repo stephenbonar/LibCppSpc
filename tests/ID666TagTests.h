@@ -56,9 +56,11 @@ protected:
     {
         ASSERT_NE(tag, nullptr);
         ASSERT_NE(tag->FieldData(), nullptr);
-        ASSERT_NE(tag->FieldData()->Data(), nullptr);
+        ASSERT_NE(tag->FieldData()->RawData(), nullptr);
         ASSERT_GE(tag->FieldData()->Size(), Spc::id666TagSize);
-        std::memcpy(tag->FieldData()->Data(), params.testData, Spc::id666TagSize);
+        std::memcpy(tag->FieldData()->RawData(), 
+                    params.testData, 
+                    Spc::id666TagSize);
         T field = (tag.get()->*params.getMethodPtr)();
 
         EXPECT_EQ(params.expectedLabel, field.Label());
@@ -104,7 +106,9 @@ protected:
 
             size_t offset = Spc::extendedTagOffset;
 
-            auto itemExtData = std::make_shared<U>(params.expectedLabel, offset, size);
+            auto itemExtData = std::make_shared<U>(params.expectedLabel, 
+                                                   offset, 
+                                                   size);
             itemExtData->SetValue(params.extendedValue);
             params.item->id->SetValue(params.extendedID);
             params.item->type->SetValue(params.extendedType);

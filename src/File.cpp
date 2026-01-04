@@ -543,7 +543,7 @@ void File::LoadHeaderItem(std::shared_ptr<ID666ExtendedItem> item)
                 label, 
                 extendedTagOffset, 
                 extendedTagDataSize);
-            std::memcpy(data->Data(), item->data->Data(), extendedTagDataSize); 
+            std::memcpy(data->RawData(), item->data->RawData(), extendedTagDataSize); 
             item->data = data;
             extendedTag.emulatorUsed = item;
             break;
@@ -557,7 +557,7 @@ void File::LoadHeaderItem(std::shared_ptr<ID666ExtendedItem> item)
             auto data = std::make_shared<TrackField>(label, 
                                                         extendedTagOffset, 
                                                         extendedTagDataSize);
-            std::memcpy(data->Data(), item->data->Data(), extendedTagDataSize); 
+            std::memcpy(data->RawData(), item->data->RawData(), extendedTagDataSize); 
             item->data = data;
             extendedTag.ostTrack = item;
             break;
@@ -571,7 +571,7 @@ void File::LoadHeaderItem(std::shared_ptr<ID666ExtendedItem> item)
             auto data = std::make_shared<BinaryField>(label, 
                                                          extendedTagOffset, 
                                                          extendedTagDataSize);
-            std::memcpy(data->Data(), item->data->Data(), extendedTagDataSize); 
+            std::memcpy(data->RawData(), item->data->RawData(), extendedTagDataSize); 
             item->data = data;
             extendedTag.mutedVoices = item;
             break;
@@ -782,7 +782,7 @@ Spc::TagType File::ReadTagType()
         // If the first byte of artist is 0 but the byte immediately
         // following is non-zero, this suggests the artist value was shifted
         // over by 1, which means we're using text tag offsets.
-        if (tag.songArtist.Data()[0] == 0 && tag.songArtist.Data()[1] != 0)
+        if (tag.songArtist.RawData()[0] == 0 && tag.songArtist.RawData()[1] != 0)
         {
             stream->SetPosition(previousPosition);
             return TagType::TextMixed;
@@ -792,7 +792,7 @@ Spc::TagType File::ReadTagType()
         // for a binary tag.
         for (int i = 0; i < tag.reserved.Size(); i++)
         {
-            if (tag.reserved.Data()[i] != 0)
+            if (tag.reserved.RawData()[i] != 0)
             {
                 stream->SetPosition(previousPosition);
                 return TagType::TextMixed;

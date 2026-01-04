@@ -84,7 +84,7 @@ TagType ID666Tag::DetermineType() const
         // If the first byte of artist is 0 but the byte immediately
         // following is non-zero, this suggests the artist value was shifted
         // over by 1, which means we're using text tag offsets.
-        if (songArtist.Data()[0] == 0 && songArtist.Data()[1] != 0)
+        if (songArtist.RawData()[0] == 0 && songArtist.RawData()[1] != 0)
         {
             fieldData->SetPosition(previousPosition);
             return TagType::TextMixed;
@@ -94,7 +94,7 @@ TagType ID666Tag::DetermineType() const
         // for a binary tag.
         for (int i = 0; i < reserved.Size(); i++)
         {
-            if (reserved.Data()[i] != 0)
+            if (reserved.RawData()[i] != 0)
             {
                 fieldData->SetPosition(previousPosition);
                 return TagType::TextMixed;
@@ -156,8 +156,8 @@ DateField ID666Tag::DateDumped() const
             Spc::extendedTagOffset, 
             Spc::dateDumpedInfo.binarySize 
         };
-        std::memcpy(dateDumped.Data(), 
-                    dateDumpedInt->Data(), 
+        std::memcpy(dateDumped.RawData(), 
+                    dateDumpedInt->RawData(), 
                     dateDumpedInt->Size());
         return dateDumped;
     }

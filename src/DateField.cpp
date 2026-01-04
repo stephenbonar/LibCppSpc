@@ -29,9 +29,9 @@ bool DateField::IsText() const
 {
     for (int i = 0; i < size; i++)
     {
-        bool isAsciiNum = data[i] >= 0x30 && data[i] <= 0x39;
-        bool isZero = data[i] == 0x0;
-        bool isDateSlash = data[i] == 0x2F;
+        bool isAsciiNum = rawData[i] >= 0x30 && rawData[i] <= 0x39;
+        bool isZero = rawData[i] == 0x0;
+        bool isDateSlash = rawData[i] == 0x2F;
 
         if (!isAsciiNum && !isZero && !isDateSlash)
             return false;
@@ -46,7 +46,7 @@ bool DateField::HasUnusedArea() const
 
     for (int i = unusedAreaIndex; i < size; i++)
     {
-        if (data[i] != 0)
+        if (rawData[i] != 0)
             return false;
     }
 
@@ -57,7 +57,7 @@ bool DateField::IsSet() const
 {
     for (int i = 0; i < size; i++)
     {
-        if (data[i] != 0)
+        if (rawData[i] != 0)
             return true;
     }
 
@@ -73,10 +73,10 @@ std::string DateField::Value() const
     Binary::UInt8Field month{ Binary::FieldEndianness::Little };
     Binary::UInt16Field year{ Binary::FieldEndianness::Little };
 
-    day.Data()[0] = data[0];
-    month.Data()[0] = data[1];
-    year.Data()[0] = data[2];
-    year.Data()[1] = data[3];
+    day.RawData()[0] = rawData[0];
+    month.RawData()[0] = rawData[1];
+    year.RawData()[0] = rawData[2];
+    year.RawData()[1] = rawData[3];
 
     std::stringstream stream;
     stream << std::setw(2) << std::setfill('0') << month.ToString() << '/'
@@ -106,10 +106,10 @@ void DateField::SetTextValue(std::string value)
         // We add 1900 because years are stored as years since 1900.
         dateStream << std::setw(4) << std::setfill('0') << date.tm_year + 1900;
 
-        std::memcpy(data.get(), dateStream.str().c_str(), 10);
+        std::memcpy(rawData.get(), dateStream.str().c_str(), 10);
 
         // The last byte of the 11 byte date field should always be null.
-        data[10] = 0;
+        rawData[10] = 0;
     }
     else
     {
@@ -137,13 +137,13 @@ void DateField::SetBinaryValue(std::string value)
         // We add 1900 because years are stored as years since 1900.
         Binary::UInt16Field year{ date.tm_year + 1900 };
 
-        data[0] = day.Data()[0];
-        data[1] = month.Data()[0];
-        std::memcpy(data.get() + 2, year.Data(), 2);
+        rawData[0] = day.RawData()[0];
+        rawData[1] = month.RawData()[0];
+        std::memcpy(rawData.get() + 2, year.RawData(), 2);
 
         // The remaining bytes should all be unused in a binary formatted date.
         for (int i = 4; i < 11; i++)
-            data[i] = 0;
+            rawData[i] = 0;
     }
     else
     {

@@ -110,7 +110,7 @@ TEST_F(BinaryTagTests, FieldsAreInitiallyEmpty)
     EXPECT_EQ(tag.emulatorUsed.ToString(), "Unknown");
     EXPECT_EQ(tag.defaultChannelState.Value(), 0);
 
-    char* reserved = tag.reserved.Data();
+    char* reserved = tag.reserved.RawData();
 
     for (int i = 0; i < tag.reserved.Size(); i++)
         EXPECT_EQ(reserved[i], 0);

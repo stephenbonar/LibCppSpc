@@ -266,7 +266,7 @@ namespace Spc
                     auto field = InitExtendedField<T>(id, extendedTagDataSize);
 
                     for (int i = 0; i < extendedTagDataSize; i++)
-                        field->Data()[i] = item->data->Data()[i];
+                        field->RawData()[i] = item->data->RawData()[i];
 
                     return *field;
                 }
