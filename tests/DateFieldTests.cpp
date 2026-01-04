@@ -20,7 +20,7 @@
 
 TEST_F(DateFieldTests, IsTextReturnsTrueForValidTextRepresentation)
 {
-    dateField->SetTextValue("12/31/2025");
+    dateField->SetTextValue("02/06/2000");
 
     EXPECT_TRUE(dateField->IsText()) 
         << "IsText() should return true for text representation";
@@ -28,7 +28,7 @@ TEST_F(DateFieldTests, IsTextReturnsTrueForValidTextRepresentation)
 
 TEST_F(DateFieldTests, IsTextReturnsFalseForBinaryCharacters)
 {
-    dateField->SetBinaryValue("12/31/2025"); 
+    dateField->SetBinaryValue("02/06/2000"); 
 
     EXPECT_FALSE(dateField->IsText())
         << "IsText() should return false for binary representation";
@@ -48,7 +48,7 @@ TEST_F(DateFieldTests, ConstructorThrowsExceptionIfSizeLessThan11)
 
 TEST_F(DateFieldTests, HasUnusedAreaReturnsTrueIfBytes4AndGreaterAreZero)
 {
-    dateField->SetBinaryValue("12/31/2025");
+    dateField->SetBinaryValue("02/06/2000");
 
     EXPECT_TRUE(dateField->HasUnusedArea()) 
         << "HasUnusedArea() should return true if bytes 4 and greater are 0";
@@ -56,7 +56,7 @@ TEST_F(DateFieldTests, HasUnusedAreaReturnsTrueIfBytes4AndGreaterAreZero)
 
 TEST_F(DateFieldTests, HasUnusedAreaReturnsFalseIfAnyByte4AndGreaterIsNonZero)
 {
-    dateField->SetTextValue("12/31/2025");
+    dateField->SetTextValue("02/06/2000");
 
     EXPECT_FALSE(dateField->HasUnusedArea()) 
         << "HasUnusedArea() should return false byte 4 and greater is non-zero";
@@ -64,7 +64,7 @@ TEST_F(DateFieldTests, HasUnusedAreaReturnsFalseIfAnyByte4AndGreaterIsNonZero)
 
 TEST_F(DateFieldTests, IsSetReturnsTrueIfAnyByteIsNonZero)
 {
-    dateField->SetBinaryValue("12/31/2025");
+    dateField->SetBinaryValue("02/06/2000");
 
     EXPECT_TRUE(dateField->IsSet()) 
         << "IsSet() should return true if at least one byte is non-zero";
@@ -84,7 +84,7 @@ TEST_F(DateFieldTests, SetTextValueThrowsExceptionForInvalidFormats)
 
 TEST_F(DateFieldTests, SetTextValueDoesNotThrowExceptionForValidFormats)
 {
-    EXPECT_NO_THROW(dateField->SetTextValue("12/31/2025"));
+    EXPECT_NO_THROW(dateField->SetTextValue("02/06/2000"));
 }
 
 TEST_F(DateFieldTests, SetBinaryValueThrowsExceptionForInvalidFormats)
@@ -95,12 +95,12 @@ TEST_F(DateFieldTests, SetBinaryValueThrowsExceptionForInvalidFormats)
 
 TEST_F(DateFieldTests, SetBinaryValueDoesNotThrowExceptionForValidFormats)
 {
-    EXPECT_NO_THROW(dateField->SetBinaryValue("12/31/2025"));
+    EXPECT_NO_THROW(dateField->SetBinaryValue("02/06/2000"));
 }
 
-TEST_F(DateFieldTests, ToStringReturnsSameValueAsValue)
+TEST_F(DateFieldTests, ToStringReturnsSameValueAsTextValue)
 {
-    dateField->SetTextValue("12/31/2025");
+    dateField->SetTextValue("02/06/2000");
 
     std::string valueResult = dateField->Value();
     std::string toStringResult = dateField->ToString();
@@ -109,3 +109,29 @@ TEST_F(DateFieldTests, ToStringReturnsSameValueAsValue)
         << "ToString() should return the same value as Value()";
 }
 
+TEST_F(DateFieldTests, ToStringReturnsSameValueAsBinaryValue)
+{
+    dateField->SetBinaryValue("02/06/2000");
+
+    std::string valueResult = dateField->Value();
+    std::string toStringResult = dateField->ToString();
+
+    EXPECT_EQ(toStringResult, valueResult)
+        << "ToString() should return the same value as Value()";
+}
+
+TEST_F(DateFieldTests, ValueReturnsCorrectTextRepresentation)
+{
+    dateField->SetTextValue("02/06/2000");
+
+    EXPECT_EQ("02/06/2000", dateField->Value())
+        << "Value() should return the correct text representation";
+}
+
+TEST_F(DateFieldTests, ValueReturnsCorrectBinaryRepresentation)
+{
+    dateField->SetBinaryValue("02/06/2000");
+
+    EXPECT_EQ("02/06/2000", dateField->Value())
+        << "Value() should return the correct binary representation";
+}

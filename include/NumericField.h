@@ -39,8 +39,8 @@ namespace Spc
         /// @param offset The offset where the field can be found in the file.
         /// @param size The size of the field, in bytes.
         NumericField(std::string label, 
-                        uintmax_t offset, 
-                        size_t size) 
+                     uintmax_t offset, 
+                     size_t size) 
             : Field{ label, offset, size }, type{ NumericType::Either }
         { };
 

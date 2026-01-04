@@ -31,7 +31,13 @@ namespace Spc
     constexpr FieldInfo gameTitleInfo{ 0x4E, 32, 0x4E, 32 };
     constexpr FieldInfo dumperNameInfo{ 0x6E, 16, 0x6E, 16 };
     constexpr FieldInfo commentsInfo{ 0x7E, 32, 0x7E, 32 };
-    constexpr FieldInfo dateDumpedInfo{ 0x9E, 11, 0x9E, 4 };
+    constexpr FieldInfo dateDumpedInfo{ 0x9E, 11, 0x9E, 11 };
+    constexpr FieldInfo songLengthInfo{ 0xA9, 3, 0xA9, 3 };
+    constexpr FieldInfo fadeLengthInfo{ 0xAC, 5, 0xAC, 4 };
+    constexpr FieldInfo songArtistInfo{ 0xB1, 32, 0xB0, 32 };
+    constexpr FieldInfo defaultChannelStateInfo{ 0xD1, 1, 0xD0, 1 };
+    constexpr FieldInfo emulatorUsedInfo{ 0xD2, 1, 0xD1, 1 };
+    constexpr FieldInfo reservedInfo{ 0xD3, 45, 0xD2, 46 };
 }
 
 #endif

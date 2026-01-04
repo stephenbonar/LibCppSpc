@@ -29,13 +29,13 @@ constexpr unsigned char rawTextData[] = {
     // 0x7E: Comments (32 bytes)
     'T','e','s','t',' ','C','o','m','m','e','n','t','s',' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',
     // 0x9E: Date dumped (11 bytes, MM/DD/YYYY)
-    '0','1','/','2','3','/','2','0','2','5','\0',
+    '0','2','/','0','6','/','2','0','0','0','\0',
     // 0xA9: Seconds before fade (3 bytes, ASCII)
     '1','2','3',
     // 0xAC: Fade length ms (5 bytes, ASCII)
     '0','5','0','0','0',
     // 0xB1: Artist (32 bytes)
-    'A','r','t','i','s','t',' ','N','a','m','e',' ','T','e','s','t',' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
+    'A','r','t','i','s','t',' ','N','a','m','e',' ','T','e','s','t',' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O',
     // 0xD1: Default channel disables (1 byte, ASCII '0')
     '0',
     // 0xD2: Emulator used (1 byte, ASCII '2' for Snes9x)
@@ -57,8 +57,8 @@ constexpr unsigned char rawBinaryData[] = {
     'D','u','m','p','e','r','N','a','m','e','1','2','3','4','5','6',
     // 0x7E: Comments (32 bytes)
     'T','e','s','t',' ','C','o','m','m','e','n','t','s',' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',
-    // 0x9E: Date dumped (4 bytes, YYYYMMDD, little endian)
-    0xE9, 0x07, 0x06, 0x20, // 0x200607E9 = 2024-06-01 (example: 20240601, little endian)
+    // 0x9E: Date dumped (4 bytes, YYYYMMDD, which is DDMMYYYY little endian)
+    0x06, 0x02, 0xD0, 0x07, // 0x0602D007 = 2000-02-06
     // 0xA2: unused (7 bytes)
     0,0,0,0,0,0,0,
     // 0xA9: Seconds before fade (3 bytes, little endian)
@@ -66,7 +66,7 @@ constexpr unsigned char rawBinaryData[] = {
     // 0xAC: Fade length ms (4 bytes, little endian)
     0x88, 0x13, 0x00, 0x00, // 5000 ms (0x1388)
     // 0xB0: Artist (32 bytes)
-    'A','r','t','i','s','t',' ','N','a','m','e',' ','T','e','s','t',' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
+    'A','r','t','i','s','t',' ','N','a','m','e',' ','T','e','s','t',' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O',
     // 0xD0: Default channel disables (1 byte, binary)
     0x00,
     // 0xD1: Emulator used (1 byte, binary: 2 = Snes9x)
@@ -89,13 +89,13 @@ constexpr unsigned char rawMixedData[] = {
     // 0x7E: Comments (32 bytes)
     'T','e','s','t',' ','C','o','m','m','e','n','t','s',' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',
     // 0x9E: Date dumped (11 bytes, MM/DD/YYYY)
-    '0','1','/','2','3','/','2','0','2','5','\0',
+    '0','2','/','0','6','/','2','0','0','0','\0',
     // 0xA9: Seconds before fade (3 bytes, little endian binary: 123)
     0x7B, 0x00, 0x00,
     // 0xAC: Fade length ms (5 bytes, first 4 bytes little endian binary: 50000, last byte ASCII '0')
-    0x50, 0xC3, 0x00, 0x00, '0',
+    0x50, 0xC3, 0x00, 0x00, 0x00,
     // 0xB1: Artist (32 bytes)
-    'A','r','t','i','s','t',' ','N','a','m','e',' ','T','e','s','t',' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
+    'A','r','t','i','s','t',' ','N','a','m','e',' ','T','e','s','t',' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O',
     // 0xD1: Default channel disables (1 byte, little endian binary: 0)
     0x00,
     // 0xD2: Emulator used (1 byte, little endian binary: 2)
@@ -118,303 +118,431 @@ void ID666TagTests::SetUp()
 
 TEST_F(ID666TagTests, InitializesProperly)
 {
-    std::shared_ptr<Binary::BufferStream> data = tag->Data();
+    std::shared_ptr<Binary::BufferStream> fieldData = tag->FieldData();
     std::shared_ptr<Spc::ID666ExtendedData> extendedData = tag->ExtendedData();
 
-    ASSERT_NE(nullptr, data);
+    ASSERT_NE(nullptr, fieldData);
     ASSERT_NE(nullptr, extendedData);
-    EXPECT_EQ(Spc::id666TagSize, data->Size());
+    EXPECT_EQ(Spc::id666TagSize, fieldData->Size());
 }
 
 TEST_F(ID666TagTests, GetsTextSongTitleProperly)
 {
-    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
-    Spc::TextField songTitle = tag->SongTitle();
-
-    EXPECT_EQ("Song Title", songTitle.Label());
-    EXPECT_EQ(Spc::songTitleInfo.textOffset, songTitle.Offset());
-    EXPECT_EQ(Spc::songTitleInfo.textSize, songTitle.Size());
-    EXPECT_EQ("Test Song Title ABCDEFGHIJKLMNOP", songTitle.Value());
+    TestGetParameters<Spc::TextField> params;
+    params.testData = textData;
+    params.expectedLabel = "Song Title";
+    params.expectedValue = expectedSongTitle;
+    params.expectedOffset = Spc::songTitleInfo.textOffset;
+    params.expectedSize = Spc::songTitleInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::SongTitle;
+    TestGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, GetsBinarySongTitleProperly)
 {
-    std::memcpy(tag->Data()->Data(), binaryData, Spc::id666TagSize);
-    Spc::TextField songTitle = tag->SongTitle();
-
-    EXPECT_EQ("Song Title", songTitle.Label());
-    EXPECT_EQ(Spc::songTitleInfo.binaryOffset, songTitle.Offset());
-    EXPECT_EQ(Spc::songTitleInfo.binarySize, songTitle.Size());
-    EXPECT_EQ("Test Song Title ABCDEFGHIJKLMNOP", songTitle.Value());
+    TestGetParameters<Spc::TextField> params;
+    params.testData = binaryData;
+    params.expectedLabel = "Song Title";
+    params.expectedValue = expectedSongTitle;
+    params.expectedOffset = Spc::songTitleInfo.binaryOffset;
+    params.expectedSize = Spc::songTitleInfo.binarySize;
+    params.getMethodPtr = &Spc::ID666Tag::SongTitle;
+    TestGet<Spc::TextField>(params); 
 }
 
 TEST_F(ID666TagTests, GetsMixedSongTitleProperly)
 {
-    std::memcpy(tag->Data()->Data(), mixedData, Spc::id666TagSize);
-    Spc::TextField songTitle = tag->SongTitle();
-
-    EXPECT_EQ("Song Title", songTitle.Label());
-    EXPECT_EQ(Spc::songTitleInfo.textOffset, songTitle.Offset());
-    EXPECT_EQ(Spc::songTitleInfo.textSize, songTitle.Size());
-    EXPECT_EQ("Test Song Title ABCDEFGHIJKLMNOP", songTitle.Value());
+    TestGetParameters<Spc::TextField> params;
+    params.testData = mixedData;
+    params.expectedLabel = "Song Title";
+    params.expectedValue = expectedSongTitle;
+    params.expectedOffset = Spc::songTitleInfo.textOffset;
+    params.expectedSize = Spc::songTitleInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::SongTitle;
+    TestGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, GetsExtendedSongTitleProperly)
 {
-    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
-    std::shared_ptr<Spc::ID666ExtendedData> extData = tag->ExtendedData();
-
-    auto itemExtData = std::make_shared<Spc::TextField>(
-        "Test Song Title ABCDEFGHIJKLMNOP Extended", 
-        Spc::extendedTagOffset, 
-        42);
-    auto item = std::make_shared<Spc::ID666ExtendedItem>();
-    item->id->SetValue(Spc::extendedSongNameID);
-    item->type->SetValue(Spc::extendedTypeString);
-    item->data = std::make_shared<Spc::NumericField>("Data", 0, 42);
-    item->extendedData = itemExtData;
-    extData->songName = item;
-
-    Spc::TextField songTitle = tag->SongTitle();
-
-    EXPECT_EQ("Song Title", songTitle.Label());
-    EXPECT_EQ(Spc::extendedTagOffset, songTitle.Offset());
-    EXPECT_EQ(42, songTitle.Size());
-    EXPECT_EQ(itemExtData->Value(), songTitle.Value());
+    tag->ExtendedData()->songName = std::make_shared<Spc::ID666ExtendedItem>();
+    TestGetWithExtendedItemParameters<Spc::TextField> params;
+    params.expectedLabel = "Song Title";
+    params.expectedValue = expectedSongTitle;
+    params.expectedSize = expectedSongTitle.size();
+    params.extendedID = Spc::extendedSongNameID;
+    params.extendedType = Spc::extendedTypeString;
+    params.extendedValue = expectedSongTitle;
+    params.item = tag->ExtendedData()->songName;
+    params.getMethodPtr = &Spc::ID666Tag::SongTitle;
+    TestGetWithExtendedItem<Spc::TextField, Spc::TextField>(params);
 }
-
-// --- GameTitle tests ---
 
 TEST_F(ID666TagTests, GetsTextGameTitleProperly)
 {
-    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
-    Spc::TextField gameTitle = tag->GameTitle();
-
-    EXPECT_EQ("Game Title", gameTitle.Label());
-    EXPECT_EQ(Spc::gameTitleInfo.textOffset, gameTitle.Offset());
-    EXPECT_EQ(Spc::gameTitleInfo.textSize, gameTitle.Size());
-    EXPECT_EQ("Test Game Title 1234567890XYZQRS", gameTitle.Value());
+    TestGetParameters<Spc::TextField> params;
+    params.testData = textData;
+    params.expectedLabel = "Game Title";
+    params.expectedValue = expectedGameTitle;
+    params.expectedOffset = Spc::gameTitleInfo.textOffset;
+    params.expectedSize = Spc::gameTitleInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::GameTitle;
+    TestGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, GetsBinaryGameTitleProperly)
 {
-    std::memcpy(tag->Data()->Data(), binaryData, Spc::id666TagSize);
-    Spc::TextField gameTitle = tag->GameTitle();
-
-    EXPECT_EQ("Game Title", gameTitle.Label());
-    EXPECT_EQ(Spc::gameTitleInfo.binaryOffset, gameTitle.Offset());
-    EXPECT_EQ(Spc::gameTitleInfo.binarySize, gameTitle.Size());
-    EXPECT_EQ("Test Game Title 1234567890XYZQRS", gameTitle.Value());
+    TestGetParameters<Spc::TextField> params;
+    params.testData = binaryData;
+    params.expectedLabel = "Game Title";
+    params.expectedValue = expectedGameTitle;
+    params.expectedOffset = Spc::gameTitleInfo.binaryOffset;
+    params.expectedSize = Spc::gameTitleInfo.binarySize;
+    params.getMethodPtr = &Spc::ID666Tag::GameTitle;
+    TestGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, GetsMixedGameTitleProperly)
 {
-    std::memcpy(tag->Data()->Data(), mixedData, Spc::id666TagSize);
-    Spc::TextField gameTitle = tag->GameTitle();
-
-    EXPECT_EQ("Game Title", gameTitle.Label());
-    EXPECT_EQ(Spc::gameTitleInfo.textOffset, gameTitle.Offset());
-    EXPECT_EQ(Spc::gameTitleInfo.textSize, gameTitle.Size());
-    EXPECT_EQ("Test Game Title 1234567890XYZQRS", gameTitle.Value());
+    TestGetParameters<Spc::TextField> params;
+    params.testData = mixedData;
+    params.expectedLabel = "Game Title";
+    params.expectedValue = expectedGameTitle;
+    params.expectedOffset = Spc::gameTitleInfo.textOffset;
+    params.expectedSize = Spc::gameTitleInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::GameTitle;
+    TestGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, GetsExtendedGameTitleProperly)
 {
-    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
-    auto extData = tag->ExtendedData();
-
-    auto itemExtData = std::make_shared<Spc::TextField>(
-        "Test Game Title 1234567890XYZQRS Extended",
-        Spc::extendedTagOffset,
-        40);
-    auto item = std::make_shared<Spc::ID666ExtendedItem>();
-    item->id->SetValue(Spc::extendedGameNameID);
-    item->type->SetValue(Spc::extendedTypeString);
-    item->data = std::make_shared<Spc::NumericField>("Data", 0, 40);
-    item->extendedData = itemExtData; 
-    extData->gameName = item;
-
-    Spc::TextField gameTitle = tag->GameTitle();
-
-    EXPECT_EQ("Game Title", gameTitle.Label());
-    EXPECT_EQ(Spc::extendedTagOffset, gameTitle.Offset());
-    EXPECT_EQ(40, gameTitle.Size());
-    EXPECT_EQ(itemExtData->Value(), gameTitle.Value());
+    tag->ExtendedData()->gameName = std::make_shared<Spc::ID666ExtendedItem>();
+    TestGetWithExtendedItemParameters<Spc::TextField> params;
+    params.expectedLabel = "Game Title";
+    params.expectedValue = expectedGameTitle;
+    params.expectedSize = expectedGameTitle.size();
+    params.extendedID = Spc::extendedGameNameID;
+    params.extendedType = Spc::extendedTypeString;
+    params.extendedValue = expectedGameTitle;
+    params.item = tag->ExtendedData()->gameName;
+    params.getMethodPtr = &Spc::ID666Tag::GameTitle;
+    TestGetWithExtendedItem<Spc::TextField, Spc::TextField>(params);
 }
-
-// --- Dumper tests ---
 
 TEST_F(ID666TagTests, GetsTextDumperNameProperly)
 {
-    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
-    Spc::TextField dumperName = tag->DumperName();
-
-    EXPECT_EQ("Dumper Name", dumperName.Label());
-    EXPECT_EQ(Spc::dumperNameInfo.textOffset, dumperName.Offset());
-    EXPECT_EQ(Spc::dumperNameInfo.textSize, dumperName.Size());
-    EXPECT_EQ("DumperName123456", dumperName.Value());
+    TestGetParameters<Spc::TextField> params;
+    params.testData = textData;
+    params.expectedLabel = "Dumper Name";
+    params.expectedValue = expectedDumperName;
+    params.expectedOffset = Spc::dumperNameInfo.textOffset;
+    params.expectedSize = Spc::dumperNameInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::DumperName;
+    TestGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, GetsBinaryDumperNameProperly)
 {
-    std::memcpy(tag->Data()->Data(), binaryData, Spc::id666TagSize);
-    Spc::TextField dumperName = tag->DumperName();
-
-    EXPECT_EQ("Dumper Name", dumperName.Label());
-    EXPECT_EQ(Spc::dumperNameInfo.binaryOffset, dumperName.Offset());
-    EXPECT_EQ(Spc::dumperNameInfo.binarySize, dumperName.Size());
-    EXPECT_EQ("DumperName123456", dumperName.Value());
+    TestGetParameters<Spc::TextField> params;
+    params.testData = binaryData;
+    params.expectedLabel = "Dumper Name";
+    params.expectedValue = expectedDumperName;
+    params.expectedOffset = Spc::dumperNameInfo.binaryOffset;
+    params.expectedSize = Spc::dumperNameInfo.binarySize;
+    params.getMethodPtr = &Spc::ID666Tag::DumperName;
+    TestGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, GetsMixedDumperNameProperly)
 {
-    std::memcpy(tag->Data()->Data(), mixedData, Spc::id666TagSize);
-    Spc::TextField dumperName = tag->DumperName();
-
-    EXPECT_EQ("Dumper Name", dumperName.Label());
-    EXPECT_EQ(Spc::dumperNameInfo.textOffset, dumperName.Offset());
-    EXPECT_EQ(Spc::dumperNameInfo.textSize, dumperName.Size());
-    EXPECT_EQ("DumperName123456", dumperName.Value());
+    TestGetParameters<Spc::TextField> params;
+    params.testData = mixedData;
+    params.expectedLabel = "Dumper Name";
+    params.expectedValue = expectedDumperName;
+    params.expectedOffset = Spc::dumperNameInfo.textOffset;
+    params.expectedSize = Spc::dumperNameInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::DumperName;
+    TestGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, GetsExtendedDumperProperly)
 {
-    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
-    auto extData = tag->ExtendedData();
-
-    auto itemExtData = std::make_shared<Spc::TextField>(
-        "DumperName123456 Extended",
-        Spc::extendedTagOffset,
-        24);
-    auto item = std::make_shared<Spc::ID666ExtendedItem>();
-    item->id->SetValue(Spc::extendedDumperNameID);
-    item->type->SetValue(Spc::extendedTypeString);
-    item->data = std::make_shared<Spc::NumericField>("Data", 0, 24);
-    item->extendedData = itemExtData;
-    extData->dumperName = item;
-
-    Spc::TextField dumperName = tag->DumperName();
-
-    EXPECT_EQ("Dumper Name", dumperName.Label());
-    EXPECT_EQ(Spc::extendedTagOffset, dumperName.Offset());
-    EXPECT_EQ(24, dumperName.Size());
-    EXPECT_EQ(itemExtData->Value(), dumperName.Value());
+    tag->ExtendedData()->dumperName = 
+        std::make_shared<Spc::ID666ExtendedItem>();
+    TestGetWithExtendedItemParameters<Spc::TextField> params;
+    params.expectedLabel = "Dumper Name";
+    params.expectedValue = expectedDumperName;
+    params.expectedSize = expectedDumperName.size();
+    params.extendedID = Spc::extendedDumperNameID;
+    params.extendedType = Spc::extendedTypeString;
+    params.extendedValue = expectedDumperName;
+    params.item = tag->ExtendedData()->dumperName;
+    params.getMethodPtr = &Spc::ID666Tag::DumperName;
+    TestGetWithExtendedItem<Spc::TextField, Spc::TextField>(params);
 }
-
-// --- Comments tests ---
 
 TEST_F(ID666TagTests, GetsTextCommentsProperly)
 {
-    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
-    Spc::TextField comments = tag->Comments();
-
-    EXPECT_EQ("Comments", comments.Label());
-    EXPECT_EQ(Spc::commentsInfo.textOffset, comments.Offset());
-    EXPECT_EQ(Spc::commentsInfo.textSize, comments.Size());
-    EXPECT_EQ("Test Comments ABCDEFGHIJKLMNOPQR", comments.Value());
+    TestGetParameters<Spc::TextField> params;
+    params.testData = textData;
+    params.expectedLabel = "Comments";
+    params.expectedValue = expectedComments;
+    params.expectedOffset = Spc::commentsInfo.textOffset;
+    params.expectedSize = Spc::commentsInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::Comments;
+    TestGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, GetsBinaryCommentsProperly)
 {
-    std::memcpy(tag->Data()->Data(), binaryData, Spc::id666TagSize);
-    Spc::TextField comments = tag->Comments();
-
-    EXPECT_EQ("Comments", comments.Label());
-    EXPECT_EQ(Spc::commentsInfo.binaryOffset, comments.Offset());
-    EXPECT_EQ(Spc::commentsInfo.binarySize, comments.Size());
-    EXPECT_EQ("Test Comments ABCDEFGHIJKLMNOPQR", comments.Value());
+    TestGetParameters<Spc::TextField> params;
+    params.testData = binaryData;
+    params.expectedLabel = "Comments";
+    params.expectedValue = expectedComments;
+    params.expectedOffset = Spc::commentsInfo.binaryOffset;
+    params.expectedSize = Spc::commentsInfo.binarySize;
+    params.getMethodPtr = &Spc::ID666Tag::Comments;
+    TestGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, GetsMixedCommentsProperly)
 {
-    std::memcpy(tag->Data()->Data(), mixedData, Spc::id666TagSize);
-    Spc::TextField comments = tag->Comments();
-
-    EXPECT_EQ("Comments", comments.Label());
-    EXPECT_EQ(Spc::commentsInfo.textOffset, comments.Offset());
-    EXPECT_EQ(Spc::commentsInfo.textSize, comments.Size());
-    EXPECT_EQ("Test Comments ABCDEFGHIJKLMNOPQR", comments.Value());
+    TestGetParameters<Spc::TextField> params;
+    params.testData = mixedData;
+    params.expectedLabel = "Comments";
+    params.expectedValue = expectedComments;
+    params.expectedOffset = Spc::commentsInfo.textOffset;
+    params.expectedSize = Spc::commentsInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::Comments;
+    TestGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, GetsExtendedCommentsProperly)
 {
-    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
-    auto extData = tag->ExtendedData();
-
-    auto extItemData = std::make_shared<Spc::TextField>(
-        "Test Comments ABCDEFGHIJKLMNOPQR Extended",
-        Spc::extendedTagOffset,
-        48);
-    auto item = std::make_shared<Spc::ID666ExtendedItem>();
-    item->id->SetValue(Spc::extendedCommentsID);
-    item->type->SetValue(Spc::extendedTypeString);
-    item->data = std::make_shared<Spc::NumericField>("Data", 0, 48);
-    item->extendedData = extItemData;
-    extData->comments = item;
-
-    Spc::TextField tagComments = tag->Comments();
-
-    EXPECT_EQ("Comments", tagComments.Label());
-    EXPECT_EQ(Spc::extendedTagOffset, tagComments.Offset());
-    EXPECT_EQ(48, tagComments.Size());
-    EXPECT_EQ(extItemData->Value(), tagComments.Value());
+    tag->ExtendedData()->comments = std::make_shared<Spc::ID666ExtendedItem>();
+    TestGetWithExtendedItemParameters<Spc::TextField> params;
+    params.expectedLabel = "Comments";
+    params.expectedValue = expectedComments;
+    params.expectedSize = expectedComments.size();
+    params.extendedID = Spc::extendedCommentsID;
+    params.extendedType = Spc::extendedTypeString;
+    params.extendedValue = expectedComments;
+    params.item = tag->ExtendedData()->comments;
+    params.getMethodPtr = &Spc::ID666Tag::Comments;
+    TestGetWithExtendedItem<Spc::TextField, Spc::TextField>(params);
 }
-
-// --- DateDumped tests ---
 
 TEST_F(ID666TagTests, GetsTextDateDumpedProperly)
 {
-    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
-    Spc::DateField dateDumped = tag->DateDumped();
-
-    EXPECT_EQ("Date Dumped", dateDumped.Label());
-    EXPECT_EQ(Spc::dateDumpedInfo.textOffset, dateDumped.Offset());
-    EXPECT_EQ(Spc::dateDumpedInfo.textSize, dateDumped.Size());
-    EXPECT_EQ("01/23/2025", dateDumped.Value());
+    TestGetParameters<Spc::DateField> params;
+    params.testData = textData;
+    params.expectedLabel = "Date Dumped";
+    params.expectedValue = expectedDateDumped;
+    params.expectedOffset = Spc::dateDumpedInfo.textOffset;
+    params.expectedSize = Spc::dateDumpedInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::DateDumped;
+    TestGet<Spc::DateField>(params);
 }
 
 TEST_F(ID666TagTests, GetsBinaryDateDumpedProperly)
 {
-    std::memcpy(tag->Data()->Data(), binaryData, Spc::id666TagSize);
-    Spc::DateField dateDumped = tag->DateDumped();
-
-    EXPECT_EQ("Date Dumped", dateDumped.Label());
-    EXPECT_EQ(Spc::dateDumpedInfo.binaryOffset, dateDumped.Offset());
-    EXPECT_EQ(Spc::dateDumpedInfo.binarySize, dateDumped.Size());
-    EXPECT_EQ("06/01/2024", dateDumped.Value());
+    TestGetParameters<Spc::DateField> params;
+    params.testData = binaryData;
+    params.expectedLabel = "Date Dumped";
+    params.expectedValue = expectedDateDumped;
+    params.expectedOffset = Spc::dateDumpedInfo.binaryOffset;
+    params.expectedSize = Spc::dateDumpedInfo.binarySize;
+    params.getMethodPtr = &Spc::ID666Tag::DateDumped;
+    TestGet<Spc::DateField>(params);
 }
 
 TEST_F(ID666TagTests, GetsMixedDateDumpedProperly)
 {
-    std::memcpy(tag->Data()->Data(), mixedData, Spc::id666TagSize);
-    Spc::DateField dateDumped = tag->DateDumped();
-
-    EXPECT_EQ("Date Dumped", dateDumped.Label());
-    EXPECT_EQ(Spc::dateDumpedInfo.textOffset, dateDumped.Offset());
-    EXPECT_EQ(Spc::dateDumpedInfo.textSize, dateDumped.Size());
-    EXPECT_EQ("01/23/2025", dateDumped.Value());
+    TestGetParameters<Spc::DateField> params;
+    params.testData = mixedData;
+    params.expectedLabel = "Date Dumped";
+    params.expectedValue = expectedDateDumped;
+    params.expectedOffset = Spc::dateDumpedInfo.textOffset;
+    params.expectedSize = Spc::dateDumpedInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::DateDumped;
+    TestGet<Spc::DateField>(params);
 }
 
 TEST_F(ID666TagTests, GetsExtendedDateDumpedProperly)
 {
-    std::memcpy(tag->Data()->Data(), textData, Spc::id666TagSize);
-    auto extData = tag->ExtendedData();
+    tag->ExtendedData()->dateDumped = 
+        std::make_shared<Spc::ID666ExtendedItem>();
+    
+    TestGetWithExtendedItemParameters<Spc::DateField> params;
+    params.expectedLabel = "Date Dumped";
+    params.expectedValue = expectedDateDumped;
+    params.expectedSize = Spc::dateDumpedInfo.binarySize;
+    params.extendedID = Spc::extendedDateDumpedID;
+    params.extendedType = Spc::extendedTypeInteger;
 
-    auto extItemData = std::make_shared<Spc::DateField>(
-        "01/23/2025",
-        Spc::extendedTagOffset,
-        12);
-    auto item = std::make_shared<Spc::ID666ExtendedItem>();
-    item->id->SetValue(Spc::extendedDateDumpedID);
-    item->type->SetValue(Spc::extendedTypeString);
-    item->data = std::make_shared<Spc::NumericField>("Data", 0, 12);
-    item->extendedData = extItemData;
-    extData->dateDumped = item;
+    // The decimal representation of the binary format date.
+    params.extendedValue = "131072518"; 
 
-    Spc::DateField dateDumped = tag->DateDumped();
+    params.item = tag->ExtendedData()->dateDumped;
+    params.getMethodPtr = &Spc::ID666Tag::DateDumped;
+    TestGetWithExtendedItem<Spc::DateField, Spc::NumericField>(params);
+}
 
-    EXPECT_EQ("Date Dumped", dateDumped.Label());
-    EXPECT_EQ(Spc::extendedTagOffset, dateDumped.Offset());
-    EXPECT_EQ(12, dateDumped.Size());
-    EXPECT_EQ(extItemData->Value(), dateDumped.Value());
+TEST_F(ID666TagTests, GetsTextSongLengthProperly)
+{
+    TestGetParameters<Spc::NumericField> params;
+    params.testData = textData;
+    params.expectedLabel = "Song Length (seconds)";
+    params.expectedValue = "123";
+    params.expectedOffset = Spc::songLengthInfo.textOffset;
+    params.expectedSize = Spc::songLengthInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::SongLength;
+    TestGet<Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, GetsBinarySongLengthProperly)
+{
+    TestGetParameters<Spc::NumericField> params;
+    params.testData = binaryData;
+    params.expectedLabel = "Song Length (seconds)";
+    params.expectedValue = "43";
+    params.expectedOffset = Spc::songLengthInfo.binaryOffset;
+    params.expectedSize = Spc::songLengthInfo.binarySize;
+    params.getMethodPtr = &Spc::ID666Tag::SongLength;
+    TestGet<Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, GetsMixedSongLengthProperly)
+{
+    TestGetParameters<Spc::NumericField> params;
+    params.testData = mixedData;
+    params.expectedLabel = "Song Length (seconds)";
+    params.expectedValue = "123";
+    params.expectedOffset = Spc::songLengthInfo.textOffset;
+    params.expectedSize = Spc::songLengthInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::SongLength;
+    TestGet<Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, GetTextFadeLengthProperly)
+{
+    TestGetParameters<Spc::NumericField> params;
+    params.testData = textData;
+    params.expectedLabel = "Fade Length (ms)";
+    params.expectedValue = "05000";
+    params.expectedOffset = Spc::fadeLengthInfo.textOffset;
+    params.expectedSize = Spc::fadeLengthInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::FadeLength;
+    TestGet<Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, GetsBinaryFadeLengthProperly)
+{
+    TestGetParameters<Spc::NumericField> params;
+    params.testData = binaryData;
+    params.expectedLabel = "Fade Length (ms)";
+    params.expectedValue = "5000";
+    params.expectedOffset = Spc::fadeLengthInfo.binaryOffset;
+    params.expectedSize = Spc::fadeLengthInfo.binarySize;
+    params.getMethodPtr = &Spc::ID666Tag::FadeLength;
+    TestGet<Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, GetsMixedFadeLengthProperly)
+{
+    TestGetParameters<Spc::NumericField> params;
+    params.testData = mixedData;
+    params.expectedLabel = "Fade Length (ms)";
+    params.expectedValue = "50000";
+    params.expectedOffset = Spc::fadeLengthInfo.textOffset;
+    params.expectedSize = Spc::fadeLengthInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::FadeLength;
+    TestGet<Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, GetsTextArtistProperly)
+{
+    TestGetParameters<Spc::TextField> params;
+    params.testData = textData;
+    params.expectedLabel = "Song Artist";
+    params.expectedValue = expectedSongArtist;
+    params.expectedOffset = Spc::songArtistInfo.textOffset;
+    params.expectedSize = Spc::songArtistInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::SongArtist;
+    TestGet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, GetsBinaryArtistProperly)
+{
+    TestGetParameters<Spc::TextField> params;
+    params.testData = binaryData;
+    params.expectedLabel = "Song Artist";
+    params.expectedValue = expectedSongArtist;
+    params.expectedOffset = Spc::songArtistInfo.binaryOffset;
+    params.expectedSize = Spc::songArtistInfo.binarySize;
+    params.getMethodPtr = &Spc::ID666Tag::SongArtist;
+    TestGet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, GetsMixedArtistProperly)
+{
+    TestGetParameters<Spc::TextField> params;
+    params.testData = mixedData;
+    params.expectedLabel = "Song Artist";
+    params.expectedValue = expectedSongArtist;
+    params.expectedOffset = Spc::songArtistInfo.textOffset;
+    params.expectedSize = Spc::songArtistInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::SongArtist;
+    TestGet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, GetsExtendedArtistProperly)
+{
+    tag->ExtendedData()->artistName = 
+        std::make_shared<Spc::ID666ExtendedItem>();
+    TestGetWithExtendedItemParameters<Spc::TextField> params;
+    params.expectedLabel = "Song Artist";
+    params.expectedValue = expectedSongArtist;
+    params.expectedSize = expectedSongArtist.size();
+    params.extendedID = Spc::extendedArtistNameID;
+    params.extendedType = Spc::extendedTypeString;
+    params.extendedValue = expectedSongArtist;
+    params.item = tag->ExtendedData()->artistName;
+    params.getMethodPtr = &Spc::ID666Tag::SongArtist;
+    TestGetWithExtendedItem<Spc::TextField, Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, GetsTextDefaultChannelStateProperly)
+{
+    TestGetParameters<Spc::NumericField> params;
+    params.testData = textData;
+    params.expectedLabel = "Default Channel State";
+    params.expectedValue = "0";
+    params.expectedOffset = Spc::defaultChannelStateInfo.textOffset;
+    params.expectedSize = Spc::defaultChannelStateInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::DefaultChannelState;
+    TestGet<Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, GetsBinaryDefaultChannelStateProperly)
+{
+    TestGetParameters<Spc::NumericField> params;
+    params.testData = binaryData;
+    params.expectedLabel = "Default Channel State";
+    params.expectedValue = "0";
+    params.expectedOffset = Spc::defaultChannelStateInfo.binaryOffset;
+    params.expectedSize = Spc::defaultChannelStateInfo.binarySize;
+    params.getMethodPtr = &Spc::ID666Tag::DefaultChannelState;
+    TestGet<Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, GetsMixedDefaultChannelStateProperly)
+{
+    TestGetParameters<Spc::NumericField> params;
+    params.testData = mixedData;
+    params.expectedLabel = "Default Channel State";
+    params.expectedValue = "0";
+    params.expectedOffset = Spc::defaultChannelStateInfo.textOffset;
+    params.expectedSize = Spc::defaultChannelStateInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::DefaultChannelState;
+    TestGet<Spc::NumericField>(params);
 }

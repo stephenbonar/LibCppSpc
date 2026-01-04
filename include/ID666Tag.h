@@ -36,9 +36,9 @@ namespace Spc
     public:
         ID666Tag();
 
-        std::shared_ptr<Binary::BufferStream> Data() const
+        std::shared_ptr<Binary::BufferStream> FieldData() const
         {
-            return data;
+            return fieldData;
         }
 
         std::shared_ptr<ID666ExtendedData> ExtendedData() const
@@ -46,7 +46,7 @@ namespace Spc
             return extendedData;
         }
 
-        TagType Type() const;
+        TagType DetermineType() const;
 
         TextField SongTitle() const;
 
@@ -133,26 +133,27 @@ namespace Spc
         void SetPreampLevel(std::string value);
 
     private:
-        std::shared_ptr<Binary::BufferStream> data;
+        std::shared_ptr<Binary::BufferStream> fieldData;
         std::shared_ptr<ID666ExtendedData> extendedData;
 
         template<typename T>
-        T ReadField(std::string label, FieldInfo info, ID666ExtendedItem* item) 
-            const
+        std::shared_ptr<T> ReadField(
+            std::string label, 
+            FieldInfo info, 
+            ID666ExtendedItem* item) const
+        {
+            if (item != nullptr)
+                return ReadField<T>(label, item);
+            else
+                return ReadField<T>(label, info);
+        }
+
+        template<typename T>
+        std::shared_ptr<T> ReadField(std::string label, FieldInfo info) const
         {
             std::shared_ptr<T> field;
 
-            if (item != nullptr)
-            {
-                if (item->type->Value() == extendedTypeDataInHeader)
-                    field = std::static_pointer_cast<T>(item->data);
-                else
-                    field = std::static_pointer_cast<T>(item->extendedData);
-
-                field->SetLabel(label);
-                return *field;
-            }
-            else if (TagType() == TagType::Binary)
+            if (DetermineType() == TagType::Binary)
             {
                 field = std::make_shared<T>(label, 
                                             info.binaryOffset, 
@@ -165,25 +166,30 @@ namespace Spc
                                             info.textSize);
             }
 
-            size_t originalPosition = data->Position();
-            data->SetPosition(field->Offset() - id666TagOffset);
-            data->Read(field.get());
-            data->SetPosition(originalPosition);
-            return *field;
+            size_t originalPosition = fieldData->Position();
+            fieldData->SetPosition(field->Offset() - id666TagOffset);
+            fieldData->Read(field.get());
+            fieldData->SetPosition(originalPosition);
+            return field;
         }
 
         template<typename T>
-        T ReadField(std::string label, FieldInfo info) const
+        std::shared_ptr<T> ReadField(std::string label, ID666ExtendedItem* item)
+            const
         {
-            T value{ "Test", 0, 4 };
-            return value;
-        }
+            std::shared_ptr<T> field;
 
-        template<typename T>
-        T ReadField(std::string label, ID666ExtendedItem* item) const
-        {
-            T value{ "Test", 0, 4 };
-            return value;
+            if (item != nullptr)
+            {
+                if (item->type->Value() == extendedTypeDataInHeader)
+                    field = std::static_pointer_cast<T>(item->data);
+                else
+                    field = std::static_pointer_cast<T>(item->extendedData);
+
+                field->SetLabel(label);
+            }
+
+            return field;
         }
 
         template<typename T>

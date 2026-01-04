@@ -79,8 +79,9 @@ std::string DateField::Value() const
     year.Data()[1] = data[3];
 
     std::stringstream stream;
-    stream << month.ToString() << '/' << day.ToString() << '/' 
-           << year.ToString();
+    stream << std::setw(2) << std::setfill('0') << month.ToString() << '/'
+           << std::setw(2) << std::setfill('0') << day.ToString() << '/'
+           << std::setw(4) << std::setfill('0') << year.ToString();
     return stream.str();
 }
 

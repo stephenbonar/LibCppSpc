@@ -35,13 +35,13 @@ public:
     MOCK_METHOD(void, Close, (), (override));
 
     // Stream methods (from Binary::Stream)
-    MOCK_METHOD(void, Read, (Binary::DataField* field), (override));
-    MOCK_METHOD(void, Read, (Binary::DataStructure* structure), (override));
-    MOCK_METHOD(std::shared_ptr<Binary::ChunkHeader>, FindNextChunk, (std::string ID), (override));
+    MOCK_METHOD(void, Read, (Binary::DataField* field), (const, override));
+    MOCK_METHOD(void, Read, (Binary::DataStructure* structure), (const, override));
+    MOCK_METHOD(std::shared_ptr<Binary::ChunkHeader>, FindNextChunk, (std::string ID), (const override));
     MOCK_METHOD(void, Write, (Binary::DataField* field), (override));
     MOCK_METHOD(void, Write, (Binary::DataStructure* structure), (override));
     MOCK_METHOD(uintmax_t, Position, (), (const, override));
-    MOCK_METHOD(void, SetPosition, (uintmax_t position), (override));
+    MOCK_METHOD(void, SetPosition, (uintmax_t position), (const, override));
     MOCK_METHOD(uintmax_t, Beginning, (), (const, override));
     MOCK_METHOD(uintmax_t, End, (), (const, override));
 };
