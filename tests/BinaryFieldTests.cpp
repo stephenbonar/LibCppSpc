@@ -47,3 +47,10 @@ TEST_F(BinaryFieldTests, SetValueSetsCorrectValue)
     binaryField.SetValue("00001111");
     EXPECT_EQ(binaryField.Value(), 15);
 }
+
+TEST_F(BinaryFieldTests, SetValueReturnsCorrectValueForMorethan1Byte)
+{
+    Spc::BinaryField binaryField("Test Binary Field", 0x00, 2);
+    binaryField.SetValue("00001111");
+    EXPECT_EQ(binaryField.ToString(), "00001111 00000000");
+}

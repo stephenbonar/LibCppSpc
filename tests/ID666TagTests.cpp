@@ -546,3 +546,251 @@ TEST_F(ID666TagTests, GetsMixedDefaultChannelStateProperly)
     params.getMethodPtr = &Spc::ID666Tag::DefaultChannelState;
     TestGet<Spc::NumericField>(params);
 }
+
+TEST_F(ID666TagTests, GetsTextEmulatorUsedProperly)
+{
+    TestGetParameters<Spc::EmulatorField> params;
+    params.testData = textData;
+    params.expectedLabel = "Emulator Used";
+    params.expectedValue = "SNES9X";
+    params.expectedOffset = Spc::emulatorUsedInfo.textOffset;
+    params.expectedSize = Spc::emulatorUsedInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::EmulatorUsed;
+    TestGet<Spc::EmulatorField>(params);
+}
+
+TEST_F(ID666TagTests, GetsBinaryEmulatorUsedProperly)
+{
+    TestGetParameters<Spc::EmulatorField> params;
+    params.testData = binaryData;
+    params.expectedLabel = "Emulator Used";
+    params.expectedValue = "SNES9X";
+    params.expectedOffset = Spc::emulatorUsedInfo.binaryOffset;
+    params.expectedSize = Spc::emulatorUsedInfo.binarySize;
+    params.getMethodPtr = &Spc::ID666Tag::EmulatorUsed;
+    TestGet<Spc::EmulatorField>(params);
+}
+
+TEST_F(ID666TagTests, GetsMixedEmulatorUsedProperly)
+{
+    TestGetParameters<Spc::EmulatorField> params;
+    params.testData = mixedData;
+    params.expectedLabel = "Emulator Used";
+    params.expectedValue = "SNES9X";
+    params.expectedOffset = Spc::emulatorUsedInfo.textOffset;
+    params.expectedSize = Spc::emulatorUsedInfo.textSize;
+    params.getMethodPtr = &Spc::ID666Tag::EmulatorUsed;
+    TestGet<Spc::EmulatorField>(params);
+}
+
+TEST_F(ID666TagTests, GetsExtendedEmulatorUsedProperly)
+{
+    tag->ExtendedData()->emulatorUsed = 
+        std::make_shared<Spc::ID666ExtendedItem>();
+    TestGetWithExtendedItemParameters<Spc::EmulatorField> params;
+    params.expectedLabel = "Emulator Used";
+    params.expectedValue = "SNES9X";
+    params.expectedSize = Spc::emulatorUsedInfo.binarySize;
+    params.extendedID = Spc::extendedEmulatorUsedID;
+    params.extendedType = Spc::extendedTypeDataInHeader;
+    params.extendedValue = "2";
+    params.item = tag->ExtendedData()->emulatorUsed;
+    params.getMethodPtr = &Spc::ID666Tag::EmulatorUsed;
+    TestGetWithExtendedItem<Spc::EmulatorField, Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, GetsOstTitleProperly)
+{
+    tag->ExtendedData()->ostTitle = 
+        std::make_shared<Spc::ID666ExtendedItem>();
+    std::string expectedOstTitle = "Test Album Title ABCDEFGHIJ";
+    TestGetWithExtendedItemParameters<Spc::TextField> params;
+    params.expectedLabel = "OST Title";
+    params.expectedValue = expectedOstTitle;
+    params.expectedSize = expectedOstTitle.size();
+    params.extendedID = Spc::extendedOSTTitleID;
+    params.extendedType = Spc::extendedTypeString;
+    params.extendedValue = expectedOstTitle;
+    params.item = tag->ExtendedData()->ostTitle;
+    params.getMethodPtr = &Spc::ID666Tag::OstTitle;
+    TestGetWithExtendedItem<Spc::TextField, Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, GetsOstDiscProperly)
+{
+    tag->ExtendedData()->ostDisc = 
+        std::make_shared<Spc::ID666ExtendedItem>();
+
+    // We need to explicity set the data type to binary or it will be
+    // interpreted as text by default.
+    std::shared_ptr<Spc::ID666ExtendedItem> ostDisc = 
+        tag->ExtendedData()->ostDisc;
+    auto ostDiscData = std::static_pointer_cast<Spc::NumericField>(
+        ostDisc->data);
+    ostDiscData->SetType(Spc::NumericType::Binary);
+
+    TestGetWithExtendedItemParameters<Spc::NumericField> params;
+    params.expectedLabel = "OST Disc";
+    params.expectedValue = "1";
+    params.expectedSize = 2;
+    params.extendedID = Spc::extendedOSTDiscID;
+    params.extendedType = Spc::extendedTypeDataInHeader;
+    params.extendedValue = "1";
+    params.item = tag->ExtendedData()->ostDisc;
+    params.getMethodPtr = &Spc::ID666Tag::OstDisc;
+    TestGetWithExtendedItem<Spc::NumericField, Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, GetsOstTrackProperly)
+{
+    tag->ExtendedData()->ostTrack = 
+        std::make_shared<Spc::ID666ExtendedItem>();
+    TestGetWithExtendedItemParameters<Spc::TrackField> params;
+    params.expectedLabel = "OST Track";
+    params.expectedValue = "5b";
+    params.expectedSize = 2;
+    params.extendedID = Spc::extendedOSTTrackID;
+    params.extendedType = Spc::extendedTypeDataInHeader;
+    params.extendedValue = "5b";
+    params.item = tag->ExtendedData()->ostTrack;
+    params.getMethodPtr = &Spc::ID666Tag::OstTrack;
+    TestGetWithExtendedItem<Spc::TrackField, Spc::TrackField>(params);
+}
+
+TEST_F(ID666TagTests, GetsPublisherNameProperly)
+{
+    tag->ExtendedData()->publisherName = 
+        std::make_shared<Spc::ID666ExtendedItem>();
+    std::string expectedPublisherName = "Test Publisher Name 123456";
+    TestGetWithExtendedItemParameters<Spc::TextField> params;
+    params.expectedLabel = "Publisher Name";
+    params.expectedValue = expectedPublisherName;
+    params.expectedSize = expectedPublisherName.size();
+    params.extendedID = Spc::extendedPublisherNameID;
+    params.extendedType = Spc::extendedTypeString;
+    params.extendedValue = expectedPublisherName;
+    params.item = tag->ExtendedData()->publisherName;
+    params.getMethodPtr = &Spc::ID666Tag::PublisherName;
+    TestGetWithExtendedItem<Spc::TextField, Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, GetsCopyrightYearProperly)
+{
+    tag->ExtendedData()->copyrightYear = 
+        std::make_shared<Spc::ID666ExtendedItem>();
+
+    // We need to explicity set the data type to binary or it will be
+    // interpreted as text by default.
+    std::shared_ptr<Spc::ID666ExtendedItem> copyrightYear = 
+        tag->ExtendedData()->copyrightYear;
+    auto copyrightYearData = std::static_pointer_cast<Spc::NumericField>(
+        copyrightYear->data);
+    copyrightYearData->SetType(Spc::NumericType::Binary);
+
+    TestGetWithExtendedItemParameters<Spc::NumericField> params;
+    params.expectedLabel = "Copyright Year";
+    params.expectedValue = "1995";
+    params.expectedSize = 2;
+    params.extendedID = Spc::extendedCopyrightYearID;
+    params.extendedType = Spc::extendedTypeDataInHeader;
+    params.extendedValue = "1995";
+    params.item = tag->ExtendedData()->copyrightYear;
+    params.getMethodPtr = &Spc::ID666Tag::CopyrightYear;
+    TestGetWithExtendedItem<Spc::NumericField, Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, GetsIntroLengthProperly)
+{
+    tag->ExtendedData()->introLength = 
+        std::make_shared<Spc::ID666ExtendedItem>();
+    TestGetWithExtendedItemParameters<Spc::NumericField> params;
+    params.expectedLabel = "Intro Length (ticks)";
+    params.expectedValue = "15000";
+    params.expectedSize = 4;
+    params.extendedID = Spc::extendedIntroLengthID;
+    params.extendedType = Spc::extendedTypeInteger;
+    params.extendedValue = "15000";
+    params.item = tag->ExtendedData()->introLength;
+    params.getMethodPtr = &Spc::ID666Tag::IntroLength;
+    TestGetWithExtendedItem<Spc::NumericField, Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, GetsLoopLengthProperly)
+{
+    tag->ExtendedData()->loopLength = 
+        std::make_shared<Spc::ID666ExtendedItem>();
+    TestGetWithExtendedItemParameters<Spc::NumericField> params;
+    params.expectedLabel = "Loop Length (ticks)";
+    params.expectedValue = "30000";
+    params.expectedSize = 4;
+    params.extendedID = Spc::extendedLoopLengthID;
+    params.extendedType = Spc::extendedTypeInteger;
+    params.extendedValue = "30000";
+    params.item = tag->ExtendedData()->loopLength;
+    params.getMethodPtr = &Spc::ID666Tag::LoopLength;
+    TestGetWithExtendedItem<Spc::NumericField, Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, GetsEndLengthProperly)
+{
+    tag->ExtendedData()->endLength = 
+        std::make_shared<Spc::ID666ExtendedItem>();
+    TestGetWithExtendedItemParameters<Spc::NumericField> params;
+    params.expectedLabel = "End Length (ticks)";
+    params.expectedValue = "20000";
+    params.expectedSize = 4;
+    params.extendedID = Spc::extendedEndLengthID;
+    params.extendedType = Spc::extendedTypeInteger;
+    params.extendedValue = "20000";
+    params.item = tag->ExtendedData()->endLength;
+    params.getMethodPtr = &Spc::ID666Tag::EndLength;
+    TestGetWithExtendedItem<Spc::NumericField, Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, GetsMutedVoicesProperly)
+{
+    tag->ExtendedData()->mutedVoices = 
+        std::make_shared<Spc::ID666ExtendedItem>();
+    TestGetWithExtendedItemParameters<Spc::BinaryField> params;
+    params.expectedLabel = "Muted Voices";
+    params.expectedValue = "00001111";
+    params.expectedSize = 1;
+    params.extendedID = Spc::extendedMutedVoicesID;
+    params.extendedType = Spc::extendedTypeDataInHeader;
+    params.extendedValue = "00001111";
+    params.item = tag->ExtendedData()->mutedVoices;
+    params.getMethodPtr = &Spc::ID666Tag::MutedVoices;
+    TestGetWithExtendedItem<Spc::BinaryField, Spc::BinaryField>(params);
+}
+
+TEST_F(ID666TagTests, GetLoopTimes)
+{
+    tag->ExtendedData()->loopTimes = 
+        std::make_shared<Spc::ID666ExtendedItem>();
+    TestGetWithExtendedItemParameters<Spc::NumericField> params;
+    params.expectedLabel = "Loop Times";
+    params.expectedValue = "5";
+    params.expectedSize = 2;
+    params.extendedID = Spc::extendedLoopTimesID;
+    params.extendedType = Spc::extendedTypeDataInHeader;
+    params.extendedValue = "5";
+    params.item = tag->ExtendedData()->loopTimes;
+    params.getMethodPtr = &Spc::ID666Tag::LoopTimes;
+    TestGetWithExtendedItem<Spc::NumericField, Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, GetPreampLevel)
+{
+    tag->ExtendedData()->preampLevel = 
+        std::make_shared<Spc::ID666ExtendedItem>();
+    TestGetWithExtendedItemParameters<Spc::NumericField> params;
+    params.expectedLabel = "Preamp Level";
+    params.expectedValue = "65536";
+    params.expectedSize = 4;
+    params.extendedID = Spc::extendedPreampLevelID;
+    params.extendedType = Spc::extendedTypeInteger;
+    params.extendedValue = "65536";
+    params.item = tag->ExtendedData()->preampLevel;
+    params.getMethodPtr = &Spc::ID666Tag::PreampLevel;
+    TestGetWithExtendedItem<Spc::NumericField, Spc::NumericField>(params);
+}

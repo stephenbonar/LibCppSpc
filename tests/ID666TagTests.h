@@ -81,17 +81,18 @@ protected:
             params.item->id->SetValue(params.extendedID);
             params.item->type->SetValue(params.extendedType);
         
-            auto itemData = std::static_pointer_cast<Spc::NumericField>(
+            auto itemData = std::static_pointer_cast<U>(
                 params.item->data);
+
             itemData->SetLabel(params.expectedLabel);
             itemData->SetValue(params.extendedValue);
 
             TestGetParameters<T> getParams;
             getParams.testData = textData;
             getParams.expectedLabel = params.expectedLabel;
-            getParams.expectedValue = itemData->ToString();
+            getParams.expectedValue = params.expectedValue;
             getParams.expectedOffset = offset;
-            getParams.expectedSize = size;
+            getParams.expectedSize = params.expectedSize;
             getParams.getMethodPtr = params.getMethodPtr;
             TestGet<T>(getParams);
         }
@@ -109,6 +110,16 @@ protected:
             auto itemExtData = std::make_shared<U>(params.expectedLabel, 
                                                    offset, 
                                                    size);
+
+            // We need to ensure the data type is correct for integer types.
+            if (params.extendedType == Spc::extendedTypeInteger)
+            {
+                auto numericExtData = 
+                    std::reinterpret_pointer_cast<Spc::NumericField>(
+                        itemExtData);
+                numericExtData->SetType(Spc::NumericType::Binary);
+            }
+
             itemExtData->SetValue(params.extendedValue);
             params.item->id->SetValue(params.extendedID);
             params.item->type->SetValue(params.extendedType);
@@ -121,7 +132,7 @@ protected:
             TestGetParameters<T> getParams;
             getParams.testData = textData;
             getParams.expectedLabel = params.expectedLabel;
-            getParams.expectedValue = itemExtData->ToString();
+            getParams.expectedValue = params.expectedValue;
             getParams.expectedOffset = offset;
             getParams.expectedSize = params.expectedSize;
             getParams.getMethodPtr = params.getMethodPtr;

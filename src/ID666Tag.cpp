@@ -195,62 +195,119 @@ NumericField ID666Tag::DefaultChannelState() const
 
 EmulatorField ID666Tag::EmulatorUsed() const
 {
-    return EmulatorField{ "Emulator Used", 0xFB, 2 };
+    // Emulator used is stored as an 16-bit integer in the extended area, so
+    // we need to read it differently from the standard emulator used field.
+    std::shared_ptr<NumericField> emulatorUsedInt = ReadField<NumericField>(
+        "Emulator Used", extendedData->emulatorUsed.get());
+
+    if (emulatorUsedInt != nullptr)
+    {
+        // Since emulator used was found in the extended area, convert it to
+        // a standard EmulatorField to return.
+        EmulatorField emulatorUsed
+        { 
+            "Emulator Used", 
+            Spc::extendedTagOffset, 
+            Spc::emulatorUsedInfo.binarySize 
+        };
+        std::memcpy(emulatorUsed.RawData(), 
+                    emulatorUsedInt->RawData(), 
+                    emulatorUsed.Size());
+        return emulatorUsed;
+    }
+    else
+    {
+        return *ReadField<EmulatorField>("Emulator Used", 
+                                         Spc::emulatorUsedInfo);
+    }
 }
 
 TextField ID666Tag::OstTitle() const 
 {
-    return TextField{ "OST Title", 0xFD, 32 };
+    return *ReadField<TextField>("OST Title", 
+                                 extendedData->ostTitle.get());
 }
 
 NumericField ID666Tag::OstDisc() const
 {
-    return NumericField{ "OST Disc", 0x11D, 2 };
+    return *ReadField<NumericField>("OST Disc", 
+                                    extendedData->ostDisc.get());
 }
 
 TrackField ID666Tag::OstTrack() const
 {
-    return TrackField{ "OST Track", 0x11F, 3 };
+    return *ReadField<TrackField>("OST Track", 
+                                  extendedData->ostTrack.get());
 }
 
 TextField ID666Tag::PublisherName() const 
 {
-    return TextField{ "Publisher Name", 0x122, 32 };
+    return *ReadField<TextField>("Publisher Name", 
+                                 extendedData->publisherName.get());
 }
 
 NumericField ID666Tag::CopyrightYear() const
 {
-    return NumericField{ "Copyright Year", 0x142, 4 };
+    return *ReadField<NumericField>("Copyright Year", 
+                                    extendedData->copyrightYear.get());
 }
 
 NumericField ID666Tag::IntroLength() const 
 {
-    return NumericField{ "Intro Length", 0x146, 4 };
+    return *ReadField<NumericField>("Intro Length (ticks)", 
+                                    extendedData->introLength.get());
 }
 
 NumericField ID666Tag::LoopLength() const 
 {
-    return NumericField{ "Loop Length", 0x14A, 4 };
+    return *ReadField<NumericField>("Loop Length (ticks)", 
+                                    extendedData->loopLength.get());
 }
 
 NumericField ID666Tag::EndLength() const 
 {
-    return NumericField{ "End Length", 0x14E, 4 };
+    return *ReadField<NumericField>("End Length (ticks)", 
+                                    extendedData->endLength.get());
 }
 
 BinaryField ID666Tag::MutedVoices() const 
 {
-    return BinaryField{ "Muted Voices", 0x152, 2 };
+    // Muted voices is stored as an 16-bit integer in the extended area, so
+    // we need to read it differently from the standard BinaryField field.
+    std::shared_ptr<NumericField> mutedVoicesInt = ReadField<NumericField>(
+        "Muted Voices", extendedData->mutedVoices.get());
+
+    if (mutedVoicesInt != nullptr)
+    {
+        // Since muted voices was found in the extended area, convert it to
+        // a standard BinaryField to return.
+        BinaryField mutedVoices
+        { 
+            "Muted Voices", 
+            Spc::extendedTagOffset, 
+            1 
+        };
+        std::memcpy(mutedVoices.RawData(), 
+                    mutedVoicesInt->RawData(), 
+                    mutedVoices.Size());
+        return mutedVoices;
+    }
+    else
+    {
+        return BinaryField{ "Muted Voices (ERROR)", 0, 1 };
+    }
 }
 
 NumericField ID666Tag::LoopTimes() const 
 {
-    return NumericField{ "Loop Times", 0x154, 4 };
+    return *ReadField<NumericField>("Loop Times", 
+                                    extendedData->loopTimes.get());
 }
 
 NumericField ID666Tag::PreampLevel() const 
 {
-    return NumericField{ "Preamp Level", 0x158, 4 };
+    return *ReadField<NumericField>("Preamp Level", 
+                                    extendedData->preampLevel.get());
 }
 
 void ID666Tag::SetSongTitle(std::string value) {}
