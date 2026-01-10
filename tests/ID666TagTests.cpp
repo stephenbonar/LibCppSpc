@@ -749,18 +749,33 @@ TEST_F(ID666TagTests, GetsEndLengthProperly)
 
 TEST_F(ID666TagTests, GetsMutedVoicesProperly)
 {
-    tag->ExtendedData()->mutedVoices = 
-        std::make_shared<Spc::ID666ExtendedItem>();
+    auto item = std::make_shared<Spc::ID666ExtendedItem>();
+
+    // item->data is created as a Spc::NumericField by default. We have to
+    // set our test data as a numeric field even though it will be read in as
+    // a Spc::BinaryField.
+    auto itemData = std::static_pointer_cast<Spc::NumericField>(item->data);
+
+    // We need to explicity set the data type of our test item data to binary 
+    // or it will be interpreted as text by default when we set the expected
+    // value, which will attempt to set it as ASCII characters.
+    itemData->SetType(Spc::NumericType::Binary);
+
+    tag->ExtendedData()->mutedVoices = item;
     TestGetWithExtendedItemParameters<Spc::BinaryField> params;
     params.expectedLabel = "Muted Voices";
     params.expectedValue = "00001111";
     params.expectedSize = 1;
     params.extendedID = Spc::extendedMutedVoicesID;
     params.extendedType = Spc::extendedTypeDataInHeader;
-    params.extendedValue = "00001111";
-    params.item = tag->ExtendedData()->mutedVoices;
+
+    // 15 is 00001111 in binary.
+    params.extendedValue = "15";
+
+    params.item = item;
+
     params.getMethodPtr = &Spc::ID666Tag::MutedVoices;
-    TestGetWithExtendedItem<Spc::BinaryField, Spc::BinaryField>(params);
+    TestGetWithExtendedItem<Spc::BinaryField, Spc::NumericField>(params);
 }
 
 TEST_F(ID666TagTests, GetLoopTimes)
