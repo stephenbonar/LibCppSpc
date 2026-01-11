@@ -18,7 +18,7 @@
 #define BINARY_FIELD_TESTS_H
 
 #include <gtest/gtest.h>
-#include "BinaryField.h"
+#include "LibCppSpc.h"
 
 class BinaryFieldTests : public ::testing::Test
 {

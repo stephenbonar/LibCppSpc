@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "NumericField.h"
+#include "Spc/NumericField.h"
 
 using namespace Spc;
 

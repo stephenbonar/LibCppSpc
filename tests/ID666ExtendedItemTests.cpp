@@ -18,28 +18,28 @@
 
 void ID666ExtendedItemTests::SetUp() 
 {
-    item = std::make_unique<Spc::ID666ExtendedItem>();
+    item = std::make_unique<Spc::Id666::Extended::Item>();
 }
 
 TEST_F(ID666ExtendedItemTests, IdFieldIsInitializedProperly) 
 {
     EXPECT_EQ(item->id->Label(), "Item ID");
-    EXPECT_EQ(item->id->Offset(), Spc::extendedTagOffset);
-    EXPECT_EQ(item->id->Size(), Spc::extendedTagIDSize);
+    EXPECT_EQ(item->id->Offset(), Spc::Id666::Extended::dataOffset);
+    EXPECT_EQ(item->id->Size(), Spc::Id666::Extended::idSize);
 }
 
 TEST_F(ID666ExtendedItemTests, TypeFieldIsInitializedProperly)
 {
     EXPECT_EQ(item->type->Label(), "Item Type");
-    EXPECT_EQ(item->type->Offset(), Spc::extendedTagOffset);
-    EXPECT_EQ(item->type->Size(), Spc::extendedTagTypeSize);
+    EXPECT_EQ(item->type->Offset(), Spc::Id666::Extended::dataOffset);
+    EXPECT_EQ(item->type->Size(), Spc::Id666::Extended::typeSize);
 }
 
 TEST_F(ID666ExtendedItemTests, DataFieldIsInitializedProperly) 
 {
     EXPECT_EQ(item->data->Label(), "Item Data");
-    EXPECT_EQ(item->data->Offset(), Spc::extendedTagOffset);
-    EXPECT_EQ(item->data->Size(), Spc::extendedTagDataSize);
+    EXPECT_EQ(item->data->Offset(), Spc::Id666::Extended::dataOffset);
+    EXPECT_EQ(item->data->Size(), Spc::Id666::Extended::dataSize);
 }
 
 TEST_F(ID666ExtendedItemTests, SpcFieldsMethodReturnsAllFields)
@@ -54,8 +54,8 @@ TEST_F(ID666ExtendedItemTests, SpcFieldsMethodReturnsAllFields)
 
 TEST_F(ID666ExtendedItemTests, SpcFieldsMethodReturnsAdditionalFieldsIfNotNull)
 {
-    item->id->SetValue(Spc::extendedSongNameID);
-    item->type->SetValue(Spc::extendedTypeString);
+    item->id->SetValue(Spc::Id666::Extended::songTitleInfo.id);
+    item->type->SetValue(Spc::Id666::Extended::stringType);
 
     // Data is a pointer to the base class, so we need to cast it to 
     // NumericField since we know it is numeric when extended type is string.
@@ -67,7 +67,7 @@ TEST_F(ID666ExtendedItemTests, SpcFieldsMethodReturnsAdditionalFieldsIfNotNull)
 
     // Create the extended data field as a TextField since it should be string.
     auto extendedData = std::make_shared<Spc::TextField>(
-        "Extended Data", Spc::extendedTagOffset, 5);
+        "Extended Data", Spc::Id666::Extended::dataOffset, 5);
      
     extendedData->SetValue("Test ");
 
@@ -75,7 +75,7 @@ TEST_F(ID666ExtendedItemTests, SpcFieldsMethodReturnsAdditionalFieldsIfNotNull)
 
     // Create the padding field to align on a 4-byte boundary.
     item->padding = std::make_shared<Spc::TextField>(
-        "Padding", Spc::extendedTagOffset, 3);
+        "Padding", Spc::Id666::Extended::dataOffset, 3);
 
     std::vector<Spc::Field*> fields = item->SpcFields();
 

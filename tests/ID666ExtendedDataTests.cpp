@@ -17,13 +17,13 @@
 #include "ID666ExtendedDataTests.h"
 
 void ID666ExtendedDataTests::InitStringItem(
-    std::shared_ptr<Spc::ID666ExtendedItem>& item, 
+    std::shared_ptr<Spc::Id666::Extended::Item>& item, 
     std::string value)
 {
     // Create the song name item to ensure Size() is non-zero.
-    item = std::make_shared<Spc::ID666ExtendedItem>();
-    item->id->SetValue(Spc::extendedSongNameID);
-    item->type->SetValue(Spc::extendedTypeString);
+    item = std::make_shared<Spc::Id666::Extended::Item>();
+    item->id->SetValue(Spc::Id666::Extended::songTitleInfo.id);
+    item->type->SetValue(Spc::Id666::Extended::stringType);
 
     // Data is a pointer to the base class, so we need to cast it to 
     // NumericField since we know it is numeric when extended type is string.
@@ -59,73 +59,73 @@ void ID666ExtendedDataTests::InitStringItem(
 
 TEST_F(ID666ExtendedDataTests, HeaderReturnsCorrectId)
 {
-    Binary::ChunkHeader header = id666ExtendedData.Header();
+    Binary::ChunkHeader header = data.Header();
 
     EXPECT_EQ(header.id.Value(), "xid6");
 }
 
 TEST_F(ID666ExtendedDataTests, HeaderDataSizeMatchesTagSize)
 {
-    // Initalize song name properly to ensure Size() is non-zero.
-    InitStringItem(id666ExtendedData.songName, "TST ");
+    // Initalize song title properly to ensure Size() is non-zero.
+    InitStringItem(data.songTitle, "TST ");
 
-    Binary::ChunkHeader header = id666ExtendedData.Header();
+    Binary::ChunkHeader header = data.Header();
     
-    EXPECT_EQ(header.dataSize.Value(), id666ExtendedData.Size());
+    EXPECT_EQ(header.dataSize.Value(), data.Size());
 }
 
 TEST_F(ID666ExtendedDataTests, EnsureSpcFieldsReturnTagItemFieldsInCorrectOrder)
 {
     // Here we're not initalizing these realistically, just ensuring the fields
     // are returned in the correct order.
-    id666ExtendedData.songName = std::make_shared<Spc::ID666ExtendedItem>();
-    id666ExtendedData.gameName = std::make_shared<Spc::ID666ExtendedItem>();
-    id666ExtendedData.artistName = std::make_shared<Spc::ID666ExtendedItem>();
-    id666ExtendedData.dumperName = std::make_shared<Spc::ID666ExtendedItem>();
-    id666ExtendedData.dateDumped = std::make_shared<Spc::ID666ExtendedItem>();
-    id666ExtendedData.emulatorUsed = std::make_shared<Spc::ID666ExtendedItem>();
-    id666ExtendedData.comments = std::make_shared<Spc::ID666ExtendedItem>();
-    id666ExtendedData.ostTitle = std::make_shared<Spc::ID666ExtendedItem>();
-    id666ExtendedData.ostDisc = std::make_shared<Spc::ID666ExtendedItem>();
-    id666ExtendedData.ostTrack = std::make_shared<Spc::ID666ExtendedItem>();
-    id666ExtendedData.publisherName = std::make_shared<Spc::ID666ExtendedItem>();
-    id666ExtendedData.copyrightYear = std::make_shared<Spc::ID666ExtendedItem>();
-    id666ExtendedData.introLength = std::make_shared<Spc::ID666ExtendedItem>();
-    id666ExtendedData.loopLength = std::make_shared<Spc::ID666ExtendedItem>();
-    id666ExtendedData.endLength = std::make_shared<Spc::ID666ExtendedItem>();
-    id666ExtendedData.fadeLength = std::make_shared<Spc::ID666ExtendedItem>();
-    id666ExtendedData.mutedVoices = std::make_shared<Spc::ID666ExtendedItem>();
-    id666ExtendedData.loopTimes = std::make_shared<Spc::ID666ExtendedItem>();
-    id666ExtendedData.preampLevel = std::make_shared<Spc::ID666ExtendedItem>();
+    data.songTitle = std::make_shared<Spc::Id666::Extended::Item>();
+    data.gameTitle = std::make_shared<Spc::Id666::Extended::Item>();
+    data.songArtist = std::make_shared<Spc::Id666::Extended::Item>();
+    data.dumperName = std::make_shared<Spc::Id666::Extended::Item>();
+    data.dateDumped = std::make_shared<Spc::Id666::Extended::Item>();
+    data.emulatorUsed = std::make_shared<Spc::Id666::Extended::Item>();
+    data.comments = std::make_shared<Spc::Id666::Extended::Item>();
+    data.ostTitle = std::make_shared<Spc::Id666::Extended::Item>();
+    data.ostDisc = std::make_shared<Spc::Id666::Extended::Item>();
+    data.ostTrack = std::make_shared<Spc::Id666::Extended::Item>();
+    data.publisherName = std::make_shared<Spc::Id666::Extended::Item>();
+    data.copyrightYear = std::make_shared<Spc::Id666::Extended::Item>();
+    data.introLength = std::make_shared<Spc::Id666::Extended::Item>();
+    data.loopLength = std::make_shared<Spc::Id666::Extended::Item>();
+    data.endLength = std::make_shared<Spc::Id666::Extended::Item>();
+    data.fadeLength = std::make_shared<Spc::Id666::Extended::Item>();
+    data.mutedVoices = std::make_shared<Spc::Id666::Extended::Item>();
+    data.loopTimes = std::make_shared<Spc::Id666::Extended::Item>();
+    data.preampLevel = std::make_shared<Spc::Id666::Extended::Item>();
 
-    std::vector<Spc::Field*> fields = id666ExtendedData.SpcFields();
+    std::vector<Spc::Field*> fields = data.SpcFields();
 
     // Each ID666ExtendedItem has 3 fields: id, type, data by default. There will
     // be more for those that have extendedData and padding, but we're not
     // testing that here as all were initalized without them.
     ASSERT_EQ(fields.size(), 19 * 3);
 
-    std::vector<std::shared_ptr<Spc::ID666ExtendedItem>> items = 
+    std::vector<std::shared_ptr<Spc::Id666::Extended::Item>> items = 
     {
-        id666ExtendedData.songName,
-        id666ExtendedData.gameName,
-        id666ExtendedData.artistName,
-        id666ExtendedData.dumperName,
-        id666ExtendedData.dateDumped,
-        id666ExtendedData.emulatorUsed,
-        id666ExtendedData.comments,
-        id666ExtendedData.ostTitle,
-        id666ExtendedData.ostDisc,
-        id666ExtendedData.ostTrack,
-        id666ExtendedData.publisherName,
-        id666ExtendedData.copyrightYear,
-        id666ExtendedData.introLength,
-        id666ExtendedData.loopLength,
-        id666ExtendedData.endLength,
-        id666ExtendedData.fadeLength,
-        id666ExtendedData.mutedVoices,
-        id666ExtendedData.loopTimes,
-        id666ExtendedData.preampLevel
+        data.songTitle,
+        data.gameTitle,
+        data.songArtist,
+        data.dumperName,
+        data.dateDumped,
+        data.emulatorUsed,
+        data.comments,
+        data.ostTitle,
+        data.ostDisc,
+        data.ostTrack,
+        data.publisherName,
+        data.copyrightYear,
+        data.introLength,
+        data.loopLength,
+        data.endLength,
+        data.fadeLength,
+        data.mutedVoices,
+        data.loopTimes,
+        data.preampLevel
     };
 
     for (size_t i = 0; i < items.size(); ++i) 
@@ -138,19 +138,19 @@ TEST_F(ID666ExtendedDataTests, EnsureSpcFieldsReturnTagItemFieldsInCorrectOrder)
 
 TEST_F(ID666ExtendedDataTests, EnsureOnlyInitializedTagItemsFieldsAreReturned)
 {
-    InitStringItem(id666ExtendedData.songName, "TST ");
-    InitStringItem(id666ExtendedData.gameName, "TEST ");
+    InitStringItem(data.songTitle, "TST ");
+    InitStringItem(data.gameTitle, "TEST ");
 
-    std::vector<Spc::Field*> fields = id666ExtendedData.SpcFields();
+    std::vector<Spc::Field*> fields = data.SpcFields();
 
     ASSERT_EQ(fields.size(), 9);
-    EXPECT_EQ(fields[0], id666ExtendedData.songName->id.get());
-    EXPECT_EQ(fields[1], id666ExtendedData.songName->type.get());
-    EXPECT_EQ(fields[2], id666ExtendedData.songName->data.get());
-    EXPECT_EQ(fields[3], id666ExtendedData.songName->extendedData.get());
-    EXPECT_EQ(fields[4], id666ExtendedData.gameName->id.get());
-    EXPECT_EQ(fields[5], id666ExtendedData.gameName->type.get());
-    EXPECT_EQ(fields[6], id666ExtendedData.gameName->data.get());
-    EXPECT_EQ(fields[7], id666ExtendedData.gameName->extendedData.get());
-    EXPECT_EQ(fields[8], id666ExtendedData.gameName->padding.get());
+    EXPECT_EQ(fields[0], data.songTitle->id.get());
+    EXPECT_EQ(fields[1], data.songTitle->type.get());
+    EXPECT_EQ(fields[2], data.songTitle->data.get());
+    EXPECT_EQ(fields[3], data.songTitle->extendedData.get());
+    EXPECT_EQ(fields[4], data.gameTitle->id.get());
+    EXPECT_EQ(fields[5], data.gameTitle->type.get());
+    EXPECT_EQ(fields[6], data.gameTitle->data.get());
+    EXPECT_EQ(fields[7], data.gameTitle->extendedData.get());
+    EXPECT_EQ(fields[8], data.gameTitle->padding.get());
 }

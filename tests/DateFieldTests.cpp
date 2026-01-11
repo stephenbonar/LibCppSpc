@@ -15,8 +15,6 @@
 // limitations under the License.
 
 #include "DateFieldTests.h"
-#include "DateField.h"
-#include <stdexcept>
 
 TEST_F(DateFieldTests, IsTextReturnsTrueForValidTextRepresentation)
 {

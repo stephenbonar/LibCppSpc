@@ -14,10 +14,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SPC_TAG_TYPE_H
-#define SPC_TAG_TYPE_H
+#ifndef SPC_ID666_TAG_TYPE_H
+#define SPC_ID666_TAG_TYPE_H
 
-namespace Spc
+namespace Spc::Id666
 {
     /// @brief Represents the type of the ID666 tag.
     enum class TagType

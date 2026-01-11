@@ -14,11 +14,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "ID666ExtendedData.h"
+#include "Spc/Id666/Extended/Data.h"
 
 using namespace Spc;
+using namespace Spc::Id666::Extended;
 
-Binary::ChunkHeader ID666ExtendedData::Header() const
+Binary::ChunkHeader Data::Header() const
 {
     Binary::ChunkHeader header;
     header.id.SetValue("xid6");
@@ -26,14 +27,14 @@ Binary::ChunkHeader ID666ExtendedData::Header() const
     return header;
 }
 
-std::vector<Field*> ID666ExtendedData::SpcFields() const
+std::vector<Field*> Data::SpcFields() const
 {
     std::vector<Field*> nonNullFields;
-    std::vector<ID666ExtendedItem*> items;
+    std::vector<Item*> items;
 
-    items.push_back(songName.get());
-    items.push_back(gameName.get());
-    items.push_back(artistName.get());
+    items.push_back(songTitle.get());
+    items.push_back(gameTitle.get());
+    items.push_back(songArtist.get());
     items.push_back(dumperName.get());
     items.push_back(dateDumped.get());
     items.push_back(emulatorUsed.get());
@@ -51,7 +52,7 @@ std::vector<Field*> ID666ExtendedData::SpcFields() const
     items.push_back(loopTimes.get());
     items.push_back(preampLevel.get());
 
-    for (ID666ExtendedItem* item : items)
+    for (Item* item : items)
     {
         if (item != nullptr)
         {

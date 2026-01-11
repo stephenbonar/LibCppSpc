@@ -18,7 +18,7 @@
 #define FIELD_TESTS_H
 
 #include <gtest/gtest.h>
-#include "Field.h"
+#include <LibCppSpc.h>
 
 class FieldTests : public ::testing::Test 
 {

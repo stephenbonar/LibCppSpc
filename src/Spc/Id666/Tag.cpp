@@ -1,4 +1,4 @@
-// ID666Tag.cpp - Defines the ID666Tag class.
+// Tag.cpp - Defines the Tag class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,17 +14,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "ID666Tag.h"
+#include "Spc/Id666/Tag.h"
 
 using namespace Spc;
+using namespace Spc::Id666;
 
-ID666Tag::ID666Tag()
+Tag::Tag()
 {
-    fieldData = std::make_shared<Binary::BufferStream>(id666TagSize);
-    extendedData = std::make_shared<ID666ExtendedData>();
+    fieldData = std::make_shared<Binary::BufferStream>(tagSize);
+    extendedData = std::make_shared<Extended::Data>();
 }
 
-TagType ID666Tag::DetermineType() const
+TagType Tag::DetermineType() const
 {
     // Preserve the existing position as we have to jump around the tag data to
     // determine if the tag is binary and we need to get back to where we were.
@@ -33,35 +34,30 @@ TagType ID666Tag::DetermineType() const
 
     // Read in the fields that will help us determine the tag type.
     fieldData->SetPosition(0);
-    Spc::DateField dateDumped{ "Date Dumped", 
-                               Spc::dateDumpedInfo.binaryOffset, 
-                               Spc::dateDumpedInfo.binarySize };
-    Spc::NumericField songLength{ "Song Length (seconds)", 
-                                  Spc::songLengthInfo.binaryOffset, 
-                                  Spc::songLengthInfo.binarySize };
-    Spc::NumericField fadeLength{ "Fade Length (ms)", 
-                                  Spc::fadeLengthInfo.binaryOffset,
-                                  Spc::fadeLengthInfo.binarySize };
-    Spc::TextField songArtist{ "Song Artist",
-                                  Spc::songArtistInfo.binaryOffset,
-                                  Spc::songArtistInfo.binarySize };
-    Spc::TextField reserved{ "Reserved", 
-                             Spc::reservedInfo.binaryOffset,
-                             Spc::reservedInfo.binarySize };
-    fieldData->SetPosition(
-        Spc::dateDumpedInfo.binaryOffset - Spc::id666TagOffset);
+    DateField dateDumped{ "Date Dumped", 
+                          dateDumpedInfo.binaryOffset, 
+                          dateDumpedInfo.binarySize };
+    NumericField songLength{ "Song Length (seconds)", 
+                             songLengthInfo.binaryOffset, 
+                             songLengthInfo.binarySize };
+    NumericField fadeLength{ "Fade Length (ms)", 
+                             fadeLengthInfo.binaryOffset,
+                             fadeLengthInfo.binarySize };
+    TextField songArtist{ "Song Artist",
+                           songArtistInfo.binaryOffset,
+                           songArtistInfo.binarySize };
+    TextField reserved{ "Reserved", 
+                        reservedInfo.binaryOffset,
+                        reservedInfo.binarySize };
+    fieldData->SetPosition(dateDumpedInfo.binaryOffset - tagOffset);
     fieldData->Read(&dateDumped);
-    fieldData->SetPosition(
-        Spc::songLengthInfo.binaryOffset - Spc::id666TagOffset);
+    fieldData->SetPosition(songLengthInfo.binaryOffset - tagOffset);
     fieldData->Read(&songLength);
-    fieldData->SetPosition(
-        Spc::fadeLengthInfo.binaryOffset - Spc::id666TagOffset);
+    fieldData->SetPosition(fadeLengthInfo.binaryOffset - tagOffset);
     fieldData->Read(&fadeLength);
-    fieldData->SetPosition(
-        Spc::songArtistInfo.binaryOffset - Spc::id666TagOffset);
+    fieldData->SetPosition(songArtistInfo.binaryOffset - tagOffset);
     fieldData->Read(&songArtist);
-    fieldData->SetPosition(
-        Spc::reservedInfo.binaryOffset - Spc::id666TagOffset);
+    fieldData->SetPosition(reservedInfo.binaryOffset - tagOffset);
     fieldData->Read(&reserved);
 
     if (!dateDumped.IsText() || 
@@ -111,35 +107,35 @@ TagType ID666Tag::DetermineType() const
     return TagType::Text;
 }
 
-TextField ID666Tag::SongTitle() const 
+TextField Tag::SongTitle() const 
 {
     return *ReadField<TextField>("Song Title", 
-                                Spc::songTitleInfo, 
-                                extendedData->songName.get());
+                                songTitleInfo, 
+                                extendedData->songTitle.get());
 }
 
-TextField ID666Tag::GameTitle() const 
+TextField Tag::GameTitle() const 
 {
     return *ReadField<TextField>("Game Title", 
-                                Spc::gameTitleInfo, 
-                                extendedData->gameName.get());
+                                gameTitleInfo, 
+                                extendedData->gameTitle.get());
 }
 
-TextField ID666Tag::DumperName() const 
+TextField Tag::DumperName() const 
 {
     return *ReadField<TextField>("Dumper Name", 
-                                Spc::dumperNameInfo, 
+                                dumperNameInfo, 
                                 extendedData->dumperName.get());
 }
 
-TextField ID666Tag::Comments() const 
+TextField Tag::Comments() const 
 {
     return *ReadField<TextField>("Comments", 
-                                Spc::commentsInfo, 
+                                commentsInfo, 
                                 extendedData->comments.get());
 }
 
-DateField ID666Tag::DateDumped() const 
+DateField Tag::DateDumped() const 
 {
     // Date Dumped is stored as an 32-bit integer in the extended area, so
     // we need to read it differently from the standard date dumped field.
@@ -153,8 +149,8 @@ DateField ID666Tag::DateDumped() const
         DateField dateDumped
         { 
             "Date Dumped", 
-            Spc::extendedTagOffset, 
-            Spc::dateDumpedInfo.binarySize 
+            Extended::dataOffset, 
+            dateDumpedInfo.binarySize 
         };
         std::memcpy(dateDumped.RawData(), 
                     dateDumpedInt->RawData(), 
@@ -164,36 +160,34 @@ DateField ID666Tag::DateDumped() const
     else
     {
         return *ReadField<DateField>("Date Dumped", 
-                                    Spc::dateDumpedInfo);
+                                    dateDumpedInfo);
     }
 }
 
-NumericField ID666Tag::SongLength() const 
+NumericField Tag::SongLength() const 
 {   
-    return *ReadField<NumericField>("Song Length (seconds)", 
-                                    Spc::songLengthInfo);
+    return *ReadField<NumericField>("Song Length (seconds)", songLengthInfo);
 }
 
-NumericField ID666Tag::FadeLength() const 
+NumericField Tag::FadeLength() const 
 {
-    return *ReadField<NumericField>("Fade Length (ms)", 
-                                    Spc::fadeLengthInfo);
+    return *ReadField<NumericField>("Fade Length (ms)", fadeLengthInfo);
 }
 
-TextField ID666Tag::SongArtist() const 
+TextField Tag::SongArtist() const 
 {
     return *ReadField<TextField>("Song Artist", 
-                                Spc::songArtistInfo, 
-                                extendedData->artistName.get());
+                                songArtistInfo, 
+                                extendedData->songArtist.get());
 }
 
-NumericField ID666Tag::DefaultChannelState() const 
+NumericField Tag::DefaultChannelState() const 
 {
     return *ReadField<NumericField>("Default Channel State", 
-                                    Spc::defaultChannelStateInfo);
+                                    defaultChannelStateInfo);
 }
 
-EmulatorField ID666Tag::EmulatorUsed() const
+EmulatorField Tag::EmulatorUsed() const
 {
     // Emulator used is stored as an 16-bit integer in the extended area, so
     // we need to read it differently from the standard emulator used field.
@@ -207,8 +201,8 @@ EmulatorField ID666Tag::EmulatorUsed() const
         EmulatorField emulatorUsed
         { 
             "Emulator Used", 
-            Spc::extendedTagOffset, 
-            Spc::emulatorUsedInfo.binarySize 
+            Extended::dataOffset, 
+            emulatorUsedInfo.binarySize 
         };
         std::memcpy(emulatorUsed.RawData(), 
                     emulatorUsedInt->RawData(), 
@@ -218,59 +212,59 @@ EmulatorField ID666Tag::EmulatorUsed() const
     else
     {
         return *ReadField<EmulatorField>("Emulator Used", 
-                                         Spc::emulatorUsedInfo);
+                                         emulatorUsedInfo);
     }
 }
 
-TextField ID666Tag::OstTitle() const 
+TextField Tag::OstTitle() const 
 {
     return *ReadField<TextField>("OST Title", 
                                  extendedData->ostTitle.get());
 }
 
-NumericField ID666Tag::OstDisc() const
+NumericField Tag::OstDisc() const
 {
     return *ReadField<NumericField>("OST Disc", 
                                     extendedData->ostDisc.get());
 }
 
-TrackField ID666Tag::OstTrack() const
+TrackField Tag::OstTrack() const
 {
     return *ReadField<TrackField>("OST Track", 
                                   extendedData->ostTrack.get());
 }
 
-TextField ID666Tag::PublisherName() const 
+TextField Tag::PublisherName() const 
 {
     return *ReadField<TextField>("Publisher Name", 
                                  extendedData->publisherName.get());
 }
 
-NumericField ID666Tag::CopyrightYear() const
+NumericField Tag::CopyrightYear() const
 {
     return *ReadField<NumericField>("Copyright Year", 
                                     extendedData->copyrightYear.get());
 }
 
-NumericField ID666Tag::IntroLength() const 
+NumericField Tag::IntroLength() const 
 {
     return *ReadField<NumericField>("Intro Length (ticks)", 
                                     extendedData->introLength.get());
 }
 
-NumericField ID666Tag::LoopLength() const 
+NumericField Tag::LoopLength() const 
 {
     return *ReadField<NumericField>("Loop Length (ticks)", 
                                     extendedData->loopLength.get());
 }
 
-NumericField ID666Tag::EndLength() const 
+NumericField Tag::EndLength() const 
 {
     return *ReadField<NumericField>("End Length (ticks)", 
                                     extendedData->endLength.get());
 }
 
-BinaryField ID666Tag::MutedVoices() const 
+BinaryField Tag::MutedVoices() const 
 {
     // Muted voices is stored as an 16-bit integer in the extended area, so
     // we need to read it differently from the standard BinaryField field.
@@ -284,7 +278,7 @@ BinaryField ID666Tag::MutedVoices() const
         BinaryField mutedVoices
         { 
             "Muted Voices", 
-            Spc::extendedTagOffset, 
+            Extended::dataOffset, 
             1 
         };
         std::memcpy(mutedVoices.RawData(), 
@@ -298,56 +292,62 @@ BinaryField ID666Tag::MutedVoices() const
     }
 }
 
-NumericField ID666Tag::LoopTimes() const 
+NumericField Tag::LoopTimes() const 
 {
     return *ReadField<NumericField>("Loop Times", 
                                     extendedData->loopTimes.get());
 }
 
-NumericField ID666Tag::PreampLevel() const 
+NumericField Tag::PreampLevel() const 
 {
     return *ReadField<NumericField>("Preamp Level", 
                                     extendedData->preampLevel.get());
 }
 
-void ID666Tag::SetSongTitle(std::string value) {}
+void Tag::SetSongTitle(std::string value) 
+{
+    WriteField<TextField>(songTitleInfo,
+                          Extended::songTitleInfo, 
+                          &extendedData->songTitle,
+                          value);
+}
 
-void ID666Tag::SetGameTitle(std::string value) {}
+void Tag::SetGameTitle(std::string value) {}
 
-void ID666Tag::SetDumperName(std::string value) {}
+void Tag::SetDumperName(std::string value) {}
 
-void ID666Tag::SetComments(std::string value) {}
+void Tag::SetComments(std::string value) {}
 
-void ID666Tag::SetDateDumped(std::string value) {}
+void Tag::SetDateDumped(std::string value) {}
 
-void ID666Tag::SetSongLength(std::string value) {}
+void Tag::SetSongLength(std::string value) {}
 
-void ID666Tag::SetFadeLength(std::string value) {}
+void Tag::SetFadeLength(std::string value) {}
 
-void ID666Tag::SetSongArtist(std::string value) {}
+void Tag::SetSongArtist(std::string value) {}
 
-void ID666Tag::SetDefaultChannelState(std::string value) {}
+void Tag::SetDefaultChannelState(std::string value) {}
 
-void ID666Tag::SetEmulatorUsed(std::string value) {}
+void Tag::SetEmulatorUsed(std::string value) {}
 
-void ID666Tag::SetOstTitle(std::string value) {}
+void Tag::SetOstTitle(std::string value) {}
 
-void ID666Tag::SetOstDisc(std::string value) {}
+void Tag::SetOstDisc(std::string value) {}
 
-void ID666Tag::SetOstTrack(std::string value) {}
+void Tag::SetOstTrack(std::string value) {}
 
-void ID666Tag::SetPublisherName(std::string value) {}
+void Tag::SetPublisherName(std::string value) {}
 
-void ID666Tag::SetCopyrightYear(std::string value) {}
+void Tag::SetCopyrightYear(std::string value) {}
 
-void ID666Tag::SetIntroLength(std::string value) {}
+void Tag::SetIntroLength(std::string value) {}
 
-void ID666Tag::SetLoopLength(std::string value) {}
+void Tag::SetLoopLength(std::string value) {}
 
-void ID666Tag::SetEndLength(std::string value) {}
+void Tag::SetEndLength(std::string value) {}
 
-void ID666Tag::SetMutedVoices(std::string value) {}
+void Tag::SetMutedVoices(std::string value) {}
 
-void ID666Tag::SetLoopTimes(std::string value) {}
+void Tag::SetLoopTimes(std::string value) {}
 
-void ID666Tag::SetPreampLevel(std::string value) {}
+void Tag::SetPreampLevel(std::string value) {}

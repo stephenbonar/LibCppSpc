@@ -19,16 +19,16 @@
 
 #include <memory>
 #include <vector>
-#include "DataStructure.h"
-#include "TextField.h"
-#include "EmulatorField.h"
-#include "DateField.h"
-#include "NumericField.h"
-#include "TrackField.h"
-#include "BinaryField.h"
-#include "ID666ExtendedItem.h"
+#include "Spc/DataStructure.h"
+#include "Spc/TextField.h"
+#include "Spc/EmulatorField.h"
+#include "Spc/DateField.h"
+#include "Spc/NumericField.h"
+#include "Spc/TrackField.h"
+#include "Spc/BinaryField.h"
+#include "Item.h"
 
-namespace Spc
+namespace Spc::Id666::Extended
 {
     /// @brief Represents the extended ID666 tag data.
     ///
@@ -52,61 +52,61 @@ namespace Spc
     ///
     /// All fields are ID666ExtendedItem pointers. Any pointers that are null
     /// indicate that extended item does not exist in the tag.
-    struct ID666ExtendedData : public DataStructure
+    struct Data : public DataStructure
     {
         /// @brief The extended version of song title (4 - 256 bytes).
-        std::shared_ptr<ID666ExtendedItem> songName;
+        std::shared_ptr<Item> songTitle;
 
         /// @brief The extended version of game title (4 - 256 bytes).
-        std::shared_ptr<ID666ExtendedItem> gameName;
+        std::shared_ptr<Item> gameTitle;
 
         /// @brief The extended version of song artist (4 - 256 bytes).
-        std::shared_ptr<ID666ExtendedItem> artistName;
+        std::shared_ptr<Item> songArtist;
 
         /// @brief The extended version of dumper name (4 - 256 bytes).
-        std::shared_ptr<ID666ExtendedItem> dumperName;
+        std::shared_ptr<Item> dumperName;
 
         /// @brief The extended version of date dumped (4 bytes).
         ///
         /// In theory, this tag will never be set if strictly following the
         /// spec.
-        std::shared_ptr<ID666ExtendedItem> dateDumped;
+        std::shared_ptr<Item> dateDumped;
 
         /// @brief The extended version of emulator used (1 byte).
         ///
         /// In theory, this tag will never be set if strictly following the
         /// spec.
-        std::shared_ptr<ID666ExtendedItem> emulatorUsed;
+        std::shared_ptr<Item> emulatorUsed;
 
         /// @brief The extended version of comments (4 - 256 bytes).
-        std::shared_ptr<ID666ExtendedItem> comments;
+        std::shared_ptr<Item> comments;
 
         /// @brief The title of the original soundtrack (4 - 256 bytes).
         ///
         /// This field is exclusive to the extended tag.
-        std::shared_ptr<ID666ExtendedItem> ostTitle;
+        std::shared_ptr<Item> ostTitle;
 
         /// @brief The original soundtrack disc number (1 byte).
         ///
         /// This field is exclusive to the extended tag.
-        std::shared_ptr<ID666ExtendedItem> ostDisc;
+        std::shared_ptr<Item> ostDisc;
 
         /// @brief The original soundtrack track number (2 bytes).
         ///
         /// Upper byte is 0 - 99, lower byte is an optional ASCII character.
         ///
         /// This field is exclusive to the extended tag.
-        std::shared_ptr<ID666ExtendedItem> ostTrack;
+        std::shared_ptr<Item> ostTrack;
 
         /// @brief The publisher of the game (4 - 256 bytes).
         ///
         /// This field is exclusive to the extended tag.
-        std::shared_ptr<ID666ExtendedItem> publisherName;
+        std::shared_ptr<Item> publisherName;
 
         /// @brief The copyright year of the game, which is 2 bytes.
         ///
         /// This field is exclusive to the extended tag.
-        std::shared_ptr<ID666ExtendedItem> copyrightYear;
+        std::shared_ptr<Item> copyrightYear;
 
         /// @brief The length of the song intro, in ticks (4 bytes).
         ///
@@ -114,12 +114,12 @@ namespace Spc
         /// portion begins.
         ///
         /// This field is exclusive to the extended tag.
-        std::shared_ptr<ID666ExtendedItem> introLength;
+        std::shared_ptr<Item> introLength;
 
         /// @brief The length of looped portion of the song, in ticks (4 bytes).
         ///
         /// This field is exclusive to the extended tag.
-        std::shared_ptr<ID666ExtendedItem> loopLength;
+        std::shared_ptr<Item> loopLength;
 
         /// @brief The length of the song end, in ticks (4 bytes).
         ///
@@ -127,31 +127,31 @@ namespace Spc
         /// ends but before fade out begins.
         ///
         /// This field is exclusive to the extended tag.
-        std::shared_ptr<ID666ExtendedItem> endLength;
+        std::shared_ptr<Item> endLength;
 
         /// @brief The length of the song fade out, in ticks (4 bytes).
         ///
         /// The amount of time to fade out the song.
         ///
         /// This field is exclusive to the extended tag.
-        std::shared_ptr<ID666ExtendedItem> fadeLength;
+        std::shared_ptr<Item> fadeLength;
 
         /// @brief Mutes specific voices using bit flags (1 byte).
         ///
         /// This field is exclusive to the extended tag.
-        std::shared_ptr<ID666ExtendedItem> mutedVoices;
+        std::shared_ptr<Item> mutedVoices;
 
         /// @brief Determines the number of times to loop the melody (1 byte).
         ///
         /// This field is exclusive to the extended tag.
-        std::shared_ptr<ID666ExtendedItem> loopTimes;
+        std::shared_ptr<Item> loopTimes;
 
         /// @brief The amplification value to apply (4 bytes).
         ///
         /// 65536 = Normal SNES.
         ///
         /// This field is exclusive to the extended tag.
-        std::shared_ptr<ID666ExtendedItem> preampLevel;
+        std::shared_ptr<Item> preampLevel;
 
         /// @brief Gets the IFF chunk header of the extended tag data.
         /// @return The IFF chunk header.

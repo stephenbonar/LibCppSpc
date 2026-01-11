@@ -19,16 +19,15 @@
 
 #include <memory>
 #include <gtest/gtest.h>
-#include "ID666ExtendedData.h"
-#include "ID666ExtendedItem.h"
+#include <LibCppSpc.h>
 
 class ID666ExtendedDataTests : public ::testing::Test
 {
 protected:
-    void InitStringItem(std::shared_ptr<Spc::ID666ExtendedItem>& item, 
+    void InitStringItem(std::shared_ptr<Spc::Id666::Extended::Item>& item, 
                         std::string value);
 
-    Spc::ID666ExtendedData id666ExtendedData;
+    Spc::Id666::Extended::Data data;
 };
 
 #endif

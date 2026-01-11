@@ -1,4 +1,4 @@
-// TextField.cpp - Defines the TextField class.
+// Header.h - Defines the Header struct.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,17 +14,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "TextField.h"
+#include "Spc/Header.h"
 
 using namespace Spc;
 
-void TextField::SetValue(std::string value)
+Header::Header()
 {
-    for (int i = 0; i < size; i++)
-    {
-        if (i < value.size())
-            rawData[i] = value[i];
-        else
-            rawData[i] = 0;
-    }
+    spcFields.push_back(&ID);
+    spcFields.push_back(&separator);
+    spcFields.push_back(&containsTag);
+    spcFields.push_back(&versionMinor);
+    spcFields.push_back(&pcRegister);
+    spcFields.push_back(&aRegister);
+    spcFields.push_back(&xRegister);
+    spcFields.push_back(&yRegister);
+    spcFields.push_back(&pswRegister);
+    spcFields.push_back(&spRegister);
+    spcFields.push_back(&reserved);
 }

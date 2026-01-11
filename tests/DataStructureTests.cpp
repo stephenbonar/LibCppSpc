@@ -15,7 +15,7 @@
 // limitations under the License.
 
 #include "DataStructureTests.h"
-#include "Format.h" // for Spc::labelSize
+#include "Spc/Format.h" // for Spc::labelSize
 
 void DataStructureTests::SetUp() 
 {

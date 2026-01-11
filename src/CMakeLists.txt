@@ -15,23 +15,20 @@
 # limitations under the License.
 
 set(SOURCES 
-    BinaryField.cpp
-    Header.cpp
-    BinaryTag.cpp
-    TextTag.cpp
-    ID666ExtendedData.cpp
-    Format.cpp
-    DataStructure.cpp
-    ID666ExtendedItem.cpp
-    ID666Tag.cpp
-    DateField.cpp
-    NumericField.cpp
-    EmulatorField.cpp
-    File.cpp
-    TrackField.cpp
-    TextField.cpp
-    StringDelimiter.cpp
-    StringTokenizer.cpp)
+    Spc/BinaryField.cpp
+    Spc/Header.cpp
+    Spc/Format.cpp
+    Spc/DataStructure.cpp
+    Spc/DateField.cpp
+    Spc/NumericField.cpp
+    Spc/EmulatorField.cpp
+    Spc/TrackField.cpp
+    Spc/TextField.cpp
+    Spc/StringDelimiter.cpp
+    Spc/StringTokenizer.cpp
+    Spc/Id666/Tag.cpp
+    Spc/Id666/Extended/Item.cpp
+    Spc/Id666/Extended/Data.cpp)
 
 set(LIBRARIES LibCppBinary)
 

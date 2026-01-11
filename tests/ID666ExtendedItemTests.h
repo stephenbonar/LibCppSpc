@@ -18,16 +18,14 @@
 #define ID666_EXTENDED_ITEM_TESTS_H
 
 #include <gtest/gtest.h>
-#include "Field.h"
-#include "NumericField.h"
-#include "ID666ExtendedItem.h"
+#include <LibCppSpc.h>
 
 class ID666ExtendedItemTests : public ::testing::Test 
 {
 protected:
     void SetUp() override;
 
-    std::unique_ptr<Spc::ID666ExtendedItem> item;
+    std::unique_ptr<Spc::Id666::Extended::Item> item;
 };
 
 #endif

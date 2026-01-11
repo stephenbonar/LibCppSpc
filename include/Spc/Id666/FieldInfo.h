@@ -1,4 +1,4 @@
-// Field.h - Declares the Field class.
+// FieldInfo.h - Declares the FieldInfo struct.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,10 +14,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SPC_FIELD_INFO_H
-#define SPC_FIELD_INFO_H
+#ifndef SPC_ID666_FIELD_INFO_H
+#define SPC_ID666_FIELD_INFO_H
 
-namespace Spc
+namespace Spc::Id666
 {
     struct FieldInfo
     {

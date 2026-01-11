@@ -18,8 +18,8 @@
 #define EMULATOR_FIELD_TESTS_H
 
 #include <memory>
-#include "gtest/gtest.h"
-#include "EmulatorField.h"
+#include <gtest/gtest.h>
+#include <LibCppSpc.h>
 
 class EmulatorFieldTests : public ::testing::Test 
 {

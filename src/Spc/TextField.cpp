@@ -1,4 +1,4 @@
-// BinaryTagTests.h - Declares the BinaryTagTests class and tests.
+// TextField.cpp - Defines the TextField class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,16 +14,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef BINARY_TAG_TESTS_H
-#define BINARY_TAG_TESTS_H
+#include "Spc/TextField.h"
 
-#include <gtest/gtest.h>
-#include "BinaryTag.h"
+using namespace Spc;
 
-class BinaryTagTests : public ::testing::Test
+void TextField::SetValue(std::string value)
 {
-protected:
-    BinaryTagTests();
-};
-
-#endif
+    for (int i = 0; i < size; i++)
+    {
+        if (i < value.size())
+            rawData[i] = value[i];
+        else
+            rawData[i] = 0;
+    }
+}
