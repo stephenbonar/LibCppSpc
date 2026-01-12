@@ -312,13 +312,56 @@ void Tag::SetSongTitle(std::string value)
                           value);
 }
 
-void Tag::SetGameTitle(std::string value) {}
+void Tag::SetGameTitle(std::string value) 
+{
+    WriteField<TextField>(gameTitleInfo,
+                          Extended::gameTitleInfo, 
+                          &extendedData->gameTitle,
+                          value);
+}
 
-void Tag::SetDumperName(std::string value) {}
+void Tag::SetDumperName(std::string value) 
+{
+    WriteField<TextField>(dumperNameInfo,
+                          Extended::dumperNameInfo, 
+                          &extendedData->dumperName,
+                          value);
+}
 
-void Tag::SetComments(std::string value) {}
+void Tag::SetComments(std::string value) 
+{
+    WriteField<TextField>(commentsInfo,
+                          Extended::commentsInfo, 
+                          &extendedData->comments,
+                          value);
+}
 
-void Tag::SetDateDumped(std::string value) {}
+void Tag::SetDateDumped(std::string value) 
+{
+    if (DetermineType() == TagType::Binary)
+    {
+        DateField dateDumped{ "Date Dumped", 
+                              dateDumpedInfo.binaryOffset, 
+                              dateDumpedInfo.binarySize };
+        dateDumped.SetBinaryValue(value);
+
+        size_t previousPosition = fieldData->Position();
+        fieldData->SetPosition(dateDumpedInfo.binaryOffset - tagOffset);
+        fieldData->Write(&dateDumped);
+        fieldData->SetPosition(previousPosition);
+    }
+    else
+    {
+        DateField dateDumped{ "Date Dumped", 
+                              dateDumpedInfo.textOffset, 
+                              dateDumpedInfo.textSize };
+        dateDumped.SetTextValue(value);
+        size_t previousPosition = fieldData->Position();
+        fieldData->SetPosition(dateDumpedInfo.textOffset - tagOffset);
+        fieldData->Write(&dateDumped);
+        fieldData->SetPosition(previousPosition);
+    }
+}
 
 void Tag::SetSongLength(std::string value) {}
 

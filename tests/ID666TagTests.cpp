@@ -898,3 +898,289 @@ TEST_F(ID666TagTests, SetsExistingExtendedSongTitleProperly)
     TestSetWithExtendedItem<Spc::TextField, Spc::TextField>(extParams);
     TestFieldsWithoutGet<Spc::TextField>(params);
 }
+
+TEST_F(ID666TagTests, SetsTextGameTitleProperly)
+{
+    TestSetParameters<Spc::TextField> params;
+    params.testData = textData;
+    params.offset = Spc::Id666::gameTitleInfo.textOffset;
+    params.size = Spc::Id666::gameTitleInfo.textSize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetGameTitle;
+    params.setValue = "Set Game Title";
+    TestSet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsBinaryGameTitleProperly)
+{
+    TestSetParameters<Spc::TextField> params;
+    params.testData = binaryData;
+    params.offset = Spc::Id666::gameTitleInfo.binaryOffset;
+    params.size = Spc::Id666::gameTitleInfo.binarySize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetGameTitle;
+    params.setValue = "Set Game Title";
+    TestSet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsMixedGameTitleProperly)
+{
+    TestSetParameters<Spc::TextField> params;
+    params.testData = mixedData;
+    params.offset = Spc::Id666::gameTitleInfo.textOffset;
+    params.size = Spc::Id666::gameTitleInfo.textSize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetGameTitle;
+    params.setValue = "Set Game Title";
+    TestSet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsNewExtendedGameTitleProperly)
+{
+    TestSetWithExtendedItemParameters<Spc::TextField> extParams;
+
+    // Set should set the extended area value when the value size is > 33.
+    extParams.setValue = "Set Game Title ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    extParams.extendedID = Spc::Id666::Extended::gameTitleInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::gameTitleInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->gameTitle;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetGameTitle;
+
+    TestFieldWithoutGetParameters params;
+    params.offset = Spc::Id666::gameTitleInfo.textOffset;
+    params.size = Spc::Id666::gameTitleInfo.textSize;
+
+    // Set should also set the standard field to a truncated value (33 chars).
+    params.expectedValue = "Set Game Title ABCDEFGHIJKLMNOPQ";
+
+    TestSetWithExtendedItem<Spc::TextField, Spc::TextField>(extParams);
+    TestFieldsWithoutGet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsExistingExtendedGameTitleProperly)
+{
+    std::string setValue = "Set Game Title ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    tag->ExtendedData()->gameTitle = InitExtendedItem<Spc::TextField>(
+        Spc::Id666::Extended::gameTitleInfo, 
+        setValue);
+   
+    TestSetWithExtendedItemParameters<Spc::TextField> extParams;
+
+    // Set should set the extended area value when the value size is > 33.
+    extParams.setValue = setValue;
+
+    extParams.extendedID = Spc::Id666::Extended::gameTitleInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::gameTitleInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->gameTitle;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetGameTitle;
+
+    TestFieldWithoutGetParameters params;
+    params.offset = Spc::Id666::gameTitleInfo.textOffset;
+    params.size = Spc::Id666::gameTitleInfo.textSize;
+
+    // Set should also set the standard field to a truncated value (33 chars).
+    params.expectedValue = "Set Game Title ABCDEFGHIJKLMNOPQ";
+
+    TestSetWithExtendedItem<Spc::TextField, Spc::TextField>(extParams);
+    TestFieldsWithoutGet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsTextDumperNameProperly)
+{
+    TestSetParameters<Spc::TextField> params;
+    params.testData = textData;
+    params.offset = Spc::Id666::dumperNameInfo.textOffset;
+    params.size = Spc::Id666::dumperNameInfo.textSize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetDumperName;
+    params.setValue = "Set Dumper Name";
+    TestSet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsBinaryDumperNameProperly)
+{
+    TestSetParameters<Spc::TextField> params;
+    params.testData = binaryData;
+    params.offset = Spc::Id666::dumperNameInfo.binaryOffset;
+    params.size = Spc::Id666::dumperNameInfo.binarySize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetDumperName;
+    params.setValue = "Set Dumper Name";
+    TestSet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsMixedDumperNameProperly)
+{
+    TestSetParameters<Spc::TextField> params;
+    params.testData = mixedData;
+    params.offset = Spc::Id666::dumperNameInfo.textOffset;
+    params.size = Spc::Id666::dumperNameInfo.textSize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetDumperName;
+    params.setValue = "Set Dumper Name";
+    TestSet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsNewExtendedDumperNameProperly)
+{
+    TestSetWithExtendedItemParameters<Spc::TextField> extParams;
+
+    // Set should set the extended area value when the value size is > 16.
+    extParams.setValue = "Set Dumper Name ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    extParams.extendedID = Spc::Id666::Extended::dumperNameInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::dumperNameInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->dumperName;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetDumperName;
+
+    TestFieldWithoutGetParameters params;
+    params.offset = Spc::Id666::dumperNameInfo.textOffset;
+    params.size = Spc::Id666::dumperNameInfo.textSize;
+
+    // Set should also set the standard field to a truncated value (16 chars).
+    params.expectedValue = "Set Dumper Name ";
+
+    TestSetWithExtendedItem<Spc::TextField, Spc::TextField>(extParams);
+    TestFieldsWithoutGet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsExistingExtendedDumperNameProperly)
+{
+    std::string setValue = "Set Dumper Name ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    tag->ExtendedData()->dumperName = InitExtendedItem<Spc::TextField>(
+        Spc::Id666::Extended::dumperNameInfo, 
+        setValue);
+   
+    TestSetWithExtendedItemParameters<Spc::TextField> extParams;
+
+    // Set should set the extended area value when the value size is > 16.
+    extParams.setValue = setValue;
+
+    extParams.extendedID = Spc::Id666::Extended::dumperNameInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::dumperNameInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->dumperName;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetDumperName;
+
+    TestFieldWithoutGetParameters params;
+    params.offset = Spc::Id666::dumperNameInfo.textOffset;
+    params.size = Spc::Id666::dumperNameInfo.textSize;
+
+    // Set should also set the standard field to a truncated value (16 chars).
+    params.expectedValue = "Set Dumper Name ";
+
+    TestSetWithExtendedItem<Spc::TextField, Spc::TextField>(extParams);
+    TestFieldsWithoutGet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsTextCommentsProperly)
+{
+    TestSetParameters<Spc::TextField> params;
+    params.testData = textData;
+    params.offset = Spc::Id666::commentsInfo.textOffset;
+    params.size = Spc::Id666::commentsInfo.textSize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetComments;
+    params.setValue = "Set Comments";
+    TestSet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsBinaryCommentsProperly)
+{
+    TestSetParameters<Spc::TextField> params;
+    params.testData = binaryData;
+    params.offset = Spc::Id666::commentsInfo.binaryOffset;
+    params.size = Spc::Id666::commentsInfo.binarySize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetComments;
+    params.setValue = "Set Comments";
+    TestSet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsMixedCommentsProperly)
+{
+    TestSetParameters<Spc::TextField> params;
+    params.testData = mixedData;
+    params.offset = Spc::Id666::commentsInfo.textOffset;
+    params.size = Spc::Id666::commentsInfo.textSize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetComments;
+    params.setValue = "Set Comments";
+    TestSet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsNewExtendedCommentsProperly)
+{
+    TestSetWithExtendedItemParameters<Spc::TextField> extParams;
+
+    // Set should set the extended area value when the value size is > 32.
+    extParams.setValue = "Set Comments ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    extParams.extendedID = Spc::Id666::Extended::commentsInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::commentsInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->comments;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetComments;
+
+    TestFieldWithoutGetParameters params;
+    params.offset = Spc::Id666::commentsInfo.textOffset;
+    params.size = Spc::Id666::commentsInfo.textSize;
+
+    // Set should also set the standard field to a truncated value (32 chars).
+    params.expectedValue = "Set Comments ABCDEFGHIJKLMNOPQRS";
+
+    TestSetWithExtendedItem<Spc::TextField, Spc::TextField>(extParams);
+    TestFieldsWithoutGet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsExistingExtendedCommentsProperly)
+{
+    std::string setValue = "Set Comments ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    tag->ExtendedData()->comments = InitExtendedItem<Spc::TextField>(
+        Spc::Id666::Extended::commentsInfo, 
+        setValue);
+
+    TestSetWithExtendedItemParameters<Spc::TextField> extParams;
+
+    // Set should set the extended area value when the value size is > 32.
+    extParams.setValue = setValue;
+
+    extParams.extendedID = Spc::Id666::Extended::commentsInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::commentsInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->comments;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetComments;
+
+    TestFieldWithoutGetParameters params;
+    params.offset = Spc::Id666::commentsInfo.textOffset;
+    params.size = Spc::Id666::commentsInfo.textSize;
+
+    // Set should also set the standard field to a truncated value (32 chars).
+    params.expectedValue = "Set Comments ABCDEFGHIJKLMNOPQRS";
+
+    TestSetWithExtendedItem<Spc::TextField, Spc::TextField>(extParams);
+    TestFieldsWithoutGet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsTextDateDumpedProperly)
+{
+    TestSetDateDumpedParameters params;
+    params.testData = textData;
+    params.offset = Spc::Id666::dateDumpedInfo.textOffset;
+    params.size = Spc::Id666::dateDumpedInfo.textSize;
+    params.setValue = "01/11/2026";
+    TestSetDateDumped(params);
+}
+
+TEST_F(ID666TagTests, SetsBinaryDateDumpedProperly)
+{
+    TestSetDateDumpedParameters params;
+    params.testData = binaryData;
+    params.offset = Spc::Id666::dateDumpedInfo.binaryOffset;
+    params.size = Spc::Id666::dateDumpedInfo.binarySize;
+    params.setValue = "01/11/2026";
+    TestSetDateDumped(params);
+}
+
+TEST_F(ID666TagTests, SetsMixedDateDumpedProperly)
+{
+    TestSetDateDumpedParameters params;
+    params.testData = mixedData;
+    params.offset = Spc::Id666::dateDumpedInfo.textOffset;
+    params.size = Spc::Id666::dateDumpedInfo.textSize;
+    params.setValue = "01/11/2026";
+    TestSetDateDumped(params);
+}
+

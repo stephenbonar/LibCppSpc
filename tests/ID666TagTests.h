@@ -63,6 +63,14 @@ struct TestSetParameters
     void (Spc::Id666::Tag::*setMethodPtr)(std::string value);
 };
 
+struct TestSetDateDumpedParameters
+{
+    const char* testData;
+    size_t offset;
+    size_t size;
+    std::string setValue;
+};
+
 template<typename T>
 struct TestSetWithExtendedItemParameters
 {
@@ -210,9 +218,26 @@ protected:
         (tag.get()->*params.setMethodPtr)(params.setValue);
 
         T field{ "Test Field", params.offset, params.size };
+        tag->FieldData()->SetPosition(params.offset - Spc::Id666::tagOffset);
         tag->FieldData()->Read(&field);
 
         EXPECT_EQ(params.setValue, field.ToString());
+    }
+
+    void TestSetDateDumped(TestSetDateDumpedParameters params)
+    {
+        std::shared_ptr<Binary::BufferStream> fieldData = tag->FieldData();
+        std::memcpy(fieldData->RawData(), params.testData, fieldData->Size());
+
+        tag->SetDateDumped(params.setValue);
+
+        size_t previousPosition = fieldData->Position();
+        fieldData->SetPosition(params.offset - Spc::Id666::tagOffset);
+        Spc::DateField field{ "Date Dumped", params.offset, params.size };
+        fieldData->Read(&field);
+        fieldData->SetPosition(previousPosition);
+
+        EXPECT_EQ(field.Value(), params.setValue);
     }
 
     template<typename T, typename U>
