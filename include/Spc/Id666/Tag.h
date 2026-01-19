@@ -201,13 +201,12 @@ namespace Spc::Id666
         }
 
         template<typename T>
-        void WriteField(FieldInfo info,
-                        Extended::FieldInfo extendedInfo, 
-                        std::shared_ptr<Extended::Item>* itemPtrPtr, 
-                        std::string value)
+        void WriteFieldExtendedString(
+            FieldInfo info,
+            Extended::FieldInfo extendedInfo, 
+            std::shared_ptr<Extended::Item>* itemPtrPtr, 
+            std::string value)
         {
-            if (extendedInfo.type == Extended::stringType)
-            {
                 size_t fieldSize;
 
                 if (DetermineType() == TagType::Binary)
@@ -217,19 +216,15 @@ namespace Spc::Id666
 
                 if (value.size() > fieldSize)
                 {
-                    WriteField<T>(extendedInfo, itemPtrPtr, value);
+                    WriteFieldExtendedString<T>(extendedInfo, 
+                                                itemPtrPtr, 
+                                                value);
                     WriteField<T>(info, value);
                 }
                 else
                 {
                     WriteField<T>(info, value);
                 }
-            }
-            else
-            {
-                WriteField<T>(extendedInfo, itemPtrPtr, value);
-                WriteField<T>(info, value);
-            }
         }
 
         template<typename T>
@@ -259,9 +254,9 @@ namespace Spc::Id666
         }
 
         template<typename T>
-        void WriteField(Extended::FieldInfo extendedInfo,
-                        std::shared_ptr<Extended::Item>* itemPtrPtr, 
-                        std::string value)
+        void WriteFieldExtended(Extended::FieldInfo extendedInfo,
+                                std::shared_ptr<Extended::Item>* itemPtrPtr, 
+                                std::string value)
         {
             if (*(itemPtrPtr) == nullptr)
             {
@@ -269,32 +264,14 @@ namespace Spc::Id666
                 item->id->SetInt32(extendedInfo.id);
                 item->type->SetInt32(extendedInfo.type);
 
-                if (item->type->ToInt32() == Extended::lengthType)
-                {
-                    auto field = std::make_shared<T>("Temp Field",
-                                                     Extended::dataOffset, 
-                                                     Extended::dataSize);
-                    field->SetValue(value);
-                    std::memcpy(item->data->RawData(), 
-                                field->RawData(), 
-                                field->Size());
-                }
-                else
-                {
-                    auto data = std::static_pointer_cast<NumericField>(
-                        item->data);
-
-                    if (item->type->ToInt32() == Extended::stringType)
-                        data->SetInt32(value.size());
-                    else
-                        data->SetInt32(Extended::integerSize);
-
-                    auto field = std::make_shared<T>("Temp Field", 
-                                                     Extended::dataOffset, 
-                                                     value.size());
-                    field->SetValue(value);
-                    item->extendedData = field;
-                }
+                auto field = std::make_shared<T>("Temp Field",
+                                                 Extended::dataOffset, 
+                                                 Extended::dataSize);
+                field->SetType(Spc::NumericType::Binary);
+                field->SetValue(value);
+                std::memcpy(item->data->RawData(), 
+                            field->RawData(), 
+                            field->Size());
 
                 *(itemPtrPtr) = item;
             }
@@ -302,33 +279,96 @@ namespace Spc::Id666
             {
                 auto item = *(itemPtrPtr);
 
-                if (item->type->ToInt32() == Extended::lengthType)
-                {
-                    //auto field = std::static_pointer_cast<T>(item->data);
-                    auto field = std::make_shared<T>("Temp Field", 
-                                                     Extended::dataOffset, 
-                                                     Extended::dataSize);
-                    field->SetValue(value);
-                    std::memcpy(item->data->RawData(), 
-                                field->RawData(), 
-                                field->Size());
-                }
-                else
-                {
-                    auto data = std::static_pointer_cast<NumericField>(
-                        item->data);
+                //auto field = std::static_pointer_cast<T>(item->data);
+                auto field = std::make_shared<T>("Temp Field", 
+                                                    Extended::dataOffset, 
+                                                    Extended::dataSize);
+                field->SetType(Spc::NumericType::Binary);
+                field->SetValue(value);
+                std::memcpy(item->data->RawData(), 
+                            field->RawData(), 
+                            field->Size()); 
+            }
+        }
 
-                    if (item->type->ToInt32() == Extended::stringType)
-                        data->SetInt32(value.size());
-                    else
-                        data->SetInt32(Extended::integerSize);
+        template<typename T>
+        void WriteFieldExtendedInt(Extended::FieldInfo extendedInfo,
+                                   std::shared_ptr<Extended::Item>* itemPtrPtr, 
+                                   std::string value)
+        {
+            if (*(itemPtrPtr) == nullptr)
+            {
+                auto item = std::make_shared<Extended::Item>();
+                item->id->SetInt32(extendedInfo.id);
+                item->type->SetInt32(extendedInfo.type);
 
-                    //auto field = std::static_pointer_cast<T>(
-                    //    item->extendedData);
-                    item->extendedData = std::make_shared<T>(
-                        "Temp Field", Extended::dataOffset, value.size());
-                    item->extendedData->SetValue(value);
-                }
+                auto data = std::static_pointer_cast<NumericField>(
+                    item->data);
+
+                data->SetInt32(Extended::integerSize);
+                auto field = std::make_shared<T>("Temp Field", 
+                                                Extended::dataOffset, 
+                                                Extended::integerSize);
+                field->SetType(Spc::NumericType::Binary);
+                field->SetValue(value);
+                item->extendedData = field;
+
+                *(itemPtrPtr) = item; 
+            }
+            else
+            {
+                auto item = *(itemPtrPtr);
+
+                std::shared_ptr<NumericField> data = item->data;
+
+                data->SetInt32(Extended::integerSize);
+                item->extendedData = std::make_shared<T>(
+                        "Temp Field", 
+                        Extended::dataOffset, 
+                        Extended::integerSize);
+
+                auto extendedData = std::static_pointer_cast<T>(
+                    item->extendedData);
+                extendedData->SetType(Spc::NumericType::Binary);
+                extendedData->SetValue(value);
+            }
+        }
+
+        template<typename T>
+        void WriteFieldExtendedString(
+            Extended::FieldInfo extendedInfo,
+            std::shared_ptr<Extended::Item>* itemPtrPtr, 
+            std::string value)
+        {
+            if (*(itemPtrPtr) == nullptr)
+            {
+                auto item = std::make_shared<Extended::Item>();
+                item->id->SetInt32(extendedInfo.id);
+                item->type->SetInt32(extendedInfo.type);
+
+                auto data = std::static_pointer_cast<NumericField>(
+                    item->data);
+
+                data->SetInt32(value.size());
+                auto field = std::make_shared<T>("Temp Field", 
+                                                Extended::dataOffset, 
+                                                value.size());
+                field->SetValue(value);
+                item->extendedData = field;
+
+                *(itemPtrPtr) = item;  
+            }
+            else
+            {
+                auto item = *(itemPtrPtr);
+
+                auto data = std::static_pointer_cast<NumericField>(
+                    item->data);
+
+                data->SetInt32(value.size());
+                item->extendedData = std::make_shared<T>(
+                    "Temp Field", Extended::dataOffset, value.size());
+                item->extendedData->SetValue(value);
             }
         }
     };

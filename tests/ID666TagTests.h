@@ -69,6 +69,7 @@ struct TestSetExtendedParams
     int extendedID;
     int extendedType;
     std::string setValue;
+    std::string expectedValue;
     std::shared_ptr<Spc::Id666::Extended::Item>* itemPtrPtr;
     void (Spc::Id666::Tag::*setMethodPtr)(std::string value);
 };
@@ -104,14 +105,38 @@ protected:
         auto item = std::make_shared<Spc::Id666::Extended::Item>();
         item->id->SetInt32(extendedInfo.id);
         item->type->SetInt32(extendedInfo.type);
-        auto itemData = std::static_pointer_cast<Spc::NumericField>(item->data);
+        std::shared_ptr<Spc::NumericField> itemData = item->data;
+        itemData->SetInt32(setValue.size());
 
-        if (extendedInfo.type == Spc::Id666::Extended::stringType)
-            itemData->SetInt32(setValue.size());
-        else if (extendedInfo.type == Spc::Id666::Extended::integerType)
+        auto itemExtData = std::make_shared<T>(
+            "Test", 
+            Spc::Id666::Extended::dataOffset, 
+            setValue.size());
+        itemExtData->SetValue(setValue);
+        item->extendedData = itemExtData;
+
+        return item;
+    }
+
+    template<typename T>
+    std::shared_ptr<Spc::Id666::Extended::Item> InitNumericExtendedItem(
+        Spc::Id666::Extended::FieldInfo extendedInfo, 
+        std::string setValue)
+    {
+        auto item = std::make_shared<Spc::Id666::Extended::Item>();
+        item->id->SetInt32(extendedInfo.id);
+        item->type->SetInt32(extendedInfo.type);
+        std::shared_ptr<Spc::NumericField> itemData = item->data;
+
+        if (extendedInfo.type == Spc::Id666::Extended::integerType)
+        {
             itemData->SetInt32(Spc::Id666::Extended::integerSize);
+        }
         else
+        {
+            itemData->SetType(Spc::NumericType::Binary);
             itemData->SetValue(setValue);
+        }
 
         if (extendedInfo.type != Spc::Id666::Extended::lengthType)
         {
@@ -119,6 +144,7 @@ protected:
                 "Test", 
                 Spc::Id666::Extended::dataOffset, 
                 setValue.size());
+            itemExtData->SetType(Spc::NumericType::Binary);
             itemExtData->SetValue(setValue);
             item->extendedData = itemExtData;
         }
@@ -243,7 +269,7 @@ protected:
 
         EXPECT_EQ(item->id->ToInt32(), params.extendedID);
         EXPECT_EQ(item->type->ToInt32(), params.extendedType);
-        EXPECT_EQ(params.setValue, itemData->ToString());
+        EXPECT_EQ(params.expectedValue, itemData->ToString());
     }
 
     template<typename T, typename U>
@@ -255,6 +281,7 @@ protected:
         (tag.get()->*params.setMethodPtr)(params.setValue);
         std::shared_ptr<Spc::Id666::Extended::Item> item = *(params.itemPtrPtr);
         ASSERT_NE(item, nullptr);
+        ASSERT_NE(item->extendedData, nullptr);
         
         // When the data is not in the header, then item-data contains the
         // extended data size. Ensure it matches the size of the extended
@@ -266,7 +293,7 @@ protected:
 
         EXPECT_EQ(item->id->ToInt32(), params.extendedID);
         EXPECT_EQ(item->type->ToInt32(), params.extendedType); 
-        EXPECT_EQ(params.setValue, item->extendedData->ToString());
+        EXPECT_EQ(params.expectedValue, item->extendedData->ToString());
     }
 
     /*

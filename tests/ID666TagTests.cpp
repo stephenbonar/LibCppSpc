@@ -463,6 +463,26 @@ TEST_F(ID666TagTests, GetsMixedFadeLengthProperly)
     TestGet<Spc::NumericField>(params);
 }
 
+TEST_F(ID666TagTests, GetsExtendedFadeLengthProperly)
+{
+    tag->ExtendedData()->fadeLength = 
+        std::make_shared<Spc::Id666::Extended::Item>();
+    
+    TestGetExtendedParams<Spc::NumericField> params;
+    params.expectedLabel = "Fade Length (ticks)";
+    params.expectedValue = "320000";
+    params.expectedSize = Spc::Id666::fadeLengthInfo.binarySize;
+    params.extendedID = Spc::Id666::Extended::fadeLengthInfo.id;
+    params.extendedType = Spc::Id666::Extended::integerType;
+
+    // The decimal representation of the binary format date.
+    params.extendedValue = "320000"; 
+
+    params.item = tag->ExtendedData()->fadeLength;
+    params.getMethodPtr = &Spc::Id666::Tag::FadeLength;
+    TestGetExtendedData<Spc::NumericField, Spc::NumericField>(params);
+}
+
 TEST_F(ID666TagTests, GetsTextArtistProperly)
 {
     TestGetParams<Spc::TextField> params;
@@ -857,7 +877,7 @@ TEST_F(ID666TagTests, SetsNewExtendedSongTitleProperly)
 
     // Set should set the extended area value when the value size is > 33.
     extParams.setValue = "Set Song Title ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
+    extParams.expectedValue = "Set Song Title ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     extParams.extendedID = Spc::Id666::Extended::songTitleInfo.id;
     extParams.extendedType = Spc::Id666::Extended::songTitleInfo.type;
     extParams.itemPtrPtr = &tag->ExtendedData()->songTitle;
@@ -884,6 +904,7 @@ TEST_F(ID666TagTests, SetsExistingExtendedSongTitleProperly)
 
     // Set should set the extended area value when the value size is > 33.
     extParams.setValue = "Set Song Title ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    extParams.expectedValue = "Set Song Title ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     extParams.extendedID = Spc::Id666::Extended::songTitleInfo.id;
     extParams.extendedType = Spc::Id666::Extended::songTitleInfo.type;
@@ -940,6 +961,7 @@ TEST_F(ID666TagTests, SetsNewExtendedGameTitleProperly)
 
     // Set should set the extended area value when the value size is > 33.
     extParams.setValue = "Set Game Title ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    extParams.expectedValue = "Set Game Title ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     extParams.extendedID = Spc::Id666::Extended::gameTitleInfo.id;
     extParams.extendedType = Spc::Id666::Extended::gameTitleInfo.type;
@@ -967,6 +989,7 @@ TEST_F(ID666TagTests, SetsExistingExtendedGameTitleProperly)
 
     // Set should set the extended area value when the value size is > 33.
     extParams.setValue = "Set Game Title ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    extParams.expectedValue = "Set Game Title ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     extParams.extendedID = Spc::Id666::Extended::gameTitleInfo.id;
     extParams.extendedType = Spc::Id666::Extended::gameTitleInfo.type;
@@ -1023,6 +1046,7 @@ TEST_F(ID666TagTests, SetsNewExtendedDumperNameProperly)
 
     // Set should set the extended area value when the value size is > 16.
     extParams.setValue = "Set Dumper Name ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    extParams.expectedValue = "Set Dumper Name ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     extParams.extendedID = Spc::Id666::Extended::dumperNameInfo.id;
     extParams.extendedType = Spc::Id666::Extended::dumperNameInfo.type;
@@ -1050,6 +1074,7 @@ TEST_F(ID666TagTests, SetsExistingExtendedDumperNameProperly)
 
     // Set should set the extended area value when the value size is > 16.
     extParams.setValue = "Set Dumper Name ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    extParams.expectedValue = "Set Dumper Name ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     extParams.extendedID = Spc::Id666::Extended::dumperNameInfo.id;
     extParams.extendedType = Spc::Id666::Extended::dumperNameInfo.type;
@@ -1106,6 +1131,7 @@ TEST_F(ID666TagTests, SetsNewExtendedCommentsProperly)
 
     // Set should set the extended area value when the value size is > 32.
     extParams.setValue = "Set Comments ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    extParams.expectedValue = "Set Comments ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     extParams.extendedID = Spc::Id666::Extended::commentsInfo.id;
     extParams.extendedType = Spc::Id666::Extended::commentsInfo.type;
@@ -1133,6 +1159,7 @@ TEST_F(ID666TagTests, SetsExistingExtendedCommentsProperly)
 
     // Set should set the extended area value when the value size is > 32.
     extParams.setValue = "Set Comments ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    extParams.expectedValue = "Set Comments ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     extParams.extendedID = Spc::Id666::Extended::commentsInfo.id;
     extParams.extendedType = Spc::Id666::Extended::commentsInfo.type;
@@ -1288,6 +1315,8 @@ TEST_F(ID666TagTests, SetsNewExtendedSongArtistProperly)
 
     // Set should set the extended area value when the value size is > 32.
     extParams.setValue = "Set Song Artist ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    extParams.expectedValue = "Set Song Artist ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
     extParams.extendedID = Spc::Id666::Extended::songArtistInfo.id;
     extParams.extendedType = Spc::Id666::Extended::songArtistInfo.type;
     extParams.itemPtrPtr = &tag->ExtendedData()->songArtist;
@@ -1312,6 +1341,7 @@ TEST_F(ID666TagTests, SetsExistingExtendedSongArtistProperly)
 
     TestSetExtendedParams<Spc::TextField> extParams;
     extParams.setValue = "Set Song Artist ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    extParams.expectedValue = "Set Song Artist ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     extParams.extendedID = Spc::Id666::Extended::songArtistInfo.id;
     extParams.extendedType = Spc::Id666::Extended::songArtistInfo.type;
     extParams.itemPtrPtr = &tag->ExtendedData()->songArtist;
@@ -1396,6 +1426,7 @@ TEST_F(ID666TagTests, SetsNewExtendedOstTitleProperly)
 {
     TestSetExtendedParams<Spc::TextField> extParams;
     extParams.setValue = "Set OST Title";
+    extParams.expectedValue = "Set OST Title";
     extParams.extendedID = Spc::Id666::Extended::ostTitleInfo.id;
     extParams.extendedType = Spc::Id666::Extended::ostTitleInfo.type;
     extParams.itemPtrPtr = &tag->ExtendedData()->ostTitle;
@@ -1411,9 +1442,289 @@ TEST_F(ID666TagTests, SetsExistingOstTitleProperly)
 
     TestSetExtendedParams<Spc::TextField> extParams;
     extParams.setValue = "Set OST Title";
+    extParams.expectedValue = "Set OST Title";
     extParams.extendedID = Spc::Id666::Extended::ostTitleInfo.id;
     extParams.extendedType = Spc::Id666::Extended::ostTitleInfo.type;
     extParams.itemPtrPtr = &tag->ExtendedData()->ostTitle;
     extParams.setMethodPtr = &Spc::Id666::Tag::SetOstTitle;
     TestSetExtendedData<Spc::TextField, Spc::TextField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsNewOstDiscProperly)
+{
+    TestSetExtendedParams<Spc::NumericField> extParams;
+    extParams.setValue = "2";
+    extParams.expectedValue = "2";
+    extParams.extendedID = Spc::Id666::Extended::ostDiscInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::ostDiscInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->ostDisc;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetOstDisc;
+    TestSetExtended<Spc::NumericField, Spc::NumericField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsExistingOstDiscProperly)
+{
+    auto item = InitNumericExtendedItem<Spc::NumericField>(
+        Spc::Id666::Extended::ostDiscInfo,
+        "1");
+    tag->ExtendedData()->ostDisc = item;
+    TestSetExtendedParams<Spc::NumericField> extParams;
+    extParams.setValue = "2";
+    extParams.expectedValue = "2";
+    extParams.extendedID = Spc::Id666::Extended::ostDiscInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::ostDiscInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->ostDisc;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetOstDisc;
+    TestSetExtended<Spc::NumericField, Spc::NumericField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsNewOstTrackProperly)
+{
+    TestSetExtendedParams<Spc::TrackField> extParams;
+    extParams.setValue = "5b";
+    extParams.expectedValue = "5b";
+    extParams.extendedID = Spc::Id666::Extended::ostTrackInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::ostTrackInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->ostTrack;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetOstTrack;
+    TestSetExtended<Spc::TrackField, Spc::TrackField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsExistingOstTrackProperly)
+{
+    auto item = InitNumericExtendedItem<Spc::TrackField>(
+        Spc::Id666::Extended::ostTrackInfo,
+        "4");
+    tag->ExtendedData()->ostTrack = item;
+    TestSetExtendedParams<Spc::TrackField> extParams;
+    extParams.setValue = "5b";
+    extParams.expectedValue = "5b";
+    extParams.extendedID = Spc::Id666::Extended::ostTrackInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::ostTrackInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->ostTrack;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetOstTrack;
+    TestSetExtended<Spc::TrackField, Spc::TrackField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsNewPublisherNameProperly)
+{
+    TestSetExtendedParams<Spc::TextField> extParams;
+    extParams.setValue = "Set Publisher Name";
+    extParams.expectedValue = "Set Publisher Name";
+    extParams.extendedID = Spc::Id666::Extended::publisherNameInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::publisherNameInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->publisherName;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetPublisherName;
+    TestSetExtendedData<Spc::TextField, Spc::TextField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsExistingPublisherNameProperly)
+{
+    tag->ExtendedData()->publisherName = InitExtendedItem<Spc::TextField>(
+        Spc::Id666::Extended::publisherNameInfo,
+        "Existing Publisher Name");
+    TestSetExtendedParams<Spc::TextField> extParams;
+    extParams.setValue = "Set Publisher Name";
+    extParams.extendedID = Spc::Id666::Extended::publisherNameInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::publisherNameInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->publisherName;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetPublisherName;
+    extParams.expectedValue = "Set Publisher Name";
+    TestSetExtendedData<Spc::TextField, Spc::TextField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsNewCopyrightYearProperly)
+{
+    TestSetExtendedParams<Spc::NumericField> extParams;
+    extParams.setValue = "1995";
+    extParams.expectedValue = "1995";
+    extParams.extendedID = Spc::Id666::Extended::copyrightYearInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::copyrightYearInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->copyrightYear;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetCopyrightYear;
+    TestSetExtended<Spc::NumericField, Spc::NumericField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsExistingCopyrightYearProperly)
+{
+    auto item = InitNumericExtendedItem<Spc::NumericField>(
+        Spc::Id666::Extended::copyrightYearInfo,
+        "1995");
+    tag->ExtendedData()->copyrightYear = item;
+    TestSetExtendedParams<Spc::NumericField> extParams;
+    extParams.setValue = "1996";
+    extParams.expectedValue = "1996";
+    extParams.extendedID = Spc::Id666::Extended::copyrightYearInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::copyrightYearInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->copyrightYear;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetCopyrightYear;
+    TestSetExtended<Spc::NumericField, Spc::NumericField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsNewIntroLengthProperly)
+{
+    TestSetExtendedParams<Spc::NumericField> extParams;
+    extParams.setValue = "320000";
+    extParams.expectedValue = "320000";
+    extParams.extendedID = Spc::Id666::Extended::introLengthInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::introLengthInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->introLength;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetIntroLength;
+    TestSetExtendedData<Spc::NumericField, Spc::NumericField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsExistingIntroLengthProperly)
+{
+    auto item = InitNumericExtendedItem<Spc::NumericField>(
+        Spc::Id666::Extended::introLengthInfo,
+        "320000");
+    tag->ExtendedData()->introLength = item;
+    TestSetExtendedParams<Spc::NumericField> extParams;
+    extParams.setValue = "640000";
+    extParams.expectedValue = "640000";
+    extParams.extendedID = Spc::Id666::Extended::introLengthInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::introLengthInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->introLength;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetIntroLength;
+    TestSetExtendedData<Spc::NumericField, Spc::NumericField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsNewLoopLengthProperly)
+{
+    TestSetExtendedParams<Spc::NumericField> extParams;
+    extParams.setValue = "3200000";
+    extParams.expectedValue = "3200000";
+    extParams.extendedID = Spc::Id666::Extended::loopLengthInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::loopLengthInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->loopLength;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetLoopLength;
+    TestSetExtendedData<Spc::NumericField, Spc::NumericField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsExistingLoopLengthProperly)
+{
+    auto item = InitNumericExtendedItem<Spc::NumericField>(
+        Spc::Id666::Extended::loopLengthInfo,
+        "3200000");
+    tag->ExtendedData()->loopLength = item;
+    TestSetExtendedParams<Spc::NumericField> extParams;
+    extParams.setValue = "3840000";
+    extParams.expectedValue = "3840000";
+    extParams.extendedID = Spc::Id666::Extended::loopLengthInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::loopLengthInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->loopLength;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetLoopLength;
+    TestSetExtendedData<Spc::NumericField, Spc::NumericField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsNewEndLengthProperly)
+{
+    TestSetExtendedParams<Spc::NumericField> extParams;
+    extParams.setValue = "320000";
+    extParams.expectedValue = "320000";
+    extParams.extendedID = Spc::Id666::Extended::endLengthInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::endLengthInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->endLength;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetEndLength;
+    TestSetExtendedData<Spc::NumericField, Spc::NumericField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsExistingEndLengthProperly)
+{
+    auto item = InitNumericExtendedItem<Spc::NumericField>(
+        Spc::Id666::Extended::endLengthInfo,
+        "320000");
+    tag->ExtendedData()->endLength = item;
+    TestSetExtendedParams<Spc::NumericField> extParams;
+    extParams.setValue = "640000";
+    extParams.expectedValue = "640000";
+    extParams.extendedID = Spc::Id666::Extended::endLengthInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::endLengthInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->endLength;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetEndLength;
+    TestSetExtendedData<Spc::NumericField, Spc::NumericField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsNewMutedVoicesProperly)
+{
+    TestSetExtendedParams<Spc::BinaryField> extParams;
+    extParams.setValue = "00001111";
+    extParams.expectedValue = "00001111 00000000";
+    extParams.extendedID = Spc::Id666::Extended::mutedVoicesInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::mutedVoicesInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->mutedVoices;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetMutedVoices;
+    TestSetExtended<Spc::BinaryField, Spc::BinaryField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsExistingMutedVoicesProperly)
+{
+    auto item = InitNumericExtendedItem<Spc::BinaryField>(
+        Spc::Id666::Extended::mutedVoicesInfo,
+        "00001111");
+    tag->ExtendedData()->mutedVoices = item;
+    TestSetExtendedParams<Spc::BinaryField> extParams;
+    extParams.setValue = "00000001";
+    extParams.expectedValue = "00000001 00000000";
+    extParams.extendedID = Spc::Id666::Extended::mutedVoicesInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::mutedVoicesInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->mutedVoices;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetMutedVoices;
+    TestSetExtended<Spc::BinaryField, Spc::BinaryField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsNewLoopTimesProperly)
+{
+    TestSetExtendedParams<Spc::NumericField> extParams;
+    extParams.setValue = "2";
+    extParams.expectedValue = "2";
+    extParams.extendedID = Spc::Id666::Extended::loopTimesInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::loopTimesInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->loopTimes;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetLoopTimes;
+    TestSetExtended<Spc::NumericField, Spc::NumericField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsExistingLoopTimesProperly)
+{
+    auto item = InitNumericExtendedItem<Spc::NumericField>(
+        Spc::Id666::Extended::loopTimesInfo,
+        "2");
+    tag->ExtendedData()->loopTimes = item;
+    TestSetExtendedParams<Spc::NumericField> extParams;
+    extParams.setValue = "3";
+    extParams.expectedValue = "3";
+    extParams.extendedID = Spc::Id666::Extended::loopTimesInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::loopTimesInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->loopTimes;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetLoopTimes;
+    TestSetExtended<Spc::NumericField, Spc::NumericField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsNewPreampLevelProperly)
+{
+    TestSetExtendedParams<Spc::NumericField> extParams;
+    extParams.setValue = "65536";
+    extParams.expectedValue = "65536";
+    extParams.extendedID = Spc::Id666::Extended::preampLevelInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::preampLevelInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->preampLevel;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetPreampLevel;
+    TestSetExtendedData<Spc::NumericField, Spc::NumericField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsExistingPreampLevelProperly)
+{
+    auto item = InitNumericExtendedItem<Spc::NumericField>(
+        Spc::Id666::Extended::preampLevelInfo,
+        "65536");
+    tag->ExtendedData()->preampLevel = item;
+    TestSetExtendedParams<Spc::NumericField> extParams;
+    extParams.setValue = "640000";
+    extParams.expectedValue = "640000";
+    extParams.extendedID = Spc::Id666::Extended::preampLevelInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::preampLevelInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->preampLevel;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetPreampLevel;
+    TestSetExtendedData<Spc::NumericField, Spc::NumericField>(extParams);
 }
