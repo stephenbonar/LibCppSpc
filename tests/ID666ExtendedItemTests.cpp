@@ -54,8 +54,8 @@ TEST_F(ID666ExtendedItemTests, SpcFieldsMethodReturnsAllFields)
 
 TEST_F(ID666ExtendedItemTests, SpcFieldsMethodReturnsAdditionalFieldsIfNotNull)
 {
-    item->id->SetValue(Spc::Id666::Extended::songTitleInfo.id);
-    item->type->SetValue(Spc::Id666::Extended::stringType);
+    item->id->SetInt32(Spc::Id666::Extended::songTitleInfo.id);
+    item->type->SetInt32(Spc::Id666::Extended::stringType);
 
     // Data is a pointer to the base class, so we need to cast it to 
     // NumericField since we know it is numeric when extended type is string.
@@ -63,7 +63,7 @@ TEST_F(ID666ExtendedItemTests, SpcFieldsMethodReturnsAdditionalFieldsIfNotNull)
 
     // We're going to do a string that's 5 bytes long as that would need 
     // padding, and we want to test that the padding field is included.
-    data->SetValue(5);
+    data->SetInt32(5);
 
     // Create the extended data field as a TextField since it should be string.
     auto extendedData = std::make_shared<Spc::TextField>(

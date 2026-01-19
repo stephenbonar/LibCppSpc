@@ -46,13 +46,16 @@ Item::Item()
 {
     id = std::make_shared<NumericField>("Item ID", 
                                         dataOffset, 
-                                        idSize);
+                                        idSize,
+                                        Spc::NumericType::Binary);
     type = std::make_shared<NumericField>("Item Type",
                                           dataOffset,
-                                          typeSize);
+                                          typeSize,
+                                          Spc::NumericType::Binary);
     data = std::make_shared<NumericField>("Item Data",
                                           dataOffset,
-                                          dataSize);
+                                          dataSize,
+                                          Spc::NumericType::Binary);
 }
 
 std::vector<Field*> Item::SpcFields() const
@@ -62,7 +65,7 @@ std::vector<Field*> Item::SpcFields() const
     fields.push_back(type.get());
     fields.push_back(data.get());
 
-    if (extendedData != nullptr && type->Value() != lengthType)
+    if (extendedData != nullptr && type->ToInt32() != lengthType)
     {
         fields.push_back(extendedData.get());
 

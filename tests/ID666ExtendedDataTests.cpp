@@ -22,8 +22,8 @@ void ID666ExtendedDataTests::InitStringItem(
 {
     // Create the song name item to ensure Size() is non-zero.
     item = std::make_shared<Spc::Id666::Extended::Item>();
-    item->id->SetValue(Spc::Id666::Extended::songTitleInfo.id);
-    item->type->SetValue(Spc::Id666::Extended::stringType);
+    item->id->SetInt32(Spc::Id666::Extended::songTitleInfo.id);
+    item->type->SetInt32(Spc::Id666::Extended::stringType);
 
     // Data is a pointer to the base class, so we need to cast it to 
     // NumericField since we know it is numeric when extended type is string.
@@ -31,7 +31,7 @@ void ID666ExtendedDataTests::InitStringItem(
         item->data);
 
     // We're going to do a string that's 4 bytes long.
-    data->SetValue(value.size());
+    data->SetInt32(value.size());
 
     // Create the extended data field as a TextField since it should be string.
     auto extendedData = std::make_shared<Spc::TextField>("ExtendedData", 

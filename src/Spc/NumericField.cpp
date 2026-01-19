@@ -43,7 +43,7 @@ bool NumericField::IsText() const
     return true;
 }
 
-unsigned long long NumericField::DetectValue() const
+ int32_t NumericField::DetectInt32() const
 {
     if (IsZero())
     {
@@ -51,18 +51,18 @@ unsigned long long NumericField::DetectValue() const
     }
     else if (IsText())
     {
-        return std::stoull(
+        return std::stoi(
             Binary::RawField::ToString(Binary::StringFormat::Terminated));
     }
     else
     {
-        return Value();
+        return ToInt32();
     }
 }
 
-unsigned long long NumericField::Value() const
+int32_t NumericField::ToInt32() const
 {
-    Binary::UInt64Field value{ Binary::FieldEndianness::Little };
+    Binary::Int32Field value{ Binary::FieldEndianness::Little };
 
     for (int i = 0; i < size; i++)
         value.RawData()[i] = rawData[i];
@@ -87,7 +87,7 @@ std::string NumericField::ToString() const
     if (type == NumericType::Text)
         return Binary::RawField::ToString(Binary::StringFormat::Terminated);
 
-    Binary::UInt64Field value{ Binary::FieldEndianness::Little };
+    Binary::Int32Field value{ Binary::FieldEndianness::Little };
 
     for (int i = 0; i < size; i++)
         value.RawData()[i] = rawData[i];
@@ -95,7 +95,7 @@ std::string NumericField::ToString() const
     return value.ToString();
 }
 
-void NumericField::SetValue(int value)
+void NumericField::SetInt32(int32_t value)
 {
     if (type == NumericType::Text)
     {
@@ -107,7 +107,7 @@ void NumericField::SetValue(int value)
             rawData[i] = stringValue[i];
     }
 
-    Binary::UInt32Field field{ value };
+    Binary::Int32Field field{ value };
     
     for (int i = 0; i < size; i++)
         rawData[i] = field.RawData()[i];
@@ -117,7 +117,7 @@ void NumericField::SetValue(std::string value)
 {
     if (type == NumericType::Binary)
     {
-        Binary::UInt32Field field{ std::stoi(value) };
+        Binary::Int32Field field{ std::stoi(value) };
 
         for (int i = 0; i < size; i++)
             rawData[i] = field.RawData()[i];

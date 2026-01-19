@@ -54,7 +54,9 @@ namespace Spc
         
         /// @brief Converts the field's data to a string representation.
         /// @return A string representation of the field's data.
-        std::string ToString() const override;
+        virtual std::string ToString() const override;
+
+        virtual void SetValue(std::string value) override;
     };
 }
 

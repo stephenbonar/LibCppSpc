@@ -32,6 +32,6 @@ void BinaryField::SetValue(std::string value)
     if (value.find_first_not_of("01") != std::string::npos)
         throw std::invalid_argument{ binError };
 
-    int binaryValue = std::stoi(value, nonNumericPos, base);
-    NumericField::SetValue(binaryValue);
+    int dec = std::stoi(value, nonNumericPos, base);
+    NumericField::SetInt32(dec);
 }

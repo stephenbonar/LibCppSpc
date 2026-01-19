@@ -181,8 +181,16 @@ namespace Spc::Id666
 
             if (item != nullptr)
             {
-                if (item->type->Value() == Extended::lengthType)
-                    field = std::static_pointer_cast<T>(item->data);
+                if (item->type->ToInt32() == Extended::lengthType)
+                {
+                    //field = std::static_pointer_cast<T>(item->data);
+                    field = std::make_shared<T>(label, 
+                                                Extended::dataOffset, 
+                                                Extended::dataSize);
+                    std::memcpy(field->RawData(), 
+                                item->data->RawData(), 
+                                item->data->Size());
+                }
                 else
                     field = std::static_pointer_cast<T>(item->extendedData);
 
@@ -258,10 +266,10 @@ namespace Spc::Id666
             if (*(itemPtrPtr) == nullptr)
             {
                 auto item = std::make_shared<Extended::Item>();
-                item->id->SetValue(extendedInfo.id);
-                item->type->SetValue(extendedInfo.type);
+                item->id->SetInt32(extendedInfo.id);
+                item->type->SetInt32(extendedInfo.type);
 
-                if (item->type->Value() == Extended::lengthType)
+                if (item->type->ToInt32() == Extended::lengthType)
                 {
                     auto field = std::make_shared<T>("Temp Field",
                                                      Extended::dataOffset, 
@@ -276,10 +284,10 @@ namespace Spc::Id666
                     auto data = std::static_pointer_cast<NumericField>(
                         item->data);
 
-                    if (item->type->Value() == Extended::stringType)
-                        data->SetValue(value.size());
+                    if (item->type->ToInt32() == Extended::stringType)
+                        data->SetInt32(value.size());
                     else
-                        data->SetValue(Extended::integerSize);
+                        data->SetInt32(Extended::integerSize);
 
                     auto field = std::make_shared<T>("Temp Field", 
                                                      Extended::dataOffset, 
@@ -294,24 +302,32 @@ namespace Spc::Id666
             {
                 auto item = *(itemPtrPtr);
 
-                if (item->type->Value() == Extended::lengthType)
+                if (item->type->ToInt32() == Extended::lengthType)
                 {
-                    auto field = std::static_pointer_cast<T>(item->data);
+                    //auto field = std::static_pointer_cast<T>(item->data);
+                    auto field = std::make_shared<T>("Temp Field", 
+                                                     Extended::dataOffset, 
+                                                     Extended::dataSize);
                     field->SetValue(value);
+                    std::memcpy(item->data->RawData(), 
+                                field->RawData(), 
+                                field->Size());
                 }
                 else
                 {
                     auto data = std::static_pointer_cast<NumericField>(
                         item->data);
 
-                    if (item->type->Value() == Extended::stringType)
-                        data->SetValue(value.size());
+                    if (item->type->ToInt32() == Extended::stringType)
+                        data->SetInt32(value.size());
                     else
-                        data->SetValue(Extended::integerSize);
+                        data->SetInt32(Extended::integerSize);
 
-                    auto field = std::static_pointer_cast<T>(
-                        item->extendedData);
-                    field->SetValue(value);
+                    //auto field = std::static_pointer_cast<T>(
+                    //    item->extendedData);
+                    item->extendedData = std::make_shared<T>(
+                        "Temp Field", Extended::dataOffset, value.size());
+                    item->extendedData->SetValue(value);
                 }
             }
         }

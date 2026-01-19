@@ -23,7 +23,7 @@
 #include <LibCppSpc.h>
 
 template<typename T>
-struct TestGetParameters
+struct TestGetParams
 {
     const char* testData;
     std::string expectedLabel;
@@ -33,7 +33,7 @@ struct TestGetParameters
     T (Spc::Id666::Tag::*getMethodPtr)() const;
 };
 
-struct TestFieldWithoutGetParameters
+struct TestFieldWithoutGetParams
 {
     size_t offset;
     size_t size;
@@ -41,7 +41,7 @@ struct TestFieldWithoutGetParameters
 };
 
 template<typename T>
-struct TestGetWithExtendedItemParameters
+struct TestGetExtendedParams
 {
     std::string expectedLabel;
     std::string expectedValue;
@@ -54,7 +54,7 @@ struct TestGetWithExtendedItemParameters
 };
 
 template<typename T>
-struct TestSetParameters
+struct TestSetParams
 {
     const char* testData;
     size_t offset;
@@ -63,16 +63,8 @@ struct TestSetParameters
     void (Spc::Id666::Tag::*setMethodPtr)(std::string value);
 };
 
-struct TestSetDateDumpedParameters
-{
-    const char* testData;
-    size_t offset;
-    size_t size;
-    std::string setValue;
-};
-
 template<typename T>
-struct TestSetWithExtendedItemParameters
+struct TestSetExtendedParams
 {
     int extendedID;
     int extendedType;
@@ -87,7 +79,7 @@ protected:
     void SetUp() override;
 
     template<typename T>
-    void TestGet(TestGetParameters<T> params)
+    void TestGet(TestGetParams<T> params)
     {
         ASSERT_NE(tag, nullptr);
         ASSERT_NE(tag->FieldData(), nullptr);
@@ -110,14 +102,14 @@ protected:
         std::string setValue)
     {
         auto item = std::make_shared<Spc::Id666::Extended::Item>();
-        item->id->SetValue(extendedInfo.id);
-        item->type->SetValue(extendedInfo.type);
+        item->id->SetInt32(extendedInfo.id);
+        item->type->SetInt32(extendedInfo.type);
         auto itemData = std::static_pointer_cast<Spc::NumericField>(item->data);
 
         if (extendedInfo.type == Spc::Id666::Extended::stringType)
-            itemData->SetValue(setValue.size());
+            itemData->SetInt32(setValue.size());
         else if (extendedInfo.type == Spc::Id666::Extended::integerType)
-            itemData->SetValue(Spc::Id666::Extended::integerSize);
+            itemData->SetInt32(Spc::Id666::Extended::integerSize);
         else
             itemData->SetValue(setValue);
 
@@ -135,78 +127,84 @@ protected:
     }
 
     template<typename T, typename U>
-    void TestGetWithExtendedItem(TestGetWithExtendedItemParameters<T> params)
+    void TestGetExtended(TestGetExtendedParams<T> params)
     {
         auto extData = tag->ExtendedData();
         size_t offset = Spc::Id666::Extended::dataOffset;
 
-        if (params.extendedType == Spc::Id666::Extended::lengthType)
-        {
-            size_t size = params.item->data->Size();
-            params.item->id->SetValue(params.extendedID);
-            params.item->type->SetValue(params.extendedType);
-        
-            auto itemData = std::static_pointer_cast<U>(
-                params.item->data);
+        size_t size = params.item->data->Size();
+        params.item->id->SetInt32(params.extendedID);
+        params.item->type->SetInt32(params.extendedType);
+    
+        auto itemData = std::make_shared<U>(
+            params.expectedLabel, 
+            offset, 
+            size);
+        itemData->SetType(Spc::NumericType::Binary);
+        itemData->SetValue(params.extendedValue);
+        std::memcpy(params.item->data->RawData(), 
+                    itemData->RawData(), 
+                    itemData->Size());
 
-            itemData->SetLabel(params.expectedLabel);
-            itemData->SetValue(params.extendedValue);
+        TestGetParams<T> getParams;
+        getParams.testData = textData;
+        getParams.expectedLabel = params.expectedLabel;
+        getParams.expectedValue = params.expectedValue;
+        getParams.expectedOffset = offset;
+        getParams.expectedSize = params.expectedSize;
+        getParams.getMethodPtr = params.getMethodPtr;
+        TestGet<T>(getParams);
+    }
 
-            TestGetParameters<T> getParams;
-            getParams.testData = textData;
-            getParams.expectedLabel = params.expectedLabel;
-            getParams.expectedValue = params.expectedValue;
-            getParams.expectedOffset = offset;
-            getParams.expectedSize = params.expectedSize;
-            getParams.getMethodPtr = params.getMethodPtr;
-            TestGet<T>(getParams);
-        }
-        else
-        {
-            size_t size;
+    template<typename T, typename U>
+    void TestGetExtendedData(TestGetExtendedParams<T> params)
+    {
+        auto extData = tag->ExtendedData();
+        size_t offset = Spc::Id666::Extended::dataOffset;
+
+        size_t size;
             
-            if (params.extendedType == Spc::Id666::Extended::stringType)
-                size = params.extendedValue.size();
-            else
-                size = 4; // 32-bit integer
+        if (params.extendedType == Spc::Id666::Extended::stringType)
+            size = params.extendedValue.size();
+        else
+            size = 4; // 32-bit integer
 
-            //size_t offset = Spc::Id666::Extended::dataOffset;
+        //size_t offset = Spc::Id666::Extended::dataOffset;
 
-            auto itemExtData = std::make_shared<U>(params.expectedLabel, 
-                                                   offset, 
-                                                   size);
+        auto itemExtData = std::make_shared<U>(params.expectedLabel, 
+                                               offset, 
+                                               size);
 
-            // We need to ensure the data type is correct for integer types.
-            if (params.extendedType == Spc::Id666::Extended::integerType)
-            {
-                auto numericExtData = 
-                    std::reinterpret_pointer_cast<Spc::NumericField>(
-                        itemExtData);
-                numericExtData->SetType(Spc::NumericType::Binary);
-            }
-
-            itemExtData->SetValue(params.extendedValue);
-            params.item->id->SetValue(params.extendedID);
-            params.item->type->SetValue(params.extendedType);
-            auto itemData = std::static_pointer_cast<Spc::NumericField>
-                (params.item->data);
-            itemData->SetValue(static_cast<int>(size));
-
-            params.item->extendedData = itemExtData;
-
-            TestGetParameters<T> getParams;
-            getParams.testData = textData;
-            getParams.expectedLabel = params.expectedLabel;
-            getParams.expectedValue = params.expectedValue;
-            getParams.expectedOffset = offset;
-            getParams.expectedSize = params.expectedSize;
-            getParams.getMethodPtr = params.getMethodPtr;
-            TestGet<T>(getParams);
+        // We need to ensure the data type is correct for integer types.
+        if (params.extendedType == Spc::Id666::Extended::integerType)
+        {
+            auto numericExtData = 
+                std::reinterpret_pointer_cast<Spc::NumericField>(
+                    itemExtData);
+            numericExtData->SetType(Spc::NumericType::Binary);
         }
+
+        itemExtData->SetValue(params.extendedValue);
+        params.item->id->SetInt32(params.extendedID);
+        params.item->type->SetInt32(params.extendedType);
+        auto itemData = std::static_pointer_cast<Spc::NumericField>
+            (params.item->data);
+        itemData->SetInt32(static_cast<int>(size));
+
+        params.item->extendedData = itemExtData;
+
+        TestGetParams<T> getParams;
+        getParams.testData = textData;
+        getParams.expectedLabel = params.expectedLabel;
+        getParams.expectedValue = params.expectedValue;
+        getParams.expectedOffset = offset;
+        getParams.expectedSize = params.expectedSize;
+        getParams.getMethodPtr = params.getMethodPtr;
+        TestGet<T>(getParams);
     }
 
     template<typename T>
-    void TestSet(TestSetParameters<T> params)
+    void TestSet(TestSetParams<T> params)
     {
         ASSERT_NE(tag, nullptr);
         ASSERT_NE(tag->FieldData(), nullptr);
@@ -224,24 +222,56 @@ protected:
         EXPECT_EQ(params.setValue, field.ToString());
     }
 
-    void TestSetDateDumped(TestSetDateDumpedParameters params)
+    template<typename T, typename U>
+    void TestSetExtended(TestSetExtendedParams<T> params)
     {
-        std::shared_ptr<Binary::BufferStream> fieldData = tag->FieldData();
-        std::memcpy(fieldData->RawData(), params.testData, fieldData->Size());
+        auto extData = tag->ExtendedData();
+        size_t offset = Spc::Id666::Extended::dataOffset;
 
-        tag->SetDateDumped(params.setValue);
+        (tag.get()->*params.setMethodPtr)(params.setValue);
+        std::shared_ptr<Spc::Id666::Extended::Item> item = *(params.itemPtrPtr);
+        ASSERT_NE(item, nullptr);
 
-        size_t previousPosition = fieldData->Position();
-        fieldData->SetPosition(params.offset - Spc::Id666::tagOffset);
-        Spc::DateField field{ "Date Dumped", params.offset, params.size };
-        fieldData->Read(&field);
-        fieldData->SetPosition(previousPosition);
+        //auto itemData = std::static_pointer_cast<U>(item->data);
+        auto itemData = std::make_shared<U>(
+            "Test", 
+            offset, 
+            Spc::Id666::Extended::dataSize);
+        std::memcpy(itemData->RawData(), 
+                    item->data->RawData(), 
+                    item->data->Size());
 
-        EXPECT_EQ(field.Value(), params.setValue);
+        EXPECT_EQ(item->id->ToInt32(), params.extendedID);
+        EXPECT_EQ(item->type->ToInt32(), params.extendedType);
+        EXPECT_EQ(params.setValue, itemData->ToString());
     }
 
     template<typename T, typename U>
-    void TestSetWithExtendedItem(TestSetWithExtendedItemParameters<T> params)
+    void TestSetExtendedData(TestSetExtendedParams<T> params)
+    {
+        auto extData = tag->ExtendedData();
+        size_t offset = Spc::Id666::Extended::dataOffset;
+
+        (tag.get()->*params.setMethodPtr)(params.setValue);
+        std::shared_ptr<Spc::Id666::Extended::Item> item = *(params.itemPtrPtr);
+        ASSERT_NE(item, nullptr);
+        
+        // When the data is not in the header, then item-data contains the
+        // extended data size. Ensure it matches the size of the extended
+        // data before proceeding with any additional checks as we don't
+        // want any buffer overflows.
+        auto extendedDataSize = std::static_pointer_cast<Spc::NumericField>(
+            item->data);
+        ASSERT_EQ(extendedDataSize->ToInt32(), item->extendedData->Size());
+
+        EXPECT_EQ(item->id->ToInt32(), params.extendedID);
+        EXPECT_EQ(item->type->ToInt32(), params.extendedType); 
+        EXPECT_EQ(params.setValue, item->extendedData->ToString());
+    }
+
+    /*
+    template<typename T, typename U>
+    void TestSetExtended(TestSetExtendedParams<T> params)
     {
         auto extData = tag->ExtendedData();
         size_t offset = Spc::Id666::Extended::dataOffset;
@@ -252,10 +282,17 @@ protected:
 
         if (params.extendedType == Spc::Id666::Extended::lengthType)
         {
-            auto itemData = std::static_pointer_cast<U>(item->data);
+            //auto itemData = std::static_pointer_cast<U>(item->data);
+            auto itemData = std::make_shared<U>(
+                "Test", 
+                offset, 
+                Spc::Id666::Extended::dataSize);
+            std::memcpy(itemData->RawData(), 
+                        item->data->RawData(), 
+                        item->data->Size());
 
-            EXPECT_EQ(item->id->Value(), params.extendedID);
-            EXPECT_EQ(item->type->Value(), params.extendedType);
+            EXPECT_EQ(item->id->ToInt32(), params.extendedID);
+            EXPECT_EQ(item->type->ToInt32(), params.extendedType);
             EXPECT_EQ(params.setValue, itemData->ToString());
         }
         else
@@ -266,16 +303,17 @@ protected:
             // want any buffer overflows.
             auto extendedDataSize = std::static_pointer_cast<Spc::NumericField>(
                 item->data);
-            ASSERT_EQ(extendedDataSize->Value(), item->extendedData->Size());
+            ASSERT_EQ(extendedDataSize->ToInt32(), item->extendedData->Size());
 
-            EXPECT_EQ(item->id->Value(), params.extendedID);
-            EXPECT_EQ(item->type->Value(), params.extendedType); 
+            EXPECT_EQ(item->id->ToInt32(), params.extendedID);
+            EXPECT_EQ(item->type->ToInt32(), params.extendedType); 
             EXPECT_EQ(params.setValue, item->extendedData->ToString());
         }
     }
+    */
 
     template<typename T>
-    void TestFieldsWithoutGet(TestFieldWithoutGetParameters params)
+    void TestFieldsWithoutGet(TestFieldWithoutGetParams params)
     {
         ASSERT_NE(tag, nullptr);
         ASSERT_NE(tag->FieldData(), nullptr);

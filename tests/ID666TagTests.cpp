@@ -129,7 +129,7 @@ TEST_F(ID666TagTests, InitializesProperly)
 
 TEST_F(ID666TagTests, GetsTextSongTitleProperly)
 {
-    TestGetParameters<Spc::TextField> params;
+    TestGetParams<Spc::TextField> params;
     params.testData = textData;
     params.expectedLabel = "Song Title";
     params.expectedValue = expectedSongTitle;
@@ -141,7 +141,7 @@ TEST_F(ID666TagTests, GetsTextSongTitleProperly)
 
 TEST_F(ID666TagTests, GetsBinarySongTitleProperly)
 {
-    TestGetParameters<Spc::TextField> params;
+    TestGetParams<Spc::TextField> params;
     params.testData = binaryData;
     params.expectedLabel = "Song Title";
     params.expectedValue = expectedSongTitle;
@@ -153,7 +153,7 @@ TEST_F(ID666TagTests, GetsBinarySongTitleProperly)
 
 TEST_F(ID666TagTests, GetsMixedSongTitlePropely)
 {
-    TestGetParameters<Spc::TextField> params;
+    TestGetParams<Spc::TextField> params;
     params.testData = mixedData;
     params.expectedLabel = "Song Title";
     params.expectedValue = expectedSongTitle;
@@ -167,7 +167,7 @@ TEST_F(ID666TagTests, GetsExtendedSongTitleProperly)
 {
     tag->ExtendedData()->songTitle = 
         std::make_shared<Spc::Id666::Extended::Item>();
-    TestGetWithExtendedItemParameters<Spc::TextField> params;
+    TestGetExtendedParams<Spc::TextField> params;
     params.expectedLabel = "Song Title";
     params.expectedValue = expectedSongTitle;
     params.expectedSize = expectedSongTitle.size();
@@ -176,12 +176,12 @@ TEST_F(ID666TagTests, GetsExtendedSongTitleProperly)
     params.extendedValue = expectedSongTitle;
     params.item = tag->ExtendedData()->songTitle;
     params.getMethodPtr = &Spc::Id666::Tag::SongTitle;
-    TestGetWithExtendedItem<Spc::TextField, Spc::TextField>(params);
+    TestGetExtendedData<Spc::TextField, Spc::NumericField>(params);
 }
 
 TEST_F(ID666TagTests, GetsTextGameTitleProperly)
 {
-    TestGetParameters<Spc::TextField> params;
+    TestGetParams<Spc::TextField> params;
     params.testData = textData;
     params.expectedLabel = "Game Title";
     params.expectedValue = expectedGameTitle;
@@ -193,7 +193,7 @@ TEST_F(ID666TagTests, GetsTextGameTitleProperly)
 
 TEST_F(ID666TagTests, GetsBinaryGameTitleProperly)
 {
-    TestGetParameters<Spc::TextField> params;
+    TestGetParams<Spc::TextField> params;
     params.testData = binaryData;
     params.expectedLabel = "Game Title";
     params.expectedValue = expectedGameTitle;
@@ -205,7 +205,7 @@ TEST_F(ID666TagTests, GetsBinaryGameTitleProperly)
 
 TEST_F(ID666TagTests, GetsMixedGameTitleProperly)
 {
-    TestGetParameters<Spc::TextField> params;
+    TestGetParams<Spc::TextField> params;
     params.testData = mixedData;
     params.expectedLabel = "Game Title";
     params.expectedValue = expectedGameTitle;
@@ -219,7 +219,7 @@ TEST_F(ID666TagTests, GetsExtendedGameTitleProperly)
 {
     tag->ExtendedData()->gameTitle = 
         std::make_shared<Spc::Id666::Extended::Item>();
-    TestGetWithExtendedItemParameters<Spc::TextField> params;
+    TestGetExtendedParams<Spc::TextField> params;
     params.expectedLabel = "Game Title";
     params.expectedValue = expectedGameTitle;
     params.expectedSize = expectedGameTitle.size();
@@ -228,12 +228,12 @@ TEST_F(ID666TagTests, GetsExtendedGameTitleProperly)
     params.extendedValue = expectedGameTitle;
     params.item = tag->ExtendedData()->gameTitle;
     params.getMethodPtr = &Spc::Id666::Tag::GameTitle;
-    TestGetWithExtendedItem<Spc::TextField, Spc::TextField>(params);
+    TestGetExtendedData<Spc::TextField, Spc::NumericField>(params);
 }
 
 TEST_F(ID666TagTests, GetsTextDumperNameProperly)
 {
-    TestGetParameters<Spc::TextField> params;
+    TestGetParams<Spc::TextField> params;
     params.testData = textData;
     params.expectedLabel = "Dumper Name";
     params.expectedValue = expectedDumperName;
@@ -245,7 +245,7 @@ TEST_F(ID666TagTests, GetsTextDumperNameProperly)
 
 TEST_F(ID666TagTests, GetsBinaryDumperNameProperly)
 {
-    TestGetParameters<Spc::TextField> params;
+    TestGetParams<Spc::TextField> params;
     params.testData = binaryData;
     params.expectedLabel = "Dumper Name";
     params.expectedValue = expectedDumperName;
@@ -257,7 +257,7 @@ TEST_F(ID666TagTests, GetsBinaryDumperNameProperly)
 
 TEST_F(ID666TagTests, GetsMixedDumperNameProperly)
 {
-    TestGetParameters<Spc::TextField> params;
+    TestGetParams<Spc::TextField> params;
     params.testData = mixedData;
     params.expectedLabel = "Dumper Name";
     params.expectedValue = expectedDumperName;
@@ -271,7 +271,7 @@ TEST_F(ID666TagTests, GetsExtendedDumperProperly)
 {
     tag->ExtendedData()->dumperName = 
         std::make_shared<Spc::Id666::Extended::Item>();
-    TestGetWithExtendedItemParameters<Spc::TextField> params;
+    TestGetExtendedParams<Spc::TextField> params;
     params.expectedLabel = "Dumper Name";
     params.expectedValue = expectedDumperName;
     params.expectedSize = expectedDumperName.size();
@@ -280,12 +280,12 @@ TEST_F(ID666TagTests, GetsExtendedDumperProperly)
     params.extendedValue = expectedDumperName;
     params.item = tag->ExtendedData()->dumperName;
     params.getMethodPtr = &Spc::Id666::Tag::DumperName;
-    TestGetWithExtendedItem<Spc::TextField, Spc::TextField>(params);
+    TestGetExtendedData<Spc::TextField, Spc::NumericField>(params);
 }
 
 TEST_F(ID666TagTests, GetsTextCommentsProperly)
 {
-    TestGetParameters<Spc::TextField> params;
+    TestGetParams<Spc::TextField> params;
     params.testData = textData;
     params.expectedLabel = "Comments";
     params.expectedValue = expectedComments;
@@ -297,7 +297,7 @@ TEST_F(ID666TagTests, GetsTextCommentsProperly)
 
 TEST_F(ID666TagTests, GetsBinaryCommentsProperly)
 {
-    TestGetParameters<Spc::TextField> params;
+    TestGetParams<Spc::TextField> params;
     params.testData = binaryData;
     params.expectedLabel = "Comments";
     params.expectedValue = expectedComments;
@@ -309,7 +309,7 @@ TEST_F(ID666TagTests, GetsBinaryCommentsProperly)
 
 TEST_F(ID666TagTests, GetsMixedCommentsProperly)
 {
-    TestGetParameters<Spc::TextField> params;
+    TestGetParams<Spc::TextField> params;
     params.testData = mixedData;
     params.expectedLabel = "Comments";
     params.expectedValue = expectedComments;
@@ -323,7 +323,7 @@ TEST_F(ID666TagTests, GetsExtendedCommentsProperly)
 {
     tag->ExtendedData()->comments = 
     std::make_shared<Spc::Id666::Extended::Item>();
-    TestGetWithExtendedItemParameters<Spc::TextField> params;
+    TestGetExtendedParams<Spc::TextField> params;
     params.expectedLabel = "Comments";
     params.expectedValue = expectedComments;
     params.expectedSize = expectedComments.size();
@@ -332,12 +332,12 @@ TEST_F(ID666TagTests, GetsExtendedCommentsProperly)
     params.extendedValue = expectedComments;
     params.item = tag->ExtendedData()->comments;
     params.getMethodPtr = &Spc::Id666::Tag::Comments;
-    TestGetWithExtendedItem<Spc::TextField, Spc::TextField>(params);
+    TestGetExtendedData<Spc::TextField, Spc::NumericField>(params);
 }
 
 TEST_F(ID666TagTests, GetsTextDateDumpedProperly)
 {
-    TestGetParameters<Spc::DateField> params;
+    TestGetParams<Spc::DateField> params;
     params.testData = textData;
     params.expectedLabel = "Date Dumped";
     params.expectedValue = expectedDateDumped;
@@ -349,7 +349,7 @@ TEST_F(ID666TagTests, GetsTextDateDumpedProperly)
 
 TEST_F(ID666TagTests, GetsBinaryDateDumpedProperly)
 {
-    TestGetParameters<Spc::DateField> params;
+    TestGetParams<Spc::DateField> params;
     params.testData = binaryData;
     params.expectedLabel = "Date Dumped";
     params.expectedValue = expectedDateDumped;
@@ -361,7 +361,7 @@ TEST_F(ID666TagTests, GetsBinaryDateDumpedProperly)
 
 TEST_F(ID666TagTests, GetsMixedDateDumpedProperly)
 {
-    TestGetParameters<Spc::DateField> params;
+    TestGetParams<Spc::DateField> params;
     params.testData = mixedData;
     params.expectedLabel = "Date Dumped";
     params.expectedValue = expectedDateDumped;
@@ -376,7 +376,7 @@ TEST_F(ID666TagTests, GetsExtendedDateDumpedProperly)
     tag->ExtendedData()->dateDumped = 
         std::make_shared<Spc::Id666::Extended::Item>();
     
-    TestGetWithExtendedItemParameters<Spc::DateField> params;
+    TestGetExtendedParams<Spc::DateField> params;
     params.expectedLabel = "Date Dumped";
     params.expectedValue = expectedDateDumped;
     params.expectedSize = Spc::Id666::dateDumpedInfo.binarySize;
@@ -388,12 +388,12 @@ TEST_F(ID666TagTests, GetsExtendedDateDumpedProperly)
 
     params.item = tag->ExtendedData()->dateDumped;
     params.getMethodPtr = &Spc::Id666::Tag::DateDumped;
-    TestGetWithExtendedItem<Spc::DateField, Spc::NumericField>(params);
+    TestGetExtendedData<Spc::DateField, Spc::NumericField>(params);
 }
 
 TEST_F(ID666TagTests, GetsTextSongLengthProperly)
 {
-    TestGetParameters<Spc::NumericField> params;
+    TestGetParams<Spc::NumericField> params;
     params.testData = textData;
     params.expectedLabel = "Song Length (seconds)";
     params.expectedValue = "123";
@@ -405,7 +405,7 @@ TEST_F(ID666TagTests, GetsTextSongLengthProperly)
 
 TEST_F(ID666TagTests, GetsBinarySongLengthProperly)
 {
-    TestGetParameters<Spc::NumericField> params;
+    TestGetParams<Spc::NumericField> params;
     params.testData = binaryData;
     params.expectedLabel = "Song Length (seconds)";
     params.expectedValue = "43";
@@ -417,7 +417,7 @@ TEST_F(ID666TagTests, GetsBinarySongLengthProperly)
 
 TEST_F(ID666TagTests, GetsMixedSongLengthProperly)
 {
-    TestGetParameters<Spc::NumericField> params;
+    TestGetParams<Spc::NumericField> params;
     params.testData = mixedData;
     params.expectedLabel = "Song Length (seconds)";
     params.expectedValue = "123";
@@ -429,7 +429,7 @@ TEST_F(ID666TagTests, GetsMixedSongLengthProperly)
 
 TEST_F(ID666TagTests, GetTextFadeLengthProperly)
 {
-    TestGetParameters<Spc::NumericField> params;
+    TestGetParams<Spc::NumericField> params;
     params.testData = textData;
     params.expectedLabel = "Fade Length (ms)";
     params.expectedValue = "05000";
@@ -441,7 +441,7 @@ TEST_F(ID666TagTests, GetTextFadeLengthProperly)
 
 TEST_F(ID666TagTests, GetsBinaryFadeLengthProperly)
 {
-    TestGetParameters<Spc::NumericField> params;
+    TestGetParams<Spc::NumericField> params;
     params.testData = binaryData;
     params.expectedLabel = "Fade Length (ms)";
     params.expectedValue = "5000";
@@ -453,7 +453,7 @@ TEST_F(ID666TagTests, GetsBinaryFadeLengthProperly)
 
 TEST_F(ID666TagTests, GetsMixedFadeLengthProperly)
 {
-    TestGetParameters<Spc::NumericField> params;
+    TestGetParams<Spc::NumericField> params;
     params.testData = mixedData;
     params.expectedLabel = "Fade Length (ms)";
     params.expectedValue = "50000";
@@ -465,7 +465,7 @@ TEST_F(ID666TagTests, GetsMixedFadeLengthProperly)
 
 TEST_F(ID666TagTests, GetsTextArtistProperly)
 {
-    TestGetParameters<Spc::TextField> params;
+    TestGetParams<Spc::TextField> params;
     params.testData = textData;
     params.expectedLabel = "Song Artist";
     params.expectedValue = expectedSongArtist;
@@ -477,7 +477,7 @@ TEST_F(ID666TagTests, GetsTextArtistProperly)
 
 TEST_F(ID666TagTests, GetsBinaryArtistProperly)
 {
-    TestGetParameters<Spc::TextField> params;
+    TestGetParams<Spc::TextField> params;
     params.testData = binaryData;
     params.expectedLabel = "Song Artist";
     params.expectedValue = expectedSongArtist;
@@ -489,7 +489,7 @@ TEST_F(ID666TagTests, GetsBinaryArtistProperly)
 
 TEST_F(ID666TagTests, GetsMixedArtistProperly)
 {
-    TestGetParameters<Spc::TextField> params;
+    TestGetParams<Spc::TextField> params;
     params.testData = mixedData;
     params.expectedLabel = "Song Artist";
     params.expectedValue = expectedSongArtist;
@@ -503,7 +503,7 @@ TEST_F(ID666TagTests, GetsExtendedArtistProperly)
 {
     tag->ExtendedData()->songArtist = 
         std::make_shared<Spc::Id666::Extended::Item>();
-    TestGetWithExtendedItemParameters<Spc::TextField> params;
+    TestGetExtendedParams<Spc::TextField> params;
     params.expectedLabel = "Song Artist";
     params.expectedValue = expectedSongArtist;
     params.expectedSize = expectedSongArtist.size();
@@ -512,12 +512,12 @@ TEST_F(ID666TagTests, GetsExtendedArtistProperly)
     params.extendedValue = expectedSongArtist;
     params.item = tag->ExtendedData()->songArtist;
     params.getMethodPtr = &Spc::Id666::Tag::SongArtist;
-    TestGetWithExtendedItem<Spc::TextField, Spc::TextField>(params);
+    TestGetExtendedData<Spc::TextField, Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, GetsTextDefaultChannelStateProperly)
 {
-    TestGetParameters<Spc::NumericField> params;
+    TestGetParams<Spc::NumericField> params;
     params.testData = textData;
     params.expectedLabel = "Default Channel State";
     params.expectedValue = "0";
@@ -529,7 +529,7 @@ TEST_F(ID666TagTests, GetsTextDefaultChannelStateProperly)
 
 TEST_F(ID666TagTests, GetsBinaryDefaultChannelStateProperly)
 {
-    TestGetParameters<Spc::NumericField> params;
+    TestGetParams<Spc::NumericField> params;
     params.testData = binaryData;
     params.expectedLabel = "Default Channel State";
     params.expectedValue = "0";
@@ -541,7 +541,7 @@ TEST_F(ID666TagTests, GetsBinaryDefaultChannelStateProperly)
 
 TEST_F(ID666TagTests, GetsMixedDefaultChannelStateProperly)
 {
-    TestGetParameters<Spc::NumericField> params;
+    TestGetParams<Spc::NumericField> params;
     params.testData = mixedData;
     params.expectedLabel = "Default Channel State";
     params.expectedValue = "0";
@@ -553,7 +553,7 @@ TEST_F(ID666TagTests, GetsMixedDefaultChannelStateProperly)
 
 TEST_F(ID666TagTests, GetsTextEmulatorUsedProperly)
 {
-    TestGetParameters<Spc::EmulatorField> params;
+    TestGetParams<Spc::EmulatorField> params;
     params.testData = textData;
     params.expectedLabel = "Emulator Used";
     params.expectedValue = "SNES9X";
@@ -565,7 +565,7 @@ TEST_F(ID666TagTests, GetsTextEmulatorUsedProperly)
 
 TEST_F(ID666TagTests, GetsBinaryEmulatorUsedProperly)
 {
-    TestGetParameters<Spc::EmulatorField> params;
+    TestGetParams<Spc::EmulatorField> params;
     params.testData = binaryData;
     params.expectedLabel = "Emulator Used";
     params.expectedValue = "SNES9X";
@@ -577,7 +577,7 @@ TEST_F(ID666TagTests, GetsBinaryEmulatorUsedProperly)
 
 TEST_F(ID666TagTests, GetsMixedEmulatorUsedProperly)
 {
-    TestGetParameters<Spc::EmulatorField> params;
+    TestGetParams<Spc::EmulatorField> params;
     params.testData = mixedData;
     params.expectedLabel = "Emulator Used";
     params.expectedValue = "SNES9X";
@@ -591,16 +591,16 @@ TEST_F(ID666TagTests, GetsExtendedEmulatorUsedProperly)
 {
     tag->ExtendedData()->emulatorUsed = 
         std::make_shared<Spc::Id666::Extended::Item>();
-    TestGetWithExtendedItemParameters<Spc::EmulatorField> params;
+    TestGetExtendedParams<Spc::EmulatorField> params;
     params.expectedLabel = "Emulator Used";
     params.expectedValue = "SNES9X";
     params.expectedSize = Spc::Id666::emulatorUsedInfo.binarySize;
     params.extendedID = Spc::Id666::Extended::emulatorUsedInfo.id;
     params.extendedType = Spc::Id666::Extended::emulatorUsedInfo.type;
-    params.extendedValue = "2";
+    params.extendedValue = "SNES9X";
     params.item = tag->ExtendedData()->emulatorUsed;
     params.getMethodPtr = &Spc::Id666::Tag::EmulatorUsed;
-    TestGetWithExtendedItem<Spc::EmulatorField, Spc::NumericField>(params);
+    TestGetExtended<Spc::EmulatorField, Spc::EmulatorField>(params);
 }
 
 TEST_F(ID666TagTests, GetsOstTitleProperly)
@@ -608,7 +608,7 @@ TEST_F(ID666TagTests, GetsOstTitleProperly)
     tag->ExtendedData()->ostTitle = 
         std::make_shared<Spc::Id666::Extended::Item>();
     std::string expectedOstTitle = "Test Album Title ABCDEFGHIJ";
-    TestGetWithExtendedItemParameters<Spc::TextField> params;
+    TestGetExtendedParams<Spc::TextField> params;
     params.expectedLabel = "OST Title";
     params.expectedValue = expectedOstTitle;
     params.expectedSize = expectedOstTitle.size();
@@ -617,7 +617,7 @@ TEST_F(ID666TagTests, GetsOstTitleProperly)
     params.extendedValue = expectedOstTitle;
     params.item = tag->ExtendedData()->ostTitle;
     params.getMethodPtr = &Spc::Id666::Tag::OstTitle;
-    TestGetWithExtendedItem<Spc::TextField, Spc::TextField>(params);
+    TestGetExtendedData<Spc::TextField, Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, GetsOstDiscProperly)
@@ -627,13 +627,15 @@ TEST_F(ID666TagTests, GetsOstDiscProperly)
 
     // We need to explicity set the data type to binary or it will be
     // interpreted as text by default.
+    /*
     std::shared_ptr<Spc::Id666::Extended::Item> ostDisc = 
         tag->ExtendedData()->ostDisc;
     auto ostDiscData = std::static_pointer_cast<Spc::NumericField>(
         ostDisc->data);
     ostDiscData->SetType(Spc::NumericType::Binary);
+    */
 
-    TestGetWithExtendedItemParameters<Spc::NumericField> params;
+    TestGetExtendedParams<Spc::NumericField> params;
     params.expectedLabel = "OST Disc";
     params.expectedValue = "1";
     params.expectedSize = 2;
@@ -642,14 +644,14 @@ TEST_F(ID666TagTests, GetsOstDiscProperly)
     params.extendedValue = "1";
     params.item = tag->ExtendedData()->ostDisc;
     params.getMethodPtr = &Spc::Id666::Tag::OstDisc;
-    TestGetWithExtendedItem<Spc::NumericField, Spc::NumericField>(params);
+    TestGetExtended<Spc::NumericField, Spc::NumericField>(params);
 }
 
 TEST_F(ID666TagTests, GetsOstTrackProperly)
 {
     tag->ExtendedData()->ostTrack = 
         std::make_shared<Spc::Id666::Extended::Item>();
-    TestGetWithExtendedItemParameters<Spc::TrackField> params;
+    TestGetExtendedParams<Spc::TrackField> params;
     params.expectedLabel = "OST Track";
     params.expectedValue = "5b";
     params.expectedSize = 2;
@@ -658,7 +660,7 @@ TEST_F(ID666TagTests, GetsOstTrackProperly)
     params.extendedValue = "5b";
     params.item = tag->ExtendedData()->ostTrack;
     params.getMethodPtr = &Spc::Id666::Tag::OstTrack;
-    TestGetWithExtendedItem<Spc::TrackField, Spc::TrackField>(params);
+    TestGetExtended<Spc::TrackField, Spc::TrackField>(params);
 }
 
 TEST_F(ID666TagTests, GetsPublisherNameProperly)
@@ -666,7 +668,7 @@ TEST_F(ID666TagTests, GetsPublisherNameProperly)
     tag->ExtendedData()->publisherName = 
         std::make_shared<Spc::Id666::Extended::Item>();
     std::string expectedPublisherName = "Test Publisher Name 123456";
-    TestGetWithExtendedItemParameters<Spc::TextField> params;
+    TestGetExtendedParams<Spc::TextField> params;
     params.expectedLabel = "Publisher Name";
     params.expectedValue = expectedPublisherName;
     params.expectedSize = expectedPublisherName.size();
@@ -675,7 +677,7 @@ TEST_F(ID666TagTests, GetsPublisherNameProperly)
     params.extendedValue = expectedPublisherName;
     params.item = tag->ExtendedData()->publisherName;
     params.getMethodPtr = &Spc::Id666::Tag::PublisherName;
-    TestGetWithExtendedItem<Spc::TextField, Spc::TextField>(params);
+    TestGetExtendedData<Spc::TextField, Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, GetsCopyrightYearProperly)
@@ -683,6 +685,7 @@ TEST_F(ID666TagTests, GetsCopyrightYearProperly)
     tag->ExtendedData()->copyrightYear = 
         std::make_shared<Spc::Id666::Extended::Item>();
 
+    /*
     // We need to explicity set the data type to binary or it will be
     // interpreted as text by default.
     std::shared_ptr<Spc::Id666::Extended::Item> copyrightYear = 
@@ -690,8 +693,9 @@ TEST_F(ID666TagTests, GetsCopyrightYearProperly)
     auto copyrightYearData = std::static_pointer_cast<Spc::NumericField>(
         copyrightYear->data);
     copyrightYearData->SetType(Spc::NumericType::Binary);
+    */
 
-    TestGetWithExtendedItemParameters<Spc::NumericField> params;
+    TestGetExtendedParams<Spc::NumericField> params;
     params.expectedLabel = "Copyright Year";
     params.expectedValue = "1995";
     params.expectedSize = 2;
@@ -700,14 +704,14 @@ TEST_F(ID666TagTests, GetsCopyrightYearProperly)
     params.extendedValue = "1995";
     params.item = tag->ExtendedData()->copyrightYear;
     params.getMethodPtr = &Spc::Id666::Tag::CopyrightYear;
-    TestGetWithExtendedItem<Spc::NumericField, Spc::NumericField>(params);
+    TestGetExtended<Spc::NumericField, Spc::NumericField>(params);
 }
 
 TEST_F(ID666TagTests, GetsIntroLengthProperly)
 {
     tag->ExtendedData()->introLength = 
         std::make_shared<Spc::Id666::Extended::Item>();
-    TestGetWithExtendedItemParameters<Spc::NumericField> params;
+    TestGetExtendedParams<Spc::NumericField> params;
     params.expectedLabel = "Intro Length (ticks)";
     params.expectedValue = "15000";
     params.expectedSize = 4;
@@ -716,14 +720,14 @@ TEST_F(ID666TagTests, GetsIntroLengthProperly)
     params.extendedValue = "15000";
     params.item = tag->ExtendedData()->introLength;
     params.getMethodPtr = &Spc::Id666::Tag::IntroLength;
-    TestGetWithExtendedItem<Spc::NumericField, Spc::NumericField>(params);
+    TestGetExtendedData<Spc::NumericField, Spc::NumericField>(params);
 }
 
 TEST_F(ID666TagTests, GetsLoopLengthProperly)
 {
     tag->ExtendedData()->loopLength = 
         std::make_shared<Spc::Id666::Extended::Item>();
-    TestGetWithExtendedItemParameters<Spc::NumericField> params;
+    TestGetExtendedParams<Spc::NumericField> params;
     params.expectedLabel = "Loop Length (ticks)";
     params.expectedValue = "30000";
     params.expectedSize = 4;
@@ -732,14 +736,14 @@ TEST_F(ID666TagTests, GetsLoopLengthProperly)
     params.extendedValue = "30000";
     params.item = tag->ExtendedData()->loopLength;
     params.getMethodPtr = &Spc::Id666::Tag::LoopLength;
-    TestGetWithExtendedItem<Spc::NumericField, Spc::NumericField>(params);
+    TestGetExtendedData<Spc::NumericField, Spc::NumericField>(params);
 }
 
 TEST_F(ID666TagTests, GetsEndLengthProperly)
 {
     tag->ExtendedData()->endLength = 
         std::make_shared<Spc::Id666::Extended::Item>();
-    TestGetWithExtendedItemParameters<Spc::NumericField> params;
+    TestGetExtendedParams<Spc::NumericField> params;
     params.expectedLabel = "End Length (ticks)";
     params.expectedValue = "20000";
     params.expectedSize = 4;
@@ -748,7 +752,7 @@ TEST_F(ID666TagTests, GetsEndLengthProperly)
     params.extendedValue = "20000";
     params.item = tag->ExtendedData()->endLength;
     params.getMethodPtr = &Spc::Id666::Tag::EndLength;
-    TestGetWithExtendedItem<Spc::NumericField, Spc::NumericField>(params);
+    TestGetExtendedData<Spc::NumericField, Spc::NumericField>(params);
 }
 
 TEST_F(ID666TagTests, GetsMutedVoicesProperly)
@@ -766,7 +770,7 @@ TEST_F(ID666TagTests, GetsMutedVoicesProperly)
     itemData->SetType(Spc::NumericType::Binary);
 
     tag->ExtendedData()->mutedVoices = item;
-    TestGetWithExtendedItemParameters<Spc::BinaryField> params;
+    TestGetExtendedParams<Spc::BinaryField> params;
     params.expectedLabel = "Muted Voices";
     params.expectedValue = "00001111";
     params.expectedSize = 1;
@@ -774,19 +778,19 @@ TEST_F(ID666TagTests, GetsMutedVoicesProperly)
     params.extendedType = Spc::Id666::Extended::mutedVoicesInfo.type;
 
     // 15 is 00001111 in binary.
-    params.extendedValue = "15";
+    params.extendedValue = "00001111";
 
     params.item = item;
 
     params.getMethodPtr = &Spc::Id666::Tag::MutedVoices;
-    TestGetWithExtendedItem<Spc::BinaryField, Spc::NumericField>(params);
+    TestGetExtended<Spc::BinaryField, Spc::BinaryField>(params);
 }
 
 TEST_F(ID666TagTests, GetLoopTimes)
 {
     tag->ExtendedData()->loopTimes = 
         std::make_shared<Spc::Id666::Extended::Item>();
-    TestGetWithExtendedItemParameters<Spc::NumericField> params;
+    TestGetExtendedParams<Spc::NumericField> params;
     params.expectedLabel = "Loop Times";
     params.expectedValue = "5";
     params.expectedSize = 2;
@@ -795,14 +799,14 @@ TEST_F(ID666TagTests, GetLoopTimes)
     params.extendedValue = "5";
     params.item = tag->ExtendedData()->loopTimes;
     params.getMethodPtr = &Spc::Id666::Tag::LoopTimes;
-    TestGetWithExtendedItem<Spc::NumericField, Spc::NumericField>(params);
+    TestGetExtended<Spc::NumericField, Spc::NumericField>(params);
 }
 
 TEST_F(ID666TagTests, GetPreampLevel)
 {
     tag->ExtendedData()->preampLevel = 
         std::make_shared<Spc::Id666::Extended::Item>();
-    TestGetWithExtendedItemParameters<Spc::NumericField> params;
+    TestGetExtendedParams<Spc::NumericField> params;
     params.expectedLabel = "Preamp Level";
     params.expectedValue = "65536";
     params.expectedSize = 4;
@@ -811,12 +815,12 @@ TEST_F(ID666TagTests, GetPreampLevel)
     params.extendedValue = "65536";
     params.item = tag->ExtendedData()->preampLevel;
     params.getMethodPtr = &Spc::Id666::Tag::PreampLevel;
-    TestGetWithExtendedItem<Spc::NumericField, Spc::NumericField>(params);
+    TestGetExtendedData<Spc::NumericField, Spc::NumericField>(params);
 }
 
 TEST_F(ID666TagTests, SetsTextSongTitleProperly)
 {
-    TestSetParameters<Spc::TextField> params;
+    TestSetParams<Spc::TextField> params;
     params.testData = textData;
     params.offset = Spc::Id666::songTitleInfo.textOffset;
     params.size = Spc::Id666::songTitleInfo.textSize;
@@ -827,7 +831,7 @@ TEST_F(ID666TagTests, SetsTextSongTitleProperly)
 
 TEST_F(ID666TagTests, SetsBinarySongTitleProperly)
 {
-    TestSetParameters<Spc::TextField> params;
+    TestSetParams<Spc::TextField> params;
     params.testData = binaryData;
     params.offset = Spc::Id666::songTitleInfo.binaryOffset;
     params.size = Spc::Id666::songTitleInfo.binarySize;
@@ -838,7 +842,7 @@ TEST_F(ID666TagTests, SetsBinarySongTitleProperly)
 
 TEST_F(ID666TagTests, SetsMixedSongTitleProperly)
 {
-    TestSetParameters<Spc::TextField> params;
+    TestSetParams<Spc::TextField> params;
     params.testData = mixedData;
     params.offset = Spc::Id666::songTitleInfo.textOffset;
     params.size = Spc::Id666::songTitleInfo.textSize;
@@ -849,7 +853,7 @@ TEST_F(ID666TagTests, SetsMixedSongTitleProperly)
 
 TEST_F(ID666TagTests, SetsNewExtendedSongTitleProperly)
 {
-    TestSetWithExtendedItemParameters<Spc::TextField> extParams;
+    TestSetExtendedParams<Spc::TextField> extParams;
 
     // Set should set the extended area value when the value size is > 33.
     extParams.setValue = "Set Song Title ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -859,49 +863,47 @@ TEST_F(ID666TagTests, SetsNewExtendedSongTitleProperly)
     extParams.itemPtrPtr = &tag->ExtendedData()->songTitle;
     extParams.setMethodPtr = &Spc::Id666::Tag::SetSongTitle;
 
-    TestFieldWithoutGetParameters params;
+    TestFieldWithoutGetParams params;
     params.offset = Spc::Id666::songTitleInfo.textOffset;
     params.size = Spc::Id666::songTitleInfo.textSize;
 
     // Set should also set the standard field to a truncated value (33 chars).
     params.expectedValue = "Set Song Title ABCDEFGHIJKLMNOPQ";
 
-    TestSetWithExtendedItem<Spc::TextField, Spc::TextField>(extParams);
+    TestSetExtendedData<Spc::TextField, Spc::TextField>(extParams);
     TestFieldsWithoutGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, SetsExistingExtendedSongTitleProperly)
 {
-    std::string setValue = "Set Song Title ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
     tag->ExtendedData()->songTitle = InitExtendedItem<Spc::TextField>(
         Spc::Id666::Extended::songTitleInfo, 
-        setValue);
+        "Existing Song Title ABCDEFGHIJKLMNOPQRSTUVWXYZ");
    
-    TestSetWithExtendedItemParameters<Spc::TextField> extParams;
+    TestSetExtendedParams<Spc::TextField> extParams;
 
     // Set should set the extended area value when the value size is > 33.
-    extParams.setValue = setValue;
+    extParams.setValue = "Set Song Title ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     extParams.extendedID = Spc::Id666::Extended::songTitleInfo.id;
     extParams.extendedType = Spc::Id666::Extended::songTitleInfo.type;
     extParams.itemPtrPtr = &tag->ExtendedData()->songTitle;
     extParams.setMethodPtr = &Spc::Id666::Tag::SetSongTitle;
 
-    TestFieldWithoutGetParameters params;
+    TestFieldWithoutGetParams params;
     params.offset = Spc::Id666::songTitleInfo.textOffset;
     params.size = Spc::Id666::songTitleInfo.textSize;
 
     // Set should also set the standard field to a truncated value (33 chars).
     params.expectedValue = "Set Song Title ABCDEFGHIJKLMNOPQ";
 
-    TestSetWithExtendedItem<Spc::TextField, Spc::TextField>(extParams);
+    TestSetExtendedData<Spc::TextField, Spc::TextField>(extParams);
     TestFieldsWithoutGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, SetsTextGameTitleProperly)
 {
-    TestSetParameters<Spc::TextField> params;
+    TestSetParams<Spc::TextField> params;
     params.testData = textData;
     params.offset = Spc::Id666::gameTitleInfo.textOffset;
     params.size = Spc::Id666::gameTitleInfo.textSize;
@@ -912,7 +914,7 @@ TEST_F(ID666TagTests, SetsTextGameTitleProperly)
 
 TEST_F(ID666TagTests, SetsBinaryGameTitleProperly)
 {
-    TestSetParameters<Spc::TextField> params;
+    TestSetParams<Spc::TextField> params;
     params.testData = binaryData;
     params.offset = Spc::Id666::gameTitleInfo.binaryOffset;
     params.size = Spc::Id666::gameTitleInfo.binarySize;
@@ -923,7 +925,7 @@ TEST_F(ID666TagTests, SetsBinaryGameTitleProperly)
 
 TEST_F(ID666TagTests, SetsMixedGameTitleProperly)
 {
-    TestSetParameters<Spc::TextField> params;
+    TestSetParams<Spc::TextField> params;
     params.testData = mixedData;
     params.offset = Spc::Id666::gameTitleInfo.textOffset;
     params.size = Spc::Id666::gameTitleInfo.textSize;
@@ -934,7 +936,7 @@ TEST_F(ID666TagTests, SetsMixedGameTitleProperly)
 
 TEST_F(ID666TagTests, SetsNewExtendedGameTitleProperly)
 {
-    TestSetWithExtendedItemParameters<Spc::TextField> extParams;
+    TestSetExtendedParams<Spc::TextField> extParams;
 
     // Set should set the extended area value when the value size is > 33.
     extParams.setValue = "Set Game Title ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -944,49 +946,47 @@ TEST_F(ID666TagTests, SetsNewExtendedGameTitleProperly)
     extParams.itemPtrPtr = &tag->ExtendedData()->gameTitle;
     extParams.setMethodPtr = &Spc::Id666::Tag::SetGameTitle;
 
-    TestFieldWithoutGetParameters params;
+    TestFieldWithoutGetParams params;
     params.offset = Spc::Id666::gameTitleInfo.textOffset;
     params.size = Spc::Id666::gameTitleInfo.textSize;
 
     // Set should also set the standard field to a truncated value (33 chars).
     params.expectedValue = "Set Game Title ABCDEFGHIJKLMNOPQ";
 
-    TestSetWithExtendedItem<Spc::TextField, Spc::TextField>(extParams);
+    TestSetExtendedData<Spc::TextField, Spc::TextField>(extParams);
     TestFieldsWithoutGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, SetsExistingExtendedGameTitleProperly)
 {
-    std::string setValue = "Set Game Title ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
     tag->ExtendedData()->gameTitle = InitExtendedItem<Spc::TextField>(
         Spc::Id666::Extended::gameTitleInfo, 
-        setValue);
+        "Existing Game Title ABCDEFGHIJKLMNOPQRSTUVWXYZ");
    
-    TestSetWithExtendedItemParameters<Spc::TextField> extParams;
+    TestSetExtendedParams<Spc::TextField> extParams;
 
     // Set should set the extended area value when the value size is > 33.
-    extParams.setValue = setValue;
+    extParams.setValue = "Set Game Title ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     extParams.extendedID = Spc::Id666::Extended::gameTitleInfo.id;
     extParams.extendedType = Spc::Id666::Extended::gameTitleInfo.type;
     extParams.itemPtrPtr = &tag->ExtendedData()->gameTitle;
     extParams.setMethodPtr = &Spc::Id666::Tag::SetGameTitle;
 
-    TestFieldWithoutGetParameters params;
+    TestFieldWithoutGetParams params;
     params.offset = Spc::Id666::gameTitleInfo.textOffset;
     params.size = Spc::Id666::gameTitleInfo.textSize;
 
     // Set should also set the standard field to a truncated value (33 chars).
     params.expectedValue = "Set Game Title ABCDEFGHIJKLMNOPQ";
 
-    TestSetWithExtendedItem<Spc::TextField, Spc::TextField>(extParams);
+    TestSetExtendedData<Spc::TextField, Spc::TextField>(extParams);
     TestFieldsWithoutGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, SetsTextDumperNameProperly)
 {
-    TestSetParameters<Spc::TextField> params;
+    TestSetParams<Spc::TextField> params;
     params.testData = textData;
     params.offset = Spc::Id666::dumperNameInfo.textOffset;
     params.size = Spc::Id666::dumperNameInfo.textSize;
@@ -997,7 +997,7 @@ TEST_F(ID666TagTests, SetsTextDumperNameProperly)
 
 TEST_F(ID666TagTests, SetsBinaryDumperNameProperly)
 {
-    TestSetParameters<Spc::TextField> params;
+    TestSetParams<Spc::TextField> params;
     params.testData = binaryData;
     params.offset = Spc::Id666::dumperNameInfo.binaryOffset;
     params.size = Spc::Id666::dumperNameInfo.binarySize;
@@ -1008,7 +1008,7 @@ TEST_F(ID666TagTests, SetsBinaryDumperNameProperly)
 
 TEST_F(ID666TagTests, SetsMixedDumperNameProperly)
 {
-    TestSetParameters<Spc::TextField> params;
+    TestSetParams<Spc::TextField> params;
     params.testData = mixedData;
     params.offset = Spc::Id666::dumperNameInfo.textOffset;
     params.size = Spc::Id666::dumperNameInfo.textSize;
@@ -1019,7 +1019,7 @@ TEST_F(ID666TagTests, SetsMixedDumperNameProperly)
 
 TEST_F(ID666TagTests, SetsNewExtendedDumperNameProperly)
 {
-    TestSetWithExtendedItemParameters<Spc::TextField> extParams;
+    TestSetExtendedParams<Spc::TextField> extParams;
 
     // Set should set the extended area value when the value size is > 16.
     extParams.setValue = "Set Dumper Name ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -1029,49 +1029,47 @@ TEST_F(ID666TagTests, SetsNewExtendedDumperNameProperly)
     extParams.itemPtrPtr = &tag->ExtendedData()->dumperName;
     extParams.setMethodPtr = &Spc::Id666::Tag::SetDumperName;
 
-    TestFieldWithoutGetParameters params;
+    TestFieldWithoutGetParams params;
     params.offset = Spc::Id666::dumperNameInfo.textOffset;
     params.size = Spc::Id666::dumperNameInfo.textSize;
 
     // Set should also set the standard field to a truncated value (16 chars).
     params.expectedValue = "Set Dumper Name ";
 
-    TestSetWithExtendedItem<Spc::TextField, Spc::TextField>(extParams);
+    TestSetExtendedData<Spc::TextField, Spc::TextField>(extParams);
     TestFieldsWithoutGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, SetsExistingExtendedDumperNameProperly)
 {
-    std::string setValue = "Set Dumper Name ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
     tag->ExtendedData()->dumperName = InitExtendedItem<Spc::TextField>(
         Spc::Id666::Extended::dumperNameInfo, 
-        setValue);
+        "Existing Dumper Name ABCDEFGHIJKLMNOPQRSTUVWXYZ");
    
-    TestSetWithExtendedItemParameters<Spc::TextField> extParams;
+    TestSetExtendedParams<Spc::TextField> extParams;
 
     // Set should set the extended area value when the value size is > 16.
-    extParams.setValue = setValue;
+    extParams.setValue = "Set Dumper Name ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     extParams.extendedID = Spc::Id666::Extended::dumperNameInfo.id;
     extParams.extendedType = Spc::Id666::Extended::dumperNameInfo.type;
     extParams.itemPtrPtr = &tag->ExtendedData()->dumperName;
     extParams.setMethodPtr = &Spc::Id666::Tag::SetDumperName;
 
-    TestFieldWithoutGetParameters params;
+    TestFieldWithoutGetParams params;
     params.offset = Spc::Id666::dumperNameInfo.textOffset;
     params.size = Spc::Id666::dumperNameInfo.textSize;
 
     // Set should also set the standard field to a truncated value (16 chars).
     params.expectedValue = "Set Dumper Name ";
 
-    TestSetWithExtendedItem<Spc::TextField, Spc::TextField>(extParams);
+    TestSetExtendedData<Spc::TextField, Spc::TextField>(extParams);
     TestFieldsWithoutGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, SetsTextCommentsProperly)
 {
-    TestSetParameters<Spc::TextField> params;
+    TestSetParams<Spc::TextField> params;
     params.testData = textData;
     params.offset = Spc::Id666::commentsInfo.textOffset;
     params.size = Spc::Id666::commentsInfo.textSize;
@@ -1082,7 +1080,7 @@ TEST_F(ID666TagTests, SetsTextCommentsProperly)
 
 TEST_F(ID666TagTests, SetsBinaryCommentsProperly)
 {
-    TestSetParameters<Spc::TextField> params;
+    TestSetParams<Spc::TextField> params;
     params.testData = binaryData;
     params.offset = Spc::Id666::commentsInfo.binaryOffset;
     params.size = Spc::Id666::commentsInfo.binarySize;
@@ -1093,7 +1091,7 @@ TEST_F(ID666TagTests, SetsBinaryCommentsProperly)
 
 TEST_F(ID666TagTests, SetsMixedCommentsProperly)
 {
-    TestSetParameters<Spc::TextField> params;
+    TestSetParams<Spc::TextField> params;
     params.testData = mixedData;
     params.offset = Spc::Id666::commentsInfo.textOffset;
     params.size = Spc::Id666::commentsInfo.textSize;
@@ -1104,7 +1102,7 @@ TEST_F(ID666TagTests, SetsMixedCommentsProperly)
 
 TEST_F(ID666TagTests, SetsNewExtendedCommentsProperly)
 {
-    TestSetWithExtendedItemParameters<Spc::TextField> extParams;
+    TestSetExtendedParams<Spc::TextField> extParams;
 
     // Set should set the extended area value when the value size is > 32.
     extParams.setValue = "Set Comments ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -1114,73 +1112,308 @@ TEST_F(ID666TagTests, SetsNewExtendedCommentsProperly)
     extParams.itemPtrPtr = &tag->ExtendedData()->comments;
     extParams.setMethodPtr = &Spc::Id666::Tag::SetComments;
 
-    TestFieldWithoutGetParameters params;
+    TestFieldWithoutGetParams params;
     params.offset = Spc::Id666::commentsInfo.textOffset;
     params.size = Spc::Id666::commentsInfo.textSize;
 
     // Set should also set the standard field to a truncated value (32 chars).
     params.expectedValue = "Set Comments ABCDEFGHIJKLMNOPQRS";
 
-    TestSetWithExtendedItem<Spc::TextField, Spc::TextField>(extParams);
+    TestSetExtendedData<Spc::TextField, Spc::TextField>(extParams);
     TestFieldsWithoutGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, SetsExistingExtendedCommentsProperly)
 {
-    std::string setValue = "Set Comments ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
     tag->ExtendedData()->comments = InitExtendedItem<Spc::TextField>(
         Spc::Id666::Extended::commentsInfo, 
-        setValue);
+        "Existing Comments ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
 
-    TestSetWithExtendedItemParameters<Spc::TextField> extParams;
+    TestSetExtendedParams<Spc::TextField> extParams;
 
     // Set should set the extended area value when the value size is > 32.
-    extParams.setValue = setValue;
+    extParams.setValue = "Set Comments ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     extParams.extendedID = Spc::Id666::Extended::commentsInfo.id;
     extParams.extendedType = Spc::Id666::Extended::commentsInfo.type;
     extParams.itemPtrPtr = &tag->ExtendedData()->comments;
     extParams.setMethodPtr = &Spc::Id666::Tag::SetComments;
 
-    TestFieldWithoutGetParameters params;
+    TestFieldWithoutGetParams params;
     params.offset = Spc::Id666::commentsInfo.textOffset;
     params.size = Spc::Id666::commentsInfo.textSize;
 
     // Set should also set the standard field to a truncated value (32 chars).
     params.expectedValue = "Set Comments ABCDEFGHIJKLMNOPQRS";
 
-    TestSetWithExtendedItem<Spc::TextField, Spc::TextField>(extParams);
+    TestSetExtendedData<Spc::TextField, Spc::TextField>(extParams);
     TestFieldsWithoutGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, SetsTextDateDumpedProperly)
 {
-    TestSetDateDumpedParameters params;
+    TestSetParams<Spc::DateField> params;
     params.testData = textData;
     params.offset = Spc::Id666::dateDumpedInfo.textOffset;
     params.size = Spc::Id666::dateDumpedInfo.textSize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetDateDumped;
     params.setValue = "01/11/2026";
-    TestSetDateDumped(params);
+    TestSet<Spc::DateField>(params);
 }
 
 TEST_F(ID666TagTests, SetsBinaryDateDumpedProperly)
 {
-    TestSetDateDumpedParameters params;
+    TestSetParams<Spc::DateField> params;
     params.testData = binaryData;
     params.offset = Spc::Id666::dateDumpedInfo.binaryOffset;
     params.size = Spc::Id666::dateDumpedInfo.binarySize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetDateDumped;
     params.setValue = "01/11/2026";
-    TestSetDateDumped(params);
+    TestSet<Spc::DateField>(params);
 }
 
 TEST_F(ID666TagTests, SetsMixedDateDumpedProperly)
 {
-    TestSetDateDumpedParameters params;
+    TestSetParams<Spc::DateField> params;
     params.testData = mixedData;
     params.offset = Spc::Id666::dateDumpedInfo.textOffset;
     params.size = Spc::Id666::dateDumpedInfo.textSize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetDateDumped;
     params.setValue = "01/11/2026";
-    TestSetDateDumped(params);
+    TestSet<Spc::DateField>(params);
 }
 
+TEST_F(ID666TagTests, SetsTextSongLengthProperly)
+{
+    TestSetParams<Spc::NumericField> params;
+    params.testData = textData;
+    params.offset = Spc::Id666::songLengthInfo.textOffset;
+    params.size = Spc::Id666::songLengthInfo.textSize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetSongLength;
+    params.setValue = "321";
+    TestSet<Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, SetsBinarySongLengthProperly)
+{
+    TestSetParams<Spc::NumericField> params;
+    params.testData = binaryData;
+    params.offset = Spc::Id666::songLengthInfo.binaryOffset;
+    params.size = Spc::Id666::songLengthInfo.binarySize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetSongLength;
+    params.setValue = "321";
+    TestSet<Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, SetsMixedSongLengthProperly)
+{
+    TestSetParams<Spc::NumericField> params;
+    params.testData = mixedData;
+    params.offset = Spc::Id666::songLengthInfo.textOffset;
+    params.size = Spc::Id666::songLengthInfo.textSize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetSongLength;
+    params.setValue = "321";
+    TestSet<Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, SetsTextFadeLengthProperly)
+{
+    TestSetParams<Spc::NumericField> params;
+    params.testData = textData;
+    params.offset = Spc::Id666::fadeLengthInfo.textOffset;
+    params.size = Spc::Id666::fadeLengthInfo.textSize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetFadeLength;
+    params.setValue = "321";
+    TestSet<Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, SetsBinaryFadeLengthProperly)
+{
+    TestSetParams<Spc::NumericField> params;
+    params.testData = binaryData;
+    params.offset = Spc::Id666::fadeLengthInfo.binaryOffset;
+    params.size = Spc::Id666::fadeLengthInfo.binarySize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetFadeLength;
+    params.setValue = "321";
+    TestSet<Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, SetsMixedFadeLengthProperly)
+{
+    TestSetParams<Spc::NumericField> params;
+    params.testData = mixedData;
+    params.offset = Spc::Id666::fadeLengthInfo.textOffset;
+    params.size = Spc::Id666::fadeLengthInfo.textSize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetFadeLength;
+    params.setValue = "321";
+    TestSet<Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, SetsTextSongArtistProperly)
+{
+    TestSetParams<Spc::TextField> params;
+    params.testData = textData;
+    params.offset = Spc::Id666::songArtistInfo.textOffset;
+    params.size = Spc::Id666::songArtistInfo.textSize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetSongArtist;
+    params.setValue = "Set Song Artist";
+    TestSet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsBinarySongArtistProperly)
+{
+    TestSetParams<Spc::TextField> params;
+    params.testData = binaryData;
+    params.offset = Spc::Id666::songArtistInfo.binaryOffset;
+    params.size = Spc::Id666::songArtistInfo.binarySize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetSongArtist;
+    params.setValue = "Set Song Artist";
+    TestSet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsMixedSongArtistProperly)
+{
+    TestSetParams<Spc::TextField> params;
+    params.testData = mixedData;
+    params.offset = Spc::Id666::songArtistInfo.textOffset;
+    params.size = Spc::Id666::songArtistInfo.textSize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetSongArtist;
+    params.setValue = "Set Song Artist";
+    TestSet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsNewExtendedSongArtistProperly)
+{
+    TestSetExtendedParams<Spc::TextField> extParams;
+
+    // Set should set the extended area value when the value size is > 32.
+    extParams.setValue = "Set Song Artist ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    extParams.extendedID = Spc::Id666::Extended::songArtistInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::songArtistInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->songArtist;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetSongArtist;
+
+    TestFieldWithoutGetParams params;
+    params.offset = Spc::Id666::songArtistInfo.textOffset;
+    params.size = Spc::Id666::songArtistInfo.textSize;
+
+    // Set should also set the standard field to a truncated value (32 chars).
+    params.expectedValue = "Set Song Artist ABCDEFGHIJKLMNOP";
+
+    TestSetExtendedData<Spc::TextField, Spc::TextField>(extParams);
+    TestFieldsWithoutGet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsExistingExtendedSongArtistProperly)
+{
+    tag->ExtendedData()->songArtist = InitExtendedItem<Spc::TextField>(
+        Spc::Id666::Extended::songArtistInfo,
+        "Existing Song Artist ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+
+    TestSetExtendedParams<Spc::TextField> extParams;
+    extParams.setValue = "Set Song Artist ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    extParams.extendedID = Spc::Id666::Extended::songArtistInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::songArtistInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->songArtist;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetSongArtist;
+
+    TestFieldWithoutGetParams params;
+    params.offset = Spc::Id666::songArtistInfo.textOffset;
+    params.size = Spc::Id666::songArtistInfo.textSize;
+    params.expectedValue = "Set Song Artist ABCDEFGHIJKLMNOP";
+
+    TestSetExtendedData<Spc::TextField, Spc::TextField>(extParams);
+    TestFieldsWithoutGet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetsTextDefaultChannelStateProperly)
+{
+    TestSetParams<Spc::NumericField> params;
+    params.testData = textData;
+    params.offset = Spc::Id666::defaultChannelStateInfo.textOffset;
+    params.size = Spc::Id666::defaultChannelStateInfo.textSize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetDefaultChannelState;
+    params.setValue = "1";
+    TestSet<Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, SetsBinaryDefaultChannelStateProperly)
+{
+    TestSetParams<Spc::NumericField> params;
+    params.testData = binaryData;
+    params.offset = Spc::Id666::defaultChannelStateInfo.binaryOffset;
+    params.size = Spc::Id666::defaultChannelStateInfo.binarySize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetDefaultChannelState;
+    params.setValue = "1";
+    TestSet<Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, SetsMixedDefaultChannelStateProperly)
+{
+    TestSetParams<Spc::NumericField> params;
+    params.testData = mixedData;
+    params.offset = Spc::Id666::defaultChannelStateInfo.textOffset;
+    params.size = Spc::Id666::defaultChannelStateInfo.textSize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetDefaultChannelState;
+    params.setValue = "1";
+    TestSet<Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, SetsTextEmulatorUsedProperly)
+{
+    TestSetParams<Spc::EmulatorField> params;
+    params.testData = textData;
+    params.offset = Spc::Id666::emulatorUsedInfo.textOffset;
+    params.size = Spc::Id666::emulatorUsedInfo.textSize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetEmulatorUsed;
+    params.setValue = "ZSNES";
+    TestSet<Spc::EmulatorField>(params);
+}
+
+TEST_F(ID666TagTests, SetsBinaryEmulatorUsedProperly)
+{
+    TestSetParams<Spc::EmulatorField> params;
+    params.testData = binaryData;
+    params.offset = Spc::Id666::emulatorUsedInfo.binaryOffset;
+    params.size = Spc::Id666::emulatorUsedInfo.binarySize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetEmulatorUsed;
+    params.setValue = "ZSNES";
+    TestSet<Spc::EmulatorField>(params);
+}
+
+TEST_F(ID666TagTests, SetsMixedEmulatorUsedProperly)
+{
+    TestSetParams<Spc::EmulatorField> params;
+    params.testData = mixedData;
+    params.offset = Spc::Id666::emulatorUsedInfo.textOffset;
+    params.size = Spc::Id666::emulatorUsedInfo.textSize;
+    params.setMethodPtr = &Spc::Id666::Tag::SetEmulatorUsed;
+    params.setValue = "ZSNES";
+    TestSet<Spc::EmulatorField>(params);
+}
+
+TEST_F(ID666TagTests, SetsNewExtendedOstTitleProperly)
+{
+    TestSetExtendedParams<Spc::TextField> extParams;
+    extParams.setValue = "Set OST Title";
+    extParams.extendedID = Spc::Id666::Extended::ostTitleInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::ostTitleInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->ostTitle;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetOstTitle;
+    TestSetExtendedData<Spc::TextField, Spc::TextField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsExistingOstTitleProperly)
+{
+    tag->ExtendedData()->ostTitle = InitExtendedItem<Spc::TextField>(
+        Spc::Id666::Extended::ostTitleInfo,
+        "Existing OST Title");
+
+    TestSetExtendedParams<Spc::TextField> extParams;
+    extParams.setValue = "Set OST Title";
+    extParams.extendedID = Spc::Id666::Extended::ostTitleInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::ostTitleInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->ostTitle;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetOstTitle;
+    TestSetExtendedData<Spc::TextField, Spc::TextField>(extParams);
+}

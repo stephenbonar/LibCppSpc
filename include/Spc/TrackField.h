@@ -18,11 +18,11 @@
 #define SPC_TRACK_FIELD_H
 
 #include <sstream>
-#include "Field.h"
+#include "NumericField.h"
 
 namespace Spc
 {
-    class TrackField : public Field
+    class TrackField : public NumericField
     {
     public:
         /// @brief Constructor; creates a new instance of TrackField.
@@ -30,16 +30,16 @@ namespace Spc
         /// @param offset The offset where the field can be found in the file.
         /// @param size The size of the field, in bytes.
         TrackField(std::string label, uintmax_t offset, size_t size) :
-            Field{ label, offset, size }
+            NumericField{ label, offset, size }
         { }
 
-        uint8_t Value() const;
+        //uint8_t Value() const;
 
         char Suffix() const;
 
-        std::string ToString() const override;
+        virtual std::string ToString() const override;
 
-        void SetValue(std::string value);
+        virtual void SetValue(std::string value) override;
     };
 }
 

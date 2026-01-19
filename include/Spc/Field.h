@@ -41,15 +41,19 @@ namespace Spc
         
         /// @brief Gets the field label used to describe the field.
         /// @return A string representing the field label.
-        std::string Label() const { return label; }
+        virtual std::string Label() const { return label; }
 
         /// @brief Gets the offset where the field can be found in the SPC file.
         /// @return The offset of the field,.
-        uintmax_t Offset() const { return offset; }
+        virtual uintmax_t Offset() const { return offset; }
+
+        virtual std::string Value() const { return ToString(); }
 
         /// @brief Sets the field label to the specified value.
         /// @param value The value to set the label to.
-        void SetLabel(std::string value) { label = value; }
+        virtual void SetLabel(std::string value) { label = value; }
+
+        virtual void SetValue(std::string value);
     private:
         std::string label;
         uintmax_t offset;

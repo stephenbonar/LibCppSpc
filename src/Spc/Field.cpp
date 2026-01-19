@@ -1,4 +1,4 @@
-// EmulatorField.cpp - Defines the EmulatorField class.
+// Field.cpp - Defines the Field class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,29 +14,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "Spc/EmulatorField.h"
+#include "Spc/Field.h"
 
 using namespace Spc;
 
-std::string EmulatorField::ToString() const
+void Field::SetValue(std::string value)
 {
-    switch (DetectInt32())
+    std::istringstream hexStream{ value };
+    std::string token;
+    int index{ 0 };
+
+    while (hexStream >> token)
     {
-        case 1:
-            return "ZSNES";
-        case 2:
-            return "SNES9X";
-        default:
-            return "Unknown";
+        if (token.length() != 2)
+        {
+            throw std::invalid_argument{ 
+                "Each byte must be represented by exactly two hex digits." };
+        }
+
+        uint8_t byte = static_cast<uint8_t>(std::stoul(token, nullptr, 16));
+        
+        if (index < size)
+        {
+            rawData[index] = byte;
+            index++;
+        }
+        else
+        {
+            break;
+        }
     }
 }
-
-void EmulatorField::SetValue(std::string value)
-{
-    if (value == "ZSNES")
-        SetInt32(1);
-    else if (value == "SNES9X")
-        SetInt32(2);
-    else
-        SetInt32(0);
-}   

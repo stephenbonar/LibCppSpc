@@ -17,6 +17,7 @@
 set(SOURCES 
     Spc/BinaryField.cpp
     Spc/Header.cpp
+    Spc/Field.cpp
     Spc/Format.cpp
     Spc/DataStructure.cpp
     Spc/DateField.cpp

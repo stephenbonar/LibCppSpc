@@ -52,7 +52,7 @@ namespace Spc::Id666::Extended
         std::shared_ptr<NumericField> type;
 
         /// @brief Depending on type, represents either data length or value.
-        std::shared_ptr<Field> data;
+        std::shared_ptr<NumericField> data;
 
         /// @brief Contains the item value if type is not 0.
         std::shared_ptr<Field> extendedData;

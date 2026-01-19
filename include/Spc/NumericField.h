@@ -58,7 +58,7 @@ namespace Spc
 
         /// @brief Determines if all bytes in the field contain zeros. 
         /// @return True if the field contains only zeros, otherwise false.
-        bool IsZero() const;
+        virtual bool IsZero() const;
 
         /// @brief Determines if all of the bytes in the field are ASCII numbers.
         ///
@@ -69,7 +69,7 @@ namespace Spc
         /// false, it is almost a guarantee the field contains binary data.
         ///
         /// @return True if no non-ASCII characters are found, otherwise false.
-        bool IsText() const;
+        virtual bool IsText() const;
 
         /// @brief Detects the correct value based on if the field is text or not.
         ///
@@ -79,16 +79,19 @@ namespace Spc
         /// incorrect due to ambiguous values. See IsText() for more details. 
         ///
         /// @return The detected value.
-        unsigned long long DetectValue() const;
+        virtual int32_t DetectInt32() const;
 
         /// @brief Gets the value assuming the field always is binary.
         /// @return The value of the field.
-        unsigned long long Value() const;
+        virtual int32_t ToInt32() const;
+
+        //virtual std::string Value() const override;
 
         /// @brief Converts the field's data to a string representation.
         /// @return A string representation of the field's data.
-        std::string ToString() const override;
+        virtual std::string ToString() const override;
 
+        /*
         /// @brief Converts the field's data to a string representation.
         /// @param format The format to use for the string conversion.
         /// @return A string representation of the field's data.
@@ -96,14 +99,15 @@ namespace Spc
         {
             return Binary::RawField::ToString(format);
         }
+        */
 
-        NumericType Type() const { return type; }
+        virtual NumericType Type() const { return type; }
 
-        virtual void SetValue(int value);
+        virtual void SetInt32(int32_t value);
         
-        virtual void SetValue(std::string value);
+        virtual void SetValue(std::string value) override;
 
-        void SetType(NumericType type) { this->type = type; }
+        virtual void SetType(NumericType type) { this->type = type; }
     private:
         NumericType type;
     };

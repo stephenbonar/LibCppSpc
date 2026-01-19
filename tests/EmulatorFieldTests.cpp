@@ -26,8 +26,8 @@ void EmulatorFieldTests::SetUp()
 
 TEST_F(EmulatorFieldTests, ToStringReturnsZSNESIfValue1) 
 {
-    textField->SetValue(1);
-    binaryField->SetValue(1);
+    textField->SetInt32(1);
+    binaryField->SetInt32(1);
 
     EXPECT_EQ(textField->ToString(), "ZSNES");
     EXPECT_EQ(binaryField->ToString(), "ZSNES");
@@ -35,8 +35,8 @@ TEST_F(EmulatorFieldTests, ToStringReturnsZSNESIfValue1)
 
 TEST_F(EmulatorFieldTests, ToStringReturnsSNES9XForValue2) 
 {
-    textField->SetValue(2);
-    binaryField->SetValue(2);
+    textField->SetInt32(2);
+    binaryField->SetInt32(2);
 
     EXPECT_EQ(textField->ToString(), "SNES9X");
     EXPECT_EQ(binaryField->ToString(), "SNES9X");
@@ -44,8 +44,8 @@ TEST_F(EmulatorFieldTests, ToStringReturnsSNES9XForValue2)
 
 TEST_F(EmulatorFieldTests, ToStringReturnsUnknownForOtherValues) 
 {
-    textField->SetValue(0);
-    binaryField->SetValue(0);
+    textField->SetInt32(0);
+    binaryField->SetInt32(0);
 
     EXPECT_EQ(textField->ToString(), "Unknown");
     EXPECT_EQ(binaryField->ToString(), "Unknown");

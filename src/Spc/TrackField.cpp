@@ -18,10 +18,12 @@
 
 using namespace Spc;
 
+/*
 uint8_t TrackField::Value() const
 {
     return static_cast<uint8_t>(rawData[1]);
 }
+*/
 
 char TrackField::Suffix() const
 {
@@ -32,10 +34,12 @@ std::string TrackField::ToString() const
 {
     std::stringstream stream;
 
+    auto trackNum = static_cast<uint8_t>(rawData[1]);
+
     if (Suffix() != 0)
-        stream << std::to_string(Value()) << Suffix();
+        stream << trackNum << Suffix();
     else
-        stream << std::to_string(Value());
+        stream << trackNum;
         
     return stream.str();
 }
@@ -43,7 +47,7 @@ std::string TrackField::ToString() const
 void TrackField::SetValue(std::string value)
 {
     std::istringstream stream{ value };
-    int trackNo;
+    uint8_t trackNo;
     char trackChar;
 
     stream >> trackNo;

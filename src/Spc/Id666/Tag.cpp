@@ -338,42 +338,46 @@ void Tag::SetComments(std::string value)
 
 void Tag::SetDateDumped(std::string value) 
 {
-    if (DetermineType() == TagType::Binary)
-    {
-        DateField dateDumped{ "Date Dumped", 
-                              dateDumpedInfo.binaryOffset, 
-                              dateDumpedInfo.binarySize };
-        dateDumped.SetBinaryValue(value);
-
-        size_t previousPosition = fieldData->Position();
-        fieldData->SetPosition(dateDumpedInfo.binaryOffset - tagOffset);
-        fieldData->Write(&dateDumped);
-        fieldData->SetPosition(previousPosition);
-    }
-    else
-    {
-        DateField dateDumped{ "Date Dumped", 
-                              dateDumpedInfo.textOffset, 
-                              dateDumpedInfo.textSize };
-        dateDumped.SetTextValue(value);
-        size_t previousPosition = fieldData->Position();
-        fieldData->SetPosition(dateDumpedInfo.textOffset - tagOffset);
-        fieldData->Write(&dateDumped);
-        fieldData->SetPosition(previousPosition);
-    }
+    WriteField<NumericField>(dateDumpedInfo,
+                             Extended::dateDumpedInfo, 
+                             &extendedData->dateDumped,
+                             value);
 }
 
-void Tag::SetSongLength(std::string value) {}
+void Tag::SetSongLength(std::string value) 
+{
+    WriteField<NumericField>(songLengthInfo, value);
+}
 
-void Tag::SetFadeLength(std::string value) {}
+void Tag::SetFadeLength(std::string value)
+{
+    WriteField<NumericField>(fadeLengthInfo, value);
+}
 
-void Tag::SetSongArtist(std::string value) {}
+void Tag::SetSongArtist(std::string value) 
+{
+    WriteField<TextField>(songArtistInfo,
+                          Extended::songArtistInfo, 
+                          &extendedData->songArtist,
+                          value);
+}
 
-void Tag::SetDefaultChannelState(std::string value) {}
+void Tag::SetDefaultChannelState(std::string value) 
+{
+    WriteField<NumericField>(defaultChannelStateInfo, value);
+}
 
-void Tag::SetEmulatorUsed(std::string value) {}
+void Tag::SetEmulatorUsed(std::string value) 
+{
+    WriteField<EmulatorField>(emulatorUsedInfo, value);
+}
 
-void Tag::SetOstTitle(std::string value) {}
+void Tag::SetOstTitle(std::string value) 
+{
+    WriteField<TextField>(Extended::ostTitleInfo, 
+                          &extendedData->ostTitle,
+                          value);
+}
 
 void Tag::SetOstDisc(std::string value) {}
 

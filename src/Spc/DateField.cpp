@@ -19,7 +19,7 @@
 using namespace Spc;
 
 DateField::DateField(std::string label, uintmax_t offset, size_t size)
-    : Field{ label, offset, size }
+    : NumericField{ label, offset, size }
 {
     if (size < 11)
         throw std::invalid_argument{ "DateField size must be at least 11." };
@@ -64,7 +64,7 @@ bool DateField::IsSet() const
     return false;
 }
 
-std::string DateField::Value() const
+std::string DateField::ToString() const
 {
     if (IsText())
         return Binary::RawField::ToString(Binary::StringFormat::Terminated);
@@ -83,6 +83,14 @@ std::string DateField::Value() const
            << std::setw(2) << std::setfill('0') << day.ToString() << '/'
            << std::setw(4) << std::setfill('0') << year.ToString();
     return stream.str();
+}
+
+void DateField::SetValue(std::string value)
+{
+    if (Type() == NumericType::Text || Type() == NumericType::Either)
+        SetTextValue(value);
+    else
+        SetBinaryValue(value);
 }
 
 void DateField::SetTextValue(std::string value)

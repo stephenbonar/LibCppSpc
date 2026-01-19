@@ -45,7 +45,7 @@ TEST_F(BinaryFieldTests, SetValueSetsCorrectValue)
 {
     Spc::BinaryField binaryField("Test Binary Field", 0x00, 1);
     binaryField.SetValue("00001111");
-    EXPECT_EQ(binaryField.Value(), 15);
+    EXPECT_EQ(binaryField.ToInt32(), 15);
 }
 
 TEST_F(BinaryFieldTests, SetValueReturnsCorrectValueForMorethan1Byte)

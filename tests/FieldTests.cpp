@@ -18,7 +18,7 @@
 
 void FieldTests::SetUp() 
 {
-    field = std::make_unique<Spc::Field>("TestLabel", 123, 42);
+    field = std::make_unique<Spc::Field>("TestLabel", 100, 5);
 }
 
 TEST_F(FieldTests, LabelReflectsConstructorValue) 
@@ -28,10 +28,34 @@ TEST_F(FieldTests, LabelReflectsConstructorValue)
 
 TEST_F(FieldTests, OffsetReflectsConstructorValue) 
 {
-    EXPECT_EQ(field->Offset(), 123);
+    EXPECT_EQ(field->Offset(), 100);
 }
 
 TEST_F(FieldTests, SizeReflectsConstructorValue) 
 {
-    EXPECT_EQ(field->Size(), 42);
+    EXPECT_EQ(field->Size(), 5);
+}
+
+TEST_F(FieldTests, SetValuePopulatesRawDataCorrectly)
+{
+    // Use the hex values for "TEST "
+    field->SetValue("54 45 53 54 20");
+
+    EXPECT_EQ(std::string(field->RawData(), field->Size()), "TEST ");
+}
+
+TEST_F(FieldTests, ToStringReturnsHexFormattedString)
+{
+    // Use the hex values for "TEST "
+    field->SetValue("54 45 53 54 20");
+
+    EXPECT_EQ(field->ToString(), "54 45 53 54 20");
+}
+
+TEST_F(FieldTests, ValueMatchesToString)
+{
+    // Use the hex values for "TEST "
+    field->SetValue("54 45 53 54 20");
+
+    EXPECT_EQ(field->Value(), field->ToString());
 }

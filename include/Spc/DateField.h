@@ -21,7 +21,7 @@
 #include <sstream>
 #include <ctime>
 #include <iomanip>
-#include "Field.h"
+#include "NumericField.h"
 
 namespace Spc
 {
@@ -30,7 +30,7 @@ namespace Spc
     /// Date dumped can either have a text or binary representation. This field
     /// can determine which representation is used and output the date in the
     /// correct format based on the representation.
-    class DateField : public Field
+    class DateField : public NumericField
     {
     public:
         /// @brief Constructor; creates a new instance of SpcDateField.
@@ -42,7 +42,7 @@ namespace Spc
             
         /// @brief Determines if the field has a text representation of date.
         /// @return True if it has a text representation or false if binary.
-        bool IsText() const;
+        virtual bool IsText() const override;
 
         /// @brief Determines if bytes 4 - 7 are unused, which indicates binary.
         /// @return True if 4 - 7 are 0, otherwise false. 
@@ -52,10 +52,12 @@ namespace Spc
         /// @return Returns true if it is set, otherwise false.
         bool IsSet() const;
 
-        /// @brief Gets the date value as a string.
-        /// @return The date value as a string.
-        std::string Value() const;
+        virtual void SetValue(std::string value) override;
 
+        /// @brief Converts the field's data to a string representation.
+        /// @return A string representation of the field's data.
+        virtual std::string ToString() const override;
+    private:
         /// @brief Sets the date value and stores it in text format.
         /// @param value The date value as a string.
         /// @pre The value should be in MM/DD/YYYY format.
@@ -65,10 +67,6 @@ namespace Spc
         /// @param value The date value as a string.
         /// @pre The value should be in MM/DD/YYYY format.
         void SetBinaryValue(std::string value);
-
-        /// @brief Converts the field's data to a string representation.
-        /// @return A string representation of the field's data.
-        std::string ToString() const override { return Value(); }
     };
 }
 
