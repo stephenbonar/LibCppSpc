@@ -20,7 +20,7 @@ using namespace Spc;
 
 void StringTokenizer::ParsePattern(std::string pattern)
 {
-    constexpr char noMoreChars{ -1 };
+    constexpr int eof{ -1 };
     std::stringstream patternStream{ pattern };
     std::stringstream delimiterStream;
     std::stringstream tokenNameStream;
@@ -28,13 +28,15 @@ void StringTokenizer::ParsePattern(std::string pattern)
 
     while (!patternStream.eof())
     {
-        char next = patternStream.get();
-
-        if (next == noMoreChars)
+        int nextInt = patternStream.get();
+        
+        if (nextInt == eof)
         {
             AddDelimiter(delimiterStream);
             break;
         }
+
+        char next = static_cast<char>(nextInt);
 
         if (!isTokenName)
         {

@@ -37,8 +37,8 @@ namespace Spc
 
         virtual StringValueType ValueType() const { return valueType; }
 
-        virtual void SetValue(std::string value) { this->value = value; }
-
+        virtual void SetValue(std::string v) { value = v; }
+        
         virtual std::string Value() const override { return value; }
 
         virtual StringSegmentType SegmentType() const override 

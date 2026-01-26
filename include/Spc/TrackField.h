@@ -19,6 +19,7 @@
 
 #include <sstream>
 #include "NumericField.h"
+#include "FieldInfo.h"
 
 namespace Spc
 {
@@ -29,8 +30,8 @@ namespace Spc
         /// @param label The label to use when outputing the field. 
         /// @param offset The offset where the field can be found in the file.
         /// @param size The size of the field, in bytes.
-        TrackField(std::string label, uintmax_t offset, size_t size) :
-            NumericField{ label, offset, size }
+        TrackField(std::string label, FieldInfo info) :
+            NumericField{ label, info }
         { }
 
         //uint8_t Value() const;

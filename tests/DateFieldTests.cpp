@@ -44,7 +44,9 @@ TEST_F(DateFieldTests, IsTextReturnsTrueForAllZeros)
 
 TEST_F(DateFieldTests, ConstructorThrowsExceptionIfSizeLessThan11)
 {
-    EXPECT_THROW(Spc::DateField invalidDateField("InvalidDate", 0x00, 10), 
+    Spc::FieldInfo invalidInfo{ 0x00, 10};
+
+    EXPECT_THROW(Spc::DateField invalidDateField("InvalidDate", invalidInfo), 
                  std::invalid_argument);
 }
 

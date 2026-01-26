@@ -20,7 +20,7 @@ using namespace Spc;
 
 Header::Header()
 {
-    spcFields.push_back(&ID);
+    spcFields.push_back(&id);
     spcFields.push_back(&separator);
     spcFields.push_back(&containsTag);
     spcFields.push_back(&versionMinor);

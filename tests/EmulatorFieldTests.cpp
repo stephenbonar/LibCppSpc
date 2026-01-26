@@ -18,9 +18,10 @@
 
 void EmulatorFieldTests::SetUp() 
 {
-    textField = std::make_unique<Spc::EmulatorField>("Text", 0xD1, 1);
+    Spc::FieldInfo emulatorInfo{ 0xD1, 1 };
+    textField = std::make_unique<Spc::EmulatorField>("Text", emulatorInfo);
     textField->SetType(Spc::NumericType::Text);
-    binaryField = std::make_unique<Spc::EmulatorField>("Binary", 0xD1, 1);
+    binaryField = std::make_unique<Spc::EmulatorField>("Binary", emulatorInfo);
     binaryField->SetType(Spc::NumericType::Binary);
 }
 

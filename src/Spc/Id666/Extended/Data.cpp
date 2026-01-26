@@ -23,7 +23,7 @@ Binary::ChunkHeader Data::Header() const
 {
     Binary::ChunkHeader header;
     header.id.SetValue("xid6");
-    header.dataSize.SetValue(Size());
+    header.dataSize.SetValue(static_cast<uint32_t>(Size()));
     return header;
 }
 

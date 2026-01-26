@@ -18,8 +18,8 @@
 
 using namespace Spc;
 
-DateField::DateField(std::string label, uintmax_t offset, size_t size)
-    : NumericField{ label, offset, size }
+DateField::DateField(std::string label, FieldInfo info)
+    : NumericField{ label, info }
 {
     if (size < 11)
         throw std::invalid_argument{ "DateField size must be at least 11." };
@@ -137,13 +137,13 @@ void DateField::SetBinaryValue(std::string value)
 
     if (!valueStream.fail())
     {
-        Binary::UInt8Field day{ date.tm_mday };
+        Binary::Int8Field day{ static_cast<int8_t>(date.tm_mday) };
 
         // We add 1 to date.tm_mon because January is stored as month 0, etc.
-        Binary::UInt8Field month{ date.tm_mon + 1 };
+        Binary::Int8Field month{ static_cast<int8_t>(date.tm_mon + 1) };
 
         // We add 1900 because years are stored as years since 1900.
-        Binary::UInt16Field year{ date.tm_year + 1900 };
+        Binary::Int16Field year{ static_cast<int16_t>(date.tm_year + 1900) };
 
         rawData[0] = day.RawData()[0];
         rawData[1] = month.RawData()[0];

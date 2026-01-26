@@ -28,7 +28,8 @@ protected:
     void SetUp() override
     {
         // Create a DateField instance for testing.
-        dateField = std::make_unique<Spc::DateField>("TestDate", 0x9E, 11);
+        Spc::FieldInfo dateInfo{ 0x9E, 11 };
+        dateField = std::make_unique<Spc::DateField>("TestDate", dateInfo);
     }
 
     std::unique_ptr<Spc::DateField> dateField;

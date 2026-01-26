@@ -28,8 +28,6 @@
 namespace Spc::Id666::Extended
 {
     extern const std::map<int, std::string> fieldLabels;
-
-    inline constexpr int dataOffset{ 0x10200 };
     
     /// @brief Represents an item in the extended ID666 tag.
     ///

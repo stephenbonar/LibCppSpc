@@ -20,8 +20,10 @@
 void DataStructureTests::SetUp() 
 {
     mockDataStructure = std::make_unique<MockDataStructure>();
-    field1 = std::make_unique<Spc::TextField>("32-bit field", 0, 4);
-    field2 = std::make_unique<Spc::TextField>("64-bit field", 4, 8);
+    Spc::FieldInfo fieldInfo32{ 0, 4 };
+    Spc::FieldInfo fieldInfo64{ 4, 8 };
+    field1 = std::make_unique<Spc::TextField>("32-bit field", fieldInfo32);
+    field2 = std::make_unique<Spc::TextField>("64-bit field", fieldInfo64);
     field1->SetValue("ABCD");
     field2->SetValue("ABCDEFGH");
 }

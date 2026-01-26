@@ -25,21 +25,21 @@ TEST_F(ID666ExtendedItemTests, IdFieldIsInitializedProperly)
 {
     EXPECT_EQ(item->id->Label(), "Item ID");
     EXPECT_EQ(item->id->Offset(), Spc::Id666::Extended::dataOffset);
-    EXPECT_EQ(item->id->Size(), Spc::Id666::Extended::idSize);
+    EXPECT_EQ(item->id->Size(), Spc::Id666::Extended::idInfo.size);
 }
 
 TEST_F(ID666ExtendedItemTests, TypeFieldIsInitializedProperly)
 {
     EXPECT_EQ(item->type->Label(), "Item Type");
     EXPECT_EQ(item->type->Offset(), Spc::Id666::Extended::dataOffset);
-    EXPECT_EQ(item->type->Size(), Spc::Id666::Extended::typeSize);
+    EXPECT_EQ(item->type->Size(), Spc::Id666::Extended::typeInfo.size);
 }
 
 TEST_F(ID666ExtendedItemTests, DataFieldIsInitializedProperly) 
 {
     EXPECT_EQ(item->data->Label(), "Item Data");
     EXPECT_EQ(item->data->Offset(), Spc::Id666::Extended::dataOffset);
-    EXPECT_EQ(item->data->Size(), Spc::Id666::Extended::dataSize);
+    EXPECT_EQ(item->data->Size(), Spc::Id666::Extended::dataInfo.size);
 }
 
 TEST_F(ID666ExtendedItemTests, SpcFieldsMethodReturnsAllFields)
@@ -66,16 +66,17 @@ TEST_F(ID666ExtendedItemTests, SpcFieldsMethodReturnsAdditionalFieldsIfNotNull)
     data->SetInt32(5);
 
     // Create the extended data field as a TextField since it should be string.
-    auto extendedData = std::make_shared<Spc::TextField>(
-        "Extended Data", Spc::Id666::Extended::dataOffset, 5);
+    Spc::FieldInfo extendedInfo{ Spc::Id666::Extended::dataOffset, 5 };
+    auto extendedData = std::make_shared<Spc::TextField>("Extended Data", 
+                                                         extendedInfo);
      
     extendedData->SetValue("Test ");
 
     item->extendedData = extendedData;
 
     // Create the padding field to align on a 4-byte boundary.
-    item->padding = std::make_shared<Spc::TextField>(
-        "Padding", Spc::Id666::Extended::dataOffset, 3);
+    Spc::FieldInfo paddingInfo{ Spc::Id666::Extended::dataOffset, 3 };
+    item->padding = std::make_shared<Spc::TextField>("Padding", paddingInfo);
 
     std::vector<Spc::Field*> fields = item->SpcFields();
 

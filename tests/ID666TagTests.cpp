@@ -133,8 +133,8 @@ TEST_F(ID666TagTests, GetsTextSongTitleProperly)
     params.testData = textData;
     params.expectedLabel = "Song Title";
     params.expectedValue = expectedSongTitle;
-    params.expectedOffset = Spc::Id666::songTitleInfo.textOffset;
-    params.expectedSize = Spc::Id666::songTitleInfo.textSize;
+    params.expectedOffset = Spc::Id666::songTitleInfo.text.offset;
+    params.expectedSize = Spc::Id666::songTitleInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::SongTitle;
     TestGet<Spc::TextField>(params);
 }
@@ -145,8 +145,8 @@ TEST_F(ID666TagTests, GetsBinarySongTitleProperly)
     params.testData = binaryData;
     params.expectedLabel = "Song Title";
     params.expectedValue = expectedSongTitle;
-    params.expectedOffset = Spc::Id666::songTitleInfo.binaryOffset;
-    params.expectedSize = Spc::Id666::songTitleInfo.binarySize;
+    params.expectedOffset = Spc::Id666::songTitleInfo.binary.offset;
+    params.expectedSize = Spc::Id666::songTitleInfo.binary.size;
     params.getMethodPtr = &Spc::Id666::Tag::SongTitle;
     TestGet<Spc::TextField>(params); 
 }
@@ -157,8 +157,8 @@ TEST_F(ID666TagTests, GetsMixedSongTitlePropely)
     params.testData = mixedData;
     params.expectedLabel = "Song Title";
     params.expectedValue = expectedSongTitle;
-    params.expectedOffset = Spc::Id666::songTitleInfo.textOffset;
-    params.expectedSize = Spc::Id666::songTitleInfo.textSize;
+    params.expectedOffset = Spc::Id666::songTitleInfo.text.offset;
+    params.expectedSize = Spc::Id666::songTitleInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::SongTitle;
     TestGet<Spc::TextField>(params);
 }
@@ -185,8 +185,8 @@ TEST_F(ID666TagTests, GetsTextGameTitleProperly)
     params.testData = textData;
     params.expectedLabel = "Game Title";
     params.expectedValue = expectedGameTitle;
-    params.expectedOffset = Spc::Id666::gameTitleInfo.textOffset;
-    params.expectedSize = Spc::Id666::gameTitleInfo.textSize;
+    params.expectedOffset = Spc::Id666::gameTitleInfo.text.offset;
+    params.expectedSize = Spc::Id666::gameTitleInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::GameTitle;
     TestGet<Spc::TextField>(params);
 }
@@ -197,8 +197,8 @@ TEST_F(ID666TagTests, GetsBinaryGameTitleProperly)
     params.testData = binaryData;
     params.expectedLabel = "Game Title";
     params.expectedValue = expectedGameTitle;
-    params.expectedOffset = Spc::Id666::gameTitleInfo.binaryOffset;
-    params.expectedSize = Spc::Id666::gameTitleInfo.binarySize;
+    params.expectedOffset = Spc::Id666::gameTitleInfo.binary.offset;
+    params.expectedSize = Spc::Id666::gameTitleInfo.binary.size;
     params.getMethodPtr = &Spc::Id666::Tag::GameTitle;
     TestGet<Spc::TextField>(params);
 }
@@ -209,8 +209,8 @@ TEST_F(ID666TagTests, GetsMixedGameTitleProperly)
     params.testData = mixedData;
     params.expectedLabel = "Game Title";
     params.expectedValue = expectedGameTitle;
-    params.expectedOffset = Spc::Id666::gameTitleInfo.textOffset;
-    params.expectedSize = Spc::Id666::gameTitleInfo.textSize;
+    params.expectedOffset = Spc::Id666::gameTitleInfo.text.offset;
+    params.expectedSize = Spc::Id666::gameTitleInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::GameTitle;
     TestGet<Spc::TextField>(params);
 }
@@ -237,8 +237,8 @@ TEST_F(ID666TagTests, GetsTextDumperNameProperly)
     params.testData = textData;
     params.expectedLabel = "Dumper Name";
     params.expectedValue = expectedDumperName;
-    params.expectedOffset = Spc::Id666::dumperNameInfo.textOffset;
-    params.expectedSize = Spc::Id666::dumperNameInfo.textSize;
+    params.expectedOffset = Spc::Id666::dumperNameInfo.text.offset;
+    params.expectedSize = Spc::Id666::dumperNameInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::DumperName;
     TestGet<Spc::TextField>(params);
 }
@@ -249,8 +249,8 @@ TEST_F(ID666TagTests, GetsBinaryDumperNameProperly)
     params.testData = binaryData;
     params.expectedLabel = "Dumper Name";
     params.expectedValue = expectedDumperName;
-    params.expectedOffset = Spc::Id666::dumperNameInfo.binaryOffset;
-    params.expectedSize = Spc::Id666::dumperNameInfo.binarySize;
+    params.expectedOffset = Spc::Id666::dumperNameInfo.binary.offset;
+    params.expectedSize = Spc::Id666::dumperNameInfo.binary.size;
     params.getMethodPtr = &Spc::Id666::Tag::DumperName;
     TestGet<Spc::TextField>(params);
 }
@@ -261,8 +261,8 @@ TEST_F(ID666TagTests, GetsMixedDumperNameProperly)
     params.testData = mixedData;
     params.expectedLabel = "Dumper Name";
     params.expectedValue = expectedDumperName;
-    params.expectedOffset = Spc::Id666::dumperNameInfo.textOffset;
-    params.expectedSize = Spc::Id666::dumperNameInfo.textSize;
+    params.expectedOffset = Spc::Id666::dumperNameInfo.text.offset;
+    params.expectedSize = Spc::Id666::dumperNameInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::DumperName;
     TestGet<Spc::TextField>(params);
 }
@@ -289,8 +289,8 @@ TEST_F(ID666TagTests, GetsTextCommentsProperly)
     params.testData = textData;
     params.expectedLabel = "Comments";
     params.expectedValue = expectedComments;
-    params.expectedOffset = Spc::Id666::commentsInfo.textOffset;
-    params.expectedSize = Spc::Id666::commentsInfo.textSize;
+    params.expectedOffset = Spc::Id666::commentsInfo.text.offset;
+    params.expectedSize = Spc::Id666::commentsInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::Comments;
     TestGet<Spc::TextField>(params);
 }
@@ -301,8 +301,8 @@ TEST_F(ID666TagTests, GetsBinaryCommentsProperly)
     params.testData = binaryData;
     params.expectedLabel = "Comments";
     params.expectedValue = expectedComments;
-    params.expectedOffset = Spc::Id666::commentsInfo.binaryOffset;
-    params.expectedSize = Spc::Id666::commentsInfo.binarySize;
+    params.expectedOffset = Spc::Id666::commentsInfo.binary.offset;
+    params.expectedSize = Spc::Id666::commentsInfo.binary.size;
     params.getMethodPtr = &Spc::Id666::Tag::Comments;
     TestGet<Spc::TextField>(params);
 }
@@ -313,8 +313,8 @@ TEST_F(ID666TagTests, GetsMixedCommentsProperly)
     params.testData = mixedData;
     params.expectedLabel = "Comments";
     params.expectedValue = expectedComments;
-    params.expectedOffset = Spc::Id666::commentsInfo.textOffset;
-    params.expectedSize = Spc::Id666::commentsInfo.textSize;
+    params.expectedOffset = Spc::Id666::commentsInfo.text.offset;
+    params.expectedSize = Spc::Id666::commentsInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::Comments;
     TestGet<Spc::TextField>(params);
 }
@@ -341,8 +341,8 @@ TEST_F(ID666TagTests, GetsTextDateDumpedProperly)
     params.testData = textData;
     params.expectedLabel = "Date Dumped";
     params.expectedValue = expectedDateDumped;
-    params.expectedOffset = Spc::Id666::dateDumpedInfo.textOffset;
-    params.expectedSize = Spc::Id666::dateDumpedInfo.textSize;
+    params.expectedOffset = Spc::Id666::dateDumpedInfo.text.offset;
+    params.expectedSize = Spc::Id666::dateDumpedInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::DateDumped;
     TestGet<Spc::DateField>(params);
 }
@@ -353,8 +353,8 @@ TEST_F(ID666TagTests, GetsBinaryDateDumpedProperly)
     params.testData = binaryData;
     params.expectedLabel = "Date Dumped";
     params.expectedValue = expectedDateDumped;
-    params.expectedOffset = Spc::Id666::dateDumpedInfo.binaryOffset;
-    params.expectedSize = Spc::Id666::dateDumpedInfo.binarySize;
+    params.expectedOffset = Spc::Id666::dateDumpedInfo.binary.offset;
+    params.expectedSize = Spc::Id666::dateDumpedInfo.binary.size;
     params.getMethodPtr = &Spc::Id666::Tag::DateDumped;
     TestGet<Spc::DateField>(params);
 }
@@ -365,8 +365,8 @@ TEST_F(ID666TagTests, GetsMixedDateDumpedProperly)
     params.testData = mixedData;
     params.expectedLabel = "Date Dumped";
     params.expectedValue = expectedDateDumped;
-    params.expectedOffset = Spc::Id666::dateDumpedInfo.textOffset;
-    params.expectedSize = Spc::Id666::dateDumpedInfo.textSize;
+    params.expectedOffset = Spc::Id666::dateDumpedInfo.text.offset;
+    params.expectedSize = Spc::Id666::dateDumpedInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::DateDumped;
     TestGet<Spc::DateField>(params);
 }
@@ -379,7 +379,7 @@ TEST_F(ID666TagTests, GetsExtendedDateDumpedProperly)
     TestGetExtendedParams<Spc::DateField> params;
     params.expectedLabel = "Date Dumped";
     params.expectedValue = expectedDateDumped;
-    params.expectedSize = Spc::Id666::dateDumpedInfo.binarySize;
+    params.expectedSize = Spc::Id666::dateDumpedInfo.binary.size;
     params.extendedID = Spc::Id666::Extended::dateDumpedInfo.id;
     params.extendedType = Spc::Id666::Extended::integerType;
 
@@ -397,8 +397,8 @@ TEST_F(ID666TagTests, GetsTextSongLengthProperly)
     params.testData = textData;
     params.expectedLabel = "Song Length (seconds)";
     params.expectedValue = "123";
-    params.expectedOffset = Spc::Id666::songLengthInfo.textOffset;
-    params.expectedSize = Spc::Id666::songLengthInfo.textSize;
+    params.expectedOffset = Spc::Id666::songLengthInfo.text.offset;
+    params.expectedSize = Spc::Id666::songLengthInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::SongLength;
     TestGet<Spc::NumericField>(params);
 }
@@ -409,8 +409,8 @@ TEST_F(ID666TagTests, GetsBinarySongLengthProperly)
     params.testData = binaryData;
     params.expectedLabel = "Song Length (seconds)";
     params.expectedValue = "43";
-    params.expectedOffset = Spc::Id666::songLengthInfo.binaryOffset;
-    params.expectedSize = Spc::Id666::songLengthInfo.binarySize;
+    params.expectedOffset = Spc::Id666::songLengthInfo.binary.offset;
+    params.expectedSize = Spc::Id666::songLengthInfo.binary.size;
     params.getMethodPtr = &Spc::Id666::Tag::SongLength;
     TestGet<Spc::NumericField>(params);
 }
@@ -421,8 +421,8 @@ TEST_F(ID666TagTests, GetsMixedSongLengthProperly)
     params.testData = mixedData;
     params.expectedLabel = "Song Length (seconds)";
     params.expectedValue = "123";
-    params.expectedOffset = Spc::Id666::songLengthInfo.textOffset;
-    params.expectedSize = Spc::Id666::songLengthInfo.textSize;
+    params.expectedOffset = Spc::Id666::songLengthInfo.text.offset;
+    params.expectedSize = Spc::Id666::songLengthInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::SongLength;
     TestGet<Spc::NumericField>(params);
 }
@@ -433,8 +433,8 @@ TEST_F(ID666TagTests, GetTextFadeLengthProperly)
     params.testData = textData;
     params.expectedLabel = "Fade Length (ms)";
     params.expectedValue = "05000";
-    params.expectedOffset = Spc::Id666::fadeLengthInfo.textOffset;
-    params.expectedSize = Spc::Id666::fadeLengthInfo.textSize;
+    params.expectedOffset = Spc::Id666::fadeLengthInfo.text.offset;
+    params.expectedSize = Spc::Id666::fadeLengthInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::FadeLength;
     TestGet<Spc::NumericField>(params);
 }
@@ -445,8 +445,8 @@ TEST_F(ID666TagTests, GetsBinaryFadeLengthProperly)
     params.testData = binaryData;
     params.expectedLabel = "Fade Length (ms)";
     params.expectedValue = "5000";
-    params.expectedOffset = Spc::Id666::fadeLengthInfo.binaryOffset;
-    params.expectedSize = Spc::Id666::fadeLengthInfo.binarySize;
+    params.expectedOffset = Spc::Id666::fadeLengthInfo.binary.offset;
+    params.expectedSize = Spc::Id666::fadeLengthInfo.binary.size;
     params.getMethodPtr = &Spc::Id666::Tag::FadeLength;
     TestGet<Spc::NumericField>(params);
 }
@@ -457,8 +457,8 @@ TEST_F(ID666TagTests, GetsMixedFadeLengthProperly)
     params.testData = mixedData;
     params.expectedLabel = "Fade Length (ms)";
     params.expectedValue = "50000";
-    params.expectedOffset = Spc::Id666::fadeLengthInfo.textOffset;
-    params.expectedSize = Spc::Id666::fadeLengthInfo.textSize;
+    params.expectedOffset = Spc::Id666::fadeLengthInfo.text.offset;
+    params.expectedSize = Spc::Id666::fadeLengthInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::FadeLength;
     TestGet<Spc::NumericField>(params);
 }
@@ -471,7 +471,7 @@ TEST_F(ID666TagTests, GetsExtendedFadeLengthProperly)
     TestGetExtendedParams<Spc::NumericField> params;
     params.expectedLabel = "Fade Length (ticks)";
     params.expectedValue = "320000";
-    params.expectedSize = Spc::Id666::fadeLengthInfo.binarySize;
+    params.expectedSize = Spc::Id666::fadeLengthInfo.binary.size;
     params.extendedID = Spc::Id666::Extended::fadeLengthInfo.id;
     params.extendedType = Spc::Id666::Extended::integerType;
 
@@ -489,8 +489,8 @@ TEST_F(ID666TagTests, GetsTextArtistProperly)
     params.testData = textData;
     params.expectedLabel = "Song Artist";
     params.expectedValue = expectedSongArtist;
-    params.expectedOffset = Spc::Id666::songArtistInfo.textOffset;
-    params.expectedSize = Spc::Id666::songArtistInfo.textSize;
+    params.expectedOffset = Spc::Id666::songArtistInfo.text.offset;
+    params.expectedSize = Spc::Id666::songArtistInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::SongArtist;
     TestGet<Spc::TextField>(params);
 }
@@ -501,8 +501,8 @@ TEST_F(ID666TagTests, GetsBinaryArtistProperly)
     params.testData = binaryData;
     params.expectedLabel = "Song Artist";
     params.expectedValue = expectedSongArtist;
-    params.expectedOffset = Spc::Id666::songArtistInfo.binaryOffset;
-    params.expectedSize = Spc::Id666::songArtistInfo.binarySize;
+    params.expectedOffset = Spc::Id666::songArtistInfo.binary.offset;
+    params.expectedSize = Spc::Id666::songArtistInfo.binary.size;
     params.getMethodPtr = &Spc::Id666::Tag::SongArtist;
     TestGet<Spc::TextField>(params);
 }
@@ -513,8 +513,8 @@ TEST_F(ID666TagTests, GetsMixedArtistProperly)
     params.testData = mixedData;
     params.expectedLabel = "Song Artist";
     params.expectedValue = expectedSongArtist;
-    params.expectedOffset = Spc::Id666::songArtistInfo.textOffset;
-    params.expectedSize = Spc::Id666::songArtistInfo.textSize;
+    params.expectedOffset = Spc::Id666::songArtistInfo.text.offset;
+    params.expectedSize = Spc::Id666::songArtistInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::SongArtist;
     TestGet<Spc::TextField>(params);
 }
@@ -541,8 +541,8 @@ TEST_F(ID666TagTests, GetsTextDefaultChannelStateProperly)
     params.testData = textData;
     params.expectedLabel = "Default Channel State";
     params.expectedValue = "0";
-    params.expectedOffset = Spc::Id666::defaultChannelStateInfo.textOffset;
-    params.expectedSize = Spc::Id666::defaultChannelStateInfo.textSize;
+    params.expectedOffset = Spc::Id666::defaultChannelStateInfo.text.offset;
+    params.expectedSize = Spc::Id666::defaultChannelStateInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::DefaultChannelState;
     TestGet<Spc::NumericField>(params);
 }
@@ -553,8 +553,8 @@ TEST_F(ID666TagTests, GetsBinaryDefaultChannelStateProperly)
     params.testData = binaryData;
     params.expectedLabel = "Default Channel State";
     params.expectedValue = "0";
-    params.expectedOffset = Spc::Id666::defaultChannelStateInfo.binaryOffset;
-    params.expectedSize = Spc::Id666::defaultChannelStateInfo.binarySize;
+    params.expectedOffset = Spc::Id666::defaultChannelStateInfo.binary.offset;
+    params.expectedSize = Spc::Id666::defaultChannelStateInfo.binary.size;
     params.getMethodPtr = &Spc::Id666::Tag::DefaultChannelState;
     TestGet<Spc::NumericField>(params);
 }
@@ -565,8 +565,8 @@ TEST_F(ID666TagTests, GetsMixedDefaultChannelStateProperly)
     params.testData = mixedData;
     params.expectedLabel = "Default Channel State";
     params.expectedValue = "0";
-    params.expectedOffset = Spc::Id666::defaultChannelStateInfo.textOffset;
-    params.expectedSize = Spc::Id666::defaultChannelStateInfo.textSize;
+    params.expectedOffset = Spc::Id666::defaultChannelStateInfo.text.offset;
+    params.expectedSize = Spc::Id666::defaultChannelStateInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::DefaultChannelState;
     TestGet<Spc::NumericField>(params);
 }
@@ -577,8 +577,8 @@ TEST_F(ID666TagTests, GetsTextEmulatorUsedProperly)
     params.testData = textData;
     params.expectedLabel = "Emulator Used";
     params.expectedValue = "SNES9X";
-    params.expectedOffset = Spc::Id666::emulatorUsedInfo.textOffset;
-    params.expectedSize = Spc::Id666::emulatorUsedInfo.textSize;
+    params.expectedOffset = Spc::Id666::emulatorUsedInfo.text.offset;
+    params.expectedSize = Spc::Id666::emulatorUsedInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::EmulatorUsed;
     TestGet<Spc::EmulatorField>(params);
 }
@@ -589,8 +589,8 @@ TEST_F(ID666TagTests, GetsBinaryEmulatorUsedProperly)
     params.testData = binaryData;
     params.expectedLabel = "Emulator Used";
     params.expectedValue = "SNES9X";
-    params.expectedOffset = Spc::Id666::emulatorUsedInfo.binaryOffset;
-    params.expectedSize = Spc::Id666::emulatorUsedInfo.binarySize;
+    params.expectedOffset = Spc::Id666::emulatorUsedInfo.binary.offset;
+    params.expectedSize = Spc::Id666::emulatorUsedInfo.binary.size;
     params.getMethodPtr = &Spc::Id666::Tag::EmulatorUsed;
     TestGet<Spc::EmulatorField>(params);
 }
@@ -601,8 +601,8 @@ TEST_F(ID666TagTests, GetsMixedEmulatorUsedProperly)
     params.testData = mixedData;
     params.expectedLabel = "Emulator Used";
     params.expectedValue = "SNES9X";
-    params.expectedOffset = Spc::Id666::emulatorUsedInfo.textOffset;
-    params.expectedSize = Spc::Id666::emulatorUsedInfo.textSize;
+    params.expectedOffset = Spc::Id666::emulatorUsedInfo.text.offset;
+    params.expectedSize = Spc::Id666::emulatorUsedInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::EmulatorUsed;
     TestGet<Spc::EmulatorField>(params);
 }
@@ -614,7 +614,7 @@ TEST_F(ID666TagTests, GetsExtendedEmulatorUsedProperly)
     TestGetExtendedParams<Spc::EmulatorField> params;
     params.expectedLabel = "Emulator Used";
     params.expectedValue = "SNES9X";
-    params.expectedSize = Spc::Id666::emulatorUsedInfo.binarySize;
+    params.expectedSize = Spc::Id666::emulatorUsedInfo.binary.size;
     params.extendedID = Spc::Id666::Extended::emulatorUsedInfo.id;
     params.extendedType = Spc::Id666::Extended::emulatorUsedInfo.type;
     params.extendedValue = "SNES9X";
@@ -704,16 +704,6 @@ TEST_F(ID666TagTests, GetsCopyrightYearProperly)
 {
     tag->ExtendedData()->copyrightYear = 
         std::make_shared<Spc::Id666::Extended::Item>();
-
-    /*
-    // We need to explicity set the data type to binary or it will be
-    // interpreted as text by default.
-    std::shared_ptr<Spc::Id666::Extended::Item> copyrightYear = 
-        tag->ExtendedData()->copyrightYear;
-    auto copyrightYearData = std::static_pointer_cast<Spc::NumericField>(
-        copyrightYear->data);
-    copyrightYearData->SetType(Spc::NumericType::Binary);
-    */
 
     TestGetExtendedParams<Spc::NumericField> params;
     params.expectedLabel = "Copyright Year";
@@ -842,8 +832,8 @@ TEST_F(ID666TagTests, SetsTextSongTitleProperly)
 {
     TestSetParams<Spc::TextField> params;
     params.testData = textData;
-    params.offset = Spc::Id666::songTitleInfo.textOffset;
-    params.size = Spc::Id666::songTitleInfo.textSize;
+    params.offset = Spc::Id666::songTitleInfo.text.offset;
+    params.size = Spc::Id666::songTitleInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetSongTitle;
     params.setValue = "Set Song Title";
     TestSet<Spc::TextField>(params);
@@ -853,8 +843,8 @@ TEST_F(ID666TagTests, SetsBinarySongTitleProperly)
 {
     TestSetParams<Spc::TextField> params;
     params.testData = binaryData;
-    params.offset = Spc::Id666::songTitleInfo.binaryOffset;
-    params.size = Spc::Id666::songTitleInfo.binarySize;
+    params.offset = Spc::Id666::songTitleInfo.binary.offset;
+    params.size = Spc::Id666::songTitleInfo.binary.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetSongTitle;
     params.setValue = "Set Song Title";
     TestSet<Spc::TextField>(params);
@@ -864,8 +854,8 @@ TEST_F(ID666TagTests, SetsMixedSongTitleProperly)
 {
     TestSetParams<Spc::TextField> params;
     params.testData = mixedData;
-    params.offset = Spc::Id666::songTitleInfo.textOffset;
-    params.size = Spc::Id666::songTitleInfo.textSize;
+    params.offset = Spc::Id666::songTitleInfo.text.offset;
+    params.size = Spc::Id666::songTitleInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetSongTitle;
     params.setValue = "Set Song Title";
     TestSet<Spc::TextField>(params);
@@ -884,8 +874,8 @@ TEST_F(ID666TagTests, SetsNewExtendedSongTitleProperly)
     extParams.setMethodPtr = &Spc::Id666::Tag::SetSongTitle;
 
     TestFieldWithoutGetParams params;
-    params.offset = Spc::Id666::songTitleInfo.textOffset;
-    params.size = Spc::Id666::songTitleInfo.textSize;
+    params.offset = Spc::Id666::songTitleInfo.text.offset;
+    params.size = Spc::Id666::songTitleInfo.text.size;
 
     // Set should also set the standard field to a truncated value (33 chars).
     params.expectedValue = "Set Song Title ABCDEFGHIJKLMNOPQ";
@@ -912,8 +902,8 @@ TEST_F(ID666TagTests, SetsExistingExtendedSongTitleProperly)
     extParams.setMethodPtr = &Spc::Id666::Tag::SetSongTitle;
 
     TestFieldWithoutGetParams params;
-    params.offset = Spc::Id666::songTitleInfo.textOffset;
-    params.size = Spc::Id666::songTitleInfo.textSize;
+    params.offset = Spc::Id666::songTitleInfo.text.offset;
+    params.size = Spc::Id666::songTitleInfo.text.size;
 
     // Set should also set the standard field to a truncated value (33 chars).
     params.expectedValue = "Set Song Title ABCDEFGHIJKLMNOPQ";
@@ -926,8 +916,8 @@ TEST_F(ID666TagTests, SetsTextGameTitleProperly)
 {
     TestSetParams<Spc::TextField> params;
     params.testData = textData;
-    params.offset = Spc::Id666::gameTitleInfo.textOffset;
-    params.size = Spc::Id666::gameTitleInfo.textSize;
+    params.offset = Spc::Id666::gameTitleInfo.text.offset;
+    params.size = Spc::Id666::gameTitleInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetGameTitle;
     params.setValue = "Set Game Title";
     TestSet<Spc::TextField>(params);
@@ -937,8 +927,8 @@ TEST_F(ID666TagTests, SetsBinaryGameTitleProperly)
 {
     TestSetParams<Spc::TextField> params;
     params.testData = binaryData;
-    params.offset = Spc::Id666::gameTitleInfo.binaryOffset;
-    params.size = Spc::Id666::gameTitleInfo.binarySize;
+    params.offset = Spc::Id666::gameTitleInfo.binary.offset;
+    params.size = Spc::Id666::gameTitleInfo.binary.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetGameTitle;
     params.setValue = "Set Game Title";
     TestSet<Spc::TextField>(params);
@@ -948,8 +938,8 @@ TEST_F(ID666TagTests, SetsMixedGameTitleProperly)
 {
     TestSetParams<Spc::TextField> params;
     params.testData = mixedData;
-    params.offset = Spc::Id666::gameTitleInfo.textOffset;
-    params.size = Spc::Id666::gameTitleInfo.textSize;
+    params.offset = Spc::Id666::gameTitleInfo.text.offset;
+    params.size = Spc::Id666::gameTitleInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetGameTitle;
     params.setValue = "Set Game Title";
     TestSet<Spc::TextField>(params);
@@ -969,8 +959,8 @@ TEST_F(ID666TagTests, SetsNewExtendedGameTitleProperly)
     extParams.setMethodPtr = &Spc::Id666::Tag::SetGameTitle;
 
     TestFieldWithoutGetParams params;
-    params.offset = Spc::Id666::gameTitleInfo.textOffset;
-    params.size = Spc::Id666::gameTitleInfo.textSize;
+    params.offset = Spc::Id666::gameTitleInfo.text.offset;
+    params.size = Spc::Id666::gameTitleInfo.text.size;
 
     // Set should also set the standard field to a truncated value (33 chars).
     params.expectedValue = "Set Game Title ABCDEFGHIJKLMNOPQ";
@@ -997,8 +987,8 @@ TEST_F(ID666TagTests, SetsExistingExtendedGameTitleProperly)
     extParams.setMethodPtr = &Spc::Id666::Tag::SetGameTitle;
 
     TestFieldWithoutGetParams params;
-    params.offset = Spc::Id666::gameTitleInfo.textOffset;
-    params.size = Spc::Id666::gameTitleInfo.textSize;
+    params.offset = Spc::Id666::gameTitleInfo.text.offset;
+    params.size = Spc::Id666::gameTitleInfo.text.size;
 
     // Set should also set the standard field to a truncated value (33 chars).
     params.expectedValue = "Set Game Title ABCDEFGHIJKLMNOPQ";
@@ -1011,8 +1001,8 @@ TEST_F(ID666TagTests, SetsTextDumperNameProperly)
 {
     TestSetParams<Spc::TextField> params;
     params.testData = textData;
-    params.offset = Spc::Id666::dumperNameInfo.textOffset;
-    params.size = Spc::Id666::dumperNameInfo.textSize;
+    params.offset = Spc::Id666::dumperNameInfo.text.offset;
+    params.size = Spc::Id666::dumperNameInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetDumperName;
     params.setValue = "Set Dumper Name";
     TestSet<Spc::TextField>(params);
@@ -1022,8 +1012,8 @@ TEST_F(ID666TagTests, SetsBinaryDumperNameProperly)
 {
     TestSetParams<Spc::TextField> params;
     params.testData = binaryData;
-    params.offset = Spc::Id666::dumperNameInfo.binaryOffset;
-    params.size = Spc::Id666::dumperNameInfo.binarySize;
+    params.offset = Spc::Id666::dumperNameInfo.binary.offset;
+    params.size = Spc::Id666::dumperNameInfo.binary.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetDumperName;
     params.setValue = "Set Dumper Name";
     TestSet<Spc::TextField>(params);
@@ -1033,8 +1023,8 @@ TEST_F(ID666TagTests, SetsMixedDumperNameProperly)
 {
     TestSetParams<Spc::TextField> params;
     params.testData = mixedData;
-    params.offset = Spc::Id666::dumperNameInfo.textOffset;
-    params.size = Spc::Id666::dumperNameInfo.textSize;
+    params.offset = Spc::Id666::dumperNameInfo.text.offset;
+    params.size = Spc::Id666::dumperNameInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetDumperName;
     params.setValue = "Set Dumper Name";
     TestSet<Spc::TextField>(params);
@@ -1054,8 +1044,8 @@ TEST_F(ID666TagTests, SetsNewExtendedDumperNameProperly)
     extParams.setMethodPtr = &Spc::Id666::Tag::SetDumperName;
 
     TestFieldWithoutGetParams params;
-    params.offset = Spc::Id666::dumperNameInfo.textOffset;
-    params.size = Spc::Id666::dumperNameInfo.textSize;
+    params.offset = Spc::Id666::dumperNameInfo.text.offset;
+    params.size = Spc::Id666::dumperNameInfo.text.size;
 
     // Set should also set the standard field to a truncated value (16 chars).
     params.expectedValue = "Set Dumper Name ";
@@ -1082,8 +1072,8 @@ TEST_F(ID666TagTests, SetsExistingExtendedDumperNameProperly)
     extParams.setMethodPtr = &Spc::Id666::Tag::SetDumperName;
 
     TestFieldWithoutGetParams params;
-    params.offset = Spc::Id666::dumperNameInfo.textOffset;
-    params.size = Spc::Id666::dumperNameInfo.textSize;
+    params.offset = Spc::Id666::dumperNameInfo.text.offset;
+    params.size = Spc::Id666::dumperNameInfo.text.size;
 
     // Set should also set the standard field to a truncated value (16 chars).
     params.expectedValue = "Set Dumper Name ";
@@ -1096,8 +1086,8 @@ TEST_F(ID666TagTests, SetsTextCommentsProperly)
 {
     TestSetParams<Spc::TextField> params;
     params.testData = textData;
-    params.offset = Spc::Id666::commentsInfo.textOffset;
-    params.size = Spc::Id666::commentsInfo.textSize;
+    params.offset = Spc::Id666::commentsInfo.text.offset;
+    params.size = Spc::Id666::commentsInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetComments;
     params.setValue = "Set Comments";
     TestSet<Spc::TextField>(params);
@@ -1107,8 +1097,8 @@ TEST_F(ID666TagTests, SetsBinaryCommentsProperly)
 {
     TestSetParams<Spc::TextField> params;
     params.testData = binaryData;
-    params.offset = Spc::Id666::commentsInfo.binaryOffset;
-    params.size = Spc::Id666::commentsInfo.binarySize;
+    params.offset = Spc::Id666::commentsInfo.binary.offset;
+    params.size = Spc::Id666::commentsInfo.binary.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetComments;
     params.setValue = "Set Comments";
     TestSet<Spc::TextField>(params);
@@ -1118,8 +1108,8 @@ TEST_F(ID666TagTests, SetsMixedCommentsProperly)
 {
     TestSetParams<Spc::TextField> params;
     params.testData = mixedData;
-    params.offset = Spc::Id666::commentsInfo.textOffset;
-    params.size = Spc::Id666::commentsInfo.textSize;
+    params.offset = Spc::Id666::commentsInfo.text.offset;
+    params.size = Spc::Id666::commentsInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetComments;
     params.setValue = "Set Comments";
     TestSet<Spc::TextField>(params);
@@ -1139,8 +1129,8 @@ TEST_F(ID666TagTests, SetsNewExtendedCommentsProperly)
     extParams.setMethodPtr = &Spc::Id666::Tag::SetComments;
 
     TestFieldWithoutGetParams params;
-    params.offset = Spc::Id666::commentsInfo.textOffset;
-    params.size = Spc::Id666::commentsInfo.textSize;
+    params.offset = Spc::Id666::commentsInfo.text.offset;
+    params.size = Spc::Id666::commentsInfo.text.size;
 
     // Set should also set the standard field to a truncated value (32 chars).
     params.expectedValue = "Set Comments ABCDEFGHIJKLMNOPQRS";
@@ -1167,8 +1157,8 @@ TEST_F(ID666TagTests, SetsExistingExtendedCommentsProperly)
     extParams.setMethodPtr = &Spc::Id666::Tag::SetComments;
 
     TestFieldWithoutGetParams params;
-    params.offset = Spc::Id666::commentsInfo.textOffset;
-    params.size = Spc::Id666::commentsInfo.textSize;
+    params.offset = Spc::Id666::commentsInfo.text.offset;
+    params.size = Spc::Id666::commentsInfo.text.size;
 
     // Set should also set the standard field to a truncated value (32 chars).
     params.expectedValue = "Set Comments ABCDEFGHIJKLMNOPQRS";
@@ -1181,8 +1171,8 @@ TEST_F(ID666TagTests, SetsTextDateDumpedProperly)
 {
     TestSetParams<Spc::DateField> params;
     params.testData = textData;
-    params.offset = Spc::Id666::dateDumpedInfo.textOffset;
-    params.size = Spc::Id666::dateDumpedInfo.textSize;
+    params.offset = Spc::Id666::dateDumpedInfo.text.offset;
+    params.size = Spc::Id666::dateDumpedInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetDateDumped;
     params.setValue = "01/11/2026";
     TestSet<Spc::DateField>(params);
@@ -1192,8 +1182,8 @@ TEST_F(ID666TagTests, SetsBinaryDateDumpedProperly)
 {
     TestSetParams<Spc::DateField> params;
     params.testData = binaryData;
-    params.offset = Spc::Id666::dateDumpedInfo.binaryOffset;
-    params.size = Spc::Id666::dateDumpedInfo.binarySize;
+    params.offset = Spc::Id666::dateDumpedInfo.binary.offset;
+    params.size = Spc::Id666::dateDumpedInfo.binary.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetDateDumped;
     params.setValue = "01/11/2026";
     TestSet<Spc::DateField>(params);
@@ -1203,8 +1193,8 @@ TEST_F(ID666TagTests, SetsMixedDateDumpedProperly)
 {
     TestSetParams<Spc::DateField> params;
     params.testData = mixedData;
-    params.offset = Spc::Id666::dateDumpedInfo.textOffset;
-    params.size = Spc::Id666::dateDumpedInfo.textSize;
+    params.offset = Spc::Id666::dateDumpedInfo.text.offset;
+    params.size = Spc::Id666::dateDumpedInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetDateDumped;
     params.setValue = "01/11/2026";
     TestSet<Spc::DateField>(params);
@@ -1214,8 +1204,8 @@ TEST_F(ID666TagTests, SetsTextSongLengthProperly)
 {
     TestSetParams<Spc::NumericField> params;
     params.testData = textData;
-    params.offset = Spc::Id666::songLengthInfo.textOffset;
-    params.size = Spc::Id666::songLengthInfo.textSize;
+    params.offset = Spc::Id666::songLengthInfo.text.offset;
+    params.size = Spc::Id666::songLengthInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetSongLength;
     params.setValue = "321";
     TestSet<Spc::NumericField>(params);
@@ -1225,8 +1215,8 @@ TEST_F(ID666TagTests, SetsBinarySongLengthProperly)
 {
     TestSetParams<Spc::NumericField> params;
     params.testData = binaryData;
-    params.offset = Spc::Id666::songLengthInfo.binaryOffset;
-    params.size = Spc::Id666::songLengthInfo.binarySize;
+    params.offset = Spc::Id666::songLengthInfo.binary.offset;
+    params.size = Spc::Id666::songLengthInfo.binary.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetSongLength;
     params.setValue = "321";
     TestSet<Spc::NumericField>(params);
@@ -1236,8 +1226,8 @@ TEST_F(ID666TagTests, SetsMixedSongLengthProperly)
 {
     TestSetParams<Spc::NumericField> params;
     params.testData = mixedData;
-    params.offset = Spc::Id666::songLengthInfo.textOffset;
-    params.size = Spc::Id666::songLengthInfo.textSize;
+    params.offset = Spc::Id666::songLengthInfo.text.offset;
+    params.size = Spc::Id666::songLengthInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetSongLength;
     params.setValue = "321";
     TestSet<Spc::NumericField>(params);
@@ -1247,8 +1237,8 @@ TEST_F(ID666TagTests, SetsTextFadeLengthProperly)
 {
     TestSetParams<Spc::NumericField> params;
     params.testData = textData;
-    params.offset = Spc::Id666::fadeLengthInfo.textOffset;
-    params.size = Spc::Id666::fadeLengthInfo.textSize;
+    params.offset = Spc::Id666::fadeLengthInfo.text.offset;
+    params.size = Spc::Id666::fadeLengthInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetFadeLength;
     params.setValue = "321";
     TestSet<Spc::NumericField>(params);
@@ -1258,8 +1248,8 @@ TEST_F(ID666TagTests, SetsBinaryFadeLengthProperly)
 {
     TestSetParams<Spc::NumericField> params;
     params.testData = binaryData;
-    params.offset = Spc::Id666::fadeLengthInfo.binaryOffset;
-    params.size = Spc::Id666::fadeLengthInfo.binarySize;
+    params.offset = Spc::Id666::fadeLengthInfo.binary.offset;
+    params.size = Spc::Id666::fadeLengthInfo.binary.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetFadeLength;
     params.setValue = "321";
     TestSet<Spc::NumericField>(params);
@@ -1269,8 +1259,8 @@ TEST_F(ID666TagTests, SetsMixedFadeLengthProperly)
 {
     TestSetParams<Spc::NumericField> params;
     params.testData = mixedData;
-    params.offset = Spc::Id666::fadeLengthInfo.textOffset;
-    params.size = Spc::Id666::fadeLengthInfo.textSize;
+    params.offset = Spc::Id666::fadeLengthInfo.text.offset;
+    params.size = Spc::Id666::fadeLengthInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetFadeLength;
     params.setValue = "321";
     TestSet<Spc::NumericField>(params);
@@ -1280,8 +1270,8 @@ TEST_F(ID666TagTests, SetsTextSongArtistProperly)
 {
     TestSetParams<Spc::TextField> params;
     params.testData = textData;
-    params.offset = Spc::Id666::songArtistInfo.textOffset;
-    params.size = Spc::Id666::songArtistInfo.textSize;
+    params.offset = Spc::Id666::songArtistInfo.text.offset;
+    params.size = Spc::Id666::songArtistInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetSongArtist;
     params.setValue = "Set Song Artist";
     TestSet<Spc::TextField>(params);
@@ -1291,8 +1281,8 @@ TEST_F(ID666TagTests, SetsBinarySongArtistProperly)
 {
     TestSetParams<Spc::TextField> params;
     params.testData = binaryData;
-    params.offset = Spc::Id666::songArtistInfo.binaryOffset;
-    params.size = Spc::Id666::songArtistInfo.binarySize;
+    params.offset = Spc::Id666::songArtistInfo.binary.offset;
+    params.size = Spc::Id666::songArtistInfo.binary.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetSongArtist;
     params.setValue = "Set Song Artist";
     TestSet<Spc::TextField>(params);
@@ -1302,8 +1292,8 @@ TEST_F(ID666TagTests, SetsMixedSongArtistProperly)
 {
     TestSetParams<Spc::TextField> params;
     params.testData = mixedData;
-    params.offset = Spc::Id666::songArtistInfo.textOffset;
-    params.size = Spc::Id666::songArtistInfo.textSize;
+    params.offset = Spc::Id666::songArtistInfo.text.offset;
+    params.size = Spc::Id666::songArtistInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetSongArtist;
     params.setValue = "Set Song Artist";
     TestSet<Spc::TextField>(params);
@@ -1323,8 +1313,8 @@ TEST_F(ID666TagTests, SetsNewExtendedSongArtistProperly)
     extParams.setMethodPtr = &Spc::Id666::Tag::SetSongArtist;
 
     TestFieldWithoutGetParams params;
-    params.offset = Spc::Id666::songArtistInfo.textOffset;
-    params.size = Spc::Id666::songArtistInfo.textSize;
+    params.offset = Spc::Id666::songArtistInfo.text.offset;
+    params.size = Spc::Id666::songArtistInfo.text.size;
 
     // Set should also set the standard field to a truncated value (32 chars).
     params.expectedValue = "Set Song Artist ABCDEFGHIJKLMNOP";
@@ -1348,8 +1338,8 @@ TEST_F(ID666TagTests, SetsExistingExtendedSongArtistProperly)
     extParams.setMethodPtr = &Spc::Id666::Tag::SetSongArtist;
 
     TestFieldWithoutGetParams params;
-    params.offset = Spc::Id666::songArtistInfo.textOffset;
-    params.size = Spc::Id666::songArtistInfo.textSize;
+    params.offset = Spc::Id666::songArtistInfo.text.offset;
+    params.size = Spc::Id666::songArtistInfo.text.size;
     params.expectedValue = "Set Song Artist ABCDEFGHIJKLMNOP";
 
     TestSetExtendedData<Spc::TextField, Spc::TextField>(extParams);
@@ -1360,8 +1350,8 @@ TEST_F(ID666TagTests, SetsTextDefaultChannelStateProperly)
 {
     TestSetParams<Spc::NumericField> params;
     params.testData = textData;
-    params.offset = Spc::Id666::defaultChannelStateInfo.textOffset;
-    params.size = Spc::Id666::defaultChannelStateInfo.textSize;
+    params.offset = Spc::Id666::defaultChannelStateInfo.text.offset;
+    params.size = Spc::Id666::defaultChannelStateInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetDefaultChannelState;
     params.setValue = "1";
     TestSet<Spc::NumericField>(params);
@@ -1371,8 +1361,8 @@ TEST_F(ID666TagTests, SetsBinaryDefaultChannelStateProperly)
 {
     TestSetParams<Spc::NumericField> params;
     params.testData = binaryData;
-    params.offset = Spc::Id666::defaultChannelStateInfo.binaryOffset;
-    params.size = Spc::Id666::defaultChannelStateInfo.binarySize;
+    params.offset = Spc::Id666::defaultChannelStateInfo.binary.offset;
+    params.size = Spc::Id666::defaultChannelStateInfo.binary.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetDefaultChannelState;
     params.setValue = "1";
     TestSet<Spc::NumericField>(params);
@@ -1382,8 +1372,8 @@ TEST_F(ID666TagTests, SetsMixedDefaultChannelStateProperly)
 {
     TestSetParams<Spc::NumericField> params;
     params.testData = mixedData;
-    params.offset = Spc::Id666::defaultChannelStateInfo.textOffset;
-    params.size = Spc::Id666::defaultChannelStateInfo.textSize;
+    params.offset = Spc::Id666::defaultChannelStateInfo.text.offset;
+    params.size = Spc::Id666::defaultChannelStateInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetDefaultChannelState;
     params.setValue = "1";
     TestSet<Spc::NumericField>(params);
@@ -1393,8 +1383,8 @@ TEST_F(ID666TagTests, SetsTextEmulatorUsedProperly)
 {
     TestSetParams<Spc::EmulatorField> params;
     params.testData = textData;
-    params.offset = Spc::Id666::emulatorUsedInfo.textOffset;
-    params.size = Spc::Id666::emulatorUsedInfo.textSize;
+    params.offset = Spc::Id666::emulatorUsedInfo.text.offset;
+    params.size = Spc::Id666::emulatorUsedInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetEmulatorUsed;
     params.setValue = "ZSNES";
     TestSet<Spc::EmulatorField>(params);
@@ -1404,8 +1394,8 @@ TEST_F(ID666TagTests, SetsBinaryEmulatorUsedProperly)
 {
     TestSetParams<Spc::EmulatorField> params;
     params.testData = binaryData;
-    params.offset = Spc::Id666::emulatorUsedInfo.binaryOffset;
-    params.size = Spc::Id666::emulatorUsedInfo.binarySize;
+    params.offset = Spc::Id666::emulatorUsedInfo.binary.offset;
+    params.size = Spc::Id666::emulatorUsedInfo.binary.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetEmulatorUsed;
     params.setValue = "ZSNES";
     TestSet<Spc::EmulatorField>(params);
@@ -1415,8 +1405,8 @@ TEST_F(ID666TagTests, SetsMixedEmulatorUsedProperly)
 {
     TestSetParams<Spc::EmulatorField> params;
     params.testData = mixedData;
-    params.offset = Spc::Id666::emulatorUsedInfo.textOffset;
-    params.size = Spc::Id666::emulatorUsedInfo.textSize;
+    params.offset = Spc::Id666::emulatorUsedInfo.text.offset;
+    params.size = Spc::Id666::emulatorUsedInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetEmulatorUsed;
     params.setValue = "ZSNES";
     TestSet<Spc::EmulatorField>(params);

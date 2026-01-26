@@ -17,13 +17,17 @@
 #ifndef BINARY_FIELD_TESTS_H
 #define BINARY_FIELD_TESTS_H
 
+#include <memory>
 #include <gtest/gtest.h>
 #include "LibCppSpc.h"
 
 class BinaryFieldTests : public ::testing::Test
 {
 protected:
-    BinaryFieldTests();
+    void SetUp() override;
+
+    std::shared_ptr<Spc::FieldInfo> oneByteFieldInfo;
+    std::shared_ptr<Spc::FieldInfo> twoByteFieldInfo;
 };
 
 #endif

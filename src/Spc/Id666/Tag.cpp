@@ -34,30 +34,20 @@ TagType Tag::DetermineType() const
 
     // Read in the fields that will help us determine the tag type.
     fieldData->SetPosition(0);
-    DateField dateDumped{ "Date Dumped", 
-                          dateDumpedInfo.binaryOffset, 
-                          dateDumpedInfo.binarySize };
-    NumericField songLength{ "Song Length (seconds)", 
-                             songLengthInfo.binaryOffset, 
-                             songLengthInfo.binarySize };
-    NumericField fadeLength{ "Fade Length (ms)", 
-                             fadeLengthInfo.binaryOffset,
-                             fadeLengthInfo.binarySize };
-    TextField songArtist{ "Song Artist",
-                           songArtistInfo.binaryOffset,
-                           songArtistInfo.binarySize };
-    TextField reserved{ "Reserved", 
-                        reservedInfo.binaryOffset,
-                        reservedInfo.binarySize };
-    fieldData->SetPosition(dateDumpedInfo.binaryOffset - tagOffset);
+    DateField dateDumped{ "Date Dumped", dateDumpedInfo.binary };
+    NumericField songLength{ "Song Length (seconds)", songLengthInfo.binary };
+    NumericField fadeLength{ "Fade Length (ms)", fadeLengthInfo.binary };
+    TextField songArtist{ "Song Artist", songArtistInfo.binary };
+    TextField reserved{ "Reserved", reservedInfo.binary };
+    fieldData->SetPosition(dateDumpedInfo.binary.offset - tagOffset);
     fieldData->Read(&dateDumped);
-    fieldData->SetPosition(songLengthInfo.binaryOffset - tagOffset);
+    fieldData->SetPosition(songLengthInfo.binary.offset - tagOffset);
     fieldData->Read(&songLength);
-    fieldData->SetPosition(fadeLengthInfo.binaryOffset - tagOffset);
+    fieldData->SetPosition(fadeLengthInfo.binary.offset - tagOffset);
     fieldData->Read(&fadeLength);
-    fieldData->SetPosition(songArtistInfo.binaryOffset - tagOffset);
+    fieldData->SetPosition(songArtistInfo.binary.offset - tagOffset);
     fieldData->Read(&songArtist);
-    fieldData->SetPosition(reservedInfo.binaryOffset - tagOffset);
+    fieldData->SetPosition(reservedInfo.binary.offset - tagOffset);
     fieldData->Read(&reserved);
 
     if (!dateDumped.IsText() || 
@@ -146,12 +136,9 @@ DateField Tag::DateDumped() const
     {
         // Since a date dumped was found in the extended area, convert it to
         // a standard DateField to return.
-        DateField dateDumped
-        { 
-            "Date Dumped", 
-            Extended::dataOffset, 
-            dateDumpedInfo.binarySize 
-        };
+        Spc::FieldInfo extendedInfo{ Extended::dataOffset, 
+                                     dateDumpedInfo.binary.size };
+        DateField dateDumped{ "Date Dumped", extendedInfo };
         std::memcpy(dateDumped.RawData(), 
                     dateDumpedInt->RawData(), 
                     dateDumpedInt->Size());
@@ -211,12 +198,9 @@ EmulatorField Tag::EmulatorUsed() const
     {
         // Since emulator used was found in the extended area, convert it to
         // a standard EmulatorField to return.
-        EmulatorField emulatorUsed
-        { 
-            "Emulator Used", 
-            Extended::dataOffset, 
-            emulatorUsedInfo.binarySize 
-        };
+        Spc::FieldInfo extendedInfo{ Extended::dataOffset, 
+                                     emulatorUsedInfo.binary.size };
+        EmulatorField emulatorUsed{ "Emulator Used", extendedInfo };
         std::memcpy(emulatorUsed.RawData(), 
                     emulatorUsedInt->RawData(), 
                     emulatorUsed.Size());
@@ -288,12 +272,8 @@ BinaryField Tag::MutedVoices() const
     {
         // Since muted voices was found in the extended area, convert it to
         // a standard BinaryField to return.
-        BinaryField mutedVoices
-        { 
-            "Muted Voices", 
-            Extended::dataOffset, 
-            1 
-        };
+        Spc::FieldInfo extendedInfo{ Extended::dataOffset, 1 };
+        BinaryField mutedVoices{ "Muted Voices", extendedInfo };
         std::memcpy(mutedVoices.RawData(), 
                     mutedVoicesInt->RawData(), 
                     mutedVoices.Size());
@@ -301,7 +281,8 @@ BinaryField Tag::MutedVoices() const
     }
     else
     {
-        return BinaryField{ "Muted Voices (ERROR)", 0, 1 };
+        Spc::FieldInfo errorInfo{ 0, 1 };
+        return BinaryField{ "Muted Voices (ERROR)", errorInfo };
     }
 }
 

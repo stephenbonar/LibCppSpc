@@ -45,16 +45,13 @@ const std::map<int, std::string> extendedFieldLabels
 Item::Item()
 {
     id = std::make_shared<NumericField>("Item ID", 
-                                        dataOffset, 
-                                        idSize,
+                                        idInfo,
                                         Spc::NumericType::Binary);
     type = std::make_shared<NumericField>("Item Type",
-                                          dataOffset,
-                                          typeSize,
+                                          typeInfo,
                                           Spc::NumericType::Binary);
     data = std::make_shared<NumericField>("Item Data",
-                                          dataOffset,
-                                          dataSize,
+                                          dataInfo,
                                           Spc::NumericType::Binary);
 }
 

@@ -27,20 +27,48 @@ namespace Spc
     class File
     {
     public:
-        File(std::string path) {}
+        File(std::string path) : 
+            path{ path }, 
+            ram{ ramInfo.size }, 
+            dspRegisters{ dspRegistersInfo.size }, 
+            unused{ unusedInfo.size }, 
+            extraRam{ extraRamInfo.size }
+        { }
 
         File(std::string path, 
-             std::shared_ptr<Binary::FileStream> stream) {}
+             std::shared_ptr<Binary::FileStream> stream) :
+             path{ path },
+             ram{ ramInfo.size },
+             dspRegisters{ dspRegistersInfo.size }, 
+             unused{ unusedInfo.size }, 
+             extraRam{ extraRamInfo.size }
+        { }
 
-        std::string Path() const {}
+        std::string Path() const { return path; }
 
-        Spc::Header Header() { return header; }
+        Spc::Header Header() const { return header; }
 
         Spc::Id666::Tag Tag() { return tag; }
 
-        void SetHeader(Spc::Header header) {  }
+        Binary::BufferStream Ram() const { return ram; }
 
-        void SetTag(Spc::Id666::Tag tag) {  }
+        Binary::BufferStream DspRegisters() const { return dspRegisters; }
+
+        Binary::BufferStream Unused() const { return unused; }
+
+        Binary::BufferStream ExtraRam() const { return extraRam; }
+
+        void SetHeader(Spc::Header h) {  }
+
+        void SetTag(Spc::Id666::Tag t) {  }
+
+        void SetRam(Binary::BufferStream r) {  }
+
+        void SetDspRegisters(Binary::BufferStream r) {  }
+
+        void SetUnused(Binary::BufferStream u) {  }
+
+        void SetExtraRam(Binary::BufferStream e) {  }
 
         void Load();
 

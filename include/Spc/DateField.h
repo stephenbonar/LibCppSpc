@@ -22,6 +22,7 @@
 #include <ctime>
 #include <iomanip>
 #include "NumericField.h"
+#include "FieldInfo.h"
 
 namespace Spc
 {
@@ -38,7 +39,7 @@ namespace Spc
         /// @param offset The offset where the field can be found in the file.
         /// @param size The size of the field, in bytes.
         /// @invariant Size must be at least 11 bytes.
-        DateField(std::string label, uintmax_t offset, size_t size);
+        DateField(std::string label, FieldInfo info);
             
         /// @brief Determines if the field has a text representation of date.
         /// @return True if it has a text representation or false if binary.

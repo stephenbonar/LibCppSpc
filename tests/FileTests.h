@@ -1,4 +1,4 @@
-// ID666ExtendedDataTests.h - Declares the ID666ExtendedDataTests class and tests.
+// FileTests.h - Declares the FileTests class and tests.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,20 +14,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef ID666_EXTENDED_DATA_TESTS_H
-#define ID666_EXTENDED_DATA_TESTS_H
+#ifndef FILE_TESTS_H
+#define FILE_TESTS_H
 
-#include <memory>
 #include <gtest/gtest.h>
 #include <LibCppSpc.h>
+#include <memory>
+#include "MockFileStream.h"
 
-class ID666ExtendedDataTests : public ::testing::Test
+class FileTests : public ::testing::Test 
 {
 protected:
-    void InitStringItem(std::shared_ptr<Spc::Id666::Extended::Item>& item, 
-                        std::string value);
+    void SetUp() override;
 
-    Spc::Id666::Extended::Data testExtendedData;
+    std::shared_ptr<MockFileStream> mockFileStream;
 };
 
 #endif

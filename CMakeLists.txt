@@ -18,12 +18,20 @@ cmake_minimum_required(VERSION 3.10.0)
 
 project(LibCppSpc VERSION 1.0.0 LANGUAGES C CXX)
 
-# By default, GoogleTest expects to statically link to the C++ runtime on the
-# MSVC compiler. So if we run on Windows, we need to set our compiler flags
-# to statically link the rest of the project to the runtime to match.
+
 if (WIN32)
+    # By default, GoogleTest expects to statically link to the C++ runtime on 
+    # the MSVC compiler. So if we run on Windows, we need to set our compiler 
+    # flags to statically link the rest of the project to the runtime to match.
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+
+    if (MSVC)
+        # Compiler warnings can intermittently appear and disappear. Set these
+        # to see them consistently and enforce C++ standards.
+        add_compile_options(/W4 /permissive-)
+        add_compile_options(/external:W4)
+    endif()
 endif()
 
 # Specify the C++ standard.

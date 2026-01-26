@@ -21,6 +21,7 @@
 #include "DataStructure.h"
 #include "TextField.h"
 #include "NumericField.h"
+#include "FieldInfo.h"
 
 namespace Spc
 {
@@ -28,43 +29,43 @@ namespace Spc
     struct Header : public DataStructure
     {
         /// @brief The first bytes of the file that identify it as an SPC file.
-        TextField ID{ "SPC Header ID", 0x0, 33 };
+        TextField id{ "SPC Header ID", headerIdInfo };
 
         /// @brief Separates the ID from the rest of the header. Purpose unclear.
-        Field separator{ "Separator", 0x21, 2 };
+        Field separator{ "Separator", headerSeparatorInfo };
 
         /// @brief A byte related to the separator that determines if a tag exists.
         NumericField containsTag
         {
-            "Contains Tag", 0x23, 1, NumericType::Binary
+            "Contains Tag", headerContainsTagInfo, NumericType::Binary
         };
 
         /// @brief The minor version number of the SPC file format used.
         NumericField versionMinor
         { 
-            "Version Minor", 0x24, 1, NumericType::Binary
+            "Version Minor", headerVersionMinorInfo, NumericType::Binary
         };
 
         /// @brief Saved state of the SPC700's program counter register.
-        Field pcRegister{ "PC Register", 0x25, 2 };
+        Field pcRegister{ "PC Register", headerPcRegisterInfo };
 
         /// @brief Saved state of the SPC700's A register.
-        Field aRegister{ "A Register", 0x27, 1 };
+        Field aRegister{ "A Register", headerARegisterInfo };
 
         /// @brief Saved state of the SPC700's X register.
-        Field xRegister{ "X Register", 0x28, 1 };
+        Field xRegister{ "X Register", headerXRegisterInfo };
 
         /// @brief Saved state of the SPC700's Y register.
-        Field yRegister{ "Y Register", 0x29, 1 };
+        Field yRegister{ "Y Register", headerYRegisterInfo };
 
         /// @brief Saved state of the SPC700's program status word register.
-        Field pswRegister{ "PSW Register", 0x2A, 1 };
+        Field pswRegister{ "PSW Register", headerPswRegisterInfo };
 
         /// @brief Saved state of the SPC700's stack pointer register.
-        Field spRegister{ "SP Register", 0x2B, 1 };
+        Field spRegister{ "SP Register", headerSpRegisterInfo };
 
         /// @brief Reserved bytes for future use in the header.
-        Field reserved{ "Reserved", 0x2C, 2 };
+        Field reserved{ "Reserved", headerReservedInfo };
 
         /// @brief Default constructor; initalizes the labeled fields list.
         ///

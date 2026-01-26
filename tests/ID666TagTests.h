@@ -106,12 +106,11 @@ protected:
         item->id->SetInt32(extendedInfo.id);
         item->type->SetInt32(extendedInfo.type);
         std::shared_ptr<Spc::NumericField> itemData = item->data;
-        itemData->SetInt32(setValue.size());
+        itemData->SetUInt32(static_cast<uint32_t>(setValue.size()));
 
-        auto itemExtData = std::make_shared<T>(
-            "Test", 
-            Spc::Id666::Extended::dataOffset, 
-            setValue.size());
+        Spc::FieldInfo info{ Spc::Id666::Extended::dataOffset, 
+                             setValue.size() };
+        auto itemExtData = std::make_shared<T>("Test", info);
         itemExtData->SetValue(setValue);
         item->extendedData = itemExtData;
 
@@ -140,10 +139,9 @@ protected:
 
         if (extendedInfo.type != Spc::Id666::Extended::lengthType)
         {
-            auto itemExtData = std::make_shared<T>(
-                "Test", 
-                Spc::Id666::Extended::dataOffset, 
-                setValue.size());
+            Spc::FieldInfo info{ Spc::Id666::Extended::dataOffset, 
+                                 setValue.size() };
+            auto itemExtData = std::make_shared<T>("Test", info);
             itemExtData->SetType(Spc::NumericType::Binary);
             itemExtData->SetValue(setValue);
             item->extendedData = itemExtData;
@@ -162,10 +160,8 @@ protected:
         params.item->id->SetInt32(params.extendedID);
         params.item->type->SetInt32(params.extendedType);
     
-        auto itemData = std::make_shared<U>(
-            params.expectedLabel, 
-            offset, 
-            size);
+        Spc::FieldInfo info{ offset, size };
+        auto itemData = std::make_shared<U>(params.expectedLabel, info);
         itemData->SetType(Spc::NumericType::Binary);
         itemData->SetValue(params.extendedValue);
         std::memcpy(params.item->data->RawData(), 
@@ -197,9 +193,8 @@ protected:
 
         //size_t offset = Spc::Id666::Extended::dataOffset;
 
-        auto itemExtData = std::make_shared<U>(params.expectedLabel, 
-                                               offset, 
-                                               size);
+        Spc::FieldInfo info{ offset, size };
+        auto itemExtData = std::make_shared<U>(params.expectedLabel, info);
 
         // We need to ensure the data type is correct for integer types.
         if (params.extendedType == Spc::Id666::Extended::integerType)
@@ -241,7 +236,8 @@ protected:
                     Spc::Id666::tagSize);
         (tag.get()->*params.setMethodPtr)(params.setValue);
 
-        T field{ "Test Field", params.offset, params.size };
+        Spc::FieldInfo info{ params.offset, params.size };
+        T field{ "Test Field", info };
         tag->FieldData()->SetPosition(params.offset - Spc::Id666::tagOffset);
         tag->FieldData()->Read(&field);
 
@@ -259,10 +255,8 @@ protected:
         ASSERT_NE(item, nullptr);
 
         //auto itemData = std::static_pointer_cast<U>(item->data);
-        auto itemData = std::make_shared<U>(
-            "Test", 
-            offset, 
-            Spc::Id666::Extended::dataSize);
+        Spc::FieldInfo info{ offset, Spc::Id666::Extended::dataInfo.size };
+        auto itemData = std::make_shared<U>("Test", info);
         std::memcpy(itemData->RawData(), 
                     item->data->RawData(), 
                     item->data->Size());
@@ -276,7 +270,7 @@ protected:
     void TestSetExtendedData(TestSetExtendedParams<T> params)
     {
         auto extData = tag->ExtendedData();
-        size_t offset = Spc::Id666::Extended::dataOffset;
+        //size_t offset = Spc::Id666::Extended::dataOffset;
 
         (tag.get()->*params.setMethodPtr)(params.setValue);
         std::shared_ptr<Spc::Id666::Extended::Item> item = *(params.itemPtrPtr);
@@ -296,49 +290,6 @@ protected:
         EXPECT_EQ(params.expectedValue, item->extendedData->ToString());
     }
 
-    /*
-    template<typename T, typename U>
-    void TestSetExtended(TestSetExtendedParams<T> params)
-    {
-        auto extData = tag->ExtendedData();
-        size_t offset = Spc::Id666::Extended::dataOffset;
-
-        (tag.get()->*params.setMethodPtr)(params.setValue);
-        std::shared_ptr<Spc::Id666::Extended::Item> item = *(params.itemPtrPtr);
-        ASSERT_NE(item, nullptr);
-
-        if (params.extendedType == Spc::Id666::Extended::lengthType)
-        {
-            //auto itemData = std::static_pointer_cast<U>(item->data);
-            auto itemData = std::make_shared<U>(
-                "Test", 
-                offset, 
-                Spc::Id666::Extended::dataSize);
-            std::memcpy(itemData->RawData(), 
-                        item->data->RawData(), 
-                        item->data->Size());
-
-            EXPECT_EQ(item->id->ToInt32(), params.extendedID);
-            EXPECT_EQ(item->type->ToInt32(), params.extendedType);
-            EXPECT_EQ(params.setValue, itemData->ToString());
-        }
-        else
-        {
-            // When the data is not in the header, then item-data contains the
-            // extended data size. Ensure it matches the size of the extended
-            // data before proceeding with any additional checks as we don't
-            // want any buffer overflows.
-            auto extendedDataSize = std::static_pointer_cast<Spc::NumericField>(
-                item->data);
-            ASSERT_EQ(extendedDataSize->ToInt32(), item->extendedData->Size());
-
-            EXPECT_EQ(item->id->ToInt32(), params.extendedID);
-            EXPECT_EQ(item->type->ToInt32(), params.extendedType); 
-            EXPECT_EQ(params.setValue, item->extendedData->ToString());
-        }
-    }
-    */
-
     template<typename T>
     void TestFieldsWithoutGet(TestFieldWithoutGetParams params)
     {
@@ -349,10 +300,12 @@ protected:
           
         std::shared_ptr<Binary::BufferStream> fieldData = tag->FieldData();            
 
-        T field{ "Test Field", params.offset, params.size };
-        size_t position = fieldData->Position();
+        Spc::FieldInfo info{ params.offset, params.size };
+        T field{ "Test Field", info };
+        size_t existingPosition = fieldData->Position();
         fieldData->SetPosition(params.offset - Spc::Id666::tagOffset);
         fieldData->Read(&field);
+        fieldData->SetPosition(existingPosition);
 
         EXPECT_EQ(params.expectedValue, field.ToString());
     }

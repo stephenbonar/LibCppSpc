@@ -43,7 +43,7 @@ endif()
 include(FetchContent)
 FetchContent_Declare(
     LibCppBinary
-    URL https://github.com/stephenbonar/LibCppBinary/archive/3543b1e0e3fddd347c5542a6f9c017f184ee0e80.zip
+    URL https://github.com/stephenbonar/LibCppBinary/archive/c1a0bcbaaf906ff491cc2a75deb469c305ee99c7.zip
 )
 
 # Makes GoogleTest available at configure time rather than build time. 

@@ -17,23 +17,34 @@
 #ifndef SPC_ID666_EXTENDED_FIELD_INFO_H
 #define SPC_ID666_EXTENDED_FIELD_INFO_H
 
+#include "Spc/FieldInfo.h"
+
 namespace Spc::Id666::Extended
 {
     struct FieldInfo
     {
-        int id;
-        int type;
+        uint8_t id;
+        uint8_t type;
     };
 
-    inline constexpr int lengthType{ 0 };
-    inline constexpr int stringType{ 1 };
-    inline constexpr int integerType{ 4 };
+    inline constexpr uint8_t lengthType{ 0 };
+    inline constexpr uint8_t stringType{ 1 };
+    inline constexpr uint8_t integerType{ 4 };
 
+    inline constexpr size_t dataOffset{ 0x10200 };
+
+    inline constexpr Spc::FieldInfo idInfo{ dataOffset, 1 };
+    inline constexpr Spc::FieldInfo typeInfo{ dataOffset, 1 };
+    inline constexpr Spc::FieldInfo dataInfo{ dataOffset, 2 };
+
+    /*
     inline constexpr int idSize{ 1 };
     inline constexpr int typeSize{ 1 };
     inline constexpr int dataSize{ 2 };
-    inline constexpr int integerSize{ 4 };
-    inline constexpr int stringMaxSize{ 255 };
+    */
+
+    inline constexpr size_t integerSize{ 4 };
+    inline constexpr size_t stringMaxSize{ 255 };
 
     inline constexpr FieldInfo songTitleInfo{ 0x1, stringType };
     inline constexpr FieldInfo gameTitleInfo{ 0x2, stringType };

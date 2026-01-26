@@ -31,12 +31,12 @@ void ID666ExtendedDataTests::InitStringItem(
         item->data);
 
     // We're going to do a string that's 4 bytes long.
-    data->SetInt32(value.size());
+    data->SetUInt32(static_cast<uint32_t>(value.size()));
 
     // Create the extended data field as a TextField since it should be string.
+    Spc::FieldInfo extendedInfo{ 0, value.size() };
     auto extendedData = std::make_shared<Spc::TextField>("ExtendedData", 
-                                                         0, 
-                                                         value.size());
+                                                         extendedInfo);
 
     // Assign the pointer to to the extended tag item.
     item->extendedData = extendedData;
@@ -52,14 +52,15 @@ void ID666ExtendedDataTests::InitStringItem(
         while (sizeWithPadding % 4 != 0)
             ++sizeWithPadding;
 
-        item->padding = std::make_shared<Spc::TextField>(
-            "Padding", 0, sizeWithPadding - value.size());
+        Spc::FieldInfo paddingInfo{ 0, sizeWithPadding - value.size() };
+        item->padding = std::make_shared<Spc::TextField>("Padding", 
+                                                         paddingInfo);
     }
 }
 
 TEST_F(ID666ExtendedDataTests, HeaderReturnsCorrectId)
 {
-    Binary::ChunkHeader header = data.Header();
+    Binary::ChunkHeader header = testExtendedData.Header();
 
     EXPECT_EQ(header.id.Value(), "xid6");
 }
@@ -67,38 +68,38 @@ TEST_F(ID666ExtendedDataTests, HeaderReturnsCorrectId)
 TEST_F(ID666ExtendedDataTests, HeaderDataSizeMatchesTagSize)
 {
     // Initalize song title properly to ensure Size() is non-zero.
-    InitStringItem(data.songTitle, "TST ");
+    InitStringItem(testExtendedData.songTitle, "TST ");
 
-    Binary::ChunkHeader header = data.Header();
+    Binary::ChunkHeader header = testExtendedData.Header();
     
-    EXPECT_EQ(header.dataSize.Value(), data.Size());
+    EXPECT_EQ(header.dataSize.Value(), testExtendedData.Size());
 }
 
 TEST_F(ID666ExtendedDataTests, EnsureSpcFieldsReturnTagItemFieldsInCorrectOrder)
 {
     // Here we're not initalizing these realistically, just ensuring the fields
     // are returned in the correct order.
-    data.songTitle = std::make_shared<Spc::Id666::Extended::Item>();
-    data.gameTitle = std::make_shared<Spc::Id666::Extended::Item>();
-    data.songArtist = std::make_shared<Spc::Id666::Extended::Item>();
-    data.dumperName = std::make_shared<Spc::Id666::Extended::Item>();
-    data.dateDumped = std::make_shared<Spc::Id666::Extended::Item>();
-    data.emulatorUsed = std::make_shared<Spc::Id666::Extended::Item>();
-    data.comments = std::make_shared<Spc::Id666::Extended::Item>();
-    data.ostTitle = std::make_shared<Spc::Id666::Extended::Item>();
-    data.ostDisc = std::make_shared<Spc::Id666::Extended::Item>();
-    data.ostTrack = std::make_shared<Spc::Id666::Extended::Item>();
-    data.publisherName = std::make_shared<Spc::Id666::Extended::Item>();
-    data.copyrightYear = std::make_shared<Spc::Id666::Extended::Item>();
-    data.introLength = std::make_shared<Spc::Id666::Extended::Item>();
-    data.loopLength = std::make_shared<Spc::Id666::Extended::Item>();
-    data.endLength = std::make_shared<Spc::Id666::Extended::Item>();
-    data.fadeLength = std::make_shared<Spc::Id666::Extended::Item>();
-    data.mutedVoices = std::make_shared<Spc::Id666::Extended::Item>();
-    data.loopTimes = std::make_shared<Spc::Id666::Extended::Item>();
-    data.preampLevel = std::make_shared<Spc::Id666::Extended::Item>();
+    testExtendedData.songTitle = std::make_shared<Spc::Id666::Extended::Item>();
+    testExtendedData.gameTitle = std::make_shared<Spc::Id666::Extended::Item>();
+    testExtendedData.songArtist = std::make_shared<Spc::Id666::Extended::Item>();
+    testExtendedData.dumperName = std::make_shared<Spc::Id666::Extended::Item>();
+    testExtendedData.dateDumped = std::make_shared<Spc::Id666::Extended::Item>();
+    testExtendedData.emulatorUsed = std::make_shared<Spc::Id666::Extended::Item>();
+    testExtendedData.comments = std::make_shared<Spc::Id666::Extended::Item>();
+    testExtendedData.ostTitle = std::make_shared<Spc::Id666::Extended::Item>();
+    testExtendedData.ostDisc = std::make_shared<Spc::Id666::Extended::Item>();
+    testExtendedData.ostTrack = std::make_shared<Spc::Id666::Extended::Item>();
+    testExtendedData.publisherName = std::make_shared<Spc::Id666::Extended::Item>();
+    testExtendedData.copyrightYear = std::make_shared<Spc::Id666::Extended::Item>();
+    testExtendedData.introLength = std::make_shared<Spc::Id666::Extended::Item>();
+    testExtendedData.loopLength = std::make_shared<Spc::Id666::Extended::Item>();
+    testExtendedData.endLength = std::make_shared<Spc::Id666::Extended::Item>();
+    testExtendedData.fadeLength = std::make_shared<Spc::Id666::Extended::Item>();
+    testExtendedData.mutedVoices = std::make_shared<Spc::Id666::Extended::Item>();
+    testExtendedData.loopTimes = std::make_shared<Spc::Id666::Extended::Item>();
+    testExtendedData.preampLevel = std::make_shared<Spc::Id666::Extended::Item>();
 
-    std::vector<Spc::Field*> fields = data.SpcFields();
+    std::vector<Spc::Field*> fields = testExtendedData.SpcFields();
 
     // Each ID666ExtendedItem has 3 fields: id, type, data by default. There will
     // be more for those that have extendedData and padding, but we're not
@@ -107,25 +108,25 @@ TEST_F(ID666ExtendedDataTests, EnsureSpcFieldsReturnTagItemFieldsInCorrectOrder)
 
     std::vector<std::shared_ptr<Spc::Id666::Extended::Item>> items = 
     {
-        data.songTitle,
-        data.gameTitle,
-        data.songArtist,
-        data.dumperName,
-        data.dateDumped,
-        data.emulatorUsed,
-        data.comments,
-        data.ostTitle,
-        data.ostDisc,
-        data.ostTrack,
-        data.publisherName,
-        data.copyrightYear,
-        data.introLength,
-        data.loopLength,
-        data.endLength,
-        data.fadeLength,
-        data.mutedVoices,
-        data.loopTimes,
-        data.preampLevel
+        testExtendedData.songTitle,
+        testExtendedData.gameTitle,
+        testExtendedData.songArtist,
+        testExtendedData.dumperName,
+        testExtendedData.dateDumped,
+        testExtendedData.emulatorUsed,
+        testExtendedData.comments,
+        testExtendedData.ostTitle,
+        testExtendedData.ostDisc,
+        testExtendedData.ostTrack,
+        testExtendedData.publisherName,
+        testExtendedData.copyrightYear,
+        testExtendedData.introLength,
+        testExtendedData.loopLength,
+        testExtendedData.endLength,
+        testExtendedData.fadeLength,
+        testExtendedData.mutedVoices,
+        testExtendedData.loopTimes,
+        testExtendedData.preampLevel
     };
 
     for (size_t i = 0; i < items.size(); ++i) 
@@ -138,19 +139,19 @@ TEST_F(ID666ExtendedDataTests, EnsureSpcFieldsReturnTagItemFieldsInCorrectOrder)
 
 TEST_F(ID666ExtendedDataTests, EnsureOnlyInitializedTagItemsFieldsAreReturned)
 {
-    InitStringItem(data.songTitle, "TST ");
-    InitStringItem(data.gameTitle, "TEST ");
+    InitStringItem(testExtendedData.songTitle, "TST ");
+    InitStringItem(testExtendedData.gameTitle, "TEST ");
 
-    std::vector<Spc::Field*> fields = data.SpcFields();
+    std::vector<Spc::Field*> fields = testExtendedData.SpcFields();
 
     ASSERT_EQ(fields.size(), 9);
-    EXPECT_EQ(fields[0], data.songTitle->id.get());
-    EXPECT_EQ(fields[1], data.songTitle->type.get());
-    EXPECT_EQ(fields[2], data.songTitle->data.get());
-    EXPECT_EQ(fields[3], data.songTitle->extendedData.get());
-    EXPECT_EQ(fields[4], data.gameTitle->id.get());
-    EXPECT_EQ(fields[5], data.gameTitle->type.get());
-    EXPECT_EQ(fields[6], data.gameTitle->data.get());
-    EXPECT_EQ(fields[7], data.gameTitle->extendedData.get());
-    EXPECT_EQ(fields[8], data.gameTitle->padding.get());
+    EXPECT_EQ(fields[0], testExtendedData.songTitle->id.get());
+    EXPECT_EQ(fields[1], testExtendedData.songTitle->type.get());
+    EXPECT_EQ(fields[2], testExtendedData.songTitle->data.get());
+    EXPECT_EQ(fields[3], testExtendedData.songTitle->extendedData.get());
+    EXPECT_EQ(fields[4], testExtendedData.gameTitle->id.get());
+    EXPECT_EQ(fields[5], testExtendedData.gameTitle->type.get());
+    EXPECT_EQ(fields[6], testExtendedData.gameTitle->data.get());
+    EXPECT_EQ(fields[7], testExtendedData.gameTitle->extendedData.get());
+    EXPECT_EQ(fields[8], testExtendedData.gameTitle->padding.get());
 }

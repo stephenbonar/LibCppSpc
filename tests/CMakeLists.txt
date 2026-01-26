@@ -24,7 +24,7 @@ endif()
 include(FetchContent)
 FetchContent_Declare(
     googletest
-    URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+    URL https://github.com/google/googletest/archive/52eb8108c5bdec04579160ae17225d66034bd723.zip
 )
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings.
@@ -39,6 +39,7 @@ add_executable(libcppspctests
                DataStructureTests.cpp
                DateFieldTests.cpp
                EmulatorFieldTests.cpp
+               FileTests.cpp
                ID666ExtendedDataTests.cpp
                ID666ExtendedItemTests.cpp
                ID666TagTests.cpp

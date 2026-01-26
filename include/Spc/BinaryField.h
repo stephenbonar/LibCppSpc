@@ -19,6 +19,7 @@
 
 #include <string>
 #include "NumericField.h"
+#include "FieldInfo.h"
 
 namespace Spc
 {
@@ -36,8 +37,8 @@ namespace Spc
         /// @param label The label to use when outputing the field. 
         /// @param offset The offset where the field can be found in the file.
         /// @param size The size of the field, in bytes.
-        BinaryField(std::string label, uintmax_t offset, size_t size) :
-            NumericField{ label, offset, size }
+        BinaryField(std::string label, FieldInfo info) :
+            NumericField{ label, info }
         {
             SetType(NumericType::Binary);
         }

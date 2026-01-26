@@ -20,6 +20,7 @@
 #include <string>
 #include "NumericField.h"
 #include "NumericType.h"
+#include "FieldInfo.h"
 
 namespace Spc
 {
@@ -34,10 +35,8 @@ namespace Spc
         /// @param label The label to use when outputing the field. 
         /// @param offset The offset where the field can be found in the file.
         /// @param size The size of the field, in bytes.
-        EmulatorField(std::string label, 
-                        uintmax_t offset,
-                        size_t size) 
-        : NumericField{ label, offset, size }
+        EmulatorField(std::string label, FieldInfo info) 
+            : NumericField{ label, info }
         { }
 
         /// @brief Constructor; creates a new instance of Spc::EmulatorField.
@@ -45,11 +44,8 @@ namespace Spc
         /// @param offset The offset where the field can be found in the file.
         /// @param size The size of the field, in bytes.
         /// @param type Determines the numeric type of the field.
-        EmulatorField(std::string label, 
-                        uintmax_t offset,
-                        size_t size, 
-                        NumericType type) 
-            : NumericField{ label, offset, size, type }
+        EmulatorField(std::string label, FieldInfo info, NumericType type) 
+            : NumericField{ label, info, type }
         { }
         
         /// @brief Converts the field's data to a string representation.

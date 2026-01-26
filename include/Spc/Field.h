@@ -19,6 +19,7 @@
 
 #include <string>
 #include "LibCppBinary.h"
+#include "FieldInfo.h"
 
 namespace Spc
 {
@@ -35,8 +36,10 @@ namespace Spc
         /// @param label The label to use when outputing the field. 
         /// @param offset The offset where the field can be found in the file.
         /// @param size The size of the field, in bytes.
-        Field(std::string label, uintmax_t offset, size_t size) 
-            : label{ label }, offset{ offset }, Binary::RawField{ size }
+        Field(std::string label, FieldInfo info) : 
+            label{ label }, 
+            offset{ info.offset },
+            Binary::RawField{ info.size }
         { }
         
         /// @brief Gets the field label used to describe the field.
@@ -45,7 +48,7 @@ namespace Spc
 
         /// @brief Gets the offset where the field can be found in the SPC file.
         /// @return The offset of the field,.
-        virtual uintmax_t Offset() const { return offset; }
+        virtual size_t Offset() const { return offset; }
 
         virtual std::string Value() const { return ToString(); }
 
@@ -56,7 +59,7 @@ namespace Spc
         virtual void SetValue(std::string value);
     private:
         std::string label;
-        uintmax_t offset;
+        size_t offset;
     };
 }
 

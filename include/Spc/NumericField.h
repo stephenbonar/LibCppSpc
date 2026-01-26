@@ -21,6 +21,7 @@
 #include "LibCppBinary.h"
 #include "Field.h"
 #include "NumericType.h"
+#include "FieldInfo.h"
 
 namespace Spc
 {
@@ -38,10 +39,8 @@ namespace Spc
         /// @param label The label to use when outputing the field. 
         /// @param offset The offset where the field can be found in the file.
         /// @param size The size of the field, in bytes.
-        NumericField(std::string label, 
-                     uintmax_t offset, 
-                     size_t size) 
-            : Field{ label, offset, size }, type{ NumericType::Either }
+        NumericField(std::string label, FieldInfo info) 
+            : Field{ label, info }, type{ NumericType::Either }
         { };
 
         /// @brief Constructor; creates a new instance of SpcNumericField.
@@ -49,11 +48,8 @@ namespace Spc
         /// @param offset The offset where the field can be found in the file.
         /// @param size The size of the field, in bytes.
         /// @param type Determines the numeric type of the field.
-        NumericField(std::string label, 
-                     uintmax_t offset, 
-                     size_t size, 
-                     NumericType type) 
-            : Field{ label, offset, size }, type{ type }
+        NumericField(std::string label, FieldInfo info, NumericType type) 
+            : Field{ label, info }, type{ type }
         { };
 
         /// @brief Determines if all bytes in the field contain zeros. 
@@ -85,6 +81,8 @@ namespace Spc
         /// @return The value of the field.
         virtual int32_t ToInt32() const;
 
+        virtual uint32_t ToUInt32() const;
+
         //virtual std::string Value() const override;
 
         /// @brief Converts the field's data to a string representation.
@@ -104,10 +102,12 @@ namespace Spc
         virtual NumericType Type() const { return type; }
 
         virtual void SetInt32(int32_t value);
+
+        virtual void SetUInt32(uint32_t value);
         
         virtual void SetValue(std::string value) override;
 
-        virtual void SetType(NumericType type) { this->type = type; }
+        virtual void SetType(NumericType t) { type = t; }
     private:
         NumericType type;
     };

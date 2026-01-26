@@ -43,7 +43,7 @@ bool NumericField::IsText() const
     return true;
 }
 
- int32_t NumericField::DetectInt32() const
+int32_t NumericField::DetectInt32() const
 {
     if (IsZero())
     {
@@ -63,6 +63,16 @@ bool NumericField::IsText() const
 int32_t NumericField::ToInt32() const
 {
     Binary::Int32Field value{ Binary::FieldEndianness::Little };
+
+    for (int i = 0; i < size && i < value.Size(); i++)
+        value.RawData()[i] = rawData[i];
+
+    return value.Value();
+}
+
+uint32_t NumericField::ToUInt32() const
+{
+    Binary::UInt32Field value{ Binary::FieldEndianness::Little };
 
     for (int i = 0; i < size && i < value.Size(); i++)
         value.RawData()[i] = rawData[i];
@@ -108,6 +118,24 @@ void NumericField::SetInt32(int32_t value)
     }
 
     Binary::Int32Field field{ value };
+    
+    for (int i = 0; i < size && i < field.Size(); i++)
+        rawData[i] = field.RawData()[i];
+}
+
+void NumericField::SetUInt32(uint32_t value)
+{
+    if (type == NumericType::Text)
+    {
+        std::stringstream stream;
+        stream << value;
+        std::string stringValue{ stream.str() };
+
+        for (int i = 0; i < size && i < stringValue.size(); i++)
+            rawData[i] = stringValue[i];
+    }
+
+    Binary::UInt32Field field{ value };
     
     for (int i = 0; i < size && i < field.Size(); i++)
         rawData[i] = field.RawData()[i];

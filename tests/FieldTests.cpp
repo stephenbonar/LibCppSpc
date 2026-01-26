@@ -18,7 +18,8 @@
 
 void FieldTests::SetUp() 
 {
-    field = std::make_unique<Spc::Field>("TestLabel", 100, 5);
+    Spc::FieldInfo info{ 100, 5 };
+    field = std::make_unique<Spc::Field>("TestLabel", info);
 }
 
 TEST_F(FieldTests, LabelReflectsConstructorValue) 

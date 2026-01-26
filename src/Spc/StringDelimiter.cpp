@@ -20,8 +20,13 @@ using namespace Spc;
 
 int StringDelimiter::GetIndex(std::string text) const
 {
+    constexpr int eof{ -1 };
     int index{ -1 };
+
+    // the get() method on stringstream returns characters as int values.
+    int nextValueCharInt;
     char nextValueChar;
+
     std::stringstream valueStream;
 
     for (int i = 0; i < text.length(); i++)
@@ -29,7 +34,8 @@ int StringDelimiter::GetIndex(std::string text) const
         if (index == -1)
         {
             valueStream = std::stringstream{ value };
-            nextValueChar = valueStream.get();
+            nextValueCharInt = valueStream.get();
+            nextValueChar = static_cast<char>(nextValueCharInt);
 
             if (text[i] == nextValueChar)
                 index = i;
@@ -38,9 +44,10 @@ int StringDelimiter::GetIndex(std::string text) const
         {
             if (!valueStream.eof())
             {
-                nextValueChar = valueStream.get();
+                nextValueCharInt = valueStream.get();
+                nextValueChar = static_cast<char>(nextValueCharInt);
 
-                if (nextValueChar == -1)
+                if (nextValueChar == eof)
                     return index;
                 else if (text[i] != nextValueChar)
                     index = -1;

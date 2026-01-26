@@ -22,6 +22,8 @@
 #include "Spc/DateField.h"
 #include "Spc/EmulatorField.h"
 #include "Spc/Field.h"
+#include "Spc/FieldInfo.h"
+#include "Spc/File.h"
 #include "Spc/Format.h"
 #include "Spc/Header.h"
 #include "Spc/NumericField.h"
