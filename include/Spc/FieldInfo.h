@@ -17,6 +17,9 @@
 #ifndef SPC_FIELD_INFO_H
 #define SPC_FIELD_INFO_H
 
+#include <cstdint>
+#include <cstddef>
+
 namespace Spc
 {
     struct FieldInfo
@@ -40,6 +43,12 @@ namespace Spc
     inline constexpr FieldInfo dspRegistersInfo{ 0x10100, 128 };
     inline constexpr FieldInfo unusedInfo{ 0x10180, 64 };
     inline constexpr FieldInfo extraRamInfo{ 0x101C0, 64 };
+
+    extern const char* headerId;
+    inline constexpr char separatorChar{ 0x1A };
+    inline constexpr uint8_t headerContainsTag{ 0x1A };
+    inline constexpr uint8_t headerContainsNoTag{ 0x1B };
+    inline constexpr uint8_t currentVersionMinor{ 30 };
 }
 
 #endif

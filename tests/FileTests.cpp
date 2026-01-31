@@ -37,3 +37,36 @@ TEST_F(FileTests, InitializesFileProperly)
     EXPECT_EQ(unused.Size(), Spc::unusedInfo.size);
     EXPECT_EQ(extraRam.Size(), Spc::extraRamInfo.size);
 }
+
+TEST_F(FileTests, SetsHeaderProperly)
+{
+    Spc::File file("test.spc");
+    Spc::Header header;
+
+    header.id.SetValue(Spc::headerId);
+    header.separator.RawData()[0] = Spc::separatorChar;
+    header.separator.RawData()[1] = Spc::separatorChar;
+    header.versionMinor.SetUInt32(Spc::currentVersionMinor);
+    header.pcRegister.RawData()[0] = 1;
+    header.pcRegister.RawData()[1] = 1;
+    header.aRegister.RawData()[0] = 1;
+    header.xRegister.RawData()[0] = 1;
+    header.yRegister.RawData()[0] = 1;
+    header.pswRegister.RawData()[0] = 1;
+    header.spRegister.RawData()[0] = 1;
+
+    file.SetHeader(header);
+    Spc::Header retrievedHeader = file.Header();
+
+    EXPECT_EQ(retrievedHeader.id.Value(), Spc::headerId);
+    EXPECT_EQ(retrievedHeader.separator.RawData()[0], Spc::separatorChar);
+    EXPECT_EQ(retrievedHeader.separator.RawData()[1], Spc::separatorChar);
+    EXPECT_EQ(retrievedHeader.versionMinor.ToUInt32(), Spc::currentVersionMinor);
+    EXPECT_EQ(retrievedHeader.pcRegister.RawData()[0], 1);
+    EXPECT_EQ(retrievedHeader.pcRegister.RawData()[1], 1);
+    EXPECT_EQ(retrievedHeader.aRegister.RawData()[0], 1);
+    EXPECT_EQ(retrievedHeader.xRegister.RawData()[0], 1);
+    EXPECT_EQ(retrievedHeader.yRegister.RawData()[0], 1);
+    EXPECT_EQ(retrievedHeader.pswRegister.RawData()[0], 1);
+    EXPECT_EQ(retrievedHeader.spRegister.RawData()[0], 1);
+}

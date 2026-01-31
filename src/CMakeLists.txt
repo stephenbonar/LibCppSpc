@@ -22,6 +22,7 @@ set(SOURCES
     Spc/DataStructure.cpp
     Spc/DateField.cpp
     Spc/NumericField.cpp
+    Spc/FieldInfo.cpp
     Spc/EmulatorField.cpp
     Spc/TrackField.cpp
     Spc/TextField.cpp
