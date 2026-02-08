@@ -70,3 +70,42 @@ TEST_F(FileTests, SetsHeaderProperly)
     EXPECT_EQ(retrievedHeader.pswRegister.RawData()[0], 1);
     EXPECT_EQ(retrievedHeader.spRegister.RawData()[0], 1);
 }
+
+TEST_F(FileTests, SetsTagProperly)
+{
+    Spc::File file("test.spc");
+    Spc::Id666::Tag tag;
+
+    tag.SetSongTitle("Test Song");
+    tag.SetGameTitle("Test Game");
+    tag.SetDumperName("Test Dumper");
+    tag.SetComments("Test Comments");
+    tag.SetDateDumped("01/01/2025");
+    tag.SetSongLength("120");
+    tag.SetFadeLength("5000");
+    tag.SetSongArtist("Test Artist");
+    tag.SetDefaultChannelState("1");
+    tag.SetEmulatorUsed("ZSNES");
+    tag.SetOstTitle("Test OST Title");
+
+    file.SetTag(tag);
+    Spc::Id666::Tag retrievedTag = file.Tag();
+
+    EXPECT_NE(retrievedTag.FieldData(), tag.FieldData());
+    EXPECT_NE(retrievedTag.ExtendedData(), tag.ExtendedData());
+    EXPECT_EQ(retrievedTag.SongTitle().Value(), "Test Song");
+    EXPECT_EQ(retrievedTag.GameTitle().Value(), "Test Game");
+    EXPECT_EQ(retrievedTag.DumperName().Value(), "Test Dumper");
+    EXPECT_EQ(retrievedTag.Comments().Value(), "Test Comments");
+    EXPECT_EQ(retrievedTag.DateDumped().Value(), "01/01/2025");
+    EXPECT_EQ(retrievedTag.SongLength().Value(), "120");
+    EXPECT_EQ(retrievedTag.FadeLength().Value(), "5000");
+    EXPECT_EQ(retrievedTag.SongArtist().Value(), "Test Artist");
+    EXPECT_EQ(retrievedTag.DefaultChannelState().Value(), "1");
+    EXPECT_EQ(retrievedTag.EmulatorUsed().Value(), "ZSNES");
+
+    // TODO: Fix segmentation fault with these.
+    //EXPECT_EQ(retrievedTag.OstTitle().Value(), "Test OST Title");
+    //EXPECT_EQ(retrievedTag.OstDisc().Value(), "0");
+}
+

@@ -58,7 +58,7 @@ namespace Spc
 
         Binary::BufferStream ExtraRam() const { return extraRam; }
 
-        void SetHeader(Spc::Header h) {  }
+        void SetHeader(Spc::Header h) { header = h; }
 
         void SetTag(Spc::Id666::Tag t) {  }
 
