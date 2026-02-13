@@ -50,9 +50,7 @@ TagType Tag::DetermineType() const
     fieldData->SetPosition(reservedInfo.binary.offset - tagOffset);
     fieldData->Read(&reserved);
 
-    if (!dateDumped.IsText() || 
-        !songLength.IsText() || 
-        !fadeLength.IsText())
+    if (!dateDumped.IsText() || !songLength.IsText() || !fadeLength.IsText())
     {
         // While we're pretty sure we're binary at this point, let's make 
         // absolutely sure. Some older dumps use text offsets but still store
@@ -127,21 +125,22 @@ TextField Tag::Comments() const
 
 DateField Tag::DateDumped() const 
 {
+    std::shared_ptr<Extended::Item> item = extendedData->dateDumped;
+
     // Date Dumped is stored as an 32-bit integer in the extended area, so
     // we need to read it differently from the standard date dumped field.
-    std::shared_ptr<NumericField> dateDumpedInt = ReadField<NumericField>(
-        "Date Dumped", extendedData->dateDumped.get());
+    std::shared_ptr<NumericField> dateDumpedInt;
+    dateDumpedInt = ReadField<NumericField>("Date Dumped", item.get());
 
-    if (dateDumpedInt != nullptr)
+    if (item != nullptr)
     {
         // Since a date dumped was found in the extended area, convert it to
         // a standard DateField to return.
-        Spc::FieldInfo extendedInfo{ Extended::dataOffset, 
-                                     dateDumpedInfo.binary.size };
+        Spc::FieldInfo extendedInfo;
+        extendedInfo.offset = Extended::dataOffset;
+        extendedInfo.size = dateDumpedInfo.binary.size;
         DateField dateDumped{ "Date Dumped", extendedInfo };
-        std::memcpy(dateDumped.RawData(), 
-                    dateDumpedInt->RawData(), 
-                    dateDumpedInt->Size());
+        dateDumpedInt->CopyRawDataTo(&dateDumped);
         return dateDumped;
     }
     else
@@ -158,12 +157,14 @@ NumericField Tag::SongLength() const
 
 NumericField Tag::FadeLength() const 
 {
+    std::shared_ptr<Extended::Item> item = extendedData->fadeLength;
+    
     // Fade length is stored as an 32-bit integer in the extended area, so
     // we need to read it differently from the standard fade length field.
-    std::shared_ptr<NumericField> fadeLengthInt = ReadField<NumericField>(
-        "Fade Length (ticks)", extendedData->fadeLength.get());
+    std::shared_ptr<NumericField> fadeLengthInt;
+    fadeLengthInt = ReadField<NumericField>("Fade Length (ticks)", item.get());
 
-    if (fadeLengthInt != nullptr)
+    if (item != nullptr)
     {
         return *fadeLengthInt;
     }
@@ -171,7 +172,6 @@ NumericField Tag::FadeLength() const
     {
         return *ReadField<NumericField>("Fade Length (ms)", fadeLengthInfo);
     }
-    //return *ReadField<NumericField>("Fade Length (ms)", fadeLengthInfo);
 }
 
 TextField Tag::SongArtist() const 
@@ -189,21 +189,22 @@ NumericField Tag::DefaultChannelState() const
 
 EmulatorField Tag::EmulatorUsed() const
 {
+    std::shared_ptr<Extended::Item> item = extendedData->emulatorUsed;
+    
     // Emulator used is stored as an 16-bit integer in the extended area, so
     // we need to read it differently from the standard emulator used field.
-    std::shared_ptr<NumericField> emulatorUsedInt = ReadField<NumericField>(
-        "Emulator Used", extendedData->emulatorUsed.get());
+    std::shared_ptr<NumericField> emulatorUsedInt;
+    emulatorUsedInt = ReadField<NumericField>("Emulator Used", item.get());
 
-    if (emulatorUsedInt != nullptr)
+    if (item != nullptr)
     {
         // Since emulator used was found in the extended area, convert it to
         // a standard EmulatorField to return.
-        Spc::FieldInfo extendedInfo{ Extended::dataOffset, 
-                                     emulatorUsedInfo.binary.size };
+        Spc::FieldInfo extendedInfo;
+        extendedInfo.offset = Extended::dataOffset;
+        extendedInfo.size = emulatorUsedInfo.binary.size;
         EmulatorField emulatorUsed{ "Emulator Used", extendedInfo };
-        std::memcpy(emulatorUsed.RawData(), 
-                    emulatorUsedInt->RawData(), 
-                    emulatorUsed.Size());
+        emulatorUsedInt->CopyRawDataTo(&emulatorUsed);
         return emulatorUsed;
     }
     else
@@ -263,20 +264,20 @@ NumericField Tag::EndLength() const
 
 BinaryField Tag::MutedVoices() const 
 {
+    std::shared_ptr<Extended::Item> item = extendedData->mutedVoices;
+    
     // Muted voices is stored as an 16-bit integer in the extended area, so
     // we need to read it differently from the standard BinaryField field.
-    std::shared_ptr<NumericField> mutedVoicesInt = ReadField<NumericField>(
-        "Muted Voices", extendedData->mutedVoices.get());
+    std::shared_ptr<NumericField> mutedVoicesInt;
+    mutedVoicesInt = ReadField<NumericField>("Muted Voices", item.get());
 
-    if (mutedVoicesInt != nullptr)
+    if (item != nullptr)
     {
         // Since muted voices was found in the extended area, convert it to
         // a standard BinaryField to return.
         Spc::FieldInfo extendedInfo{ Extended::dataOffset, 1 };
         BinaryField mutedVoices{ "Muted Voices", extendedInfo };
-        std::memcpy(mutedVoices.RawData(), 
-                    mutedVoicesInt->RawData(), 
-                    mutedVoices.Size());
+        mutedVoicesInt->CopyRawDataTo(&mutedVoices);
         return mutedVoices;
     }
     else

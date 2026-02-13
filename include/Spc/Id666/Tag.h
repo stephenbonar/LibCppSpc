@@ -142,10 +142,24 @@ namespace Spc::Id666
             TagFieldInfo info, 
             Extended::Item* item) const
         {
+            std::shared_ptr<T> field;
+
             if (item != nullptr)
-                return ReadField<T>(label, item);
+            {
+                field = ReadField<T>(label, item);
+            }
             else
-                return ReadField<T>(label, info);
+            {
+                field = ReadField<T>(label, info);
+            }
+
+            if (field == nullptr)
+            {
+                field = std::make_shared<T>(label, info.text);
+                return field;
+            }
+            
+            return field;
         }
 
         template<typename T>
@@ -184,10 +198,21 @@ namespace Spc::Id666
                                 item->data->RawData(), 
                                 item->data->Size());
                 }
-                else
+                else if (item->extendedData != nullptr)
+                {
                     field = std::static_pointer_cast<T>(item->extendedData);
+                }
+                else
+                {
+                    field = std::make_shared<T>(label, Extended::dataInfo);
+                }
 
-                field->SetLabel(label);
+                // Redundant?
+                //field->SetLabel(label);
+            }
+            else
+            {
+                field = std::make_shared<T>(label, Extended::dataInfo);
             }
 
             return field;
