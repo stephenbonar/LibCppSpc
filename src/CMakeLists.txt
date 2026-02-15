@@ -26,6 +26,7 @@ set(SOURCES
     Spc/EmulatorField.cpp
     Spc/TrackField.cpp
     Spc/TextField.cpp
+    Spc/File.cpp
     Spc/StringDelimiter.cpp
     Spc/StringTokenizer.cpp
     Spc/Id666/Tag.cpp
@@ -44,7 +45,7 @@ endif()
 include(FetchContent)
 FetchContent_Declare(
     LibCppBinary
-    URL https://github.com/stephenbonar/LibCppBinary/archive/a42c8b22ae32838788c0b850ccc8c31a7ae2ba65.zip
+    URL https://github.com/stephenbonar/LibCppBinary/archive/da792430b60749faf3115b276abd0dc89badef7a.zip
 )
 
 # Makes GoogleTest available at configure time rather than build time. 

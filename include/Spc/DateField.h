@@ -21,6 +21,7 @@
 #include <sstream>
 #include <ctime>
 #include <iomanip>
+#include <stdexcept>
 #include "NumericField.h"
 #include "FieldInfo.h"
 

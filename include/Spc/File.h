@@ -21,6 +21,7 @@
 #include <LibCppBinary.h>
 #include "Spc/Header.h"
 #include "Spc/Id666/Tag.h"
+#include "Spc/FileCorruptException.h"
 
 namespace Spc
 {
@@ -32,7 +33,8 @@ namespace Spc
             ram{ ramInfo.size }, 
             dspRegisters{ dspRegistersInfo.size }, 
             unused{ unusedInfo.size }, 
-            extraRam{ extraRamInfo.size }
+            extraRam{ extraRamInfo.size },
+            fileStream{ nullptr }
         { }
 
         File(std::string path, 
@@ -41,7 +43,8 @@ namespace Spc
              ram{ ramInfo.size },
              dspRegisters{ dspRegistersInfo.size }, 
              unused{ unusedInfo.size }, 
-             extraRam{ extraRamInfo.size }
+               extraRam{ extraRamInfo.size },
+               fileStream{ stream }
         { }
 
         std::string Path() const { return path; }
@@ -60,15 +63,15 @@ namespace Spc
 
         void SetHeader(Spc::Header h) { header = h; }
 
-        void SetTag(Spc::Id666::Tag t) {  }
+        void SetTag(Spc::Id666::Tag t) { tag = t; }
 
-        void SetRam(Binary::BufferStream r) {  }
+        void SetRam(Binary::BufferStream r) { ram = r; }
 
-        void SetDspRegisters(Binary::BufferStream r) {  }
+        void SetDspRegisters(Binary::BufferStream r) { dspRegisters = r; }
 
-        void SetUnused(Binary::BufferStream u) {  }
+        void SetUnused(Binary::BufferStream u) { unused = u; }
 
-        void SetExtraRam(Binary::BufferStream e) {  }
+        void SetExtraRam(Binary::BufferStream e) { extraRam = e; }
 
         void Load();
 
@@ -82,6 +85,17 @@ namespace Spc
         Binary::BufferStream unused;
         Binary::BufferStream extraRam;
         std::shared_ptr<Binary::FileStream> fileStream;
+
+        void LoadStringItem(std::shared_ptr<Id666::Extended::Item> item,
+                            size_t& sizeRemaining);
+
+        void LoadPadding(std::shared_ptr<Id666::Extended::Item> item,
+                         size_t& sizeRemaining);
+
+        void LoadLengthItem(std::shared_ptr<Id666::Extended::Item> item);
+
+        void LoadIntegerItem(std::shared_ptr<Id666::Extended::Item> item,
+                             size_t& sizeRemaining);
     };
 }
 

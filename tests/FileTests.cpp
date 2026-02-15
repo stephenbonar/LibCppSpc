@@ -16,14 +16,327 @@
 
 #include "FileTests.h"
 
+#include <cstring>
+
 void FileTests::SetUp()
 {
     mockFileStream = std::make_shared<MockFileStream>();
+
+    expectedHeader.id.SetValue(Spc::headerId);
+    expectedHeader.separator.RawData()[0] = Spc::separatorChar;
+    expectedHeader.separator.RawData()[1] = Spc::separatorChar;
+    expectedHeader.containsTag.SetUInt32(Spc::headerContainsTag);
+    expectedHeader.versionMinor.SetUInt32(Spc::currentVersionMinor);
+    expectedHeader.pcRegister.RawData()[0] = 0x34;
+    expectedHeader.pcRegister.RawData()[1] = 0x12;
+    expectedHeader.aRegister.RawData()[0] = 0x56;
+    expectedHeader.xRegister.RawData()[0] = 0x78;
+    expectedHeader.yRegister.RawData()[0] = static_cast<char>(0x9A);
+    expectedHeader.pswRegister.RawData()[0] = static_cast<char>(0xBC);
+    expectedHeader.spRegister.RawData()[0] = static_cast<char>(0xDE);
+
+    expectedTag.SetSongTitle(expectedSongTitle);
+    expectedTag.SetGameTitle(expectedGameTitle);
+    expectedTag.SetDumperName(expectedDumperName);
+    expectedTag.SetComments(expectedComments);
+    expectedTag.SetDateDumped(expectedDateDumped);
+    expectedTag.SetSongLength(expectedSongLength);
+    expectedTag.SetFadeLength(expectedFadeLength);
+    expectedTag.SetSongArtist(expectedSongArtist);
+    expectedTag.SetDefaultChannelState(expectedDefaultChannelState);
+    expectedTag.SetEmulatorUsed(expectedEmulatorUsed);
+    expectedTag.SetOstTitle(expectedOstTitle);
+    expectedTag.SetOstDisc(expectedOstDisc);
+    expectedTag.SetOstTrack(expectedOstTrack);
+    expectedTag.SetPublisherName(expectedPublisherName);
+    expectedTag.SetCopyrightYear(expectedCopyrightYear);
+    expectedTag.SetIntroLength(expectedIntroLength);
+    expectedTag.SetLoopLength(expectedLoopLength);
+    expectedTag.SetEndLength(expectedEndLength);
+    expectedTag.SetMutedVoices(expectedMutedVoices);
+    expectedTag.SetLoopTimes(expectedLoopTimes);
+    expectedTag.SetPreampLevel(expectedPreampLevel);
+
+    for (size_t i = 0; i < expectedRam.Size(); i++)
+        expectedRam.RawData()[i] = static_cast<char>(i % 256);
+
+    for (size_t i = 0; i < expectedDspRegisters.Size(); i++)
+        expectedDspRegisters.RawData()[i] = static_cast<char>((i + 1) % 256);
+
+    for (size_t i = 0; i < expectedUnused.Size(); i++)
+        expectedUnused.RawData()[i] = static_cast<char>((i + 2) % 256);
+
+    for (size_t i = 0; i < expectedExtraRam.Size(); i++)
+        expectedExtraRam.RawData()[i] = static_cast<char>((i + 3) % 256);
+}
+
+void FileTests::MockFileLoads()
+{
+    size_t expectedChunkSize = CalculateExpectedChunkSize();
+
+    {
+        testing::InSequence sequence;
+
+        EXPECT_CALL(*mockFileStream, Open(Binary::FileMode::Read));
+        EXPECT_CALL(*mockFileStream, IsOpen()).WillOnce(testing::Return(true));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
+            .WillOnce(testing::Invoke([this](Binary::DataStructure* structure)
+            {
+                auto header = static_cast<Spc::Header*>(structure);
+                *header = this->expectedHeader;
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField*>()))
+            .WillOnce(testing::Invoke([this](Binary::DataField* field)
+            {
+                this->expectedTag.FieldData()->CopyRawDataTo(field);
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField*>()))
+            .WillOnce(testing::Invoke([this](Binary::DataField* field)
+            {
+                this->expectedRam.CopyRawDataTo(field);
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField*>()))
+            .WillOnce(testing::Invoke([this](Binary::DataField* field)
+            {
+                this->expectedDspRegisters.CopyRawDataTo(field);
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField*>()))
+            .WillOnce(testing::Invoke([this](Binary::DataField* field)
+            {
+                this->expectedUnused.CopyRawDataTo(field);
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField*>()))
+            .WillOnce(testing::Invoke([this](Binary::DataField* field)
+            {
+                this->expectedExtraRam.CopyRawDataTo(field);
+            }));
+        EXPECT_CALL(*mockFileStream, FindNextChunk("xid6"))
+            .WillOnce(testing::Invoke([expectedChunkSize](std::string)
+            {
+                auto header = std::make_shared<Binary::ChunkHeader>();
+                header->id.SetValue("xid6");
+                header->dataSize.SetValue(
+                    static_cast<uint32_t>(expectedChunkSize));
+                return header;
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
+            .WillOnce(testing::Invoke([this](Binary::DataStructure* structure)
+            {
+                auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
+                item->id->SetUInt32(Spc::Id666::Extended::ostTitleInfo.id);
+                item->type->SetUInt32(Spc::Id666::Extended::stringType);
+                item->data->SetUInt32(
+                    static_cast<uint32_t>(this->expectedOstTitle.size()));
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField*>()))
+            .WillOnce(testing::Invoke([value = expectedOstTitle](
+                Binary::DataField* field)
+            {
+                std::memset(field->RawData(), 0, field->Size());
+                std::memcpy(field->RawData(),
+                            value.c_str(),
+                            value.size());
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField*>()))
+            .WillOnce(testing::Invoke([](
+                Binary::DataField* field)
+            {
+                std::memset(field->RawData(), 0, field->Size());
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
+            .WillOnce(testing::Invoke([ostDisc = expectedTag.OstDisc()](
+                Binary::DataStructure* structure)
+            {
+                auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
+                item->id->SetUInt32(Spc::Id666::Extended::ostDiscInfo.id);
+                item->type->SetUInt32(Spc::Id666::Extended::lengthType);
+                item->data->SetUInt32(ostDisc.ToUInt32());
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
+            .WillOnce(testing::Invoke([ostTrack = expectedTag.OstTrack()](
+                Binary::DataStructure* structure)
+            {
+                auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
+                item->id->SetUInt32(Spc::Id666::Extended::ostTrackInfo.id);
+                item->type->SetUInt32(Spc::Id666::Extended::lengthType);
+                item->data->SetUInt32(ostTrack.ToUInt32());
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
+            .WillOnce(testing::Invoke([this](Binary::DataStructure* structure)
+            {
+                auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
+                item->id->SetUInt32(Spc::Id666::Extended::publisherNameInfo.id);
+                item->type->SetUInt32(Spc::Id666::Extended::stringType);
+                item->data->SetUInt32(
+                    static_cast<uint32_t>(this->expectedPublisherName.size()));
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField*>()))
+            .WillOnce(testing::Invoke([value = expectedPublisherName](
+                Binary::DataField* field)
+            {
+                std::memset(field->RawData(), 0, field->Size());
+                std::memcpy(field->RawData(),
+                            value.c_str(),
+                            value.size());
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField*>()))
+            .WillOnce(testing::Invoke([](
+                Binary::DataField* field)
+            {
+                std::memset(field->RawData(), 0, field->Size());
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
+            .WillOnce(testing::Invoke(
+                [copyrightYear = expectedTag.CopyrightYear()](
+                Binary::DataStructure* structure)
+            {
+                auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
+                item->id->SetUInt32(Spc::Id666::Extended::copyrightYearInfo.id);
+                item->type->SetUInt32(Spc::Id666::Extended::lengthType);
+                item->data->SetUInt32(copyrightYear.ToUInt32());
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
+            .WillOnce(testing::Invoke([muted = expectedTag.MutedVoices()](
+                Binary::DataStructure* structure)
+            {
+                auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
+                item->id->SetUInt32(Spc::Id666::Extended::mutedVoicesInfo.id);
+                item->type->SetUInt32(Spc::Id666::Extended::lengthType);
+                item->data->SetUInt32(muted.ToUInt32());
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
+            .WillOnce(testing::Invoke([loopTimes = expectedTag.LoopTimes()](
+                Binary::DataStructure* structure)
+            {
+                auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
+                item->id->SetUInt32(Spc::Id666::Extended::loopTimesInfo.id);
+                item->type->SetUInt32(Spc::Id666::Extended::lengthType);
+                item->data->SetUInt32(loopTimes.ToUInt32());
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
+            .WillOnce(testing::Invoke([](Binary::DataStructure* structure)
+            {
+                auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
+                item->id->SetUInt32(Spc::Id666::Extended::introLengthInfo.id);
+                item->type->SetUInt32(Spc::Id666::Extended::integerType);
+                item->data->SetUInt32(4);
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField*>()))
+            .WillOnce(testing::Invoke([introLength = expectedTag.IntroLength()](
+                Binary::DataField* field)
+            {
+                auto introField = static_cast<Spc::NumericField*>(field);
+                introField->SetUInt32(introLength.ToUInt32());
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
+            .WillOnce(testing::Invoke([](Binary::DataStructure* structure)
+            {
+                auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
+                item->id->SetUInt32(Spc::Id666::Extended::loopLengthInfo.id);
+                item->type->SetUInt32(Spc::Id666::Extended::integerType);
+                item->data->SetUInt32(4);
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField*>()))
+            .WillOnce(testing::Invoke([loopLength = expectedTag.LoopLength()](
+                Binary::DataField* field)
+            {
+                auto loopField = static_cast<Spc::NumericField*>(field);
+                loopField->SetUInt32(loopLength.ToUInt32());
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
+            .WillOnce(testing::Invoke([](Binary::DataStructure* structure)
+            {
+                auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
+                item->id->SetUInt32(Spc::Id666::Extended::endLengthInfo.id);
+                item->type->SetUInt32(Spc::Id666::Extended::integerType);
+                item->data->SetUInt32(4);
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField*>()))
+            .WillOnce(testing::Invoke([endLength = expectedTag.EndLength()](
+                Binary::DataField* field)
+            {
+                auto endField = static_cast<Spc::NumericField*>(field);
+                endField->SetUInt32(endLength.ToUInt32());
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
+            .WillOnce(testing::Invoke([](Binary::DataStructure* structure)
+            {
+                auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
+                item->id->SetUInt32(Spc::Id666::Extended::preampLevelInfo.id);
+                item->type->SetUInt32(Spc::Id666::Extended::integerType);
+                item->data->SetUInt32(4);
+            }));
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField*>()))
+            .WillOnce(testing::Invoke([preampLevel = expectedTag.PreampLevel()](
+                Binary::DataField* field)
+            {
+                auto preampField = static_cast<Spc::NumericField*>(field);
+                preampField->SetUInt32(preampLevel.ToUInt32());
+            }));
+        EXPECT_CALL(*mockFileStream, Close());
+    }
+}
+
+size_t FileTests::CalculateExpectedChunkSize() const
+{
+    constexpr size_t headerSize{ 4 };
+    constexpr size_t alignment{ 4 };
+    constexpr size_t intSize{ 4 };
+
+    size_t remainder{ expectedOstTitle.size() % alignment };
+    size_t ostTitlePadding{ (alignment - remainder) % alignment };
+    size_t ostTitleSize{ headerSize + expectedOstTitle.size() };
+    ostTitleSize += ostTitlePadding;
+
+    remainder = expectedPublisherName.size() % alignment;
+    size_t publisherNamePadding{ (alignment - remainder) % alignment };
+    size_t publisherNameSize{ headerSize + expectedPublisherName.size() };
+    publisherNameSize += publisherNamePadding;
+
+    size_t ostDiscSize{ headerSize };
+    size_t ostTrackSize{ headerSize };
+    size_t copyrightYearSize{ headerSize };
+    size_t mutedVoicesSize{ headerSize };
+    size_t loopTimesSize{ headerSize };
+    size_t introLengthSize{ headerSize + intSize };
+    size_t loopLengthSize{ headerSize + intSize };
+    size_t endLengthSize{ headerSize + intSize };
+    size_t preampLevelSize{ headerSize + intSize };
+    
+    size_t expectedChunkSize = 
+        ostTitleSize + 
+        publisherNameSize +
+        ostDiscSize + 
+        ostTrackSize +
+        copyrightYearSize +
+        mutedVoicesSize +
+        loopTimesSize +
+        introLengthSize +
+        loopLengthSize +
+        endLengthSize +
+        preampLevelSize;
+
+    return expectedChunkSize;
+}
+
+bool FileTests::AllBytesMatch(Binary::BufferStream& expected, 
+                              Binary::BufferStream& actual)
+{
+    if (expected.Size() != actual.Size())
+        return false;
+
+    for (size_t i = 0; i < expected.Size(); i++)
+    {
+        if (expected.RawData()[i] != actual.RawData()[i])
+            return false;
+    }
+
+    return true;
 }
 
 TEST_F(FileTests, InitializesFileProperly)
 {
-    Spc::File file("test.spc");
+    Spc::File file("test.spc", mockFileStream);
 
     std::string fileName = file.Path();
     Binary::BufferStream ram = file.Ram();
@@ -40,7 +353,7 @@ TEST_F(FileTests, InitializesFileProperly)
 
 TEST_F(FileTests, SetsHeaderProperly)
 {
-    Spc::File file("test.spc");
+    Spc::File file("test.spc", mockFileStream);
     Spc::Header header;
 
     header.id.SetValue(Spc::headerId);
@@ -71,41 +384,227 @@ TEST_F(FileTests, SetsHeaderProperly)
     EXPECT_EQ(retrievedHeader.spRegister.RawData()[0], 1);
 }
 
-TEST_F(FileTests, SetsTagProperly)
+TEST_F(FileTests, SetsAndRetrievesTagProperly)
 {
-    Spc::File file("test.spc");
+    Spc::File file("test.spc", mockFileStream);
     Spc::Id666::Tag tag;
 
-    tag.SetSongTitle("Test Song");
-    tag.SetGameTitle("Test Game");
-    tag.SetDumperName("Test Dumper");
-    tag.SetComments("Test Comments");
-    tag.SetDateDumped("01/01/2025");
-    tag.SetSongLength("120");
-    tag.SetFadeLength("5000");
-    tag.SetSongArtist("Test Artist");
-    tag.SetDefaultChannelState("1");
-    tag.SetEmulatorUsed("ZSNES");
-    tag.SetOstTitle("Test OST Title");
+    tag.SetSongTitle(expectedSongTitle);
+    tag.SetGameTitle(expectedGameTitle);
+    tag.SetDumperName(expectedDumperName);
+    tag.SetComments(expectedComments);
+    tag.SetDateDumped(expectedDateDumped);
+    tag.SetSongLength(expectedSongLength);
+    tag.SetFadeLength(expectedFadeLength);
+    tag.SetSongArtist(expectedSongArtist);
+    tag.SetDefaultChannelState(expectedDefaultChannelState);
+    tag.SetEmulatorUsed(expectedEmulatorUsed);
+    tag.SetOstTitle(expectedOstTitle);
 
     file.SetTag(tag);
     Spc::Id666::Tag retrievedTag = file.Tag();
 
-    EXPECT_NE(retrievedTag.FieldData(), tag.FieldData());
-    EXPECT_NE(retrievedTag.ExtendedData(), tag.ExtendedData());
-    EXPECT_EQ(retrievedTag.SongTitle().Value(), "Test Song");
-    EXPECT_EQ(retrievedTag.GameTitle().Value(), "Test Game");
-    EXPECT_EQ(retrievedTag.DumperName().Value(), "Test Dumper");
-    EXPECT_EQ(retrievedTag.Comments().Value(), "Test Comments");
-    EXPECT_EQ(retrievedTag.DateDumped().Value(), "01/01/2025");
-    EXPECT_EQ(retrievedTag.SongLength().Value(), "120");
-    EXPECT_EQ(retrievedTag.FadeLength().Value(), "5000");
-    EXPECT_EQ(retrievedTag.SongArtist().Value(), "Test Artist");
-    EXPECT_EQ(retrievedTag.DefaultChannelState().Value(), "1");
-    EXPECT_EQ(retrievedTag.EmulatorUsed().Value(), "ZSNES");
+    EXPECT_EQ(retrievedTag.SongTitle().Value(), expectedSongTitle);
+    EXPECT_EQ(retrievedTag.GameTitle().Value(), expectedGameTitle);
+    EXPECT_EQ(retrievedTag.DumperName().Value(), expectedDumperName);
+    EXPECT_EQ(retrievedTag.Comments().Value(), expectedComments);
+    EXPECT_EQ(retrievedTag.DateDumped().Value(), expectedDateDumped);
+    EXPECT_EQ(retrievedTag.SongLength().Value(), expectedSongLength);
+    EXPECT_EQ(retrievedTag.FadeLength().Value(), expectedFadeLength);
+    EXPECT_EQ(retrievedTag.SongArtist().Value(), expectedSongArtist);
+    EXPECT_EQ(retrievedTag.DefaultChannelState().Value(), 
+              expectedDefaultChannelState);
+    EXPECT_EQ(retrievedTag.EmulatorUsed().Value(), expectedEmulatorUsed);
 
-    // TODO: Fix segmentation fault with these.
-    //EXPECT_EQ(retrievedTag.OstTitle().Value(), "Test OST Title");
-    //EXPECT_EQ(retrievedTag.OstDisc().Value(), "0");
+    // We set at least one field that is part of the extended data, so ensure
+    // it's there.
+    EXPECT_EQ(retrievedTag.OstTitle().Value(), expectedOstTitle);
+}
+
+TEST_F(FileTests, SetsAndRetrievesRamProperly)
+{
+    Spc::File file("test.spc", mockFileStream);
+    Binary::BufferStream ram{ Spc::ramInfo.size };
+
+    for (size_t i = 0; i < Spc::ramInfo.size; i++)
+    {
+        ram.RawData()[i] = static_cast<char>(i % 256);
+    }
+
+    file.SetRam(ram);
+    Binary::BufferStream retrievedRam = file.Ram();
+
+    ASSERT_EQ(retrievedRam.Size(), Spc::ramInfo.size);
+
+    bool allBytesMatch = true;
+
+    for (size_t i = 0; i < Spc::ramInfo.size; i++)
+    {
+        if (retrievedRam.RawData()[i] != static_cast<char>(i % 256))
+        {
+            allBytesMatch = false;
+            break;
+        }
+    }
+
+    EXPECT_EQ(allBytesMatch, true);
+}
+
+TEST_F(FileTests, SetsAndRetrievesDspRegistersProperly)
+{
+    Spc::File file("test.spc", mockFileStream);
+    Binary::BufferStream dspRegisters{ Spc::dspRegistersInfo.size };
+
+    for (size_t i = 0; i < Spc::dspRegistersInfo.size; i++)
+    {
+        dspRegisters.RawData()[i] = static_cast<char>(i % 256);
+    }
+
+    file.SetDspRegisters(dspRegisters);
+    Binary::BufferStream retrievedDspRegisters = file.DspRegisters();
+
+    ASSERT_EQ(retrievedDspRegisters.Size(), Spc::dspRegistersInfo.size);
+
+    bool allBytesMatch = true;
+
+    for (size_t i = 0; i < Spc::dspRegistersInfo.size; i++)
+    {
+        if (retrievedDspRegisters.RawData()[i] != static_cast<char>(i % 256))
+        {
+            allBytesMatch = false;
+            break;
+        }
+    }
+
+    EXPECT_EQ(allBytesMatch, true);
+}
+
+TEST_F(FileTests, SetsAndRetrievesUnusedProperly)
+{
+    Spc::File file("test.spc", mockFileStream);
+    Binary::BufferStream unused{ Spc::unusedInfo.size };
+
+    for (size_t i = 0; i < Spc::unusedInfo.size; i++)
+    {
+        unused.RawData()[i] = static_cast<char>(i % 256);
+    }
+
+    file.SetUnused(unused);
+    Binary::BufferStream retrievedUnused = file.Unused();
+
+    ASSERT_EQ(retrievedUnused.Size(), Spc::unusedInfo.size);
+
+    bool allBytesMatch = true;
+
+    for (size_t i = 0; i < Spc::unusedInfo.size; i++)
+    {
+        if (retrievedUnused.RawData()[i] != static_cast<char>(i % 256))
+        {
+            allBytesMatch = false;
+            break;
+        }
+    }
+
+    EXPECT_EQ(allBytesMatch, true);
+}
+
+TEST_F(FileTests, SetsAndRetrievesExtraRamProperly)
+{
+    Spc::File file("test.spc", mockFileStream);
+    Binary::BufferStream extraRam{ Spc::extraRamInfo.size };
+
+    for (size_t i = 0; i < Spc::extraRamInfo.size; i++)
+    {
+        extraRam.RawData()[i] = static_cast<char>(i % 256);
+    }
+
+    file.SetExtraRam(extraRam);
+    Binary::BufferStream retrievedExtraRam = file.ExtraRam();
+
+    ASSERT_EQ(retrievedExtraRam.Size(), Spc::extraRamInfo.size);
+
+    bool allBytesMatch = true;
+
+    for (size_t i = 0; i < Spc::extraRamInfo.size; i++)
+    {
+        if (retrievedExtraRam.RawData()[i] != static_cast<char>(i % 256))
+        {
+            allBytesMatch = false;
+            break;
+        }
+    }
+
+    EXPECT_EQ(allBytesMatch, true);
+}
+
+TEST_F(FileTests, LoadsFileProperly)
+{
+    Spc::File file("test.spc", mockFileStream);
+    MockFileLoads();
+
+    file.Load();
+
+    Spc::Header retrievedHeader = file.Header();
+    Spc::Id666::Tag retrievedTag = file.Tag();
+    Binary::BufferStream retrievedRam = file.Ram();
+    Binary::BufferStream retrievedDspRegisters = file.DspRegisters();
+    Binary::BufferStream retrievedUnused = file.Unused();
+    Binary::BufferStream retrievedExtraRam = file.ExtraRam();
+
+    EXPECT_EQ(retrievedHeader.id.Value(), Spc::headerId);
+    EXPECT_EQ(retrievedHeader.separator.RawData()[0], Spc::separatorChar);
+    EXPECT_EQ(retrievedHeader.separator.RawData()[1], Spc::separatorChar);
+    EXPECT_EQ(retrievedHeader.containsTag.ToUInt32(), Spc::headerContainsTag);
+    EXPECT_EQ(retrievedHeader.versionMinor.ToUInt32(), 
+              Spc::currentVersionMinor);
+    EXPECT_EQ(retrievedHeader.pcRegister.RawData()[0], 0x34);
+    EXPECT_EQ(retrievedHeader.pcRegister.RawData()[1], 0x12);
+    EXPECT_EQ(static_cast<uint8_t>(retrievedHeader.aRegister.RawData()[0]), 
+              0x56);
+    EXPECT_EQ(static_cast<uint8_t>(retrievedHeader.xRegister.RawData()[0]), 
+              0x78);
+    EXPECT_EQ(static_cast<uint8_t>(retrievedHeader.yRegister.RawData()[0]),
+              0x9A);
+    EXPECT_EQ(static_cast<uint8_t>(retrievedHeader.pswRegister.RawData()[0]), 
+              0xBC);
+    EXPECT_EQ(static_cast<uint8_t>(retrievedHeader.spRegister.RawData()[0]), 
+              0xDE);
+
+    EXPECT_EQ(retrievedTag.SongTitle().Value(), expectedSongTitle);
+    EXPECT_EQ(retrievedTag.GameTitle().Value(), expectedGameTitle);
+    EXPECT_EQ(retrievedTag.DumperName().Value(), expectedDumperName);
+    EXPECT_EQ(retrievedTag.Comments().Value(), expectedComments);
+    EXPECT_EQ(retrievedTag.DateDumped().Value(), expectedDateDumped);
+    EXPECT_EQ(retrievedTag.SongLength().Value(), expectedSongLength);
+    EXPECT_EQ(retrievedTag.FadeLength().Value(), expectedFadeLength);
+    EXPECT_EQ(retrievedTag.SongArtist().Value(), expectedSongArtist);
+    EXPECT_EQ(retrievedTag.DefaultChannelState().Value(), expectedDefaultChannelState);
+    EXPECT_EQ(retrievedTag.EmulatorUsed().Value(), expectedEmulatorUsed);
+    EXPECT_EQ(retrievedTag.OstTitle().Value(), expectedOstTitle);
+    EXPECT_EQ(retrievedTag.OstDisc().Value(), expectedOstDisc);
+    EXPECT_EQ(retrievedTag.OstTrack().Value(), expectedOstTrack);
+    EXPECT_EQ(retrievedTag.PublisherName().Value(), expectedPublisherName);
+    EXPECT_EQ(retrievedTag.CopyrightYear().Value(), expectedCopyrightYear);
+    EXPECT_EQ(retrievedTag.IntroLength().Value(), expectedIntroLength);
+    EXPECT_EQ(retrievedTag.LoopLength().Value(), expectedLoopLength);
+    EXPECT_EQ(retrievedTag.EndLength().Value(), expectedEndLength);
+    EXPECT_EQ(retrievedTag.MutedVoices().Value(), expectedMutedVoices);
+    EXPECT_EQ(retrievedTag.LoopTimes().Value(), expectedLoopTimes);
+    EXPECT_EQ(retrievedTag.PreampLevel().Value(), expectedPreampLevel);
+
+    EXPECT_EQ(retrievedRam.Size(), expectedRam.Size());
+    EXPECT_EQ(retrievedDspRegisters.Size(), expectedDspRegisters.Size());
+    EXPECT_EQ(retrievedUnused.Size(), expectedUnused.Size());
+    EXPECT_EQ(retrievedExtraRam.Size(), expectedExtraRam.Size());
+
+    bool allRamBytesMatch = AllBytesMatch(expectedRam, retrievedRam);
+    bool allDspBytesMatch = AllBytesMatch(expectedDspRegisters, retrievedDspRegisters);
+    bool allUnusedBytesMatch = AllBytesMatch(expectedUnused, retrievedUnused);
+    bool allExtraRamBytesMatch = AllBytesMatch(expectedExtraRam, retrievedExtraRam);
+
+    EXPECT_EQ(allRamBytesMatch, true);
+    EXPECT_EQ(allDspBytesMatch, true);
+    EXPECT_EQ(allUnusedBytesMatch, true);
+    EXPECT_EQ(allExtraRamBytesMatch, true);
 }
 

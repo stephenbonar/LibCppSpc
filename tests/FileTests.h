@@ -25,7 +25,42 @@
 class FileTests : public ::testing::Test 
 {
 protected:
+    Spc::Header expectedHeader;
+    Spc::Id666::Tag expectedTag;
+    Binary::BufferStream expectedRam{ Spc::ramInfo.size };
+    Binary::BufferStream expectedDspRegisters{ Spc::dspRegistersInfo.size };
+    Binary::BufferStream expectedUnused{ Spc::unusedInfo.size };
+    Binary::BufferStream expectedExtraRam{ Spc::extraRamInfo.size };
+    const std::string expectedSongTitle = "Test Song";
+    const std::string expectedGameTitle = "Test Game";
+    const std::string expectedDumperName = "Test Dumper";
+    const std::string expectedComments = "Test Comments";
+    const std::string expectedDateDumped = "01/01/2025";
+    const std::string expectedSongLength = "120";
+    const std::string expectedFadeLength = "5000";
+    const std::string expectedSongArtist = "Test Artist";
+    const std::string expectedDefaultChannelState = "1";
+    const std::string expectedEmulatorUsed = "ZSNES";
+    const std::string expectedOstTitle = "Test OST Title";
+    const std::string expectedOstDisc = "1";
+    const std::string expectedOstTrack = "1b";
+    const std::string expectedPublisherName = "Test Publisher";
+    const std::string expectedCopyrightYear = "2025";
+    const std::string expectedIntroLength = "320000";
+    const std::string expectedLoopLength = "1920000";
+    const std::string expectedEndLength = "640000";
+    const std::string expectedMutedVoices = "00001111";
+    const std::string expectedLoopTimes = "3";
+    const std::string expectedPreampLevel = "65536";
+
     void SetUp() override;
+
+    void MockFileLoads();
+
+    bool AllBytesMatch(Binary::BufferStream& expected, 
+                       Binary::BufferStream& actual);
+
+    size_t CalculateExpectedChunkSize() const;
 
     std::shared_ptr<MockFileStream> mockFileStream;
 };
