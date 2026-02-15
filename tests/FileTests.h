@@ -31,36 +31,54 @@ protected:
     Binary::BufferStream expectedDspRegisters{ Spc::dspRegistersInfo.size };
     Binary::BufferStream expectedUnused{ Spc::unusedInfo.size };
     Binary::BufferStream expectedExtraRam{ Spc::extraRamInfo.size };
-    const std::string expectedSongTitle = "Test Song";
-    const std::string expectedGameTitle = "Test Game";
-    const std::string expectedDumperName = "Test Dumper";
-    const std::string expectedComments = "Test Comments";
-    const std::string expectedDateDumped = "01/01/2025";
-    const std::string expectedSongLength = "120";
-    const std::string expectedFadeLength = "5000";
-    const std::string expectedSongArtist = "Test Artist";
-    const std::string expectedDefaultChannelState = "1";
-    const std::string expectedEmulatorUsed = "ZSNES";
-    const std::string expectedOstTitle = "Test OST Title";
-    const std::string expectedOstDisc = "1";
-    const std::string expectedOstTrack = "1b";
-    const std::string expectedPublisherName = "Test Publisher";
-    const std::string expectedCopyrightYear = "2025";
-    const std::string expectedIntroLength = "320000";
-    const std::string expectedLoopLength = "1920000";
-    const std::string expectedEndLength = "640000";
-    const std::string expectedMutedVoices = "00001111";
-    const std::string expectedLoopTimes = "3";
-    const std::string expectedPreampLevel = "65536";
+    std::string expectedSongTitle = "Test Song";
+    std::string expectedGameTitle = "Test Game";
+    std::string expectedDumperName = "Test Dumper";
+    std::string expectedComments = "Test Comments";
+    std::string expectedDateDumped = "01/01/2025";
+    std::string expectedSongLength = "120";
+    std::string expectedFadeLength = "5000";
+    std::string expectedSongArtist = "Test Artist";
+    std::string expectedDefaultChannelState = "1";
+    std::string expectedEmulatorUsed = "ZSNES";
+    std::string expectedOstTitle = "Test OST Title";
+    std::string expectedOstDisc = "1";
+    std::string expectedOstTrack = "1b";
+    std::string expectedPublisherName = "Test Publisher";
+    std::string expectedCopyrightYear = "2025";
+    std::string expectedIntroLength = "320000";
+    std::string expectedLoopLength = "1920000";
+    std::string expectedEndLength = "640000";
+    std::string expectedMutedVoices = "00001111";
+    std::string expectedLoopTimes = "3";
+    std::string expectedPreampLevel = "65536";
 
     void SetUp() override;
 
-    void MockFileLoads();
+    void MockBufferStreamRead(Binary::BufferStream* stream);
+
+    void MockStringRead(uint8_t id, std::string expectedValue);
+
+    void MockLengthRead(uint8_t id, Spc::NumericField expectedField);
+
+    void MockIntRead(uint8_t id, Spc::NumericField expectedField);
+
+    void MockHeaderReads();
+
+    void MockLongTagValueReads();
+
+    void MockExtendedTagValueReads();
+
+    void MockFileReads(bool useLongTagValues);
 
     bool AllBytesMatch(Binary::BufferStream& expected, 
                        Binary::BufferStream& actual);
 
-    size_t CalculateExpectedChunkSize() const;
+    size_t CalculateSizeWithPadding(std::string value) const;
+
+    size_t CalculateExpectedChunkSize(bool useLongTagValues) const;
+
+    void TestFileLoadsProperly(bool useLongTagValues);
 
     std::shared_ptr<MockFileStream> mockFileStream;
 };
