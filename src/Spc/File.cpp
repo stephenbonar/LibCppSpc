@@ -91,6 +91,10 @@ void File::Load()
     fileStream->Close();
 }
 
+void File::Save()
+{
+}
+
 void File::LoadStringItem(std::shared_ptr<Id666::Extended::Item> item, 
                           size_t& sizeRemaining)
 {

@@ -18,7 +18,6 @@ cmake_minimum_required(VERSION 3.10.0)
 
 project(LibCppSpc VERSION 1.0.0 LANGUAGES C CXX)
 
-
 if (WIN32)
     # By default, GoogleTest expects to statically link to the C++ runtime on 
     # the MSVC compiler. So if we run on Windows, we need to set our compiler 

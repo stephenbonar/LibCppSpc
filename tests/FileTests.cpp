@@ -37,7 +37,6 @@ void FileTests::SetUp()
     expectedHeader.yRegister.RawData()[0] = static_cast<char>(0x9A);
     expectedHeader.pswRegister.RawData()[0] = static_cast<char>(0xBC);
     expectedHeader.spRegister.RawData()[0] = static_cast<char>(0xDE);
-
     expectedTag.SetSongTitle(expectedSongTitle);
     expectedTag.SetGameTitle(expectedGameTitle);
     expectedTag.SetDumperName(expectedDumperName);
@@ -73,6 +72,49 @@ void FileTests::SetUp()
         expectedExtraRam.RawData()[i] = static_cast<char>((i + 3) % 256);
 }
 
+void FileTests::MockHeaderRead()
+{
+    EXPECT_CALL(*mockFileStream, Write(testing::A<Binary::DataStructure*>()))
+        .WillOnce(testing::Invoke([this](Binary::DataStructure* structure)
+        {
+            auto header = static_cast<Spc::Header*>(structure);
+            *header = this->expectedHeader;
+        }));
+}
+
+void FileTests::MockHeaderWrite()
+{
+    EXPECT_CALL(*mockFileStream, Write(testing::A<Binary::DataStructure*>()))
+        .WillOnce(testing::Invoke([this](Binary::DataStructure* structure)
+        {
+            auto header = static_cast<Spc::Header*>(structure);
+
+            EXPECT_EQ(header->id.Value(), this->expectedHeader.id.Value());
+            EXPECT_EQ(header->separator.RawData()[0],
+                      this->expectedHeader.separator.RawData()[0]);
+            EXPECT_EQ(header->separator.RawData()[1],
+                      this->expectedHeader.separator.RawData()[1]);
+            EXPECT_EQ(header->containsTag.ToUInt32(),
+                      this->expectedHeader.containsTag.ToUInt32());
+            EXPECT_EQ(header->versionMinor.ToUInt32(),
+                      this->expectedHeader.versionMinor.ToUInt32());
+            EXPECT_EQ(header->pcRegister.RawData()[0],
+                      this->expectedHeader.pcRegister.RawData()[0]);
+            EXPECT_EQ(header->pcRegister.RawData()[1],
+                      this->expectedHeader.pcRegister.RawData()[1]);
+            EXPECT_EQ(header->aRegister.RawData()[0],
+                      this->expectedHeader.aRegister.RawData()[0]);
+            EXPECT_EQ(header->xRegister.RawData()[0],
+                      this->expectedHeader.xRegister.RawData()[0]);
+            EXPECT_EQ(header->yRegister.RawData()[0],
+                      this->expectedHeader.yRegister.RawData()[0]);
+            EXPECT_EQ(header->pswRegister.RawData()[0],
+                      this->expectedHeader.pswRegister.RawData()[0]);
+            EXPECT_EQ(header->spRegister.RawData()[0],
+                      this->expectedHeader.spRegister.RawData()[0]);
+        }));
+}
+
 void FileTests::MockBufferStreamRead(Binary::BufferStream* stream)
 {
     EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField*>()))
@@ -82,21 +124,38 @@ void FileTests::MockBufferStreamRead(Binary::BufferStream* stream)
         }));
 }
 
-void FileTests::MockHeaderReads()
+void FileTests::MockBufferStreamWrite(Binary::BufferStream* stream)
+{
+    EXPECT_CALL(*mockFileStream, Write(testing::A<Binary::DataField*>()))
+        .Times(1)
+        .WillOnce(testing::Invoke([stream](Binary::DataField* field)
+        {
+            EXPECT_EQ(field, stream);
+        }));
+}
+
+void FileTests::MockNonExtendedDataReads()
 {
     EXPECT_CALL(*mockFileStream, Open(Binary::FileMode::Read));
     EXPECT_CALL(*mockFileStream, IsOpen()).WillOnce(testing::Return(true));
-    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
-        .WillOnce(testing::Invoke([this](Binary::DataStructure* structure)
-        {
-            auto header = static_cast<Spc::Header*>(structure);
-            *header = this->expectedHeader;
-        }));
+    MockHeaderRead();
     MockBufferStreamRead(expectedTag.FieldData().get());
     MockBufferStreamRead(&expectedRam);
     MockBufferStreamRead(&expectedDspRegisters);
     MockBufferStreamRead(&expectedUnused);
     MockBufferStreamRead(&expectedExtraRam);
+}
+
+void FileTests::MockNonExtendedDataWrites()
+{
+    EXPECT_CALL(*mockFileStream, Open(Binary::FileMode::Write));
+    EXPECT_CALL(*mockFileStream, IsOpen()).WillOnce(testing::Return(true));
+    
+    MockBufferStreamWrite(expectedTag.FieldData().get());
+    MockBufferStreamWrite(&expectedRam);
+    MockBufferStreamWrite(&expectedDspRegisters);
+    MockBufferStreamWrite(&expectedUnused);
+    MockBufferStreamWrite(&expectedExtraRam);
 }
 
 void FileTests::MockStringRead(uint8_t id, std::string expectedValue)
@@ -142,6 +201,11 @@ void FileTests::MockLongTagValueReads()
     MockStringRead(Spc::Id666::Extended::songArtistInfo.id, expectedSongArtist);
     MockStringRead(Spc::Id666::Extended::dumperNameInfo.id, expectedDumperName);
     MockStringRead(Spc::Id666::Extended::commentsInfo.id, expectedComments);
+}
+
+void FileTests::MockLongTagValueWrites()
+{
+
 }
 
 void FileTests::MockLengthRead(uint8_t id, Spc::NumericField expectedField)
@@ -220,6 +284,11 @@ void FileTests::MockExtendedTagValueReads()
                 expectedTag.PreampLevel());
 }
 
+void FileTests::MockExtendedTagValueWrites()
+{
+
+}
+
 void FileTests::MockFileReads(bool useLongTagValues)
 {
     size_t expectedChunkSize = CalculateExpectedChunkSize(useLongTagValues);
@@ -227,7 +296,7 @@ void FileTests::MockFileReads(bool useLongTagValues)
     {
         testing::InSequence sequence;
 
-        MockHeaderReads();
+        MockNonExtendedDataReads();
 
         EXPECT_CALL(*mockFileStream, FindNextChunk("xid6"))
             .WillOnce(testing::Invoke([expectedChunkSize](std::string)
@@ -245,6 +314,38 @@ void FileTests::MockFileReads(bool useLongTagValues)
         }
 
         MockExtendedTagValueReads();
+
+        EXPECT_CALL(*mockFileStream, Close());
+    }
+}
+
+void FileTests::MockFileWrites(bool useLongTagValues)
+{
+    size_t expectedChunkSize = CalculateExpectedChunkSize(useLongTagValues);
+
+    {
+        testing::InSequence sequence;
+
+        MockNonExtendedDataWrites();
+
+        /*
+        EXPECT_CALL(*mockFileStream, FindNextChunk("xid6"))
+            .WillOnce(testing::Invoke([expectedChunkSize](std::string)
+            {
+                auto header = std::make_shared<Binary::ChunkHeader>();
+                header->id.SetValue("xid6");
+                header->dataSize.SetValue(
+                    static_cast<uint32_t>(expectedChunkSize));
+                return header;
+            }));
+        */
+
+        if (useLongTagValues)
+        {
+            MockLongTagValueWrites();
+        }
+
+        MockExtendedTagValueWrites();
 
         EXPECT_CALL(*mockFileStream, Close());
     }
@@ -308,7 +409,7 @@ bool FileTests::AllBytesMatch(Binary::BufferStream& expected,
     return true;
 }
 
-void FileTests::TestFileLoadsProperly(bool useLongTagValues)
+void FileTests::TestFileLoadsProperly(Spc::File& file, bool useLongTagValues)
 {
     if (useLongTagValues)
     {
@@ -319,7 +420,6 @@ void FileTests::TestFileLoadsProperly(bool useLongTagValues)
         expectedComments = "Long Test Comments That Exceed Normal Length";
     }
 
-    Spc::File file("test.spc", mockFileStream);
     MockFileReads(useLongTagValues);
 
     file.Load();
@@ -389,6 +489,66 @@ void FileTests::TestFileLoadsProperly(bool useLongTagValues)
     EXPECT_EQ(allDspBytesMatch, true);
     EXPECT_EQ(allUnusedBytesMatch, true);
     EXPECT_EQ(allExtraRamBytesMatch, true);
+}
+
+void FileTests::TestFileLoadsAndSavesProperly(bool useLongTagValues)
+{
+    const std::string appendValue{ " (MOD)" };
+
+    Spc::File file("test.spc", mockFileStream);
+
+    // We need to first simulate loading the file to populate the File's fields, 
+    // then we can test modifying the data and saving it properly.
+    TestFileLoadsProperly(file, useLongTagValues);
+
+    Spc::Id666::Tag tag = file.Tag();
+    expectedSongTitle = expectedSongTitle + appendValue;
+    expectedGameTitle = expectedGameTitle + appendValue;
+    expectedDumperName = expectedDumperName + appendValue;
+    expectedComments = expectedComments + appendValue;
+    expectedDateDumped = alternateExpectedDateDumped;
+    expectedSongLength = std::to_string(std::stoi(expectedSongLength) + 1);
+    expectedFadeLength = std::to_string(std::stoi(expectedFadeLength) + 1);
+    expectedSongArtist = expectedSongArtist + appendValue;
+    expectedDefaultChannelState = alternateExpectedDefaultChannelState;
+    expectedEmulatorUsed = alternateExpectedEmulatorUsed;
+    expectedOstTitle = expectedOstTitle + appendValue;
+    expectedOstDisc = std::to_string(std::stoi(expectedOstDisc) + 1);
+    expectedOstTrack = alternateExpectedOstTrack;
+    expectedPublisherName = expectedPublisherName + appendValue;
+    expectedCopyrightYear = std::to_string(std::stoi(expectedCopyrightYear) + 1);
+    expectedIntroLength = std::to_string(std::stoi(expectedIntroLength) + 1);
+    expectedLoopLength = std::to_string(std::stoi(expectedLoopLength) + 1);
+    expectedEndLength = std::to_string(std::stoi(expectedEndLength) + 1);
+    expectedMutedVoices = alternateExpectedMutedVoices;
+    expectedLoopTimes = std::to_string(std::stoi(expectedLoopTimes) + 1);
+    expectedPreampLevel = std::to_string(std::stoi(expectedPreampLevel) + 1);
+    tag.SetSongTitle(expectedSongTitle);
+    tag.SetGameTitle(expectedGameTitle);
+    tag.SetDumperName(expectedDumperName);
+    tag.SetComments(expectedComments);
+    tag.SetDateDumped(expectedDateDumped);
+    tag.SetSongLength(expectedSongLength);
+    tag.SetFadeLength(expectedFadeLength);
+    tag.SetSongArtist(expectedSongArtist);
+    tag.SetDefaultChannelState(expectedDefaultChannelState);
+    tag.SetEmulatorUsed(expectedEmulatorUsed);
+    tag.SetOstTitle(expectedOstTitle);
+    tag.SetOstDisc(expectedOstDisc);
+    tag.SetOstTrack(expectedOstTrack);
+    tag.SetPublisherName(expectedPublisherName);
+    tag.SetCopyrightYear(expectedCopyrightYear);
+    tag.SetIntroLength(expectedIntroLength);
+    tag.SetLoopLength(expectedLoopLength);
+    tag.SetEndLength(expectedEndLength);
+    tag.SetMutedVoices(expectedMutedVoices);
+    tag.SetLoopTimes(expectedLoopTimes);
+    tag.SetPreampLevel(expectedPreampLevel);
+    file.SetTag(tag);
+
+    MockFileWrites(useLongTagValues);
+
+    file.Save();
 }
 
 TEST_F(FileTests, InitializesFileProperly)
@@ -594,12 +754,12 @@ TEST_F(FileTests, SetsAndRetrievesExtraRamProperly)
     EXPECT_EQ(allBytesMatch, true);
 }
 
-TEST_F(FileTests, LoadsFileProperly)
+TEST_F(FileTests, LoadsAndSavesFileProperly)
 {
-    TestFileLoadsProperly(false);
+    TestFileLoadsAndSavesProperly(false);
 }
 
-TEST_F(FileTests, LoadsFileProperlyWithLongTagValues)
+TEST_F(FileTests, LoadsAndSavesFileProperlyWithLongTagValues)
 {
-    TestFileLoadsProperly(true);
+    TestFileLoadsAndSavesProperly(true);
 }

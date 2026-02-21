@@ -53,23 +53,52 @@ protected:
     std::string expectedLoopTimes = "3";
     std::string expectedPreampLevel = "65536";
 
+    // Create alternate values to modify the tag with when testing saving,
+    // focusing on values that can't simply be incremented or appended with a 
+    // character to create a different value.
+    std::string alternateExpectedDateDumped = "01/02/2025";
+    std::string alternateExpectedEmulatorUsed = "SNES9X";
+    std::string alternateExpectedDefaultChannelState = "0";
+    std::string alternateExpectedOstTrack = "1c";
+    std::string alternateExpectedMutedVoices = "11110000";
+
     void SetUp() override;
+
+    void MockHeaderRead();
+
+    void MockHeaderWrite();
 
     void MockBufferStreamRead(Binary::BufferStream* stream);
 
+    void MockBufferStreamWrite(Binary::BufferStream* stream);
+
     void MockStringRead(uint8_t id, std::string expectedValue);
+
+    void MockStringWrite(uint8_t id, std::string value);
 
     void MockLengthRead(uint8_t id, Spc::NumericField expectedField);
 
+    void MockLengthWrite(uint8_t id, Spc::NumericField value);
+
     void MockIntRead(uint8_t id, Spc::NumericField expectedField);
 
-    void MockHeaderReads();
+    void MockIntWrite(uint8_t id, Spc::NumericField value);
+
+    void MockNonExtendedDataReads();
+
+    void MockNonExtendedDataWrites();
 
     void MockLongTagValueReads();
 
+    void MockLongTagValueWrites();
+
     void MockExtendedTagValueReads();
 
+    void MockExtendedTagValueWrites();
+
     void MockFileReads(bool useLongTagValues);
+
+    void MockFileWrites(bool useLongTagValues);
 
     bool AllBytesMatch(Binary::BufferStream& expected, 
                        Binary::BufferStream& actual);
@@ -78,7 +107,9 @@ protected:
 
     size_t CalculateExpectedChunkSize(bool useLongTagValues) const;
 
-    void TestFileLoadsProperly(bool useLongTagValues);
+    void TestFileLoadsProperly(Spc::File& file, bool useLongTagValues);
+
+    void TestFileLoadsAndSavesProperly(bool useLongTagValues);
 
     std::shared_ptr<MockFileStream> mockFileStream;
 };
