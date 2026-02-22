@@ -93,6 +93,35 @@ void File::Load()
 
 void File::Save()
 {
+    if (fileStream == nullptr)
+    {
+        return;
+    }
+
+    fileStream->Open(Binary::FileMode::Write);
+
+    if (!fileStream->IsOpen())
+    {
+        return;
+    }
+
+    fileStream->Write(&header);
+    fileStream->Write(tag.FieldData().get());
+    fileStream->Write(&ram);
+    fileStream->Write(&dspRegisters);
+    fileStream->Write(&unused);
+    fileStream->Write(&extraRam);
+
+    std::shared_ptr<Id666::Extended::Data> extendedData = tag.ExtendedData();
+
+    if (extendedData->Size() > 0)
+    {
+        Binary::ChunkHeader extendedHeader = extendedData->Header();
+        fileStream->Write(&extendedHeader);
+        fileStream->Write(extendedData.get());
+    }
+
+    fileStream->Close();
 }
 
 void File::LoadStringItem(std::shared_ptr<Id666::Extended::Item> item, 

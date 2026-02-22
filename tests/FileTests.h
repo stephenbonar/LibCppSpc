@@ -22,6 +22,8 @@
 #include <memory>
 #include "MockFileStream.h"
 
+inline constexpr size_t alignment{ 4 };
+
 class FileTests : public ::testing::Test 
 {
 protected:
@@ -98,10 +100,7 @@ protected:
 
     void MockFileReads(bool useLongTagValues);
 
-    void MockFileWrites(bool useLongTagValues);
-
-    bool AllBytesMatch(Binary::BufferStream& expected, 
-                       Binary::BufferStream& actual);
+    void MockFileWrites();
 
     size_t CalculateSizeWithPadding(std::string value) const;
 
@@ -113,5 +112,12 @@ protected:
 
     std::shared_ptr<MockFileStream> mockFileStream;
 };
+
+bool AllBytesMatch(Binary::DataField* expected, 
+                   Binary::DataField* actual);
+
+bool NeedsPadding(size_t valueSize);
+
+size_t PaddingSize(std::string value);
 
 #endif

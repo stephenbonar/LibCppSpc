@@ -74,7 +74,7 @@ void FileTests::SetUp()
 
 void FileTests::MockHeaderRead()
 {
-    EXPECT_CALL(*mockFileStream, Write(testing::A<Binary::DataStructure*>()))
+    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
         .WillOnce(testing::Invoke([this](Binary::DataStructure* structure)
         {
             auto header = static_cast<Spc::Header*>(structure);
@@ -130,7 +130,10 @@ void FileTests::MockBufferStreamWrite(Binary::BufferStream* stream)
         .Times(1)
         .WillOnce(testing::Invoke([stream](Binary::DataField* field)
         {
-            EXPECT_EQ(field, stream);
+            ASSERT_EQ(field->Size(), stream->Size());
+
+            bool streamSetToField = AllBytesMatch(stream, field);
+            EXPECT_TRUE(streamSetToField);
         }));
 }
 
@@ -150,7 +153,7 @@ void FileTests::MockNonExtendedDataWrites()
 {
     EXPECT_CALL(*mockFileStream, Open(Binary::FileMode::Write));
     EXPECT_CALL(*mockFileStream, IsOpen()).WillOnce(testing::Return(true));
-    
+    MockHeaderWrite();
     MockBufferStreamWrite(expectedTag.FieldData().get());
     MockBufferStreamWrite(&expectedRam);
     MockBufferStreamWrite(&expectedDspRegisters);
@@ -160,11 +163,6 @@ void FileTests::MockNonExtendedDataWrites()
 
 void FileTests::MockStringRead(uint8_t id, std::string expectedValue)
 {
-    auto needsPadding = [](size_t valueSize)
-    {
-        return (valueSize % 4) != 0;
-    };
-
     EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
         .WillOnce(testing::Invoke([id, expectedValue](Binary::DataStructure* structure)
         {
@@ -183,13 +181,48 @@ void FileTests::MockStringRead(uint8_t id, std::string expectedValue)
                         expectedValue.c_str(),
                         expectedValue.size());
         }));
-    if (needsPadding(expectedValue.size()))
+
+    if (NeedsPadding(expectedValue.size()))
     {
         EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField*>()))
             .WillOnce(testing::Invoke([](
                 Binary::DataField* field)
             {
                 std::memset(field->RawData(), 0, field->Size());
+            }));
+    }
+}
+
+void FileTests::MockStringWrite(uint8_t id, std::string value)
+{
+    EXPECT_CALL(*mockFileStream, Write(testing::A<Binary::DataStructure*>()))
+        .WillOnce(testing::Invoke([id, value](Binary::DataStructure* structure)
+        {
+            auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
+            EXPECT_EQ(item->id->ToUInt32(), id);
+            EXPECT_EQ(item->type->ToUInt32(), Spc::Id666::Extended::stringType);
+            EXPECT_EQ(item->data->ToUInt32(),
+                      static_cast<uint32_t>(value.size()));
+        }));
+    EXPECT_CALL(*mockFileStream, Write(testing::A<Binary::DataField*>()))
+        .WillOnce(testing::Invoke([value](
+            Binary::DataField* field)
+        {
+            EXPECT_EQ(std::string(field->RawData(), value.size()), value);
+        }));
+
+    if (NeedsPadding(value.size()))
+    {
+        EXPECT_CALL(*mockFileStream, Write(testing::A<Binary::DataField*>()))
+            .WillOnce(testing::Invoke([value](
+                Binary::DataField* field)
+            {
+                EXPECT_EQ(field->Size(), PaddingSize(value));
+
+                for (size_t i = 0; i < field->Size(); i++)
+                {
+                    EXPECT_EQ(field->RawData()[i], 0);
+                }
             }));
     }
 }
@@ -205,7 +238,13 @@ void FileTests::MockLongTagValueReads()
 
 void FileTests::MockLongTagValueWrites()
 {
-
+    MockStringWrite(Spc::Id666::Extended::songTitleInfo.id, expectedSongTitle);
+    MockStringWrite(Spc::Id666::Extended::gameTitleInfo.id, expectedGameTitle);
+    MockStringWrite(Spc::Id666::Extended::songArtistInfo.id, 
+                    expectedSongArtist);
+    MockStringWrite(Spc::Id666::Extended::dumperNameInfo.id, 
+                    expectedDumperName);
+    MockStringWrite(Spc::Id666::Extended::commentsInfo.id, expectedComments);
 }
 
 void FileTests::MockLengthRead(uint8_t id, Spc::NumericField expectedField)
@@ -218,6 +257,18 @@ void FileTests::MockLengthRead(uint8_t id, Spc::NumericField expectedField)
             item->id->SetUInt32(id);
             item->type->SetUInt32(Spc::Id666::Extended::lengthType);
             item->data->SetUInt32(expectedField.ToUInt32());
+        }));
+}
+
+void FileTests::MockLengthWrite(uint8_t id, Spc::NumericField field)
+{
+    EXPECT_CALL(*mockFileStream, Write(testing::A<Binary::DataStructure*>()))
+        .WillOnce(testing::Invoke([id, field](Binary::DataStructure* structure)
+        {
+            auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
+            EXPECT_EQ(item->id->ToUInt32(), id);
+            EXPECT_EQ(item->type->ToUInt32(), Spc::Id666::Extended::lengthType);
+            EXPECT_EQ(item->data->ToUInt32(), field.ToUInt32());
         }));
 }
 
@@ -237,6 +288,26 @@ void FileTests::MockIntRead(uint8_t id, Spc::NumericField expectedField)
         {
             auto introField = static_cast<Spc::NumericField*>(field);
             introField->SetUInt32(expectedField.ToUInt32());
+        }));
+}
+
+void FileTests::MockIntWrite(uint8_t id, Spc::NumericField field)
+{
+    EXPECT_CALL(*mockFileStream, Write(testing::A<Binary::DataStructure*>()))
+        .WillOnce(testing::Invoke([id, field](Binary::DataStructure* structure)
+        {
+            auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
+            EXPECT_EQ(item->id->ToUInt32(), id);
+            EXPECT_EQ(item->type->ToUInt32(), 
+                      Spc::Id666::Extended::integerType);
+            EXPECT_EQ(item->data->ToUInt32(), intSize);
+        }));
+    EXPECT_CALL(*mockFileStream, Write(testing::A<Binary::DataField*>()))
+        .WillOnce(testing::Invoke([field](
+            Binary::DataField* dataField)
+        {
+            auto introField = static_cast<Spc::NumericField*>(dataField);
+            EXPECT_EQ(introField->ToUInt32(), field.ToUInt32());
         }));
 }
 
@@ -284,11 +355,6 @@ void FileTests::MockExtendedTagValueReads()
                 expectedTag.PreampLevel());
 }
 
-void FileTests::MockExtendedTagValueWrites()
-{
-
-}
-
 void FileTests::MockFileReads(bool useLongTagValues)
 {
     size_t expectedChunkSize = CalculateExpectedChunkSize(useLongTagValues);
@@ -319,33 +385,45 @@ void FileTests::MockFileReads(bool useLongTagValues)
     }
 }
 
-void FileTests::MockFileWrites(bool useLongTagValues)
+void FileTests::MockFileWrites()
 {
-    size_t expectedChunkSize = CalculateExpectedChunkSize(useLongTagValues);
+    const auto expectedExtendedData = expectedTag.ExtendedData();
+    const auto expectedChunkSize = expectedExtendedData->Size();
 
     {
         testing::InSequence sequence;
 
         MockNonExtendedDataWrites();
 
-        /*
-        EXPECT_CALL(*mockFileStream, FindNextChunk("xid6"))
-            .WillOnce(testing::Invoke([expectedChunkSize](std::string)
+        EXPECT_CALL(*mockFileStream, 
+                    Write(testing::A<Binary::DataStructure*>()))
+            .WillOnce(testing::Invoke([expectedChunkSize](
+                Binary::DataStructure* structure)
             {
-                auto header = std::make_shared<Binary::ChunkHeader>();
-                header->id.SetValue("xid6");
-                header->dataSize.SetValue(
+                auto header = static_cast<Binary::ChunkHeader*>(structure);
+                auto expectedHeader = std::make_shared<Binary::ChunkHeader>();
+                expectedHeader->id.SetValue("xid6");
+                expectedHeader->dataSize.SetValue(
                     static_cast<uint32_t>(expectedChunkSize));
-                return header;
+                EXPECT_EQ(header->id.Value(), expectedHeader->id.Value());
+                EXPECT_EQ(header->dataSize.Value(), 
+                          expectedHeader->dataSize.Value());
             }));
-        */
 
-        if (useLongTagValues)
-        {
-            MockLongTagValueWrites();
-        }
+        EXPECT_CALL(*mockFileStream,
+                    Write(testing::A<Binary::DataStructure*>()))
+            .WillOnce(testing::Invoke([expectedExtendedData](
+                Binary::DataStructure* structure)
+            {
+                auto extendedData =
+                    static_cast<Spc::Id666::Extended::Data*>(structure);
 
-        MockExtendedTagValueWrites();
+                EXPECT_EQ(extendedData->Header().id.Value(),
+                          expectedExtendedData->Header().id.Value());
+                EXPECT_EQ(extendedData->Header().dataSize.Value(),
+                          expectedExtendedData->Header().dataSize.Value());
+                EXPECT_EQ(extendedData->Size(), expectedExtendedData->Size());
+            }));
 
         EXPECT_CALL(*mockFileStream, Close());
     }
@@ -353,10 +431,7 @@ void FileTests::MockFileWrites(bool useLongTagValues)
 
 size_t FileTests::CalculateSizeWithPadding(std::string value) const
 {
-    constexpr size_t alignment{ 4 };
-    size_t remainder{ value.size() % alignment };
-    size_t padding{ (alignment - remainder) % alignment };
-    return value.size() + padding + headerSize;
+    return value.size() + PaddingSize(value) + headerSize;
 }
 
 size_t FileTests::CalculateExpectedChunkSize(bool useLongTagValues) const
@@ -392,21 +467,6 @@ size_t FileTests::CalculateExpectedChunkSize(bool useLongTagValues) const
     }
 
     return expectedChunkSize;
-}
-
-bool FileTests::AllBytesMatch(Binary::BufferStream& expected, 
-                              Binary::BufferStream& actual)
-{
-    if (expected.Size() != actual.Size())
-        return false;
-
-    for (size_t i = 0; i < expected.Size(); i++)
-    {
-        if (expected.RawData()[i] != actual.RawData()[i])
-            return false;
-    }
-
-    return true;
 }
 
 void FileTests::TestFileLoadsProperly(Spc::File& file, bool useLongTagValues)
@@ -478,12 +538,12 @@ void FileTests::TestFileLoadsProperly(Spc::File& file, bool useLongTagValues)
     EXPECT_EQ(retrievedUnused.Size(), expectedUnused.Size());
     EXPECT_EQ(retrievedExtraRam.Size(), expectedExtraRam.Size());
 
-    bool allRamBytesMatch = AllBytesMatch(expectedRam, retrievedRam);
-    bool allDspBytesMatch = AllBytesMatch(expectedDspRegisters, 
-                                          retrievedDspRegisters);
-    bool allUnusedBytesMatch = AllBytesMatch(expectedUnused, retrievedUnused);
-    bool allExtraRamBytesMatch = AllBytesMatch(expectedExtraRam, 
-                                               retrievedExtraRam);
+    bool allRamBytesMatch = AllBytesMatch(&expectedRam, &retrievedRam);
+    bool allDspBytesMatch = AllBytesMatch(&expectedDspRegisters, 
+                                          &retrievedDspRegisters);
+    bool allUnusedBytesMatch = AllBytesMatch(&expectedUnused, &retrievedUnused);
+    bool allExtraRamBytesMatch = AllBytesMatch(&expectedExtraRam, 
+                                               &retrievedExtraRam);
 
     EXPECT_EQ(allRamBytesMatch, true);
     EXPECT_EQ(allDspBytesMatch, true);
@@ -544,9 +604,10 @@ void FileTests::TestFileLoadsAndSavesProperly(bool useLongTagValues)
     tag.SetMutedVoices(expectedMutedVoices);
     tag.SetLoopTimes(expectedLoopTimes);
     tag.SetPreampLevel(expectedPreampLevel);
+    expectedTag = tag;
     file.SetTag(tag);
 
-    MockFileWrites(useLongTagValues);
+    MockFileWrites();
 
     file.Save();
 }
@@ -754,6 +815,18 @@ TEST_F(FileTests, SetsAndRetrievesExtraRamProperly)
     EXPECT_EQ(allBytesMatch, true);
 }
 
+TEST_F(FileTests, LoadsFileProperly)
+{
+    Spc::File file("test.spc", mockFileStream);
+    TestFileLoadsProperly(file, false);
+}
+
+TEST_F(FileTests, LoadsFileProperlyWithLongTagValues)
+{
+    Spc::File file("test.spc", mockFileStream);
+    TestFileLoadsProperly(file, true);
+}
+
 TEST_F(FileTests, LoadsAndSavesFileProperly)
 {
     TestFileLoadsAndSavesProperly(false);
@@ -762,4 +835,30 @@ TEST_F(FileTests, LoadsAndSavesFileProperly)
 TEST_F(FileTests, LoadsAndSavesFileProperlyWithLongTagValues)
 {
     TestFileLoadsAndSavesProperly(true);
+}
+
+bool AllBytesMatch(Binary::DataField* expected, 
+                   Binary::DataField* actual)
+{
+    if (expected->Size() != actual->Size())
+        return false;
+
+    for (size_t i = 0; i < expected->Size(); i++)
+    {
+        if (expected->RawData()[i] != actual->RawData()[i])
+            return false;
+    }
+
+    return true;
+}
+
+bool NeedsPadding(size_t valueSize) 
+{
+    return (valueSize % alignment) != 0;
+}
+
+size_t PaddingSize(std::string value)
+{
+    size_t remainder{ value.size() % alignment };
+    return (alignment - remainder) % alignment;
 }
