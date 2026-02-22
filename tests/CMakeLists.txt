@@ -43,7 +43,8 @@ add_executable(libcppspctests
                ID666ExtendedDataTests.cpp
                ID666ExtendedItemTests.cpp
                ID666TagTests.cpp
-               FieldTests.cpp)
+               FieldTests.cpp
+               NumericFieldTests.cpp)
 
 # Links the libraries to the test executable target.
 target_link_libraries(libcppspctests
