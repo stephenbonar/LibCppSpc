@@ -27,26 +27,28 @@ namespace Spc
 {
     /// @brief Represents a field containing a number in an SPC file.
     ///
-    /// Numeric fields can contain either a text or binary representation of a
-    /// number and have some detetion capabilities to determine what kind of
-    /// representation is contained within. It also provides different methods
-    /// of retrieving the value depending on if the field should always 
-    /// interpret the data as binary or if it could possibly contain both. 
+    /// Depending on the format of the SPC file, numeric fields can either have
+    /// a text or binary representation of the number. This class represents 
+    /// a numeric field that can contain either a text or binary representation
+    /// of a number and have some detetion capabilities to determine what kind 
+    /// of representation is contained within. It also provides different 
+    /// methods of retrieving the value depending on if the field should always 
+    /// interpret the data as binary or if it could possibly contain both.
+    ///
+    /// @invariant Size must be > 0.
     class NumericField : public Field
     {
     public:
         /// @brief Constructor; creates a new instance of Spc::NumericField.
         /// @param label The label to use when outputing the field. 
-        /// @param offset The offset where the field can be found in the file.
-        /// @param size The size of the field, in bytes.
+        /// @param info Sets offset and size of the field.
         NumericField(std::string label, FieldInfo info) 
             : Field{ label, info }, type{ NumericType::Either }
         { };
 
         /// @brief Constructor; creates a new instance of SpcNumericField.
         /// @param label The label to use when outputing the field. 
-        /// @param offset The offset where the field can be found in the file.
-        /// @param size The size of the field, in bytes.
+        /// @param info Sets offset and size of the field.
         /// @param type Determines the numeric type of the field.
         NumericField(std::string label, FieldInfo info, NumericType type) 
             : Field{ label, info }, type{ type }
@@ -56,18 +58,19 @@ namespace Spc
         /// @return True if the field contains only zeros, otherwise false.
         virtual bool IsZero() const;
 
-        /// @brief Determines if all of the bytes in the field are ASCII numbers.
+        /// @brief Determines if all bytes in the field are ASCII numbers.
         ///
-        /// The field is most likely to contain a text representation if all bytes
-        /// contain the ASCII characters '0' - '9' or binary 0. This is not 100%
-        /// accurate detection as a binary value could conincidentally be the same
-        /// as the ASCII codes for '0' - '9'. However, if this method returns
-        /// false, it is almost a guarantee the field contains binary data.
+        /// The field is most likely to contain a text representation if all 
+        /// bytes contain the ASCII characters '0' - '9' or binary 0. This is 
+        /// not 100% accurate detection as a binary value could conincidentally 
+        /// be the same as the ASCII codes for '0' - '9'. However, if this 
+        /// method returns false, it is almost a guarantee the field contains 
+        /// binary data.
         ///
         /// @return True if no non-ASCII characters are found, otherwise false.
         virtual bool IsText() const;
 
-        /// @brief Detects the correct value based on if the field is text or not.
+        /// @brief Gets the 32-bit int value based on the detected type.
         ///
         /// Because a numeric field could contain either a text or binary
         /// representation of the value, this method attempts to determine the
@@ -77,36 +80,57 @@ namespace Spc
         /// @return The detected value.
         virtual int32_t DetectInt32() const;
 
-        /// @brief Gets the value assuming the field always is binary.
-        /// @return The value of the field.
+        /// @brief Gets the 32-bit int representation of the field.
+        ///
+        /// This method assumes the field contains a binary representation of
+        /// the value. If this field could potentially contain a text 
+        /// representation, use DetectInt32() instead.
+        ///
+        /// @pre The field contains a binary representation of the value.
+        /// @return The int32_t representation of the field value.
         virtual int32_t ToInt32() const;
 
+        /// @brief Gets the 32-bit unsigned int representation of the field.
+        ///
+        /// This method assumes the field contains a binary representation of
+        /// the value. If this field could potentially contain a text 
+        /// representation, use DetectInt32() instead.
+        ///
+        /// @pre The field contains a binary representation of the value.
+        /// @return The uint32_t representation of the field value.
         virtual uint32_t ToUInt32() const;
-
-        //virtual std::string Value() const override;
 
         /// @brief Converts the field's data to a string representation.
         /// @return A string representation of the field's data.
         virtual std::string ToString() const override;
 
-        /*
-        /// @brief Converts the field's data to a string representation.
-        /// @param format The format to use for the string conversion.
-        /// @return A string representation of the field's data.
-        std::string ToString(Binary::StringFormat format) const override
-        {
-            return Binary::RawField::ToString(format);
-        }
-        */
-
+        /// @brief Gets the numeric type of the field.
+        /// @return The NumericType of the field.
         virtual NumericType Type() const { return type; }
 
+        /// @brief Sets the value of the field as a signed 32-bit integer.
+        /// @param value The int32_t value to set.
+        /// @pre The field contains a binary representation of the value.
+        /// @post The field's data is updated to represent the provided value.
+        /// @post Value is truncated if it exceeds the field size. 
         virtual void SetInt32(int32_t value);
 
+        /// @brief Sets the value of the field as an unsigned 32-bit integer.
+        /// @param value The uint32_t value to set.
+        /// @pre The field contains a binary representation of the value.
+        /// @post The field's data is updated to represent the provided value.
+        /// @post Value is truncated if it exceeds the field size.
         virtual void SetUInt32(uint32_t value);
-        
+
+        /// @brief Sets the value of the field from a string representation.
+        /// @param value The string value to set.
+        /// @pre The value represents a valid number.
+        /// @post The field's data is updated to represent the provided value.
+        /// @post Value is truncated if it exceeds the field size.
         virtual void SetValue(std::string value) override;
 
+        /// @brief Sets the numeric type of the field.
+        /// @param t The NumericType to set.
         virtual void SetType(NumericType t) { type = t; }
     private:
         NumericType type;
