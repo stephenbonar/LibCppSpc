@@ -272,3 +272,13 @@ void File::LoadIntegerItem(std::shared_ptr<Id666::Extended::Item> item,
                 "Invalid extended item ID for length/integer type detected");
     }
 }
+
+void File::TagToFileName(std::string pattern)
+{
+
+}
+
+void File::FileNameToTag(std::string pattern)
+{
+
+}

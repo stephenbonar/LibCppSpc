@@ -76,6 +76,10 @@ namespace Spc
         void Load();
 
         void Save();
+
+        void TagToFileName(std::string pattern);
+
+        void FileNameToTag(std::string pattern);
     private:
         std::string path;
         Spc::Header header;

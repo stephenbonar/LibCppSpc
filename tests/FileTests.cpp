@@ -612,6 +612,32 @@ void FileTests::TestFileLoadsAndSavesProperly(bool useLongTagValues)
     file.Save();
 }
 
+bool AllBytesMatch(Binary::DataField* expected, 
+                   Binary::DataField* actual)
+{
+    if (expected->Size() != actual->Size())
+        return false;
+
+    for (size_t i = 0; i < expected->Size(); i++)
+    {
+        if (expected->RawData()[i] != actual->RawData()[i])
+            return false;
+    }
+
+    return true;
+}
+
+bool NeedsPadding(size_t valueSize) 
+{
+    return (valueSize % alignment) != 0;
+}
+
+size_t PaddingSize(std::string value)
+{
+    size_t remainder{ value.size() % alignment };
+    return (alignment - remainder) % alignment;
+}
+
 TEST_F(FileTests, InitializesFileProperly)
 {
     Spc::File file("test.spc", mockFileStream);
@@ -837,28 +863,14 @@ TEST_F(FileTests, LoadsAndSavesFileProperlyWithLongTagValues)
     TestFileLoadsAndSavesProperly(true);
 }
 
-bool AllBytesMatch(Binary::DataField* expected, 
-                   Binary::DataField* actual)
+TEST_F(FileTests, ConvertsFilenameToTagProperly)
 {
-    if (expected->Size() != actual->Size())
-        return false;
-
-    for (size_t i = 0; i < expected->Size(); i++)
-    {
-        if (expected->RawData()[i] != actual->RawData()[i])
-            return false;
-    }
-
-    return true;
+    Spc::File file("Test-10.spc", mockFileStream);
+    
+    file.FileNameToTag("%game%-%track%.spc");
+    
+    Spc::Id666::Tag tag = file.Tag();
+    EXPECT_EQ(tag.GameTitle().Value(), "Test");
+    EXPECT_EQ(tag.OstTrack().Value(), "10");
 }
 
-bool NeedsPadding(size_t valueSize) 
-{
-    return (valueSize % alignment) != 0;
-}
-
-size_t PaddingSize(std::string value)
-{
-    size_t remainder{ value.size() % alignment };
-    return (alignment - remainder) % alignment;
-}

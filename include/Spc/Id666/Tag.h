@@ -1,4 +1,4 @@
-// ID666Tag.h - Declares the ID666Tag class.
+// Tag.h - Declares the Tag class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //

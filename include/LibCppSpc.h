@@ -40,5 +40,6 @@
 #include "Spc/Id666/TagType.h"
 #include "Spc/Id666/Extended/Data.h"
 #include "Spc/Id666/Extended/Item.h"
+#include "Spc/Id666/PatternToken.h"
 
 #endif
