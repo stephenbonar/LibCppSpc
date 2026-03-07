@@ -1,4 +1,4 @@
-// PatternToken.cpp - Defines the PatternToken class.
+// PatternLexerTests.h - Declares the PatternLexerTests class and tests.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,22 +14,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "Spc/Id666/PatternToken.h"
+#ifndef PATTERN_LEXER_TESTS_H
+#define PATTERN_LEXER_TESTS_H
 
-using namespace Spc::Id666;
+#include <gtest/gtest.h>
+#include "LibCppSpc.h"
 
-PatternTokenType PatternToken::Type() const 
+class PatternLexerTests : public ::testing::Test
 {
-    if (lexeme.empty())
-    {
-        return PatternTokenType::End;
-    }
-    else if (lexeme.front() == '%' && lexeme.back() == '%')
-    {
-        return PatternTokenType::Placeholder;
-    }
-    else
-    {
-        return PatternTokenType::Literal;
-    }
-}
+protected:
+    void SetUp() override;
+};
+
+#endif

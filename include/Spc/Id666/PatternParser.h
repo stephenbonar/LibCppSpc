@@ -15,24 +15,26 @@
 // limitations under the License.
 
 #ifndef SPC_ID666_PATTERN_PARSER_H
-#define SPC_ID666_PATTERN_H
+#define SPC_ID666_PATTERN_PARSER_H
 
 #include <string>
 #include <vector>
 #include "PatternToken.h"
+#include "PatternNode.h"
+#include "PatternNodeType.h"
 
 namespace Spc::Id666
 {
     class PatternParser
     {
     public:
-        PatternParser();
+        PatternParser(const std::vector<PatternToken>& tokens) 
+            : tokens{ tokens }
+        { }
 
-        bool Parse(std::string pattern);
-
-        std::vector<PatternToken> Tokens() const { return tokens; }
+        std::vector<PatternNode> Parse() const;
     private:
-        std::vector<PatternToken> tokens;
+        const std::vector<PatternToken>& tokens;
     };
 }
 

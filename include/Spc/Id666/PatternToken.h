@@ -25,14 +25,16 @@ namespace Spc::Id666
     class PatternToken
     {
     public:
-        PatternToken(std::string value) : value{ value }
+        PatternToken() { }
+
+        PatternToken(std::string_view lexeme) : lexeme{ lexeme }
         { }
         
         PatternTokenType Type() const;
 
-        std::string Value() const { return ""; }
+        std::string_view Lexeme() const { return lexeme; }
     private:
-        std::string value;
+        std::string_view lexeme;
     };
 }
 

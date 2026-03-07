@@ -1,4 +1,4 @@
-// PatternToken.cpp - Defines the PatternToken class.
+// PatternLexer.h - Declares the PatternLexer class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,22 +14,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "Spc/Id666/PatternToken.h"
+#ifndef SPC_ID666_PATTERN_LEXER_H
+#define SPC_ID666_PATTERN_LEXER_H
 
-using namespace Spc::Id666;
+#include <string>
+#include "PatternToken.h"
 
-PatternTokenType PatternToken::Type() const 
+namespace Spc::Id666
 {
-    if (lexeme.empty())
+    class PatternLexer
     {
-        return PatternTokenType::End;
-    }
-    else if (lexeme.front() == '%' && lexeme.back() == '%')
-    {
-        return PatternTokenType::Placeholder;
-    }
-    else
-    {
-        return PatternTokenType::Literal;
-    }
+    public:
+        PatternLexer(std::string_view pattern) 
+            : pattern{ pattern }, position{ 0 } 
+        { }
+
+        PatternToken Lex();
+    private:
+        std::string_view pattern;
+        size_t position;
+    };
 }
+
+#endif

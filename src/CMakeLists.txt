@@ -27,10 +27,10 @@ set(SOURCES
     Spc/TrackField.cpp
     Spc/TextField.cpp
     Spc/File.cpp
-    Spc/StringDelimiter.cpp
-    Spc/StringTokenizer.cpp
     Spc/Id666/Tag.cpp
     Spc/Id666/PatternToken.cpp
+    Spc/Id666/PatternLexer.cpp
+    Spc/Id666/PatternParser.cpp
     Spc/Id666/Extended/Item.cpp
     Spc/Id666/Extended/Data.cpp)
 

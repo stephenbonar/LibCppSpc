@@ -20,53 +20,34 @@ void PatternTokenTests::SetUp()
 {
 }
 
-TEST_F(PatternTokenTests, IdentifiesSongPlaceholderToken)
+TEST_F(PatternTokenTests, InitializesProperly)
 {
-    Spc::Id666::PatternToken token{ "%song%" };
+    Spc::Id666::PatternToken token{ "test" };
 
-    EXPECT_EQ(token.Type(), Spc::Id666::PatternTokenType::SongPlaceholder);
+    EXPECT_EQ(token.Lexeme(), "test");
 }
 
-TEST_F(PatternTokenTests, IdentifiesGamePlaceholderToken)
+TEST_F(PatternTokenTests, IdentifiesPlaceholderToken)
 {
-    Spc::Id666::PatternToken token{ "%game%" };
+    Spc::Id666::PatternToken token{ "%test%" };
 
-    EXPECT_EQ(token.Type(), Spc::Id666::PatternTokenType::GamePlaceholder);
+    EXPECT_EQ(token.Type(), Spc::Id666::PatternTokenType::Placeholder);
 }
 
-TEST_F(PatternTokenTests, IdentifiesArtistPlaceholderToken)
+TEST_F(PatternTokenTests, IdentifiesLiteralTokens)
 {
-    Spc::Id666::PatternToken token{ "%artist%" };
+    Spc::Id666::PatternToken token1{ "literal" };
+    Spc::Id666::PatternToken token2{ "%literal" };
+    Spc::Id666::PatternToken token3{ "literal%" };
 
-    EXPECT_EQ(token.Type(), Spc::Id666::PatternTokenType::ArtistPlaceholder);
+    EXPECT_EQ(token1.Type(), Spc::Id666::PatternTokenType::Literal);
+    EXPECT_EQ(token2.Type(), Spc::Id666::PatternTokenType::Literal);
+    EXPECT_EQ(token3.Type(), Spc::Id666::PatternTokenType::Literal);
 }
 
-TEST_F(PatternTokenTests, IdentifiesDiscPlaceholderToken)
+TEST_F(PatternTokenTests, IdentifiesEndOfPatternToken)
 {
-    Spc::Id666::PatternToken token{ "%disc%" };
+    Spc::Id666::PatternToken token;
 
-    EXPECT_EQ(token.Type(), Spc::Id666::PatternTokenType::DiscPlaceholder);
-}
-
-TEST_F(PatternTokenTests, IdentifiesTrackPlaceholderToken)
-{
-    Spc::Id666::PatternToken token{ "%track%" };
-
-    EXPECT_EQ(token.Type(), Spc::Id666::PatternTokenType::TrackPlaceholder);
-}
-
-TEST_F(PatternTokenTests, IdentifiesLiteralToken)
-{
-    Spc::Id666::PatternToken token{ "literal" };
-
-    EXPECT_EQ(token.Type(), Spc::Id666::PatternTokenType::Literal);
-}
-
-TEST_F(PatternTokenTests, IdentifiesInvalidTokens)
-{
-    Spc::Id666::PatternToken token{ "%invalid%" };
-    Spc::Id666::PatternToken token2{ "%song" };
-
-    EXPECT_EQ(token.Type(), Spc::Id666::PatternTokenType::Invalid);
-    EXPECT_EQ(token2.Type(), Spc::Id666::PatternTokenType::Invalid);
+    EXPECT_EQ(token.Type(), Spc::Id666::PatternTokenType::End);
 }

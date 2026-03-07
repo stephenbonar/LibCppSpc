@@ -28,12 +28,6 @@
 #include "Spc/Header.h"
 #include "Spc/NumericField.h"
 #include "Spc/NumericType.h"
-#include "Spc/StringDelimiter.h"
-#include "Spc/StringSegment.h"
-#include "Spc/StringSegmentType.h"
-#include "Spc/StringToken.h"
-#include "Spc/StringTokenizer.h"
-#include "Spc/StringValueType.h"
 #include "Spc/TextField.h"
 #include "Spc/TrackField.h"
 #include "Spc/Id666/Tag.h"
@@ -41,5 +35,10 @@
 #include "Spc/Id666/Extended/Data.h"
 #include "Spc/Id666/Extended/Item.h"
 #include "Spc/Id666/PatternToken.h"
+#include "Spc/Id666/PatternTokenType.h"
+#include "Spc/Id666/PatternLexer.h"
+#include "Spc/Id666/PatternNode.h"
+#include "Spc/Id666/PatternNodeType.h"
+#include "Spc/Id666/PatternParser.h"
 
 #endif

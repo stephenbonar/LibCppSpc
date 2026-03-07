@@ -23,13 +23,9 @@ namespace Spc::Id666
 {
     enum class PatternTokenType
     {
-        SongPlaceholder,
-        GamePlaceholder,
-        ArtistPlaceholder,
-        DiscPlaceholder,
-        TrackPlaceholder,
         Literal,
-        Invalid
+        Placeholder,
+        End
     };
 }
 

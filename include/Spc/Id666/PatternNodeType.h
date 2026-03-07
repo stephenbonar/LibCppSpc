@@ -1,4 +1,4 @@
-// PatternToken.cpp - Defines the PatternToken class.
+// PatternNodeType.h - Declares the PatternNodeType class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,22 +14,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "Spc/Id666/PatternToken.h"
+#ifndef SPC_ID666_PATTERN_NODE_TYPE_H
+#define SPC_ID666_PATTERN_NODE_TYPE_H
 
-using namespace Spc::Id666;
-
-PatternTokenType PatternToken::Type() const 
+namespace Spc::Id666
 {
-    if (lexeme.empty())
+    enum class PatternNodeType
     {
-        return PatternTokenType::End;
-    }
-    else if (lexeme.front() == '%' && lexeme.back() == '%')
-    {
-        return PatternTokenType::Placeholder;
-    }
-    else
-    {
-        return PatternTokenType::Literal;
-    }
+        Literal,
+        TextPlaceholder,
+        NumericPlaceholder,
+        End
+    };
 }
+
+#endif

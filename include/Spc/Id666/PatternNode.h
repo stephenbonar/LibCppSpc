@@ -1,4 +1,4 @@
-// PatternPlaceholder.h - Declares the PatternPlaceholder class.
+// PatternNode.h - Declares the PatternNode class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,27 +14,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SPC_ID666_PATTERN_PLACEHOLDER_H
-#define SPC_ID666_PATTERN_PLACEHOLDER_H
+#ifndef SPC_ID666_PATTERN_NODE_H
+#define SPC_ID666_PATTERN_NODE_H
 
 #include <string>
-#include <sstream>
+#include "PatternNodeType.h"
 
 namespace Spc::Id666
 {
-    class PatternPlaceholder
+    struct PatternNode
     {
-    public:
-        PatternPlaceholder(std::string name) : name{ name }, isMatched{ false }
-        { }
-
-        bool IsMatched() const { return false; }
-
-        void Match(std::stringstream& s);
-    private:
-        std::string name;
-        std::string value;
-        bool isMatched;
+        std::string_view lexeme;
+        PatternNodeType type;
     };
 }
 
