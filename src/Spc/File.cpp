@@ -275,10 +275,41 @@ void File::LoadIntegerItem(std::shared_ptr<Id666::Extended::Item> item,
 
 void File::TagToFileName(std::string pattern)
 {
-
+    
 }
 
 void File::FileNameToTag(std::string pattern)
 {
+    Id666::PatternLexer lexer{ pattern };
+    std::vector<Id666::PatternToken> tokens;
 
+    do
+    {
+        Id666::PatternToken token = lexer.Lex();
+        tokens.push_back(token); 
+    }
+    while (tokens.back().Type() != Id666::PatternTokenType::End);
+    
+    Id666::PatternParser parser{ tokens };
+    std::vector<Id666::PatternNode> nodes = parser.Parse();
+    
+    std::filesystem::path p(path);
+    std::string filename = p.filename().string();
+    std::stringstream stream{ filename };
+    
+    for (const auto& node : nodes)
+    {
+        switch (node.type)
+        {
+            case Id666::PatternNodeType::Literal:
+                
+                break;
+            case Id666::PatternNodeType::TextPlaceholder:
+                break;
+            case Id666::PatternNodeType::NumericPlaceholder:
+                break;
+            case Id666::PatternNodeType::End:
+                break;
+        }
+    }
 }

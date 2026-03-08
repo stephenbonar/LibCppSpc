@@ -19,8 +19,11 @@
 
 #include <string>
 #include <LibCppBinary.h>
+#include <filesystem>
 #include "Spc/Header.h"
 #include "Spc/Id666/Tag.h"
+#include "Spc/Id666/PatternLexer.h"
+#include "Spc/Id666/PatternParser.h"
 #include "Spc/FileCorruptException.h"
 
 namespace Spc
