@@ -867,9 +867,10 @@ TEST_F(FileTests, ConvertsFilenameToTagProperly)
 {
     Spc::File file("Test-10.spc", mockFileStream);
     
-    file.FileNameToTag("%game%-%track%.spc");
+    bool success = file.FileNameToTag("%game%-%track%.spc");
     
     Spc::Id666::Tag tag = file.Tag();
+    EXPECT_TRUE(success);
     EXPECT_EQ(tag.GameTitle().Value(), "Test");
     EXPECT_EQ(tag.OstTrack().Value(), "10");
 }

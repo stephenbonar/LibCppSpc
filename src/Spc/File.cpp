@@ -273,12 +273,12 @@ void File::LoadIntegerItem(std::shared_ptr<Id666::Extended::Item> item,
     }
 }
 
-void File::TagToFileName(std::string pattern)
+bool File::TagToFileName(std::string pattern)
 {
-    
+    return false;
 }
 
-void File::FileNameToTag(std::string pattern)
+bool File::FileNameToTag(std::string pattern)
 {
     Id666::PatternLexer lexer{ pattern };
     std::vector<Id666::PatternToken> tokens;
@@ -296,20 +296,214 @@ void File::FileNameToTag(std::string pattern)
     std::filesystem::path p(path);
     std::string filename = p.filename().string();
     std::stringstream stream{ filename };
+    bool success{ true };
     
-    for (const auto& node : nodes)
+    for (int i = 0; i < nodes.size(); i++)
     {
+        Id666::PatternNode* nextNode{ nullptr};
+        Id666::PatternNode node = nodes[i];
+
+        if (i + 1 < nodes.size())
+        {
+            nextNode = &nodes[i + 1];
+        }
+
         switch (node.type)
         {
             case Id666::PatternNodeType::Literal:
-                
+                success = MatchLiteral(stream, node);
                 break;
             case Id666::PatternNodeType::TextPlaceholder:
+                success = MatchText(stream, node, nextNode);
                 break;
             case Id666::PatternNodeType::NumericPlaceholder:
+                success = MatchNumeric(stream, node, nextNode);
                 break;
             case Id666::PatternNodeType::End:
+                success = MatchEnd(stream);
                 break;
+        }
+
+        if (!success)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool File::MatchNumeric(std::stringstream& stream, 
+                        Id666::PatternNode node,
+                        Id666::PatternNode* nextNode)
+{
+    if (nextNode == nullptr)
+    {
+        return false;
+    }
+
+    size_t numericStringSize{ 0 };
+    std::string fullStreamContent = stream.str();
+    std::string remainingContent = fullStreamContent.substr(stream.tellg());
+    std::string_view contentView{ remainingContent };
+
+    if (nextNode->type == Id666::PatternNodeType::Literal)
+    {
+        size_t index = contentView.find(nextNode->lexeme);
+
+        if (index == std::string::npos)
+        {
+            return false;
+        }
+
+        numericStringSize = index;
+    }
+    else if (nextNode->type == Id666::PatternNodeType::End)
+    {
+        numericStringSize = contentView.size();
+    }
+    else
+    {
+        return false;
+    }
+    
+    std::string numericString(numericStringSize, '\0');
+    stream.read(numericString.data(), numericStringSize);
+
+    try
+    {
+        if (node.lexeme == "%disc%")
+        {
+            tag.SetOstDisc(numericString);
+        }
+        else if (node.lexeme == "%track%")
+        {
+            tag.SetOstTrack(numericString);
+        }
+        else
+        {
+            return false;
+        }
+    }
+    catch (const std::invalid_argument& exception)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool File::MatchText(std::stringstream& stream,
+                     Id666::PatternNode node,
+                     Id666::PatternNode* nextNode)
+{
+    if (nextNode == nullptr)
+    {
+        return false;
+    }
+
+    size_t textStringSize{ 0 };
+
+    if (nextNode->type == Id666::PatternNodeType::Literal)
+    {
+        std::string streamContent = stream.str();
+        size_t index = streamContent.find(nextNode->lexeme);
+
+        if (index == std::string::npos)
+        {
+            return false;
+        }
+
+        textStringSize = index;
+    }
+    else if (nextNode->type == Id666::PatternNodeType::End)
+    {
+        textStringSize = stream.str().size();
+    }
+    else
+    {
+        return false;
+    }
+    
+    std::string textString(textStringSize, '\0');
+    stream.read(textString.data(), textStringSize);
+
+    try
+    {
+        if (node.lexeme == "%song%")
+        {
+            tag.SetSongTitle(textString);
+        }
+        else if (node.lexeme == "%artist%")
+        {
+            tag.SetSongArtist(textString);
+        }
+        else if (node.lexeme == "%game%")
+        {
+            tag.SetGameTitle(textString);
+        }
+        else
+        {
+            return false;
+        }
+    }
+    catch (const std::invalid_argument& exception)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool Spc::MatchEnd(std::stringstream& stream)
+{
+    if (stream.tellg() == -1 || stream.tellg() == stream.str().size())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool Spc::MatchLiteral(std::stringstream& stream, Id666::PatternNode node)
+{
+    if (node.type != Id666::PatternNodeType::Literal)
+    {
+        return false;
+    }
+    else
+    {
+        std::streampos currentPos = stream.tellg();
+        size_t remaining{ 0 };
+
+        if (currentPos == -1)
+        {
+            return false;
+        }
+        else
+        {
+            remaining = stream.str().size() - static_cast<size_t>(currentPos);
+        }
+
+        if (remaining < node.lexeme.size())
+        {
+            return false;
+        }
+        else
+        {
+            std::string literalString(node.lexeme.size(), '\0');
+            stream.read(literalString.data(), node.lexeme.size());
+
+            if (literalString == node.lexeme)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

@@ -18,6 +18,7 @@
 #define SPC_FILE_H
 
 #include <string>
+#include <vector>
 #include <LibCppBinary.h>
 #include <filesystem>
 #include "Spc/Header.h"
@@ -46,8 +47,8 @@ namespace Spc
              ram{ ramInfo.size },
              dspRegisters{ dspRegistersInfo.size }, 
              unused{ unusedInfo.size }, 
-               extraRam{ extraRamInfo.size },
-               fileStream{ stream }
+             extraRam{ extraRamInfo.size },
+             fileStream{ stream }
         { }
 
         std::string Path() const { return path; }
@@ -80,9 +81,9 @@ namespace Spc
 
         void Save();
 
-        void TagToFileName(std::string pattern);
+        bool TagToFileName(std::string pattern);
 
-        void FileNameToTag(std::string pattern);
+        bool FileNameToTag(std::string pattern);
     private:
         std::string path;
         Spc::Header header;
@@ -103,7 +104,19 @@ namespace Spc
 
         void LoadIntegerItem(std::shared_ptr<Id666::Extended::Item> item,
                              size_t& sizeRemaining);
+
+        bool MatchNumeric(std::stringstream& stream, 
+                          Id666::PatternNode node,
+                          Id666::PatternNode* nextNode);
+
+        bool MatchText(std::stringstream& stream,
+                       Id666::PatternNode node,
+                       Id666::PatternNode* nextNode);
     };
+
+    bool MatchLiteral(std::stringstream& stream, Id666::PatternNode node);
+
+    bool MatchEnd(std::stringstream& stream);
 }
 
 #endif
