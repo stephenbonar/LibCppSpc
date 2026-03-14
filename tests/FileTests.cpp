@@ -875,3 +875,18 @@ TEST_F(FileTests, ConvertsFilenameToTagProperly)
     EXPECT_EQ(tag.OstTrack().Value(), "10");
 }
 
+TEST_F(FileTests, ConvertsTagToFilenameProperly)
+{
+    Spc::File file("t-1.spc", mockFileStream);
+    Spc::Id666::Tag tag;
+
+    tag.SetGameTitle("Test");
+    tag.SetOstTrack("10");
+    file.SetTag(tag);
+
+    bool success = file.TagToFileName("%game%-%track%.spc");
+
+    EXPECT_TRUE(success);
+    EXPECT_EQ(file.Path(), "Test-10.spc");
+}
+

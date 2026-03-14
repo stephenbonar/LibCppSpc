@@ -275,24 +275,64 @@ void File::LoadIntegerItem(std::shared_ptr<Id666::Extended::Item> item,
 
 bool File::TagToFileName(std::string pattern)
 {
-    return false;
+    std::vector<Id666::PatternNode> nodes = ParsePattern(pattern);
+    std::stringstream stream;
+
+    for (Id666::PatternNode node : nodes)
+    {
+        switch (node.type)
+        {
+            case Id666::PatternNodeType::Literal:
+                stream << node.lexeme;
+                break;
+            case Id666::PatternNodeType::TextPlaceholder:
+                if (node.lexeme == "%song%")
+                {
+                    stream << tag.SongTitle().Value();
+                }
+                else if (node.lexeme == "%artist%")
+                {
+                    stream << tag.SongArtist().Value();
+                }
+                else if (node.lexeme == "%game%")
+                {
+                    stream << tag.GameTitle().Value();
+                }
+                else
+                {
+                    return false;
+                }
+
+                break;
+            case Id666::PatternNodeType::NumericPlaceholder:
+                if (node.lexeme == "%disc%")
+                {
+                    stream << tag.OstDisc().Value();
+                }
+                else if (node.lexeme == "%track%")
+                {
+                    stream << tag.OstTrack().Value();
+                }
+                else
+                {
+                    return false;
+                }
+                
+                break;
+            case Id666::PatternNodeType::End:
+                break;
+        }
+    }
+
+    std::filesystem::path p(path);
+    path = p.replace_filename(stream.str()).string();
+
+    return true;
 }
 
 bool File::FileNameToTag(std::string pattern)
 {
-    Id666::PatternLexer lexer{ pattern };
-    std::vector<Id666::PatternToken> tokens;
-
-    do
-    {
-        Id666::PatternToken token = lexer.Lex();
-        tokens.push_back(token); 
-    }
-    while (tokens.back().Type() != Id666::PatternTokenType::End);
-    
-    Id666::PatternParser parser{ tokens };
-    std::vector<Id666::PatternNode> nodes = parser.Parse();
-    
+    std::vector<Id666::PatternNode> nodes = ParsePattern(pattern);
     std::filesystem::path p(path);
     std::string filename = p.filename().string();
     std::stringstream stream{ filename };
@@ -506,4 +546,20 @@ bool Spc::MatchLiteral(std::stringstream& stream, Id666::PatternNode node)
             }
         }
     }
+}
+
+std::vector<Id666::PatternNode> Spc::ParsePattern(std::string pattern)
+{
+    Id666::PatternLexer lexer{ pattern };
+    std::vector<Id666::PatternToken> tokens;
+
+    do
+    {
+        Id666::PatternToken token = lexer.Lex();
+        tokens.push_back(token); 
+    }
+    while (tokens.back().Type() != Id666::PatternTokenType::End);
+    
+    Id666::PatternParser parser{ tokens };
+    return parser.Parse();
 }

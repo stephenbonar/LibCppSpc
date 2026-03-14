@@ -117,6 +117,8 @@ namespace Spc
     bool MatchLiteral(std::stringstream& stream, Id666::PatternNode node);
 
     bool MatchEnd(std::stringstream& stream);
+
+    std::vector<Id666::PatternNode> ParsePattern(std::string pattern);
 }
 
 #endif
