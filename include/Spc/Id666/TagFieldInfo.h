@@ -1,6 +1,6 @@
 // TagFieldInfo.h - Declares the TagFieldInfo struct.
 //
-// Copyright (C) 2025 Stephen Bonar
+// Copyright (C) 2026 Stephen Bonar
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
