@@ -20,7 +20,7 @@
 #include "Spc/DataStructure.h"
 #include "Spc/NumericField.h"
 #include "Spc/TextField.h"
-#include "Spc/Id666/Extended/FieldInfo.h"
+#include "Spc/Id666/Extended/ItemInfo.h"
 
 #ifndef SPC_ID666_EXTENDED_ITEM_H
 #define SPC_ID666_EXTENDED_ITEM_H
@@ -66,8 +66,8 @@ namespace Spc::Id666::Extended
         /// label: value
         ///
         /// This method is also called by the Fields() method to get a pointer
-        /// to each field so SpcFileStream can read this struct from and write
-        /// it to each field so SpcFileStream can read this struct from and 
+        /// to each field so Spc::File can read this struct from and write
+        /// it to each field so Spc::File can read this struct from and 
         /// write it to an SPC file in a cross platform way, preserving the 
         /// order, size, and endianness of each field no matter which 
         /// architecture the program runs on.

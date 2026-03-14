@@ -16,7 +16,7 @@
 
 #include "Spc/File.h"
 
-#include "Spc/Id666/Extended/FieldInfo.h"
+#include "Spc/Id666/Extended/ItemInfo.h"
 #include "Spc/Id666/Extended/Item.h"
 #include "Spc/TextField.h"
 

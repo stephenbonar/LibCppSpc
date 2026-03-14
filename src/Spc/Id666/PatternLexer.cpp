@@ -22,16 +22,23 @@ PatternToken PatternLexer::Lex()
 {
     if (position >= pattern.size())
     {
+        // Blank tokens are automatically end tokens.
         return PatternToken{ };
     }
 
+    // We need to know when placeholders begin and end to properly tokenize 
+    // the pattern.
     size_t nextPercent = pattern.find('%', position);
     bool startsWithPercent{ false };
     bool endsWithPercent{ false };
 
     if (nextPercent == position)
     {
+        // If the next percent is at the current position, then this token 
+        // starts with a percent sign.
         startsWithPercent = true;
+
+        // See if this token ends with a percent sign.
         nextPercent = pattern.find('%', position + 1);
 
         if (nextPercent != std::string_view::npos)
@@ -48,16 +55,22 @@ PatternToken PatternLexer::Lex()
 
     if (startsWithPercent && endsWithPercent)
     {
+        // The token started with a percent and we know it will end at the next
+        // percent, so grab from the current position to the next percent,
+        // including the ending percent sign itself.
         tokenView = pattern.substr(position, nextPercent - position + 1);
         position = nextPercent + 1;
     }
     else if (endsWithPercent)
     {
+        // The token didn't start with a percent but ends with one, so grab
+        // from the current position to just before the next percent.
         tokenView = pattern.substr(position, nextPercent - position);
         position = nextPercent;
     }
     else
     {
+        // There are no more percent signs, so grab the rest of the pattern.
         tokenView = pattern.substr(position);
         position = pattern.size();
     }

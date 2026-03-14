@@ -22,7 +22,7 @@
 #include "Spc/Id666/TagType.h"
 #include "Spc/Id666/TagFieldInfo.h"
 #include "Spc/TextField.h"
-#include "Spc/Id666/Extended/FieldInfo.h"
+#include "Spc/Id666/Extended/ItemInfo.h"
 #include "Spc/Id666/Extended/Data.h"
 #include "Spc/Id666/Extended/Item.h"
 
@@ -221,7 +221,7 @@ namespace Spc::Id666
         template<typename T>
         void WriteFieldExtendedString(
             TagFieldInfo info,
-            Extended::FieldInfo extendedInfo, 
+            Extended::ItemInfo extendedInfo, 
             std::shared_ptr<Extended::Item>* itemPtrPtr, 
             std::string value)
         {
@@ -268,7 +268,7 @@ namespace Spc::Id666
         }
 
         template<typename T>
-        void WriteFieldExtended(Extended::FieldInfo extendedInfo,
+        void WriteFieldExtended(Extended::ItemInfo extendedInfo,
                                 std::shared_ptr<Extended::Item>* itemPtrPtr, 
                                 std::string value)
         {
@@ -302,7 +302,7 @@ namespace Spc::Id666
         }
 
         template<typename T>
-        void WriteFieldExtendedInt(Extended::FieldInfo extendedInfo,
+        void WriteFieldExtendedInt(Extended::ItemInfo extendedInfo,
                                    std::shared_ptr<Extended::Item>* itemPtrPtr, 
                                    std::string value)
         {
@@ -346,7 +346,7 @@ namespace Spc::Id666
 
         template<typename T>
         void WriteFieldExtendedString(
-            Extended::FieldInfo extendedInfo,
+            Extended::ItemInfo extendedInfo,
             std::shared_ptr<Extended::Item>* itemPtrPtr, 
             std::string value)
         {

@@ -99,7 +99,7 @@ protected:
 
     template<typename T>
     std::shared_ptr<Spc::Id666::Extended::Item> InitExtendedItem(
-        Spc::Id666::Extended::FieldInfo extendedInfo, 
+        Spc::Id666::Extended::ItemInfo extendedInfo, 
         std::string setValue)
     {
         auto item = std::make_shared<Spc::Id666::Extended::Item>();
@@ -119,7 +119,7 @@ protected:
 
     template<typename T>
     std::shared_ptr<Spc::Id666::Extended::Item> InitNumericExtendedItem(
-        Spc::Id666::Extended::FieldInfo extendedInfo, 
+        Spc::Id666::Extended::ItemInfo extendedInfo, 
         std::string setValue)
     {
         auto item = std::make_shared<Spc::Id666::Extended::Item>();
