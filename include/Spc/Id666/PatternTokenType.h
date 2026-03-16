@@ -21,10 +21,16 @@
 
 namespace Spc::Id666
 {
+    /// @brief The type of token in the pattern string.
     enum class PatternTokenType
     {
+        /// @brief A literal string in the pattern.
         Literal,
+
+        /// @brief A placeholder in the pattern.
         Placeholder,
+
+        /// @brief Marks the end of the pattern.
         End
     };
 }

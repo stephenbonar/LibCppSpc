@@ -28,108 +28,395 @@
 
 namespace Spc::Id666
 {
+    /// @brief The size of an ID666 tag in bytes.
     inline constexpr size_t tagSize{ 210 };
+
+    /// @brief The offset in the file where the ID666 tag begins.
     inline constexpr size_t tagOffset{ 0x2E };
 
+    /// @brief Represents an ID666 tag in an SPC file.
     class Tag
     {
     public:
+        /// @brief Default constructor; creates a new instance of Tag.
         Tag();
 
+        /// @brief Returns a pointer to the raw field data of the tag.
+        ///
+        /// The tag stores its field data in a Binary::BufferStream rather
+        /// than a series of Binary::Fields because the offsets and formats of
+        /// the fields can vary depending on the tag type. The BufferStream
+        /// allows for more flexible reading and writing of the field data.
         std::shared_ptr<Binary::BufferStream> FieldData() const
         {
             return fieldData;
         }
 
+        /// @brief Returns a pointer to the extended data structure of the tag.
+        /// @return A pointer if the tag has extended data, otherwise nullptr.
         std::shared_ptr<Extended::Data> ExtendedData() const
         {
             return extendedData;
         }
 
+        /// @brief Determines if the tag has text, binary, or mixed type values.
+        ///
+        /// The tag type determines the offsets and formats of the fields in the
+        /// tag. The field accessor and mutator methods will use the tag type to
+        /// determine how to read and write the fields.
+        ///
+        /// @return The type of the tag.
         TagType DetermineType() const;
 
+        /// @brief Gets the title of the song.
+        ///
+        /// If the song title is stored in both the header and the extended
+        /// tag data, the extended version will be returned according to the
+        /// SPC file format specification.
+        ///
+        /// @return A TextField representing the song title.
         TextField SongTitle() const;
 
+        /// @brief Gets the title of the game.
+        ///
+        /// If the game title is stored in both the header and the extended
+        /// tag data, the extended version will be returned according to the
+        /// SPC file format specification.
+        ///
+        /// @return A TextField representing the game title.
         TextField GameTitle() const;
 
+        /// @brief Gets the name of the person who dumped the SPC file.
+        ///
+        /// If the dumper name is stored in both the header and the extended
+        /// tag data, the extended version will be returned according to the 
+        /// SPC file format specification.
+        ///
+        /// @return A TextField representing the dumper name.
         TextField DumperName() const;
 
+        /// @brief Gets the comments the tagger included in the tag.
+        ///
+        /// If the comments are stored in both the header and the extended
+        /// tag data, the extended version will be returned according to the
+        /// SPC file format specification.
+        ///
+        /// @return A TextField representing the comments.
         TextField Comments() const;
 
+        /// @brief Gets the date the SPC file was dumped.
+        /// @return A DateField representing the date the SPC file was dumped.
         DateField DateDumped() const;
 
+        /// @brief Gets the length of the song, in seconds.
+        /// @return A NumericField representing the song length.
         NumericField SongLength() const;
 
+        /// @brief Gets the length of the song fade out, in seconds.
+        /// @return A NumericField representing the fade length.
         NumericField FadeLength() const;
 
+        /// @brief Gets the name of the song artist.
+        ///
+        /// If the song artist is stored in both the header and the extended
+        /// tag data, the extended version will be returned according to the
+        /// SPC file format specification.
+        ///
+        /// @return A TextField representing the song artist.
         TextField SongArtist() const;
 
-        NumericField DefaultChannelState() const;
+        /// @brief Gets which channels are disabled at startup.
+        ///
+        /// Similar to muted channels, this field is a bitmask representing
+        /// which channels are in a muted state, where each bit corresponds to 
+        /// a channel, with 0 indicating enabled and 1 indicating disabled.
+        /// However, unlike muted channels, this is just the state the channels
+        /// are initialized to and can be changed by the SPC program.
+        ///
+        /// @return A BinaryField representing the disabled channels.
+        BinaryField DefaultDisabledChannels() const;
 
+        /// @brief Gets the emulator used to dump the SPC file.
+        /// @return An EmulatorField representing the emulator used.
         EmulatorField EmulatorUsed() const;
 
+        /// @brief Gets the title of the original soundtrack (OST) album.
+        ///
+        /// The original soundtrack (OST) album title is an extended tag item
+        /// representing the title of the corresponding official soundtrack the
+        /// SPC album is based on, if applicable.
+        ///
+        /// @return A TextField representing the OST album title.
         TextField OstTitle() const;
 
+        /// @brief Gets the disc number of the original soundtrack (OST) album.
+        ///
+        /// The original soundtrack (OST) album disc number is an extended tag 
+        /// item representing the disc number of the song can be found on 
+        /// in the corresponding official soundtrack, if applicable.
+        ///
+        /// @return A NumericField representing the OST album disc number.
         NumericField OstDisc() const;
 
+        /// @brief Gets the track number of the original soundtrack (OST) album.
+        ///
+        /// The original soundtrack (OST) album track number is an extended tag 
+        /// item representing the track number of the song in the corresponding 
+        /// official soundtrack, if applicable.
+        ///
+        /// @return A TrackField representing the OST album track number.
         TrackField OstTrack() const;
 
+        /// @brief Gets the name of the publisher of the game.
+        ///
+        /// The publisher name is an extended tag item representing the company 
+        /// that published the game.
+        ///
+        /// @return A TextField representing the publisher of the game.
         TextField PublisherName() const;
 
+        /// @brief Gets the year the game was copyrighted.
+        ///
+        /// The copyright year is an extended tag item representing the year 
+        /// the game was copyrighted.
+        ///
+        /// @return A NumericField representing the copyright year.
         NumericField CopyrightYear() const;
 
+        /// @brief Gets the length of the song intro, in ticks.
+        ///
+        /// The intro length is an extended tag item representing the length of
+        /// the beginning portion of the song before the looped portion begins.
+        /// The intro length is represented in ticks, which are 1/64000th of a
+        /// second.
+        ///
+        /// @return A NumericField representing the length of the song intro.
         NumericField IntroLength() const;
 
+        /// @brief Gets the length of the looped portion of the song, in ticks.
+        ///
+        /// The loop length is an extended tag item representing the length of 
+        /// the looped portion of the song. The loop length is represented in 
+        /// ticks, which are 1/64000th of a second.
+        ///
+        /// @return A NumericField representing the length of looped portion.
         NumericField LoopLength() const;
 
+        /// @brief Gets the length of the song after the loop, in ticks.
+        ///
+        /// The end length is an extended tag item representing the length of 
+        /// the ending portion of the song. The end length is represented in 
+        /// ticks, which are 1/64000th of a second. 
+        ///
+        /// @return A NumericField representing the length of song after loop.
         NumericField EndLength() const;
 
+        /// @brief Gets the muted voices of the song.
+        ///
+        /// The muted voices field is a bitmask representing which channels are 
+        /// in a muted state, where each bit corresponds to a channel, with 0 
+        /// indicating unmuted and 1 indicating muted.
+        ///
+        /// @return A BinaryField representing the muted voices of the song.
         BinaryField MutedVoices() const;
 
+        /// @brief Get the number of times the song loops.
+        ///
+        /// The loop times field is an extended tag item representing the number
+        /// of times the song loops before it stops.
+        ///
+        /// @return A NumericField representing number of times the song loops.
         NumericField LoopTimes() const;
 
+        /// @brief Gets amplification level to apply to the output of the song.
+        ///
+        /// The preamp level is an extended tag item representing the
+        /// amplification level to apply to the output of the song.
+        ///
+        /// @return A NumericField representing the preamp level.
         NumericField PreampLevel() const;
 
+        /// @brief Sets the title of the song.
+        ///
+        /// If the song length is greater than 32 characters, it will set a
+        /// truncated version in the header and the full version in the extended
+        /// tag data according to the SPC file format specification.
+        ///
+        /// @param value The value to set the song title to.
         void SetSongTitle(std::string value);
 
+        /// @brief Sets the title of the game.
+        ///
+        /// If the game title is greater than 32 characters, it will set a
+        /// truncated version in the header and the full version in the extended
+        /// tag data according to the SPC file format specification.
+        ///
+        /// @param value The value to set the game title to.
         void SetGameTitle(std::string value);
 
+        /// @brief Sets the name of the person who dumped the SPC file.
+        ///
+        /// If the dumper name is greater than 16 characters, it will set a
+        /// truncated version in the header and the full version in the extended
+        /// tag data according to the SPC file format specification.
+        ///
+        /// @param value The value to set the dumper name to.
         void SetDumperName(std::string value);
 
+        /// @brief Sets the comments the tagger included in the tag.
+        ///
+        /// If the comments are greater than 32 characters, it will set a
+        /// truncated version in the header and the full version in the extended
+        /// tag data according to the SPC file format specification.
+        ///
+        /// @param value The value to set the comments to.
         void SetComments(std::string value);
 
+        /// @brief Sets the date the SPC file was dumped.
+        /// @param value The value to set the date dumped to.
         void SetDateDumped(std::string value);
 
+        /// @brief Sets the length of the song, in seconds.
+        /// @param value The value to set the song length to.
         void SetSongLength(std::string value);
 
+        /// @brief Sets the length of the fade, in seconds.
+        /// @param value The value to set the fade length to.
         void SetFadeLength(std::string value);
 
+        /// @brief Sets the artist of the song. 
+        ///
+        /// If the song artist is greater than 32 characters, it will set a
+        /// truncated version in the header and the full version in the extended
+        /// tag data according to the SPC file format specification.
+        ///
+        /// @param value The value to set the song artist to.
         void SetSongArtist(std::string value);
 
-        void SetDefaultChannelState(std::string value);
+        /// @brief Sets which channels are disabled at startup.
+        ///
+        /// Similar to muted channels, this field is a bitmask representing
+        /// which channels are in a disabled state, where each bit corresponds
+        /// to a channel, with 0 indicating enabled and 1 indicating disabled. 
+        /// However, unlike muted channels, this is just the state the channels
+        /// are initialized to and can be changed by the SPC program.
+        ///
+        /// @param value The value to set the default disabled channels to.
+        ///     Examples:
+        ///     @code 00000000 = All channels enabled
+        ///     @code 11110000 = First four channels disabled
+        void SetDefaultDisabledChannels(std::string value);
 
+        /// @brief Sets the emulator used to dump the SPC file.
+        /// @param value The value to set the emulator used to.
+        ///     Examples:
+        ///     @code "ZSNES" = ZSNES emulator
+        ///     @code "SNES9X" = Snes9x emulator  
+        ///     @code "UNKNOWN" = Unknown emulator
         void SetEmulatorUsed(std::string value);
 
+        /// @brief Sets the title of the original soundtrack (OST) album.
+        ///
+        /// The original soundtrack (OST) album title is an extended tag item
+        /// representing the title of the corresponding official soundtrack the
+        /// SPC album is based on, if applicable.
+        ///
+        /// @param value The value to set the OST title to.
         void SetOstTitle(std::string value);
 
+        /// @brief Sets the disc number of the original soundtrack (OST) album.
+        ///
+        /// The original soundtrack (OST) album disc number is an extended tag 
+        /// item representing the disc number of the song can be found on in 
+        /// the corresponding official soundtrack, if applicable.
+        ///
+        /// @param value The value to set the OST disc number to.
         void SetOstDisc(std::string value);
 
+        /// @brief Sets the track number of the original soundtrack (OST) album.
+        ///
+        /// The original soundtrack (OST) album track number is an extended tag 
+        /// item representing the track number of the song in the corresponding 
+        /// official soundtrack, if applicable.
+        ///
+        /// @param value The value to set the OST track number to.
+        ///     Examples:
+        ///     @code "1" = Track 1
+        ///     @code "2a" = Track 2, Subtrack A
         void SetOstTrack(std::string value);
 
+        /// @brief Sets the name of the publisher.
+        ///
+        /// The publisher name is an extended tag item representing the company 
+        /// that published the game.
+        ///
+        /// @param value The value to set the publisher name to.
         void SetPublisherName(std::string value);
 
+        /// @brief Sets the copyright year.
+        ///
+        /// The copyright year is an extended tag item representing the year 
+        /// the game was copyrighted.
+        ///
+        /// @param value The value to set the copyright year to.
         void SetCopyrightYear(std::string value);
 
+        /// @brief Sets the length of the song intro, in ticks.
+        ///
+        /// The intro length is an extended tag item representing the length of
+        /// the beginning portion of the song before the looped portion begins.
+        /// The intro length is represented in ticks, which are 1/64000th of a
+        /// second.
+        ///
+        /// @param value The value to set the intro length to.
         void SetIntroLength(std::string value);
 
+        /// @brief Sets the length of the song loop, in ticks.
+        ///
+        /// The loop length is an extended tag item representing the length of
+        /// the looped portion of the song. The loop length is represented in
+        /// ticks, which are 1/64000th of a second.
+        ///
+        /// @param value The value to set the loop length to.
         void SetLoopLength(std::string value);
 
+        /// @brief Sets the length of the song ending, in ticks.
+        ///
+        /// The end length is an extended tag item representing the length of
+        /// the ending portion of the song after the looped portion ends. The
+        /// end length is represented in ticks, which are 1/64000th of a
+        /// second.
+        ///
+        /// @param value The value to set the end length to.
         void SetEndLength(std::string value);
 
+        /// @brief Sets which voices are muted.
+        ///
+        /// The muted voices field is an extended tag item representing which
+        /// voices are muted in the song. This is represented as a bitmask,
+        /// where each bit corresponds to a voice, with 0 indicating unmuted
+        /// and 1 indicating muted.
+        ///
+        /// @param value The value to set the muted voices to.
+        ///    Examples:
+        ///    @code "00000000" = No voices muted
+        ///    @code "11110000" = First four voices muted
         void SetMutedVoices(std::string value);
 
+        /// @brief Sets the number of times the song loops.
+        ///
+        /// The loop times field is an extended tag item representing the number
+        /// of times the song loops before it stops.
+        ///
+        /// @param value The value to set the loop times to.
         void SetLoopTimes(std::string value);
 
+        /// @brief Sets the preamp level.
+        ///
+        /// The preamp level is an extended tag item representing the level of
+        /// preamplification applied to the audio (65536 is normal SNES).
+        ///
+        /// @param value The value to set the preamp level to.
         void SetPreampLevel(std::string value);
 
     private:

@@ -37,7 +37,7 @@ constexpr unsigned char rawTextData[] = {
     // 0xB1: Artist (32 bytes)
     'A','r','t','i','s','t',' ','N','a','m','e',' ','T','e','s','t',' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O',
     // 0xD1: Default channel disables (1 byte, ASCII '0')
-    '0',
+    0xF0,
     // 0xD2: Emulator used (1 byte, ASCII '2' for Snes9x)
     '2',
     // 0xD3: Reserved (45 bytes, all 0)
@@ -68,7 +68,7 @@ constexpr unsigned char rawBinaryData[] = {
     // 0xB0: Artist (32 bytes)
     'A','r','t','i','s','t',' ','N','a','m','e',' ','T','e','s','t',' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O',
     // 0xD0: Default channel disables (1 byte, binary)
-    0x00,
+    0xF0,
     // 0xD1: Emulator used (1 byte, binary: 2 = Snes9x)
     0x02,
     // 0xD2: Reserved (46 bytes, all 0)
@@ -97,7 +97,7 @@ constexpr unsigned char rawMixedData[] = {
     // 0xB1: Artist (32 bytes)
     'A','r','t','i','s','t',' ','N','a','m','e',' ','T','e','s','t',' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O',
     // 0xD1: Default channel disables (1 byte, little endian binary: 0)
-    0x00,
+    0xF0,
     // 0xD2: Emulator used (1 byte, little endian binary: 2)
     0x02,
     // 0xD3: Reserved (45 bytes, all 0)
@@ -537,38 +537,38 @@ TEST_F(ID666TagTests, GetsExtendedArtistProperly)
 
 TEST_F(ID666TagTests, GetsTextDefaultChannelStateProperly)
 {
-    TestGetParams<Spc::NumericField> params;
+    TestGetParams<Spc::BinaryField> params;
     params.testData = textData;
-    params.expectedLabel = "Default Channel State";
-    params.expectedValue = "0";
-    params.expectedOffset = Spc::Id666::defaultChannelStateInfo.text.offset;
-    params.expectedSize = Spc::Id666::defaultChannelStateInfo.text.size;
-    params.getMethodPtr = &Spc::Id666::Tag::DefaultChannelState;
-    TestGet<Spc::NumericField>(params);
+    params.expectedLabel = "Default Disabled Channels";
+    params.expectedValue = "11110000";
+    params.expectedOffset = Spc::Id666::defaultDisabledChannelsInfo.text.offset;
+    params.expectedSize = Spc::Id666::defaultDisabledChannelsInfo.text.size;
+    params.getMethodPtr = &Spc::Id666::Tag::DefaultDisabledChannels;
+    TestGet<Spc::BinaryField>(params);
 }
 
-TEST_F(ID666TagTests, GetsBinaryDefaultChannelStateProperly)
+TEST_F(ID666TagTests, GetsBinaryDefaultDisabledChannelsProperly)
 {
-    TestGetParams<Spc::NumericField> params;
+    TestGetParams<Spc::BinaryField> params;
     params.testData = binaryData;
-    params.expectedLabel = "Default Channel State";
-    params.expectedValue = "0";
-    params.expectedOffset = Spc::Id666::defaultChannelStateInfo.binary.offset;
-    params.expectedSize = Spc::Id666::defaultChannelStateInfo.binary.size;
-    params.getMethodPtr = &Spc::Id666::Tag::DefaultChannelState;
-    TestGet<Spc::NumericField>(params);
+    params.expectedLabel = "Default Disabled Channels";
+    params.expectedValue = "11110000";
+    params.expectedOffset = Spc::Id666::defaultDisabledChannelsInfo.binary.offset;
+    params.expectedSize = Spc::Id666::defaultDisabledChannelsInfo.binary.size;
+    params.getMethodPtr = &Spc::Id666::Tag::DefaultDisabledChannels;
+    TestGet<Spc::BinaryField>(params);
 }
 
-TEST_F(ID666TagTests, GetsMixedDefaultChannelStateProperly)
+TEST_F(ID666TagTests, GetsMixedDefaultDisabledChannelsProperly)
 {
-    TestGetParams<Spc::NumericField> params;
+    TestGetParams<Spc::BinaryField> params;
     params.testData = mixedData;
-    params.expectedLabel = "Default Channel State";
-    params.expectedValue = "0";
-    params.expectedOffset = Spc::Id666::defaultChannelStateInfo.text.offset;
-    params.expectedSize = Spc::Id666::defaultChannelStateInfo.text.size;
-    params.getMethodPtr = &Spc::Id666::Tag::DefaultChannelState;
-    TestGet<Spc::NumericField>(params);
+    params.expectedLabel = "Default Disabled Channels";
+    params.expectedValue = "11110000";
+    params.expectedOffset = Spc::Id666::defaultDisabledChannelsInfo.text.offset;
+    params.expectedSize = Spc::Id666::defaultDisabledChannelsInfo.text.size;
+    params.getMethodPtr = &Spc::Id666::Tag::DefaultDisabledChannels;
+    TestGet<Spc::BinaryField>(params);
 }
 
 TEST_F(ID666TagTests, GetsTextEmulatorUsedProperly)
@@ -1346,37 +1346,37 @@ TEST_F(ID666TagTests, SetsExistingExtendedSongArtistProperly)
     TestFieldsWithoutGet<Spc::TextField>(params);
 }
 
-TEST_F(ID666TagTests, SetsTextDefaultChannelStateProperly)
+TEST_F(ID666TagTests, SetsTextDefaultDisabledChannelsProperly)
 {
-    TestSetParams<Spc::NumericField> params;
+    TestSetParams<Spc::BinaryField> params;
     params.testData = textData;
-    params.offset = Spc::Id666::defaultChannelStateInfo.text.offset;
-    params.size = Spc::Id666::defaultChannelStateInfo.text.size;
-    params.setMethodPtr = &Spc::Id666::Tag::SetDefaultChannelState;
-    params.setValue = "1";
-    TestSet<Spc::NumericField>(params);
+    params.offset = Spc::Id666::defaultDisabledChannelsInfo.text.offset;
+    params.size = Spc::Id666::defaultDisabledChannelsInfo.text.size;
+    params.setMethodPtr = &Spc::Id666::Tag::SetDefaultDisabledChannels;
+    params.setValue = "00000001";
+    TestSet<Spc::BinaryField>(params);
 }
 
-TEST_F(ID666TagTests, SetsBinaryDefaultChannelStateProperly)
+TEST_F(ID666TagTests, SetsBinaryDefaultDisabledChannelsProperly)
 {
-    TestSetParams<Spc::NumericField> params;
+    TestSetParams<Spc::BinaryField> params;
     params.testData = binaryData;
-    params.offset = Spc::Id666::defaultChannelStateInfo.binary.offset;
-    params.size = Spc::Id666::defaultChannelStateInfo.binary.size;
-    params.setMethodPtr = &Spc::Id666::Tag::SetDefaultChannelState;
-    params.setValue = "1";
-    TestSet<Spc::NumericField>(params);
+    params.offset = Spc::Id666::defaultDisabledChannelsInfo.binary.offset;
+    params.size = Spc::Id666::defaultDisabledChannelsInfo.binary.size;
+    params.setMethodPtr = &Spc::Id666::Tag::SetDefaultDisabledChannels;
+    params.setValue = "00000001";
+    TestSet<Spc::BinaryField>(params);
 }
 
-TEST_F(ID666TagTests, SetsMixedDefaultChannelStateProperly)
+TEST_F(ID666TagTests, SetsMixedDefaultDisabledChannelsProperly)
 {
-    TestSetParams<Spc::NumericField> params;
+    TestSetParams<Spc::BinaryField> params;
     params.testData = mixedData;
-    params.offset = Spc::Id666::defaultChannelStateInfo.text.offset;
-    params.size = Spc::Id666::defaultChannelStateInfo.text.size;
-    params.setMethodPtr = &Spc::Id666::Tag::SetDefaultChannelState;
-    params.setValue = "1";
-    TestSet<Spc::NumericField>(params);
+    params.offset = Spc::Id666::defaultDisabledChannelsInfo.text.offset;
+    params.size = Spc::Id666::defaultDisabledChannelsInfo.text.size;
+    params.setMethodPtr = &Spc::Id666::Tag::SetDefaultDisabledChannels;
+    params.setValue = "00000001";
+    TestSet<Spc::BinaryField>(params);
 }
 
 TEST_F(ID666TagTests, SetsTextEmulatorUsedProperly)

@@ -25,16 +25,29 @@
 
 namespace Spc::Id666
 {
+    /// @brief Parses pattern tokens into a syntax tree of pattern nodes.
+    ///
+    /// A file name pattern is first tokenized by the PatternLexer into a 
+    /// sequence of tokens. The PatternParser takes those tokens and parses
+    /// them into a syntax tree of PatternNode objects. The Spc::File class can
+    /// then use the syntax tree to generate file names according to the 
+    /// pattern or extract values from the file name into the tag fields.
+    ///
+    /// @invariant The parser does not modify the tokens or their order.
     class PatternParser
     {
     public:
-        PatternParser(const std::vector<PatternToken>& tokens) 
+        /// @brief Constructs a PatternParser with the given tokens.
+        /// @param tokens The tokens to parse into a syntax tree.
+        PatternParser(std::vector<PatternToken> tokens) 
             : tokens{ tokens }
         { }
 
+        /// @brief Parses the tokens into a syntax tree of pattern nodes.
+        /// @return A vector of pattern nodes representing the syntax tree.
         std::vector<PatternNode> Parse() const;
     private:
-        const std::vector<PatternToken>& tokens;
+        std::vector<PatternToken> tokens;
     };
 }
 

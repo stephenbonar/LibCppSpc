@@ -22,9 +22,17 @@
 
 namespace Spc::Id666
 {
+    /// @brief Represents a node in the syntax tree parsed from a pattern.
+    ///
+    /// A file name pattern is parsed into a syntax tree of PatternNode objects. 
+    /// Each node represents a portion of the pattern, such as a literal string
+    /// or a placeholder.
     struct PatternNode
     {
+        /// @brief The portion of the pattern that this node represents.
         std::string_view lexeme;
+
+        /// @brief The type of syntax node this is (e.g., literal, placeholder).
         PatternNodeType type;
     };
 }

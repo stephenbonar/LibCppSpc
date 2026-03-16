@@ -45,7 +45,7 @@ void FileTests::SetUp()
     expectedTag.SetSongLength(expectedSongLength);
     expectedTag.SetFadeLength(expectedFadeLength);
     expectedTag.SetSongArtist(expectedSongArtist);
-    expectedTag.SetDefaultChannelState(expectedDefaultChannelState);
+    expectedTag.SetDefaultDisabledChannels(expectedDefaultDisabledChannels);
     expectedTag.SetEmulatorUsed(expectedEmulatorUsed);
     expectedTag.SetOstTitle(expectedOstTitle);
     expectedTag.SetOstDisc(expectedOstDisc);
@@ -518,8 +518,8 @@ void FileTests::TestFileLoadsProperly(Spc::File& file, bool useLongTagValues)
     EXPECT_EQ(retrievedTag.SongLength().Value(), expectedSongLength);
     EXPECT_EQ(retrievedTag.FadeLength().Value(), expectedFadeLength);
     EXPECT_EQ(retrievedTag.SongArtist().Value(), expectedSongArtist);
-    EXPECT_EQ(retrievedTag.DefaultChannelState().Value(), 
-              expectedDefaultChannelState);
+    EXPECT_EQ(retrievedTag.DefaultDisabledChannels().Value(), 
+              expectedDefaultDisabledChannels);
     EXPECT_EQ(retrievedTag.EmulatorUsed().Value(), expectedEmulatorUsed);
     EXPECT_EQ(retrievedTag.OstTitle().Value(), expectedOstTitle);
     EXPECT_EQ(retrievedTag.OstDisc().Value(), expectedOstDisc);
@@ -570,7 +570,7 @@ void FileTests::TestFileLoadsAndSavesProperly(bool useLongTagValues)
     expectedSongLength = std::to_string(std::stoi(expectedSongLength) + 1);
     expectedFadeLength = std::to_string(std::stoi(expectedFadeLength) + 1);
     expectedSongArtist = expectedSongArtist + appendValue;
-    expectedDefaultChannelState = alternateExpectedDefaultChannelState;
+    expectedDefaultDisabledChannels = alternateExpectedDefaultDisabledChannels;
     expectedEmulatorUsed = alternateExpectedEmulatorUsed;
     expectedOstTitle = expectedOstTitle + appendValue;
     expectedOstDisc = std::to_string(std::stoi(expectedOstDisc) + 1);
@@ -591,7 +591,7 @@ void FileTests::TestFileLoadsAndSavesProperly(bool useLongTagValues)
     tag.SetSongLength(expectedSongLength);
     tag.SetFadeLength(expectedFadeLength);
     tag.SetSongArtist(expectedSongArtist);
-    tag.SetDefaultChannelState(expectedDefaultChannelState);
+    tag.SetDefaultDisabledChannels(expectedDefaultDisabledChannels);
     tag.SetEmulatorUsed(expectedEmulatorUsed);
     tag.SetOstTitle(expectedOstTitle);
     tag.SetOstDisc(expectedOstDisc);
@@ -701,7 +701,7 @@ TEST_F(FileTests, SetsAndRetrievesTagProperly)
     tag.SetSongLength(expectedSongLength);
     tag.SetFadeLength(expectedFadeLength);
     tag.SetSongArtist(expectedSongArtist);
-    tag.SetDefaultChannelState(expectedDefaultChannelState);
+    tag.SetDefaultDisabledChannels(expectedDefaultDisabledChannels);
     tag.SetEmulatorUsed(expectedEmulatorUsed);
     tag.SetOstTitle(expectedOstTitle);
 
@@ -716,8 +716,8 @@ TEST_F(FileTests, SetsAndRetrievesTagProperly)
     EXPECT_EQ(retrievedTag.SongLength().Value(), expectedSongLength);
     EXPECT_EQ(retrievedTag.FadeLength().Value(), expectedFadeLength);
     EXPECT_EQ(retrievedTag.SongArtist().Value(), expectedSongArtist);
-    EXPECT_EQ(retrievedTag.DefaultChannelState().Value(), 
-              expectedDefaultChannelState);
+    EXPECT_EQ(retrievedTag.DefaultDisabledChannels().Value(), 
+              expectedDefaultDisabledChannels);
     EXPECT_EQ(retrievedTag.EmulatorUsed().Value(), expectedEmulatorUsed);
 
     // We set at least one field that is part of the extended data, so ensure

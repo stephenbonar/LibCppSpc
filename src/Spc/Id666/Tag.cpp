@@ -181,10 +181,10 @@ TextField Tag::SongArtist() const
                                 extendedData->songArtist.get());
 }
 
-NumericField Tag::DefaultChannelState() const 
+BinaryField Tag::DefaultDisabledChannels() const 
 {
-    return *ReadField<NumericField>("Default Channel State", 
-                                    defaultChannelStateInfo);
+    return *ReadField<BinaryField>("Default Disabled Channels", 
+                                   defaultDisabledChannelsInfo);
 }
 
 EmulatorField Tag::EmulatorUsed() const
@@ -359,9 +359,9 @@ void Tag::SetSongArtist(std::string value)
                                         value);
 }
 
-void Tag::SetDefaultChannelState(std::string value) 
+void Tag::SetDefaultDisabledChannels(std::string value) 
 {
-    WriteField<NumericField>(defaultChannelStateInfo, value);
+    WriteField<BinaryField>(defaultDisabledChannelsInfo, value);
 }
 
 void Tag::SetEmulatorUsed(std::string value) 

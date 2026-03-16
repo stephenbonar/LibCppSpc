@@ -19,11 +19,22 @@
 
 namespace Spc::Id666
 {
+    /// @brief The type of node in the syntax tree parsed from a pattern.
+    ///
+    /// The syntax of a file name pattern can be represented as literals or
+    /// placeholders of various types. 
     enum class PatternNodeType
     {
+        /// @brief A literal portion of the pattern that should be output as is.
         Literal,
+
+        /// @brief A placeholder that should be replaced with a text value.
         TextPlaceholder,
+
+        /// @brief A placeholder that should be replaced with a numeric value.
         NumericPlaceholder,
+
+        /// @brief Marks the end of the pattern.
         End
     };
 }

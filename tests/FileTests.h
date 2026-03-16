@@ -41,7 +41,7 @@ protected:
     std::string expectedSongLength = "120";
     std::string expectedFadeLength = "5000";
     std::string expectedSongArtist = "Test Artist";
-    std::string expectedDefaultChannelState = "1";
+    std::string expectedDefaultDisabledChannels = "11110000";
     std::string expectedEmulatorUsed = "ZSNES";
     std::string expectedOstTitle = "Test OST Title";
     std::string expectedOstDisc = "1";
@@ -60,7 +60,7 @@ protected:
     // character to create a different value.
     std::string alternateExpectedDateDumped = "01/02/2025";
     std::string alternateExpectedEmulatorUsed = "SNES9X";
-    std::string alternateExpectedDefaultChannelState = "0";
+    std::string alternateExpectedDefaultDisabledChannels = "0";
     std::string alternateExpectedOstTrack = "1c";
     std::string alternateExpectedMutedVoices = "11110000";
 

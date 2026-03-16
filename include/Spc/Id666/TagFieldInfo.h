@@ -35,7 +35,10 @@ namespace Spc::Id666
     constexpr TagFieldInfo songLengthInfo{ { 0xA9, 3 }, { 0xA9, 3 } };
     constexpr TagFieldInfo fadeLengthInfo{ { 0xAC, 5 }, { 0xAC, 4 } };
     constexpr TagFieldInfo songArtistInfo{ { 0xB1, 32 }, { 0xB0, 32 } };
-    constexpr TagFieldInfo defaultChannelStateInfo{ { 0xD1, 1 }, { 0xD0, 1 } };
+    constexpr TagFieldInfo defaultDisabledChannelsInfo
+    { 
+        { 0xD1, 1 }, { 0xD0, 1 } 
+    };
     constexpr TagFieldInfo emulatorUsedInfo{ { 0xD2, 1 }, { 0xD1, 1 } };
     constexpr TagFieldInfo reservedInfo{ { 0xD3, 45 }, { 0xD2, 46 } };
 }
