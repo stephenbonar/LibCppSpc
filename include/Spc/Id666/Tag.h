@@ -34,25 +34,56 @@ namespace Spc::Id666
     /// @brief The offset in the file where the ID666 tag begins.
     inline constexpr size_t tagOffset{ 0x2E };
 
+    /// @brief The minimum value for numeric fields in the tag.
+    inline constexpr size_t minNumeric{ 0 };
+
+    /// @brief The minimum value for preamp level field in the tag.
+    inline constexpr size_t minPreampLevel{ 32768 };
+
+    /// @brief The maximum length of a song, in seconds, allowed.
+    inline constexpr size_t maxSongLength{ 959 };
+
+    /// @brief The maximum length of a fade, in milliseconds, allowed.
+    inline constexpr size_t maxFadeLength{ 59999 };
+
+    /// @brief The maximum disc number allowed.
+    inline constexpr size_t maxDiscNumber{ 9 };
+
+    /// @brief The maximum track number allowed.
+    inline constexpr size_t maxTrackNumber{ 99 };
+
+    /// @brief The maximum number of song loops allowed.
+    inline constexpr size_t maxLoopTimes{ 9 };
+
+    /// @brief The maximum preamp level allowed.
+    inline constexpr size_t maxPreampLevel{ 524288 };
+
+    /// @brief The maximum length of a string field allowed.
+    inline constexpr size_t maxStringSize{ 256 };
+
     /// @brief Represents an ID666 tag in an SPC file.
+    /// @invariant Pointers read from tag should never be nullptr.
+    /// @invariant If a tag's field is empty or unused, returns an empty field.
     class Tag
     {
     public:
         /// @brief Default constructor; creates a new instance of Tag.
         Tag();
 
-        /// @brief Returns a pointer to the raw field data of the tag.
+        /// @brief Gets a pointer to the raw field data of the tag.
         ///
         /// The tag stores its field data in a Binary::BufferStream rather
         /// than a series of Binary::Fields because the offsets and formats of
         /// the fields can vary depending on the tag type. The BufferStream
         /// allows for more flexible reading and writing of the field data.
+        ///
+        /// @return A pointer to the tag's field data.
         std::shared_ptr<Binary::BufferStream> FieldData() const
         {
             return fieldData;
         }
 
-        /// @brief Returns a pointer to the extended data structure of the tag.
+        /// @brief Gets a pointer to the extended data structure of the tag.
         /// @return A pointer if the tag has extended data, otherwise nullptr.
         std::shared_ptr<Extended::Data> ExtendedData() const
         {
@@ -69,39 +100,31 @@ namespace Spc::Id666
         TagType DetermineType() const;
 
         /// @brief Gets the title of the song.
-        ///
-        /// If the song title is stored in both the header and the extended
-        /// tag data, the extended version will be returned according to the
-        /// SPC file format specification.
-        ///
         /// @return A TextField representing the song title.
+        ///         If the song title is stored in both the header and the 
+        ///         extended tag data, the extended version will be returned 
+        ///         according to the SPC file format specification.
         TextField SongTitle() const;
 
         /// @brief Gets the title of the game.
-        ///
-        /// If the game title is stored in both the header and the extended
-        /// tag data, the extended version will be returned according to the
-        /// SPC file format specification.
-        ///
         /// @return A TextField representing the game title.
+        ///         If the game title is stored in both the header and the 
+        ///         extended tag data, the extended version will be returned 
+        ///         according to the SPC file format specification.
         TextField GameTitle() const;
 
         /// @brief Gets the name of the person who dumped the SPC file.
-        ///
-        /// If the dumper name is stored in both the header and the extended
-        /// tag data, the extended version will be returned according to the 
-        /// SPC file format specification.
-        ///
         /// @return A TextField representing the dumper name.
+        ///         If the dumper name is stored in both the header and the 
+        ///         extended tag data, the extended version will be returned 
+        ///         according to the SPC file format specification.
         TextField DumperName() const;
 
         /// @brief Gets the comments the tagger included in the tag.
-        ///
-        /// If the comments are stored in both the header and the extended
-        /// tag data, the extended version will be returned according to the
-        /// SPC file format specification.
-        ///
         /// @return A TextField representing the comments.
+        ///         If the comments are stored in both the header and the 
+        ///         extended tag data, the extended version will be returned 
+        ///         according to the SPC file format specification.
         TextField Comments() const;
 
         /// @brief Gets the date the SPC file was dumped.
@@ -112,17 +135,15 @@ namespace Spc::Id666
         /// @return A NumericField representing the song length.
         NumericField SongLength() const;
 
-        /// @brief Gets the length of the song fade out, in seconds.
+        /// @brief Gets the length of the song fade out, in milliseconds.
         /// @return A NumericField representing the fade length.
         NumericField FadeLength() const;
 
         /// @brief Gets the name of the song artist.
-        ///
-        /// If the song artist is stored in both the header and the extended
-        /// tag data, the extended version will be returned according to the
-        /// SPC file format specification.
-        ///
         /// @return A TextField representing the song artist.
+        ///         If the song artist is stored in both the header and the 
+        ///         extended tag data, the extended version will be returned 
+        ///         according to the SPC file format specification.
         TextField SongArtist() const;
 
         /// @brief Gets which channels are disabled at startup.
@@ -237,12 +258,10 @@ namespace Spc::Id666
         NumericField PreampLevel() const;
 
         /// @brief Sets the title of the song.
-        ///
-        /// If the song length is greater than 32 characters, it will set a
-        /// truncated version in the header and the full version in the extended
-        /// tag data according to the SPC file format specification.
-        ///
         /// @param value The value to set the song title to.
+        /// @pre Value must be <= 256 characters.
+        /// @post The first 32 characters are stored in the non-extended field.
+        /// @post If value > 32 characters, full value stored in extended data.
         void SetSongTitle(std::string value);
 
         /// @brief Sets the title of the game.
@@ -252,6 +271,9 @@ namespace Spc::Id666
         /// tag data according to the SPC file format specification.
         ///
         /// @param value The value to set the game title to.
+        /// @pre Value must be <= 256 characters.
+        /// @post The first 32 characters are stored in the non-extended field.
+        /// @post If value > 32 characters, full value stored in extended data.
         void SetGameTitle(std::string value);
 
         /// @brief Sets the name of the person who dumped the SPC file.
@@ -261,6 +283,9 @@ namespace Spc::Id666
         /// tag data according to the SPC file format specification.
         ///
         /// @param value The value to set the dumper name to.
+        /// @pre Value must be <= 256 characters.
+        /// @post The first 32 characters are stored in the non-extended field.
+        /// @post If value > 32 characters, full value stored in extended data.
         void SetDumperName(std::string value);
 
         /// @brief Sets the comments the tagger included in the tag.
@@ -270,18 +295,24 @@ namespace Spc::Id666
         /// tag data according to the SPC file format specification.
         ///
         /// @param value The value to set the comments to.
+        /// @pre Value must be <= 256 characters.
+        /// @post The first 32 characters are stored in the non-extended field.
+        /// @post If value > 32 characters, full value stored in extended data.
         void SetComments(std::string value);
 
         /// @brief Sets the date the SPC file was dumped.
         /// @param value The value to set the date dumped to.
+        /// @pre Value must be in MM/DD/YYYY format.
         void SetDateDumped(std::string value);
 
         /// @brief Sets the length of the song, in seconds.
         /// @param value The value to set the song length to.
+        /// @pre Value must be between 0 and 959 seconds.
         void SetSongLength(std::string value);
 
-        /// @brief Sets the length of the fade, in seconds.
+        /// @brief Sets the length of the fade, in milliseconds.
         /// @param value The value to set the fade length to.
+        /// @pre Value must be between 0 and 59999 milliseconds.
         void SetFadeLength(std::string value);
 
         /// @brief Sets the artist of the song. 
@@ -291,6 +322,9 @@ namespace Spc::Id666
         /// tag data according to the SPC file format specification.
         ///
         /// @param value The value to set the song artist to.
+        /// @pre Value must be <= 256 characters.
+        /// @post The first 32 characters are stored in the non-extended field.
+        /// @post If value > 32 characters, full value stored in extended data.
         void SetSongArtist(std::string value);
 
         /// @brief Sets which channels are disabled at startup.
@@ -305,6 +339,7 @@ namespace Spc::Id666
         ///     Examples:
         ///     @code 00000000 = All channels enabled
         ///     @code 11110000 = First four channels disabled
+        /// @pre Value must be an 8-character string of 0s and 1s.
         void SetDefaultDisabledChannels(std::string value);
 
         /// @brief Sets the emulator used to dump the SPC file.
@@ -312,7 +347,7 @@ namespace Spc::Id666
         ///     Examples:
         ///     @code "ZSNES" = ZSNES emulator
         ///     @code "SNES9X" = Snes9x emulator  
-        ///     @code "UNKNOWN" = Unknown emulator
+        ///     @code "UNKNOWN" or any other value = Unknown emulator
         void SetEmulatorUsed(std::string value);
 
         /// @brief Sets the title of the original soundtrack (OST) album.
@@ -322,6 +357,7 @@ namespace Spc::Id666
         /// SPC album is based on, if applicable.
         ///
         /// @param value The value to set the OST title to.
+        /// @pre Value must be <= 256 characters.
         void SetOstTitle(std::string value);
 
         /// @brief Sets the disc number of the original soundtrack (OST) album.
@@ -331,6 +367,7 @@ namespace Spc::Id666
         /// the corresponding official soundtrack, if applicable.
         ///
         /// @param value The value to set the OST disc number to.
+        /// @pre Value must be between 0 and 9.
         void SetOstDisc(std::string value);
 
         /// @brief Sets the track number of the original soundtrack (OST) album.
@@ -343,6 +380,7 @@ namespace Spc::Id666
         ///     Examples:
         ///     @code "1" = Track 1
         ///     @code "2a" = Track 2, Subtrack A
+        /// @pre Track must be 0 - 99 followed by an optional ASCII character.
         void SetOstTrack(std::string value);
 
         /// @brief Sets the name of the publisher.
@@ -359,6 +397,7 @@ namespace Spc::Id666
         /// the game was copyrighted.
         ///
         /// @param value The value to set the copyright year to.
+        /// @pre Value must be >= 0.
         void SetCopyrightYear(std::string value);
 
         /// @brief Sets the length of the song intro, in ticks.
@@ -369,6 +408,7 @@ namespace Spc::Id666
         /// second.
         ///
         /// @param value The value to set the intro length to.
+        /// @pre Value must be between 0 and 383999999 ticks.
         void SetIntroLength(std::string value);
 
         /// @brief Sets the length of the song loop, in ticks.
@@ -378,6 +418,7 @@ namespace Spc::Id666
         /// ticks, which are 1/64000th of a second.
         ///
         /// @param value The value to set the loop length to.
+        /// @pre Value must be between 0 and 383999999 ticks.
         void SetLoopLength(std::string value);
 
         /// @brief Sets the length of the song ending, in ticks.
@@ -388,6 +429,7 @@ namespace Spc::Id666
         /// second.
         ///
         /// @param value The value to set the end length to.
+        /// @pre Value must be between 0 and 383999999 ticks.
         void SetEndLength(std::string value);
 
         /// @brief Sets which voices are muted.
@@ -401,6 +443,7 @@ namespace Spc::Id666
         ///    Examples:
         ///    @code "00000000" = No voices muted
         ///    @code "11110000" = First four voices muted
+        /// @pre Value must be an 8-character string of 0s and 1s.
         void SetMutedVoices(std::string value);
 
         /// @brief Sets the number of times the song loops.
@@ -409,6 +452,7 @@ namespace Spc::Id666
         /// of times the song loops before it stops.
         ///
         /// @param value The value to set the loop times to.
+        /// @pre Value must be between 1 and 9.
         void SetLoopTimes(std::string value);
 
         /// @brief Sets the preamp level.
@@ -417,6 +461,7 @@ namespace Spc::Id666
         /// preamplification applied to the audio (65536 is normal SNES).
         ///
         /// @param value The value to set the preamp level to.
+        /// @pre Value must be between 32768 and 524288.
         void SetPreampLevel(std::string value);
 
     private:
@@ -424,6 +469,12 @@ namespace Spc::Id666
         std::shared_ptr<Extended::Data> extendedData;
 
         /// @brief Reads a field from the non-extended tag only.
+        ///
+        /// This method provides a common way for reading fields from the
+        /// non-extended tag data, automatically selecting the correct offsets
+        /// and sizes based on the tag type. This method should be used when
+        /// only the non-extended tag data should be read.
+        ///
         /// @tparam T The type of the field to read.
         /// @param label The label the read field should have.
         /// @param info The offset / sizes of both text and binary versions.
@@ -450,6 +501,16 @@ namespace Spc::Id666
         }
 
         /// @brief Reads a field from extended or non-extended tag data.
+        ///
+        /// This method proivdes a common way for reading fields from either
+        /// the non-extended tag data or the extended tag data, automatically
+        /// selecting the correct offsets and sizes based on the tag type and
+        /// whether the extended item is available. If the extended item is
+        /// available, the extended tag data will be used instead of the
+        /// non-extended tag data. This method should be used to read fields
+        /// that exist in both the non-extended tag data and the extended tag 
+        /// data.
+        ///
         /// @tparam T The type of the field to read.
         /// @param label The label the read field should have.
         /// @param info The offset / sizes of both text and binary versions.
@@ -482,10 +543,15 @@ namespace Spc::Id666
         }
 
         /// @brief Reads a field from an extended tag item only.
+        ///
+        /// This method provides a common way for reading fields from the
+        /// extended tag data. This should be used to read fields that only
+        /// exist in the extended tag data. 
+        ///
         /// @tparam T The type of the field to read.
         /// @param label The label the read field should have.
         /// @param item The extended item to read from.
-        /// @return A shared pointer to the field read from the extended tag item.
+        /// @return A shared pointer to the field read from extended tag item.
         template<typename T>
         std::shared_ptr<T> ReadField(std::string label, Extended::Item* item)
             const
@@ -496,10 +562,13 @@ namespace Spc::Id666
             {
                 if (item->type->ToInt32() == Extended::lengthType)
                 {
+                    // Copy the raw data to a new field to ensure it is
+                    // interpreted according to the correct type T as item->data
+                    // is created as a NumericField, but may represent a
+                    // BinaryField or other type and needs to be recreated as
+                    // such. 
                     field = std::make_shared<T>(label, Extended::dataInfo);
-                    std::memcpy(field->RawData(), 
-                                item->data->RawData(), 
-                                item->data->Size());
+                    item->data->CopyRawDataTo(field.get());
                 }
                 else if (item->extendedData != nullptr)
                 {
@@ -519,6 +588,13 @@ namespace Spc::Id666
         }
 
         /// @brief Writes string value to non-extended tag data.
+        ///
+        /// This method provides a common way for writing fields to the 
+        /// non-extended tag data. This ensures that the value is written to
+        /// the correct offsets and sizes depending on the tag type. This 
+        /// should be used to write fields that only exist in the non-extended
+        /// tag data.
+        ///
         /// @tparam T The type of the field to write.
         /// @param info The offset / sizes of both text and binary versions.
         /// @param value The string value to write.
@@ -529,11 +605,11 @@ namespace Spc::Id666
 
             if (DetermineType() == TagType::Binary)
             {
-                field = std::make_shared<T>("Temp Field", info.binary);
+                field = std::make_shared<T>("Temp", info.binary);
             }
             else
             {
-                field = std::make_shared<T>("Temp Field", info.text);
+                field = std::make_shared<T>("Temp", info.text);
             }
 
             field->SetValue(value);
@@ -545,11 +621,23 @@ namespace Spc::Id666
         }
 
         /// @brief Writes string value to extended or not extended tag data.
+        ///
+        /// This method provides a common way for writing string values to 
+        /// either the non-extended tag data or the extended tag data, 
+        /// automatically selecting the correct offsets and sizes based on the
+        /// tag type and whether the extended item is available. If the extended
+        /// item is available, the value will be written to the extended tag 
+        /// data and a truncated version will be written to the non-extended tag
+        /// data.
+        ///
         /// @tparam T The type of the field to write.
         /// @param info The offset / sizes of both text and binary versions.
-        /// @param extendedInfo The extended item information.
-        /// @param itemPtrPtr A pointer to the extended item to write to.
-        /// @param value The string value to write.
+        /// @param extendedInfo The extended item id and type.
+        /// @param itemPtrPtr A pointer to the extended item shared pointer.
+        ///                   A pointer to a pointer is used so the pointer
+        ///                   itself can be updated to point to a new extended
+        ///                   item if the extended item does not already exist.
+        /// @param value The string value to write. 
         template<typename T>
         void WriteFieldExtendedString(
             TagFieldInfo info,
@@ -578,9 +666,17 @@ namespace Spc::Id666
         }
 
         /// @brief Writes string value to extended tag data only.
+        ///
+        /// This method provides a common way for writing fields to the extended
+        /// tag data. This should be used to write fields that only exist in the
+        /// extended tag data.
+        ///
         /// @tparam T The type of the field to write.
-        /// @param extendedInfo The extended item information.
-        /// @param itemPtrPtr A pointer to the extended item to write to.
+        /// @param extendedInfo The extended item id and type.
+        /// @param itemPtrPtr A pointer to the extended item shared pointer.
+        ///                   A pointer to a pointer is used so the pointer
+        ///                   itself can be updated to point to a new extended
+        ///                   item if the extended item does not already exist.
         /// @param value The string value to write.
         template<typename T>
         void WriteFieldExtended(Extended::ItemInfo extendedInfo,
@@ -593,33 +689,35 @@ namespace Spc::Id666
                 item->id->SetInt32(extendedInfo.id);
                 item->type->SetInt32(extendedInfo.type);
 
-                auto field = std::make_shared<T>("Temp Field", 
-                                                 Extended::dataInfo);
+                auto field = std::make_shared<T>("Temp", Extended::dataInfo);
                 field->SetType(Spc::NumericType::Binary);
                 field->SetValue(value);
-                std::memcpy(item->data->RawData(), 
-                            field->RawData(), 
-                            field->Size());
+                field->CopyRawDataTo(item->data.get());
 
                 *(itemPtrPtr) = item;
             }
             else
             {
                 auto item = *(itemPtrPtr);
-                auto field = std::make_shared<T>("Temp Field", 
-                                                 Extended::dataInfo);
+                auto field = std::make_shared<T>("Temp", Extended::dataInfo);
                 field->SetType(Spc::NumericType::Binary);
                 field->SetValue(value);
-                std::memcpy(item->data->RawData(), 
-                            field->RawData(), 
-                            field->Size()); 
+                field->CopyRawDataTo(item->data.get());
             }
         }
 
         /// @brief Writes integer value to extended tag data only.
+        ///
+        /// This method provides a common way for writing fields to the 
+        /// extended tag data. This should be used to write fields that only 
+        /// exist in the extended tag data.
+        ///
         /// @tparam T The type of the field to write.
         /// @param extendedInfo The extended item information.
-        /// @param itemPtrPtr A pointer to the extended item to write to.
+        /// @param itemPtrPtr A pointer to the extended item shared pointer.
+        ///                   A pointer to a pointer is used so the pointer
+        ///                   itself can be updated to point to a new extended
+        ///                   item if the extended item does not already exist.
         /// @param value The string value to write.
         template<typename T>
         void WriteFieldExtendedInt(Extended::ItemInfo extendedInfo,
@@ -632,13 +730,13 @@ namespace Spc::Id666
                 item->id->SetInt32(extendedInfo.id);
                 item->type->SetInt32(extendedInfo.type);
 
-                auto data = std::static_pointer_cast<NumericField>(
-                    item->data);
-
+                auto data = std::static_pointer_cast<NumericField>(item->data);
                 data->SetInt32(Extended::integerSize);
-                Spc::FieldInfo info{ Extended::dataOffset, 
-                                     Extended::integerSize };
-                auto field = std::make_shared<T>("Temp Field", info);
+
+                Spc::FieldInfo info;
+                info.offset = Extended::dataOffset;
+                info.size = Extended::integerSize;
+                auto field = std::make_shared<T>("Temp", info);
                 field->SetType(Spc::NumericType::Binary);
                 field->SetValue(value);
                 item->extendedData = field;
@@ -652,22 +750,29 @@ namespace Spc::Id666
                 std::shared_ptr<NumericField> data = item->data;
 
                 data->SetInt32(Extended::integerSize);
-                Spc::FieldInfo info{ Extended::dataOffset, 
-                                     Extended::integerSize };
-                item->extendedData = std::make_shared<T>("Temp Field", 
-                                                         info);
+                Spc::FieldInfo info;
+                info.offset = Extended::dataOffset;
+                info.size = Extended::integerSize;
+                item->extendedData = std::make_shared<T>("Temp", info);
 
-                auto extData = std::static_pointer_cast<T>(
-                    item->extendedData);
+                auto extData = std::static_pointer_cast<T>(item->extendedData);
                 extData->SetType(Spc::NumericType::Binary);
                 extData->SetValue(value);
             }
         }
 
         /// @brief Writes string value to extended tag data only.
+        ///
+        /// This method provides a common way for writing fields to the extended
+        /// tag data. This should be used to write fields that only exist in the
+        /// extended tag data.
+        ///
         /// @tparam T The type of the field to write.
         /// @param extendedInfo The extended item information.
-        /// @param itemPtrPtr A pointer to the extended item to write to.
+        /// @param itemPtrPtr A pointer to the extended item shared pointer.
+        ///                   A pointer to a pointer is used so the pointer
+        ///                   itself can be updated to point to a new extended
+        ///                   item if the extended item does not already exist.
         /// @param value The string value to write.
         template<typename T>
         void WriteFieldExtendedString(
@@ -681,13 +786,11 @@ namespace Spc::Id666
                 item->id->SetInt32(extendedInfo.id);
                 item->type->SetInt32(extendedInfo.type);
 
-                auto data = std::static_pointer_cast<NumericField>(
-                    item->data);
+                auto data = std::static_pointer_cast<NumericField>(item->data);
 
                 data->SetUInt32(static_cast<uint32_t>(value.size()));
-                Spc::FieldInfo info{ Extended::dataOffset, 
-                                             value.size() };
-                auto field = std::make_shared<T>("Temp Field", info);
+                Spc::FieldInfo info{ Extended::dataOffset, value.size() };
+                auto field = std::make_shared<T>("Temp", info);
                 field->SetValue(value);
                 item->extendedData = field;
 
@@ -697,14 +800,11 @@ namespace Spc::Id666
             {
                 auto item = *(itemPtrPtr);
 
-                auto data = std::static_pointer_cast<NumericField>(
-                    item->data);
+                auto data = std::static_pointer_cast<NumericField>(item->data);
 
                 data->SetUInt32(static_cast<uint32_t>(value.size()));
-                Spc::FieldInfo info{ Extended::dataOffset, 
-                                             value.size() };
-                item->extendedData = std::make_shared<T>("Temp Field", 
-                                                         info);
+                Spc::FieldInfo info{ Extended::dataOffset,  value.size() };
+                item->extendedData = std::make_shared<T>("Temp", info);
                 item->extendedData->SetValue(value);
             }
         }

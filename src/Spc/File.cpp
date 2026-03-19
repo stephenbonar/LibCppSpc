@@ -497,7 +497,8 @@ bool File::MatchText(std::stringstream& stream,
 
 bool Spc::MatchEnd(std::stringstream& stream)
 {
-    if (stream.tellg() == -1 || stream.tellg() == stream.str().size())
+    if (stream.tellg() == -1 || 
+        stream.tellg() == static_cast<std::streampos>(stream.str().size()))
     {
         return true;
     }
@@ -548,7 +549,7 @@ bool Spc::MatchLiteral(std::stringstream& stream, Id666::PatternNode node)
     }
 }
 
-std::vector<Id666::PatternNode> Spc::ParsePattern(std::string pattern)
+std::vector<Id666::PatternNode> Spc::ParsePattern(std::string_view pattern)
 {
     Id666::PatternLexer lexer{ pattern };
     std::vector<Id666::PatternToken> tokens;

@@ -118,7 +118,7 @@ namespace Spc
 
     bool MatchEnd(std::stringstream& stream);
 
-    std::vector<Id666::PatternNode> ParsePattern(std::string pattern);
+    std::vector<Id666::PatternNode> ParsePattern(std::string_view pattern);
 }
 
 #endif
