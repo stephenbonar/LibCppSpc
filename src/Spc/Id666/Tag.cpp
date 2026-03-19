@@ -31,7 +31,6 @@ TagType Tag::DetermineType() const
     // determine if the tag is binary and we need to get back to where we were.
     uintmax_t previousPosition = fieldData->Position();
 
-
     // Read in the fields that will help us determine the tag type.
     fieldData->SetPosition(0);
     DateField dateDumped{ "Date Dumped", dateDumpedInfo.binary };

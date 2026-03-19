@@ -423,6 +423,38 @@ namespace Spc::Id666
         std::shared_ptr<Binary::BufferStream> fieldData;
         std::shared_ptr<Extended::Data> extendedData;
 
+        /// @brief Reads a field from the non-extended tag only.
+        /// @tparam T The type of the field to read.
+        /// @param label The label the read field should have.
+        /// @param info The offset / sizes of both text and binary versions.
+        /// @return A shared pointer to the field read from the tag.
+        template<typename T>
+        std::shared_ptr<T> ReadField(std::string label, TagFieldInfo info) const
+        {
+            std::shared_ptr<T> field;
+
+            if (DetermineType() == TagType::Binary)
+            {
+                field = std::make_shared<T>(label, info.binary);
+            }
+            else
+            {
+                field = std::make_shared<T>(label, info.text);
+            }
+
+            size_t originalPosition = fieldData->Position();
+            fieldData->SetPosition(field->Offset() - tagOffset);
+            fieldData->Read(field.get());
+            fieldData->SetPosition(originalPosition);
+            return field;
+        }
+
+        /// @brief Reads a field from extended or non-extended tag data.
+        /// @tparam T The type of the field to read.
+        /// @param label The label the read field should have.
+        /// @param info The offset / sizes of both text and binary versions.
+        /// @param item The extended item to read from, if available.
+        /// @return A shared pointer to the field read from the tag.
         template<typename T>
         std::shared_ptr<T> ReadField(
             std::string label, 
@@ -449,27 +481,11 @@ namespace Spc::Id666
             return field;
         }
 
-        template<typename T>
-        std::shared_ptr<T> ReadField(std::string label, TagFieldInfo info) const
-        {
-            std::shared_ptr<T> field;
-
-            if (DetermineType() == TagType::Binary)
-            {
-                field = std::make_shared<T>(label, info.binary);
-            }
-            else
-            {
-                field = std::make_shared<T>(label, info.text);
-            }
-
-            size_t originalPosition = fieldData->Position();
-            fieldData->SetPosition(field->Offset() - tagOffset);
-            fieldData->Read(field.get());
-            fieldData->SetPosition(originalPosition);
-            return field;
-        }
-
+        /// @brief Reads a field from an extended tag item only.
+        /// @tparam T The type of the field to read.
+        /// @param label The label the read field should have.
+        /// @param item The extended item to read from.
+        /// @return A shared pointer to the field read from the extended tag item.
         template<typename T>
         std::shared_ptr<T> ReadField(std::string label, Extended::Item* item)
             const
@@ -493,9 +509,6 @@ namespace Spc::Id666
                 {
                     field = std::make_shared<T>(label, Extended::dataInfo);
                 }
-
-                // Redundant?
-                //field->SetLabel(label);
             }
             else
             {
@@ -505,6 +518,38 @@ namespace Spc::Id666
             return field;
         }
 
+        /// @brief Writes string value to non-extended tag data.
+        /// @tparam T The type of the field to write.
+        /// @param info The offset / sizes of both text and binary versions.
+        /// @param value The string value to write.
+        template<typename T>
+        void WriteField(TagFieldInfo info, std::string value)
+        {
+            std::shared_ptr<T> field;
+
+            if (DetermineType() == TagType::Binary)
+            {
+                field = std::make_shared<T>("Temp Field", info.binary);
+            }
+            else
+            {
+                field = std::make_shared<T>("Temp Field", info.text);
+            }
+
+            field->SetValue(value);
+
+            size_t originalPosition = fieldData->Position();
+            fieldData->SetPosition(field->Offset() - tagOffset);
+            fieldData->Write(field.get());
+            fieldData->SetPosition(originalPosition);
+        }
+
+        /// @brief Writes string value to extended or not extended tag data.
+        /// @tparam T The type of the field to write.
+        /// @param info The offset / sizes of both text and binary versions.
+        /// @param extendedInfo The extended item information.
+        /// @param itemPtrPtr A pointer to the extended item to write to.
+        /// @param value The string value to write.
         template<typename T>
         void WriteFieldExtendedString(
             TagFieldInfo info,
@@ -532,28 +577,11 @@ namespace Spc::Id666
                 }
         }
 
-        template<typename T>
-        void WriteField(TagFieldInfo info, std::string value)
-        {
-            std::shared_ptr<T> field;
-
-            if (DetermineType() == TagType::Binary)
-            {
-                field = std::make_shared<T>("Temp Field", info.binary);
-            }
-            else
-            {
-                field = std::make_shared<T>("Temp Field", info.text);
-            }
-
-            field->SetValue(value);
-
-            size_t originalPosition = fieldData->Position();
-            fieldData->SetPosition(field->Offset() - tagOffset);
-            fieldData->Write(field.get());
-            fieldData->SetPosition(originalPosition);
-        }
-
+        /// @brief Writes string value to extended tag data only.
+        /// @tparam T The type of the field to write.
+        /// @param extendedInfo The extended item information.
+        /// @param itemPtrPtr A pointer to the extended item to write to.
+        /// @param value The string value to write.
         template<typename T>
         void WriteFieldExtended(Extended::ItemInfo extendedInfo,
                                 std::shared_ptr<Extended::Item>* itemPtrPtr, 
@@ -588,6 +616,11 @@ namespace Spc::Id666
             }
         }
 
+        /// @brief Writes integer value to extended tag data only.
+        /// @tparam T The type of the field to write.
+        /// @param extendedInfo The extended item information.
+        /// @param itemPtrPtr A pointer to the extended item to write to.
+        /// @param value The string value to write.
         template<typename T>
         void WriteFieldExtendedInt(Extended::ItemInfo extendedInfo,
                                    std::shared_ptr<Extended::Item>* itemPtrPtr, 
@@ -631,6 +664,11 @@ namespace Spc::Id666
             }
         }
 
+        /// @brief Writes string value to extended tag data only.
+        /// @tparam T The type of the field to write.
+        /// @param extendedInfo The extended item information.
+        /// @param itemPtrPtr A pointer to the extended item to write to.
+        /// @param value The string value to write.
         template<typename T>
         void WriteFieldExtendedString(
             Extended::ItemInfo extendedInfo,
