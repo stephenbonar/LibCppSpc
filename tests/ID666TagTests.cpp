@@ -912,6 +912,13 @@ TEST_F(ID666TagTests, SetsExistingExtendedSongTitleProperly)
     TestFieldsWithoutGet<Spc::TextField>(params);
 }
 
+TEST_F(ID666TagTests, SetSongTitleEnforcesPreconditions)
+{
+    std::string tooLongString(256, 'T');
+
+    EXPECT_THROW(tag->SetSongTitle(tooLongString), std::invalid_argument);
+}
+
 TEST_F(ID666TagTests, SetsTextGameTitleProperly)
 {
     TestSetParams<Spc::TextField> params;
@@ -995,6 +1002,13 @@ TEST_F(ID666TagTests, SetsExistingExtendedGameTitleProperly)
 
     TestSetExtendedData<Spc::TextField, Spc::TextField>(extParams);
     TestFieldsWithoutGet<Spc::TextField>(params);
+}
+
+TEST_F(ID666TagTests, SetGameTitleEnforcesPreconditions)
+{
+    std::string tooLongString(256, 'T');
+
+    EXPECT_THROW(tag->SetGameTitle(tooLongString), std::invalid_argument);
 }
 
 TEST_F(ID666TagTests, SetsTextDumperNameProperly)
@@ -1082,6 +1096,13 @@ TEST_F(ID666TagTests, SetsExistingExtendedDumperNameProperly)
     TestFieldsWithoutGet<Spc::TextField>(params);
 }
 
+TEST_F(ID666TagTests, SetDumperNameEnforcesPreconditions)
+{
+    std::string tooLongString(256, 'T');
+
+    EXPECT_THROW(tag->SetDumperName(tooLongString), std::invalid_argument);
+}
+
 TEST_F(ID666TagTests, SetsTextCommentsProperly)
 {
     TestSetParams<Spc::TextField> params;
@@ -1167,6 +1188,13 @@ TEST_F(ID666TagTests, SetsExistingExtendedCommentsProperly)
     TestFieldsWithoutGet<Spc::TextField>(params);
 }
 
+TEST_F(ID666TagTests, SetCommentsEnforcesPreconditions)
+{
+    std::string tooLongString(256, 'T');
+
+    EXPECT_THROW(tag->SetComments(tooLongString), std::invalid_argument);
+}
+
 TEST_F(ID666TagTests, SetsTextDateDumpedProperly)
 {
     TestSetParams<Spc::DateField> params;
@@ -1198,6 +1226,17 @@ TEST_F(ID666TagTests, SetsMixedDateDumpedProperly)
     params.setMethodPtr = &Spc::Id666::Tag::SetDateDumped;
     params.setValue = "01/11/2026";
     TestSet<Spc::DateField>(params);
+}
+
+TEST_F(ID666TagTests, SetDateDumpedEnforcesPreconditions)
+{
+    std::string invalidFormatString{ "2026-11-01" };
+    std::string nonNumericString{ "aa/bb/cccc" };
+    std::string nonDateString{ "Not a date" };
+
+    EXPECT_THROW(tag->SetDateDumped(invalidFormatString), std::invalid_argument);
+    EXPECT_THROW(tag->SetDateDumped(nonNumericString), std::invalid_argument);
+    EXPECT_THROW(tag->SetDateDumped(nonDateString), std::invalid_argument);
 }
 
 TEST_F(ID666TagTests, SetsTextSongLengthProperly)
@@ -1233,6 +1272,17 @@ TEST_F(ID666TagTests, SetsMixedSongLengthProperly)
     TestSet<Spc::NumericField>(params);
 }
 
+TEST_F(ID666TagTests, SetSongLengthEnforcesPreconditions)
+{
+    std::string tooLowString{ "-1" };
+    std::string tooHighString{ "960" };
+    std::string nonNumericString{ "abc" };
+
+    EXPECT_THROW(tag->SetSongLength(tooLowString), std::invalid_argument);
+    EXPECT_THROW(tag->SetSongLength(tooHighString), std::invalid_argument);
+    EXPECT_THROW(tag->SetSongLength(nonNumericString), std::invalid_argument);
+}
+
 TEST_F(ID666TagTests, SetsTextFadeLengthProperly)
 {
     TestSetParams<Spc::NumericField> params;
@@ -1264,6 +1314,17 @@ TEST_F(ID666TagTests, SetsMixedFadeLengthProperly)
     params.setMethodPtr = &Spc::Id666::Tag::SetFadeLength;
     params.setValue = "321";
     TestSet<Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, SetFadeLengthEnforcesPreconditions)
+{
+    std::string tooLowString{ "-1" };
+    std::string tooHighString{ "60000" };
+    std::string nonNumericString{ "abc" };
+
+    EXPECT_THROW(tag->SetFadeLength(tooLowString), std::invalid_argument);
+    EXPECT_THROW(tag->SetFadeLength(tooHighString), std::invalid_argument);
+    EXPECT_THROW(tag->SetFadeLength(nonNumericString), std::invalid_argument);
 }
 
 TEST_F(ID666TagTests, SetsTextSongArtistProperly)
@@ -1346,6 +1407,13 @@ TEST_F(ID666TagTests, SetsExistingExtendedSongArtistProperly)
     TestFieldsWithoutGet<Spc::TextField>(params);
 }
 
+TEST_F(ID666TagTests, SetSongArtistEnforcesPreconditions)
+{
+    std::string tooLongString(256, 'T');
+
+    EXPECT_THROW(tag->SetSongArtist(tooLongString), std::invalid_argument);
+}
+
 TEST_F(ID666TagTests, SetsTextDefaultDisabledChannelsProperly)
 {
     TestSetParams<Spc::BinaryField> params;
@@ -1377,6 +1445,20 @@ TEST_F(ID666TagTests, SetsMixedDefaultDisabledChannelsProperly)
     params.setMethodPtr = &Spc::Id666::Tag::SetDefaultDisabledChannels;
     params.setValue = "00000001";
     TestSet<Spc::BinaryField>(params);
+}
+
+TEST_F(ID666TagTests, SetDefaultDisabledChannelsEnforcesPreconditions)
+{
+    std::string tooShortString{ "0001" };
+    std::string tooLongString{ "111111111" };
+    std::string nonBinaryString{ "9" };
+
+    EXPECT_THROW(tag->SetDefaultDisabledChannels(tooShortString), 
+                 std::invalid_argument);
+    EXPECT_THROW(tag->SetDefaultDisabledChannels(tooLongString), 
+                 std::invalid_argument);
+    EXPECT_THROW(tag->SetDefaultDisabledChannels(nonBinaryString), 
+                 std::invalid_argument);
 }
 
 TEST_F(ID666TagTests, SetsTextEmulatorUsedProperly)
@@ -1440,6 +1522,13 @@ TEST_F(ID666TagTests, SetsExistingOstTitleProperly)
     TestSetExtendedData<Spc::TextField, Spc::TextField>(extParams);
 }
 
+TEST_F(ID666TagTests, SetOstTitleEnforcesPreconditions)
+{
+    std::string tooLongString(256, 'T');
+
+    EXPECT_THROW(tag->SetOstTitle(tooLongString), std::invalid_argument);
+}
+
 TEST_F(ID666TagTests, SetsNewOstDiscProperly)
 {
     TestSetExtendedParams<Spc::NumericField> extParams;
@@ -1466,6 +1555,17 @@ TEST_F(ID666TagTests, SetsExistingOstDiscProperly)
     extParams.itemPtrPtr = &tag->ExtendedData()->ostDisc;
     extParams.setMethodPtr = &Spc::Id666::Tag::SetOstDisc;
     TestSetExtended<Spc::NumericField, Spc::NumericField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetOstDiscEnforcesPreconditions)
+{
+    std::string tooLowString{ "-1" };
+    std::string tooHighString{ "10" };
+    std::string nonNumericString{ "abc" };
+
+    EXPECT_THROW(tag->SetOstDisc(tooLowString), std::invalid_argument);
+    EXPECT_THROW(tag->SetOstDisc(tooHighString), std::invalid_argument);
+    EXPECT_THROW(tag->SetOstDisc(nonNumericString), std::invalid_argument);
 }
 
 TEST_F(ID666TagTests, SetsNewOstTrackProperly)
@@ -1496,6 +1596,17 @@ TEST_F(ID666TagTests, SetsExistingOstTrackProperly)
     TestSetExtended<Spc::TrackField, Spc::TrackField>(extParams);
 }
 
+TEST_F(ID666TagTests, SetOstTrackEnforcesPreconditions)
+{
+    std::string tooLowString{ "-1" };
+    std::string tooHighString{ "100" };
+    std::string nonNumericString{ "99abc" };
+
+    EXPECT_THROW(tag->SetOstTrack(tooLowString), std::invalid_argument);
+    EXPECT_THROW(tag->SetOstTrack(tooHighString), std::invalid_argument);
+    EXPECT_THROW(tag->SetOstTrack(nonNumericString), std::invalid_argument);
+}
+
 TEST_F(ID666TagTests, SetsNewPublisherNameProperly)
 {
     TestSetExtendedParams<Spc::TextField> extParams;
@@ -1521,6 +1632,13 @@ TEST_F(ID666TagTests, SetsExistingPublisherNameProperly)
     extParams.setMethodPtr = &Spc::Id666::Tag::SetPublisherName;
     extParams.expectedValue = "Set Publisher Name";
     TestSetExtendedData<Spc::TextField, Spc::TextField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetPublisherNameEnforcesPreconditions)
+{
+    std::string tooLongString(256, 'T');
+
+    EXPECT_THROW(tag->SetPublisherName(tooLongString), std::invalid_argument);
 }
 
 TEST_F(ID666TagTests, SetsNewCopyrightYearProperly)
@@ -1551,6 +1669,15 @@ TEST_F(ID666TagTests, SetsExistingCopyrightYearProperly)
     TestSetExtended<Spc::NumericField, Spc::NumericField>(extParams);
 }
 
+TEST_F(ID666TagTests, SetCopyrightYearEnforcesPreconditions)
+{
+    std::string tooLowString{ "-1" };
+    std::string nonNumericString{ "abc" };
+
+    EXPECT_THROW(tag->SetCopyrightYear(tooLowString), std::invalid_argument);
+    EXPECT_THROW(tag->SetCopyrightYear(nonNumericString), std::invalid_argument);
+}
+
 TEST_F(ID666TagTests, SetsNewIntroLengthProperly)
 {
     TestSetExtendedParams<Spc::NumericField> extParams;
@@ -1577,6 +1704,17 @@ TEST_F(ID666TagTests, SetsExistingIntroLengthProperly)
     extParams.itemPtrPtr = &tag->ExtendedData()->introLength;
     extParams.setMethodPtr = &Spc::Id666::Tag::SetIntroLength;
     TestSetExtendedData<Spc::NumericField, Spc::NumericField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetIntroLengthEnforcesPreconditions)
+{
+    std::string tooLowString{ "-1" };
+    std::string tooHighString{ "383999999" };
+    std::string nonNumericString{ "abc" };
+
+    EXPECT_THROW(tag->SetIntroLength(tooLowString), std::invalid_argument);
+    EXPECT_THROW(tag->SetIntroLength(tooHighString), std::invalid_argument);
+    EXPECT_THROW(tag->SetIntroLength(nonNumericString), std::invalid_argument);
 }
 
 TEST_F(ID666TagTests, SetsNewLoopLengthProperly)
@@ -1607,6 +1745,17 @@ TEST_F(ID666TagTests, SetsExistingLoopLengthProperly)
     TestSetExtendedData<Spc::NumericField, Spc::NumericField>(extParams);
 }
 
+TEST_F(ID666TagTests, SetLoopLengthEnforcesPreconditions)
+{
+    std::string tooLowString{ "-1" };
+    std::string tooHighString{ "383999999" };
+    std::string nonNumericString{ "abc" };
+
+    EXPECT_THROW(tag->SetLoopLength(tooLowString), std::invalid_argument);
+    EXPECT_THROW(tag->SetLoopLength(tooHighString), std::invalid_argument);
+    EXPECT_THROW(tag->SetLoopLength(nonNumericString), std::invalid_argument);
+}
+
 TEST_F(ID666TagTests, SetsNewEndLengthProperly)
 {
     TestSetExtendedParams<Spc::NumericField> extParams;
@@ -1633,6 +1782,17 @@ TEST_F(ID666TagTests, SetsExistingEndLengthProperly)
     extParams.itemPtrPtr = &tag->ExtendedData()->endLength;
     extParams.setMethodPtr = &Spc::Id666::Tag::SetEndLength;
     TestSetExtendedData<Spc::NumericField, Spc::NumericField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetEndLengthEnforcesPreconditions)
+{
+    std::string tooLowString{ "-1" };
+    std::string tooHighString{ "383999999" };
+    std::string nonNumericString{ "abc" };
+
+    EXPECT_THROW(tag->SetEndLength(tooLowString), std::invalid_argument);
+    EXPECT_THROW(tag->SetEndLength(tooHighString), std::invalid_argument);
+    EXPECT_THROW(tag->SetEndLength(nonNumericString), std::invalid_argument);
 }
 
 TEST_F(ID666TagTests, SetsNewMutedVoicesProperly)
@@ -1663,6 +1823,17 @@ TEST_F(ID666TagTests, SetsExistingMutedVoicesProperly)
     TestSetExtended<Spc::BinaryField, Spc::BinaryField>(extParams);
 }
 
+TEST_F(ID666TagTests, SetMutedVoicesEnforcesPreconditions)
+{
+    std::string tooShortString{ "0001" };
+    std::string tooLongString{ "111111111" };
+    std::string nonBinaryString{ "9" };
+
+    EXPECT_THROW(tag->SetMutedVoices(tooShortString), std::invalid_argument);
+    EXPECT_THROW(tag->SetMutedVoices(tooLongString), std::invalid_argument);
+    EXPECT_THROW(tag->SetMutedVoices(nonBinaryString), std::invalid_argument);
+}
+
 TEST_F(ID666TagTests, SetsNewLoopTimesProperly)
 {
     TestSetExtendedParams<Spc::NumericField> extParams;
@@ -1691,6 +1862,17 @@ TEST_F(ID666TagTests, SetsExistingLoopTimesProperly)
     TestSetExtended<Spc::NumericField, Spc::NumericField>(extParams);
 }
 
+TEST_F(ID666TagTests, SetLoopTimesEnforcesPreconditions)
+{
+    std::string tooLowString{ "-1" };
+    std::string tooHighString{ "10" };
+    std::string nonNumericString{ "abc" };
+
+    EXPECT_THROW(tag->SetLoopTimes(tooLowString), std::invalid_argument);
+    EXPECT_THROW(tag->SetLoopTimes(tooHighString), std::invalid_argument);
+    EXPECT_THROW(tag->SetLoopTimes(nonNumericString), std::invalid_argument);
+}
+
 TEST_F(ID666TagTests, SetsNewPreampLevelProperly)
 {
     TestSetExtendedParams<Spc::NumericField> extParams;
@@ -1717,4 +1899,15 @@ TEST_F(ID666TagTests, SetsExistingPreampLevelProperly)
     extParams.itemPtrPtr = &tag->ExtendedData()->preampLevel;
     extParams.setMethodPtr = &Spc::Id666::Tag::SetPreampLevel;
     TestSetExtendedData<Spc::NumericField, Spc::NumericField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetPreampLevelEnforcesPreconditions)
+{
+    std::string tooLowString{ "32767" };
+    std::string tooHighString{ "524288" };
+    std::string nonNumericString{ "abc" };
+
+    EXPECT_THROW(tag->SetPreampLevel(tooLowString), std::invalid_argument);
+    EXPECT_THROW(tag->SetPreampLevel(tooHighString), std::invalid_argument);
+    EXPECT_THROW(tag->SetPreampLevel(nonNumericString), std::invalid_argument);
 }
