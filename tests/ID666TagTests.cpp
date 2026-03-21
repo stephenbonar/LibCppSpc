@@ -914,7 +914,7 @@ TEST_F(ID666TagTests, SetsExistingExtendedSongTitleProperly)
 
 TEST_F(ID666TagTests, SetSongTitleEnforcesPreconditions)
 {
-    std::string tooLongString(256, 'T');
+    std::string tooLongString(257, 'T');
 
     EXPECT_THROW(tag->SetSongTitle(tooLongString), std::invalid_argument);
 }
@@ -1006,7 +1006,7 @@ TEST_F(ID666TagTests, SetsExistingExtendedGameTitleProperly)
 
 TEST_F(ID666TagTests, SetGameTitleEnforcesPreconditions)
 {
-    std::string tooLongString(256, 'T');
+    std::string tooLongString(257, 'T');
 
     EXPECT_THROW(tag->SetGameTitle(tooLongString), std::invalid_argument);
 }
@@ -1098,7 +1098,7 @@ TEST_F(ID666TagTests, SetsExistingExtendedDumperNameProperly)
 
 TEST_F(ID666TagTests, SetDumperNameEnforcesPreconditions)
 {
-    std::string tooLongString(256, 'T');
+    std::string tooLongString(257, 'T');
 
     EXPECT_THROW(tag->SetDumperName(tooLongString), std::invalid_argument);
 }
@@ -1190,7 +1190,7 @@ TEST_F(ID666TagTests, SetsExistingExtendedCommentsProperly)
 
 TEST_F(ID666TagTests, SetCommentsEnforcesPreconditions)
 {
-    std::string tooLongString(256, 'T');
+    std::string tooLongString(257, 'T');
 
     EXPECT_THROW(tag->SetComments(tooLongString), std::invalid_argument);
 }
@@ -1409,7 +1409,7 @@ TEST_F(ID666TagTests, SetsExistingExtendedSongArtistProperly)
 
 TEST_F(ID666TagTests, SetSongArtistEnforcesPreconditions)
 {
-    std::string tooLongString(256, 'T');
+    std::string tooLongString(257, 'T');
 
     EXPECT_THROW(tag->SetSongArtist(tooLongString), std::invalid_argument);
 }
@@ -1524,7 +1524,7 @@ TEST_F(ID666TagTests, SetsExistingOstTitleProperly)
 
 TEST_F(ID666TagTests, SetOstTitleEnforcesPreconditions)
 {
-    std::string tooLongString(256, 'T');
+    std::string tooLongString(257, 'T');
 
     EXPECT_THROW(tag->SetOstTitle(tooLongString), std::invalid_argument);
 }
@@ -1636,7 +1636,7 @@ TEST_F(ID666TagTests, SetsExistingPublisherNameProperly)
 
 TEST_F(ID666TagTests, SetPublisherNameEnforcesPreconditions)
 {
-    std::string tooLongString(256, 'T');
+    std::string tooLongString(257, 'T');
 
     EXPECT_THROW(tag->SetPublisherName(tooLongString), std::invalid_argument);
 }

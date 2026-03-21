@@ -780,6 +780,12 @@ namespace Spc::Id666
             std::shared_ptr<Extended::Item>* itemPtrPtr, 
             std::string value)
         {
+            if (value.size() > maxStringSize)
+            {
+                throw std::invalid_argument(
+                    "Value exceeds maximum string size for extended data.");
+            }
+
             if (*(itemPtrPtr) == nullptr)
             {
                 auto item = std::make_shared<Extended::Item>();
