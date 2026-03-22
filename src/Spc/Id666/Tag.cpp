@@ -51,6 +51,8 @@ TagType Tag::DetermineType() const
 
     if (!dateDumped.IsText() || !songLength.IsText() || !fadeLength.IsText())
     {
+        //std::cerr << "Appears binary" << std::endl;
+
         // While we're pretty sure we're binary at this point, let's make 
         // absolutely sure. Some older dumps use text offsets but still store
         // times as binary. Let's check the bytes that are normally unused in
@@ -59,6 +61,7 @@ TagType Tag::DetermineType() const
         {
             if (!dateDumped.HasUnusedArea())
             {
+                //std::cerr << "Date dumped does not have unused area" << std::endl;
                 fieldData->SetPosition(previousPosition);
                 return TagType::TextMixed;
             }
@@ -87,6 +90,7 @@ TagType Tag::DetermineType() const
         // If we've made it this far, we can be pretty sure we're using
         // binary offsets.
         fieldData->SetPosition(previousPosition);
+        //std::cerr << "Tag is binary" << std::endl;
         return TagType::Binary;
     }
 
@@ -96,30 +100,30 @@ TagType Tag::DetermineType() const
 
 TextField Tag::SongTitle() const 
 {
-    return *ReadField<TextField>("Song Title", 
-                                songTitleInfo, 
-                                extendedData->songTitle.get());
+    return *ReadExtendedTextField<TextField>("Song Title", 
+                                             songTitleInfo, 
+                                             extendedData->songTitle.get());
 }
 
 TextField Tag::GameTitle() const 
 {
-    return *ReadField<TextField>("Game Title", 
-                                gameTitleInfo, 
-                                extendedData->gameTitle.get());
+    return *ReadExtendedTextField<TextField>("Game Title", 
+                                             gameTitleInfo, 
+                                             extendedData->gameTitle.get());
 }
 
 TextField Tag::DumperName() const 
 {
-    return *ReadField<TextField>("Dumper Name", 
-                                dumperNameInfo, 
-                                extendedData->dumperName.get());
+    return *ReadExtendedTextField<TextField>("Dumper Name", 
+                                             dumperNameInfo, 
+                                             extendedData->dumperName.get());
 }
 
 TextField Tag::Comments() const 
 {
-    return *ReadField<TextField>("Comments", 
-                                commentsInfo, 
-                                extendedData->comments.get());
+    return *ReadExtendedTextField<TextField>("Comments", 
+                                             commentsInfo, 
+                                             extendedData->comments.get());
 }
 
 DateField Tag::DateDumped() const 
@@ -129,7 +133,7 @@ DateField Tag::DateDumped() const
     // Date Dumped is stored as an 32-bit integer in the extended area, so
     // we need to read it differently from the standard date dumped field.
     std::shared_ptr<NumericField> dateDumpedInt;
-    dateDumpedInt = ReadField<NumericField>("Date Dumped", item.get());
+    dateDumpedInt = ReadExtendedField<NumericField>("Date Dumped", item.get());
 
     if (item != nullptr)
     {
@@ -144,14 +148,15 @@ DateField Tag::DateDumped() const
     }
     else
     {
-        return *ReadField<DateField>("Date Dumped", 
-                                    dateDumpedInfo);
+        return *ReadNumericField<DateField>("Date Dumped", 
+                                            dateDumpedInfo);
     }
 }
 
 NumericField Tag::SongLength() const 
 {   
-    return *ReadField<NumericField>("Song Length (seconds)", songLengthInfo);
+    return *ReadNumericField<NumericField>("Song Length (seconds)", 
+                                           songLengthInfo);
 }
 
 NumericField Tag::FadeLength() const 
@@ -161,7 +166,8 @@ NumericField Tag::FadeLength() const
     // Fade length is stored as an 32-bit integer in the extended area, so
     // we need to read it differently from the standard fade length field.
     std::shared_ptr<NumericField> fadeLengthInt;
-    fadeLengthInt = ReadField<NumericField>("Fade Length (ticks)", item.get());
+    fadeLengthInt = ReadExtendedField<NumericField>("Fade Length (ticks)", 
+                                                    item.get());
 
     if (item != nullptr)
     {
@@ -169,21 +175,22 @@ NumericField Tag::FadeLength() const
     }
     else
     {
-        return *ReadField<NumericField>("Fade Length (ms)", fadeLengthInfo);
+        return *ReadNumericField<NumericField>("Fade Length (ms)", 
+                                               fadeLengthInfo);
     }
 }
 
 TextField Tag::SongArtist() const 
 {
-    return *ReadField<TextField>("Song Artist", 
-                                songArtistInfo, 
-                                extendedData->songArtist.get());
+    return *ReadExtendedTextField<TextField>("Song Artist", 
+                                             songArtistInfo, 
+                                             extendedData->songArtist.get());
 }
 
 BinaryField Tag::DefaultDisabledChannels() const 
 {
-    return *ReadField<BinaryField>("Default Disabled Channels", 
-                                   defaultDisabledChannelsInfo);
+    return *ReadTextField<BinaryField>("Default Disabled Channels", 
+                                       defaultDisabledChannelsInfo);
 }
 
 EmulatorField Tag::EmulatorUsed() const
@@ -193,7 +200,8 @@ EmulatorField Tag::EmulatorUsed() const
     // Emulator used is stored as an 16-bit integer in the extended area, so
     // we need to read it differently from the standard emulator used field.
     std::shared_ptr<NumericField> emulatorUsedInt;
-    emulatorUsedInt = ReadField<NumericField>("Emulator Used", item.get());
+    emulatorUsedInt = ReadExtendedField<NumericField>("Emulator Used", 
+                                                      item.get());
 
     if (item != nullptr)
     {
@@ -208,57 +216,57 @@ EmulatorField Tag::EmulatorUsed() const
     }
     else
     {
-        return *ReadField<EmulatorField>("Emulator Used", 
-                                         emulatorUsedInfo);
+        return *ReadNumericField<EmulatorField>("Emulator Used", 
+                                                emulatorUsedInfo);
     }
 }
 
 TextField Tag::OstTitle() const 
 {
-    return *ReadField<TextField>("OST Title", 
-                                 extendedData->ostTitle.get());
+    return *ReadExtendedField<TextField>("OST Title", 
+                                         extendedData->ostTitle.get());
 }
 
 NumericField Tag::OstDisc() const
 {
-    return *ReadField<NumericField>("OST Disc", 
-                                    extendedData->ostDisc.get());
+    return *ReadExtendedField<NumericField>("OST Disc", 
+                                            extendedData->ostDisc.get());
 }
 
 TrackField Tag::OstTrack() const
 {
-    return *ReadField<TrackField>("OST Track", 
-                                  extendedData->ostTrack.get());
+    return *ReadExtendedField<TrackField>("OST Track", 
+                                          extendedData->ostTrack.get());
 }
 
 TextField Tag::PublisherName() const 
 {
-    return *ReadField<TextField>("Publisher Name", 
-                                 extendedData->publisherName.get());
+    return *ReadExtendedField<TextField>("Publisher Name", 
+                                         extendedData->publisherName.get());
 }
 
 NumericField Tag::CopyrightYear() const
 {
-    return *ReadField<NumericField>("Copyright Year", 
-                                    extendedData->copyrightYear.get());
+    return *ReadExtendedField<NumericField>("Copyright Year", 
+                                            extendedData->copyrightYear.get());
 }
 
 NumericField Tag::IntroLength() const 
 {
-    return *ReadField<NumericField>("Intro Length (ticks)", 
-                                    extendedData->introLength.get());
+    return *ReadExtendedField<NumericField>("Intro Length (ticks)", 
+                                            extendedData->introLength.get());
 }
 
 NumericField Tag::LoopLength() const 
 {
-    return *ReadField<NumericField>("Loop Length (ticks)", 
-                                    extendedData->loopLength.get());
+    return *ReadExtendedField<NumericField>("Loop Length (ticks)", 
+                                            extendedData->loopLength.get());
 }
 
 NumericField Tag::EndLength() const 
 {
-    return *ReadField<NumericField>("End Length (ticks)", 
-                                    extendedData->endLength.get());
+    return *ReadExtendedField<NumericField>("End Length (ticks)", 
+                                            extendedData->endLength.get());
 }
 
 BinaryField Tag::MutedVoices() const 
@@ -268,7 +276,8 @@ BinaryField Tag::MutedVoices() const
     // Muted voices is stored as an 16-bit integer in the extended area, so
     // we need to read it differently from the standard BinaryField field.
     std::shared_ptr<NumericField> mutedVoicesInt;
-    mutedVoicesInt = ReadField<NumericField>("Muted Voices", item.get());
+    mutedVoicesInt = ReadExtendedField<NumericField>("Muted Voices", 
+                                                     item.get());
 
     if (item != nullptr)
     {
@@ -288,57 +297,57 @@ BinaryField Tag::MutedVoices() const
 
 NumericField Tag::LoopTimes() const 
 {
-    return *ReadField<NumericField>("Loop Times", 
-                                    extendedData->loopTimes.get());
+    return *ReadExtendedField<NumericField>("Loop Times", 
+                                            extendedData->loopTimes.get());
 }
 
 NumericField Tag::PreampLevel() const 
 {
-    return *ReadField<NumericField>("Preamp Level", 
-                                    extendedData->preampLevel.get());
+    return *ReadExtendedField<NumericField>("Preamp Level", 
+                                            extendedData->preampLevel.get());
 }
 
 void Tag::SetSongTitle(std::string value) 
 {
-    WriteFieldExtendedString<TextField>(songTitleInfo,
-                                        Extended::songTitleInfo, 
-                                        &extendedData->songTitle,
-                                        value);
+    WriteExtendedTextField<TextField>(songTitleInfo,
+                                      Extended::songTitleInfo, 
+                                      &extendedData->songTitle,
+                                      value);
 }
 
 void Tag::SetGameTitle(std::string value) 
 {
-    WriteFieldExtendedString<TextField>(gameTitleInfo,
-                                        Extended::gameTitleInfo, 
-                                        &extendedData->gameTitle,
-                                        value);
+    WriteExtendedTextField<TextField>(gameTitleInfo,
+                                      Extended::gameTitleInfo, 
+                                      &extendedData->gameTitle,
+                                      value);
 }
 
 void Tag::SetDumperName(std::string value) 
 {
-    WriteFieldExtendedString<TextField>(dumperNameInfo,
-                                        Extended::dumperNameInfo, 
-                                        &extendedData->dumperName,
-                                        value);
+    WriteExtendedTextField<TextField>(dumperNameInfo,
+                                      Extended::dumperNameInfo, 
+                                      &extendedData->dumperName,
+                                      value);
 }
 
 void Tag::SetComments(std::string value) 
 {
-    WriteFieldExtendedString<TextField>(commentsInfo,
-                                        Extended::commentsInfo, 
-                                        &extendedData->comments,
-                                        value);
+    WriteExtendedTextField<TextField>(commentsInfo,
+                                      Extended::commentsInfo, 
+                                      &extendedData->comments,
+                                      value);
 }
 
 void Tag::SetDateDumped(std::string value) 
 {
-    WriteField<NumericField>(dateDumpedInfo,
-                             value);
+    WriteNumericField<DateField>(dateDumpedInfo,
+                                 value);
 }
 
 void Tag::SetSongLength(std::string value) 
 {
-    WriteField<NumericField>(songLengthInfo, value);
+    WriteNumericField<NumericField>(songLengthInfo, value);
 }
 
 void Tag::SetFadeLength(std::string value)
@@ -347,100 +356,116 @@ void Tag::SetFadeLength(std::string value)
     // area. It is not yet clear under what conditions this field would be used
     // as opposed to the standard one. Would need to know the maximum number of
     // ticks vs milliseconds.
-    WriteField<NumericField>(fadeLengthInfo, value);
+    WriteNumericField<NumericField>(fadeLengthInfo, value);
 }
 
 void Tag::SetSongArtist(std::string value) 
 {
-    WriteFieldExtendedString<TextField>(songArtistInfo,
-                                        Extended::songArtistInfo, 
-                                        &extendedData->songArtist,
-                                        value);
+    WriteExtendedTextField<TextField>(songArtistInfo,
+                                      Extended::songArtistInfo, 
+                                      &extendedData->songArtist,
+                                      value);
 }
 
 void Tag::SetDefaultDisabledChannels(std::string value) 
 {
-    WriteField<BinaryField>(defaultDisabledChannelsInfo, value);
+    WriteNumericField<BinaryField>(defaultDisabledChannelsInfo, value);
 }
 
 void Tag::SetEmulatorUsed(std::string value) 
 {
-    WriteField<EmulatorField>(emulatorUsedInfo, value);
+    WriteNumericField<EmulatorField>(emulatorUsedInfo, value);
 }
 
 void Tag::SetOstTitle(std::string value) 
 {
-    WriteFieldExtendedString<TextField>(Extended::ostTitleInfo, 
+    WriteExtendedStringField<TextField>(Extended::ostTitleInfo, 
                                         &extendedData->ostTitle,
                                         value);
 }
 
 void Tag::SetOstDisc(std::string value) 
 {
-    WriteFieldExtended<NumericField>(Extended::ostDiscInfo, 
-                                        &extendedData->ostDisc,
-                                        value);
+    WriteExtendedLengthField<NumericField>(Extended::ostDiscInfo, 
+                                           &extendedData->ostDisc,
+                                           value);
 }
 
 void Tag::SetOstTrack(std::string value)
 {
-    WriteFieldExtended<TrackField>(Extended::ostTrackInfo, 
-                           &extendedData->ostTrack,
-                           value);
+    WriteExtendedLengthField<TrackField>(Extended::ostTrackInfo, 
+                                         &extendedData->ostTrack,
+                                         value);
 }
 
 void Tag::SetPublisherName(std::string value)
 {
-    WriteFieldExtendedString<TextField>(Extended::publisherNameInfo, 
+    WriteExtendedStringField<TextField>(Extended::publisherNameInfo, 
                                         &extendedData->publisherName,
                                         value);
 }
 
 void Tag::SetCopyrightYear(std::string value) 
 {
-    WriteFieldExtended<NumericField>(Extended::copyrightYearInfo, 
-                                     &extendedData->copyrightYear,
-                                     value);
+    WriteExtendedLengthField<NumericField>(Extended::copyrightYearInfo, 
+                                           &extendedData->copyrightYear,
+                                           value);
 }
 
 void Tag::SetIntroLength(std::string value) 
 {
-    WriteFieldExtendedInt<NumericField>(Extended::introLengthInfo, 
-                                         &extendedData->introLength,
-                                         value);
+    WriteExtendedIntField<NumericField>(Extended::introLengthInfo, 
+                                        &extendedData->introLength,
+                                        value);
 }
 
 void Tag::SetLoopLength(std::string value) 
 {
-    WriteFieldExtendedInt<NumericField>(Extended::loopLengthInfo, 
+    WriteExtendedIntField<NumericField>(Extended::loopLengthInfo, 
                                         &extendedData->loopLength,
                                         value);
 }
 
 void Tag::SetEndLength(std::string value) 
 {
-    WriteFieldExtendedInt<NumericField>(Extended::endLengthInfo, 
+    WriteExtendedIntField<NumericField>(Extended::endLengthInfo, 
                                         &extendedData->endLength,
                                         value);
 }
 
 void Tag::SetMutedVoices(std::string value)
 {
-    WriteFieldExtended<BinaryField>(Extended::mutedVoicesInfo, 
+    WriteExtendedLengthField<BinaryField>(Extended::mutedVoicesInfo, 
                                     &extendedData->mutedVoices,
                                     value);
 }
 
 void Tag::SetLoopTimes(std::string value) 
 {
-    WriteFieldExtended<NumericField>(Extended::loopTimesInfo, 
-                                    &extendedData->loopTimes,
-                                    value);
+    WriteExtendedLengthField<NumericField>(Extended::loopTimesInfo, 
+                                           &extendedData->loopTimes,
+                                           value);
 }
 
 void Tag::SetPreampLevel(std::string value) 
 {
-    WriteFieldExtendedInt<NumericField>(Extended::preampLevelInfo, 
+    WriteExtendedIntField<NumericField>(Extended::preampLevelInfo, 
                                         &extendedData->preampLevel,
                                         value);
+}
+
+void Tag::ReadField(Field* field) const
+{
+    size_t originalPosition = fieldData->Position();
+    fieldData->SetPosition(field->Offset() - tagOffset);
+    fieldData->Read(field);
+    fieldData->SetPosition(originalPosition);
+}
+
+void Tag::WriteField(Field* field)
+{
+    size_t originalPosition = fieldData->Position();
+    fieldData->SetPosition(field->Offset() - tagOffset);
+    fieldData->Write(field);
+    fieldData->SetPosition(originalPosition);
 }

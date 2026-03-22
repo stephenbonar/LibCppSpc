@@ -116,11 +116,13 @@ void NumericField::SetInt32(int32_t value)
         for (int i = 0; i < size && i < stringValue.size(); i++)
             rawData[i] = stringValue[i];
     }
-
-    Binary::Int32Field field{ value };
+    //else
+    //{
+        Binary::Int32Field field{ value };
     
-    for (int i = 0; i < size && i < field.Size(); i++)
-        rawData[i] = field.RawData()[i];
+        for (int i = 0; i < size && i < field.Size(); i++)
+            rawData[i] = field.RawData()[i];
+    //}
 }
 
 void NumericField::SetUInt32(uint32_t value)
@@ -134,16 +136,18 @@ void NumericField::SetUInt32(uint32_t value)
         for (int i = 0; i < size && i < stringValue.size(); i++)
             rawData[i] = stringValue[i];
     }
-
-    Binary::UInt32Field field{ value };
-    
-    for (int i = 0; i < size && i < field.Size(); i++)
-        rawData[i] = field.RawData()[i];
+    //else
+    //{
+        Binary::UInt32Field field{ value };
+        
+        for (int i = 0; i < size && i < field.Size(); i++)
+            rawData[i] = field.RawData()[i];
+   // }
 }
 
 void NumericField::SetValue(std::string value)
 {
-    if (type == NumericType::Binary)
+    if (type == NumericType::Binary || type == NumericType::Either)
     {
         Binary::Int32Field field{ std::stoi(value) };
 

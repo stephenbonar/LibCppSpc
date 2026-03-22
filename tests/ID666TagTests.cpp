@@ -37,7 +37,7 @@ constexpr unsigned char rawTextData[] = {
     // 0xB1: Artist (32 bytes)
     'A','r','t','i','s','t',' ','N','a','m','e',' ','T','e','s','t',' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O',
     // 0xD1: Default channel disables (1 byte, ASCII '0')
-    0xF0,
+    0x0F,
     // 0xD2: Emulator used (1 byte, ASCII '2' for Snes9x)
     '2',
     // 0xD3: Reserved (45 bytes, all 0)
@@ -68,7 +68,7 @@ constexpr unsigned char rawBinaryData[] = {
     // 0xB0: Artist (32 bytes)
     'A','r','t','i','s','t',' ','N','a','m','e',' ','T','e','s','t',' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O',
     // 0xD0: Default channel disables (1 byte, binary)
-    0xF0,
+    0x0F,
     // 0xD1: Emulator used (1 byte, binary: 2 = Snes9x)
     0x02,
     // 0xD2: Reserved (46 bytes, all 0)
@@ -97,9 +97,9 @@ constexpr unsigned char rawMixedData[] = {
     // 0xB1: Artist (32 bytes)
     'A','r','t','i','s','t',' ','N','a','m','e',' ','T','e','s','t',' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O',
     // 0xD1: Default channel disables (1 byte, little endian binary: 0)
-    0xF0,
+    0x0F,
     // 0xD2: Emulator used (1 byte, little endian binary: 2)
-    0x02,
+    '2',
     // 0xD3: Reserved (45 bytes, all 0)
     0,0,0,0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,0,
@@ -176,7 +176,7 @@ TEST_F(ID666TagTests, GetsExtendedSongTitleProperly)
     params.extendedValue = expectedSongTitle;
     params.item = tag->ExtendedData()->songTitle;
     params.getMethodPtr = &Spc::Id666::Tag::SongTitle;
-    TestGetExtendedData<Spc::TextField, Spc::NumericField>(params);
+    TestGetExtendedData<Spc::TextField, Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, GetsTextGameTitleProperly)
@@ -228,7 +228,7 @@ TEST_F(ID666TagTests, GetsExtendedGameTitleProperly)
     params.extendedValue = expectedGameTitle;
     params.item = tag->ExtendedData()->gameTitle;
     params.getMethodPtr = &Spc::Id666::Tag::GameTitle;
-    TestGetExtendedData<Spc::TextField, Spc::NumericField>(params);
+    TestGetExtendedData<Spc::TextField, Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, GetsTextDumperNameProperly)
@@ -280,7 +280,7 @@ TEST_F(ID666TagTests, GetsExtendedDumperProperly)
     params.extendedValue = expectedDumperName;
     params.item = tag->ExtendedData()->dumperName;
     params.getMethodPtr = &Spc::Id666::Tag::DumperName;
-    TestGetExtendedData<Spc::TextField, Spc::NumericField>(params);
+    TestGetExtendedData<Spc::TextField, Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, GetsTextCommentsProperly)
@@ -332,7 +332,7 @@ TEST_F(ID666TagTests, GetsExtendedCommentsProperly)
     params.extendedValue = expectedComments;
     params.item = tag->ExtendedData()->comments;
     params.getMethodPtr = &Spc::Id666::Tag::Comments;
-    TestGetExtendedData<Spc::TextField, Spc::NumericField>(params);
+    TestGetExtendedData<Spc::TextField, Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, GetsTextDateDumpedProperly)
@@ -344,7 +344,8 @@ TEST_F(ID666TagTests, GetsTextDateDumpedProperly)
     params.expectedOffset = Spc::Id666::dateDumpedInfo.text.offset;
     params.expectedSize = Spc::Id666::dateDumpedInfo.text.size;
     params.getMethodPtr = &Spc::Id666::Tag::DateDumped;
-    TestGet<Spc::DateField>(params);
+    bool isText{ true };
+    TestNumericGet<Spc::DateField>(params, isText);
 }
 
 TEST_F(ID666TagTests, GetsBinaryDateDumpedProperly)
@@ -355,8 +356,9 @@ TEST_F(ID666TagTests, GetsBinaryDateDumpedProperly)
     params.expectedValue = expectedDateDumped;
     params.expectedOffset = Spc::Id666::dateDumpedInfo.binary.offset;
     params.expectedSize = Spc::Id666::dateDumpedInfo.binary.size;
+    bool isText{ false };
     params.getMethodPtr = &Spc::Id666::Tag::DateDumped;
-    TestGet<Spc::DateField>(params);
+    TestNumericGet<Spc::DateField>(params, isText);
 }
 
 TEST_F(ID666TagTests, GetsMixedDateDumpedProperly)
@@ -367,8 +369,9 @@ TEST_F(ID666TagTests, GetsMixedDateDumpedProperly)
     params.expectedValue = expectedDateDumped;
     params.expectedOffset = Spc::Id666::dateDumpedInfo.text.offset;
     params.expectedSize = Spc::Id666::dateDumpedInfo.text.size;
+    bool isText{ true };
     params.getMethodPtr = &Spc::Id666::Tag::DateDumped;
-    TestGet<Spc::DateField>(params);
+    TestNumericGet<Spc::DateField>(params, isText);
 }
 
 TEST_F(ID666TagTests, GetsExtendedDateDumpedProperly)
@@ -399,8 +402,9 @@ TEST_F(ID666TagTests, GetsTextSongLengthProperly)
     params.expectedValue = "123";
     params.expectedOffset = Spc::Id666::songLengthInfo.text.offset;
     params.expectedSize = Spc::Id666::songLengthInfo.text.size;
+    bool isText{ true };
     params.getMethodPtr = &Spc::Id666::Tag::SongLength;
-    TestGet<Spc::NumericField>(params);
+    TestNumericGet<Spc::NumericField>(params, isText);
 }
 
 TEST_F(ID666TagTests, GetsBinarySongLengthProperly)
@@ -411,8 +415,9 @@ TEST_F(ID666TagTests, GetsBinarySongLengthProperly)
     params.expectedValue = "43";
     params.expectedOffset = Spc::Id666::songLengthInfo.binary.offset;
     params.expectedSize = Spc::Id666::songLengthInfo.binary.size;
+    bool isText{ false };
     params.getMethodPtr = &Spc::Id666::Tag::SongLength;
-    TestGet<Spc::NumericField>(params);
+    TestNumericGet<Spc::NumericField>(params, isText);
 }
 
 TEST_F(ID666TagTests, GetsMixedSongLengthProperly)
@@ -423,8 +428,9 @@ TEST_F(ID666TagTests, GetsMixedSongLengthProperly)
     params.expectedValue = "123";
     params.expectedOffset = Spc::Id666::songLengthInfo.text.offset;
     params.expectedSize = Spc::Id666::songLengthInfo.text.size;
+    bool isText{ false };
     params.getMethodPtr = &Spc::Id666::Tag::SongLength;
-    TestGet<Spc::NumericField>(params);
+    TestNumericGet<Spc::NumericField>(params, isText);
 }
 
 TEST_F(ID666TagTests, GetTextFadeLengthProperly)
@@ -435,8 +441,9 @@ TEST_F(ID666TagTests, GetTextFadeLengthProperly)
     params.expectedValue = "05000";
     params.expectedOffset = Spc::Id666::fadeLengthInfo.text.offset;
     params.expectedSize = Spc::Id666::fadeLengthInfo.text.size;
+    bool isText{ true };
     params.getMethodPtr = &Spc::Id666::Tag::FadeLength;
-    TestGet<Spc::NumericField>(params);
+    TestNumericGet<Spc::NumericField>(params, isText);
 }
 
 TEST_F(ID666TagTests, GetsBinaryFadeLengthProperly)
@@ -447,8 +454,9 @@ TEST_F(ID666TagTests, GetsBinaryFadeLengthProperly)
     params.expectedValue = "5000";
     params.expectedOffset = Spc::Id666::fadeLengthInfo.binary.offset;
     params.expectedSize = Spc::Id666::fadeLengthInfo.binary.size;
+    bool isText{ false };
     params.getMethodPtr = &Spc::Id666::Tag::FadeLength;
-    TestGet<Spc::NumericField>(params);
+    TestNumericGet<Spc::NumericField>(params, isText);
 }
 
 TEST_F(ID666TagTests, GetsMixedFadeLengthProperly)
@@ -459,8 +467,9 @@ TEST_F(ID666TagTests, GetsMixedFadeLengthProperly)
     params.expectedValue = "50000";
     params.expectedOffset = Spc::Id666::fadeLengthInfo.text.offset;
     params.expectedSize = Spc::Id666::fadeLengthInfo.text.size;
+    bool isText{ false };
     params.getMethodPtr = &Spc::Id666::Tag::FadeLength;
-    TestGet<Spc::NumericField>(params);
+    TestNumericGet<Spc::NumericField>(params, isText);
 }
 
 TEST_F(ID666TagTests, GetsExtendedFadeLengthProperly)
@@ -535,16 +544,17 @@ TEST_F(ID666TagTests, GetsExtendedArtistProperly)
     TestGetExtendedData<Spc::TextField, Spc::TextField>(params);
 }
 
-TEST_F(ID666TagTests, GetsTextDefaultChannelStateProperly)
+TEST_F(ID666TagTests, GetsTextDefaultDisabledChannelsProperly)
 {
     TestGetParams<Spc::BinaryField> params;
     params.testData = textData;
     params.expectedLabel = "Default Disabled Channels";
-    params.expectedValue = "11110000";
+    params.expectedValue = "00001111";
     params.expectedOffset = Spc::Id666::defaultDisabledChannelsInfo.text.offset;
     params.expectedSize = Spc::Id666::defaultDisabledChannelsInfo.text.size;
+    bool isText{ false };
     params.getMethodPtr = &Spc::Id666::Tag::DefaultDisabledChannels;
-    TestGet<Spc::BinaryField>(params);
+    TestNumericGet<Spc::BinaryField>(params, isText);
 }
 
 TEST_F(ID666TagTests, GetsBinaryDefaultDisabledChannelsProperly)
@@ -552,11 +562,12 @@ TEST_F(ID666TagTests, GetsBinaryDefaultDisabledChannelsProperly)
     TestGetParams<Spc::BinaryField> params;
     params.testData = binaryData;
     params.expectedLabel = "Default Disabled Channels";
-    params.expectedValue = "11110000";
+    params.expectedValue = "00001111";
     params.expectedOffset = Spc::Id666::defaultDisabledChannelsInfo.binary.offset;
     params.expectedSize = Spc::Id666::defaultDisabledChannelsInfo.binary.size;
+    bool isText{ false };
     params.getMethodPtr = &Spc::Id666::Tag::DefaultDisabledChannels;
-    TestGet<Spc::BinaryField>(params);
+    TestNumericGet<Spc::BinaryField>(params, isText);
 }
 
 TEST_F(ID666TagTests, GetsMixedDefaultDisabledChannelsProperly)
@@ -564,11 +575,12 @@ TEST_F(ID666TagTests, GetsMixedDefaultDisabledChannelsProperly)
     TestGetParams<Spc::BinaryField> params;
     params.testData = mixedData;
     params.expectedLabel = "Default Disabled Channels";
-    params.expectedValue = "11110000";
+    params.expectedValue = "00001111";
     params.expectedOffset = Spc::Id666::defaultDisabledChannelsInfo.text.offset;
     params.expectedSize = Spc::Id666::defaultDisabledChannelsInfo.text.size;
+    bool isText{ false };
     params.getMethodPtr = &Spc::Id666::Tag::DefaultDisabledChannels;
-    TestGet<Spc::BinaryField>(params);
+    TestNumericGet<Spc::BinaryField>(params, isText);
 }
 
 TEST_F(ID666TagTests, GetsTextEmulatorUsedProperly)
@@ -579,8 +591,9 @@ TEST_F(ID666TagTests, GetsTextEmulatorUsedProperly)
     params.expectedValue = "SNES9X";
     params.expectedOffset = Spc::Id666::emulatorUsedInfo.text.offset;
     params.expectedSize = Spc::Id666::emulatorUsedInfo.text.size;
+    bool isText{ true };
     params.getMethodPtr = &Spc::Id666::Tag::EmulatorUsed;
-    TestGet<Spc::EmulatorField>(params);
+    TestNumericGet<Spc::EmulatorField>(params, isText);
 }
 
 TEST_F(ID666TagTests, GetsBinaryEmulatorUsedProperly)
@@ -591,8 +604,9 @@ TEST_F(ID666TagTests, GetsBinaryEmulatorUsedProperly)
     params.expectedValue = "SNES9X";
     params.expectedOffset = Spc::Id666::emulatorUsedInfo.binary.offset;
     params.expectedSize = Spc::Id666::emulatorUsedInfo.binary.size;
+    bool isText{ false };
     params.getMethodPtr = &Spc::Id666::Tag::EmulatorUsed;
-    TestGet<Spc::EmulatorField>(params);
+    TestNumericGet<Spc::EmulatorField>(params, isText);
 }
 
 TEST_F(ID666TagTests, GetsMixedEmulatorUsedProperly)
@@ -603,8 +617,9 @@ TEST_F(ID666TagTests, GetsMixedEmulatorUsedProperly)
     params.expectedValue = "SNES9X";
     params.expectedOffset = Spc::Id666::emulatorUsedInfo.text.offset;
     params.expectedSize = Spc::Id666::emulatorUsedInfo.text.size;
+    bool isText{ true };
     params.getMethodPtr = &Spc::Id666::Tag::EmulatorUsed;
-    TestGet<Spc::EmulatorField>(params);
+    TestNumericGet<Spc::EmulatorField>(params, isText);
 }
 
 TEST_F(ID666TagTests, GetsExtendedEmulatorUsedProperly)
@@ -1203,7 +1218,8 @@ TEST_F(ID666TagTests, SetsTextDateDumpedProperly)
     params.size = Spc::Id666::dateDumpedInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetDateDumped;
     params.setValue = "01/11/2026";
-    TestSet<Spc::DateField>(params);
+    bool isText{ true };
+    TestNumericSet<Spc::DateField>(params, isText);
 }
 
 TEST_F(ID666TagTests, SetsBinaryDateDumpedProperly)
@@ -1214,7 +1230,17 @@ TEST_F(ID666TagTests, SetsBinaryDateDumpedProperly)
     params.size = Spc::Id666::dateDumpedInfo.binary.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetDateDumped;
     params.setValue = "01/11/2026";
-    TestSet<Spc::DateField>(params);
+    bool isText{ false };
+
+    /*
+    std::cerr << "Inital ptr:" << static_cast<const void *>(params.testData) << std::endl;
+    for (int i = 0; i < Spc::Id666::tagSize; ++i)
+    {
+        std::cerr << params.testData[i] << " ";
+    }
+    std::cerr << std::endl;*/
+
+    TestNumericSet<Spc::DateField>(params, isText);
 }
 
 TEST_F(ID666TagTests, SetsMixedDateDumpedProperly)
@@ -1225,7 +1251,8 @@ TEST_F(ID666TagTests, SetsMixedDateDumpedProperly)
     params.size = Spc::Id666::dateDumpedInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetDateDumped;
     params.setValue = "01/11/2026";
-    TestSet<Spc::DateField>(params);
+    bool isText{ true };
+    TestNumericSet<Spc::DateField>(params, isText);
 }
 
 TEST_F(ID666TagTests, SetDateDumpedEnforcesPreconditions)
@@ -1247,7 +1274,8 @@ TEST_F(ID666TagTests, SetsTextSongLengthProperly)
     params.size = Spc::Id666::songLengthInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetSongLength;
     params.setValue = "321";
-    TestSet<Spc::NumericField>(params);
+    bool isText{ true };
+    TestNumericSet<Spc::NumericField>(params, isText);
 }
 
 TEST_F(ID666TagTests, SetsBinarySongLengthProperly)
@@ -1258,7 +1286,8 @@ TEST_F(ID666TagTests, SetsBinarySongLengthProperly)
     params.size = Spc::Id666::songLengthInfo.binary.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetSongLength;
     params.setValue = "321";
-    TestSet<Spc::NumericField>(params);
+    bool isText{ false };
+    TestNumericSet<Spc::NumericField>(params, isText);
 }
 
 TEST_F(ID666TagTests, SetsMixedSongLengthProperly)
@@ -1269,7 +1298,8 @@ TEST_F(ID666TagTests, SetsMixedSongLengthProperly)
     params.size = Spc::Id666::songLengthInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetSongLength;
     params.setValue = "321";
-    TestSet<Spc::NumericField>(params);
+    bool isText{ false };
+    TestNumericSet<Spc::NumericField>(params, isText);
 }
 
 TEST_F(ID666TagTests, SetSongLengthEnforcesPreconditions)
@@ -1291,7 +1321,8 @@ TEST_F(ID666TagTests, SetsTextFadeLengthProperly)
     params.size = Spc::Id666::fadeLengthInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetFadeLength;
     params.setValue = "321";
-    TestSet<Spc::NumericField>(params);
+    bool isText{ true };
+    TestNumericSet<Spc::NumericField>(params, isText);
 }
 
 TEST_F(ID666TagTests, SetsBinaryFadeLengthProperly)
@@ -1302,7 +1333,8 @@ TEST_F(ID666TagTests, SetsBinaryFadeLengthProperly)
     params.size = Spc::Id666::fadeLengthInfo.binary.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetFadeLength;
     params.setValue = "321";
-    TestSet<Spc::NumericField>(params);
+    bool isText{ false };
+    TestNumericSet<Spc::NumericField>(params, isText);
 }
 
 TEST_F(ID666TagTests, SetsMixedFadeLengthProperly)
@@ -1313,7 +1345,8 @@ TEST_F(ID666TagTests, SetsMixedFadeLengthProperly)
     params.size = Spc::Id666::fadeLengthInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetFadeLength;
     params.setValue = "321";
-    TestSet<Spc::NumericField>(params);
+    bool isText{ false };
+    TestNumericSet<Spc::NumericField>(params, isText);
 }
 
 TEST_F(ID666TagTests, SetFadeLengthEnforcesPreconditions)
@@ -1422,7 +1455,8 @@ TEST_F(ID666TagTests, SetsTextDefaultDisabledChannelsProperly)
     params.size = Spc::Id666::defaultDisabledChannelsInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetDefaultDisabledChannels;
     params.setValue = "00000001";
-    TestSet<Spc::BinaryField>(params);
+    bool isText{ false };
+    TestNumericSet<Spc::BinaryField>(params, isText);
 }
 
 TEST_F(ID666TagTests, SetsBinaryDefaultDisabledChannelsProperly)
@@ -1433,7 +1467,8 @@ TEST_F(ID666TagTests, SetsBinaryDefaultDisabledChannelsProperly)
     params.size = Spc::Id666::defaultDisabledChannelsInfo.binary.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetDefaultDisabledChannels;
     params.setValue = "00000001";
-    TestSet<Spc::BinaryField>(params);
+    bool isText{ false };
+    TestNumericSet<Spc::BinaryField>(params, isText);
 }
 
 TEST_F(ID666TagTests, SetsMixedDefaultDisabledChannelsProperly)
@@ -1444,7 +1479,8 @@ TEST_F(ID666TagTests, SetsMixedDefaultDisabledChannelsProperly)
     params.size = Spc::Id666::defaultDisabledChannelsInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetDefaultDisabledChannels;
     params.setValue = "00000001";
-    TestSet<Spc::BinaryField>(params);
+    bool isText{ false };
+    TestNumericSet<Spc::BinaryField>(params, isText);
 }
 
 TEST_F(ID666TagTests, SetDefaultDisabledChannelsEnforcesPreconditions)
@@ -1469,7 +1505,8 @@ TEST_F(ID666TagTests, SetsTextEmulatorUsedProperly)
     params.size = Spc::Id666::emulatorUsedInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetEmulatorUsed;
     params.setValue = "ZSNES";
-    TestSet<Spc::EmulatorField>(params);
+    bool isText{ true };
+    TestNumericSet<Spc::EmulatorField>(params, isText);
 }
 
 TEST_F(ID666TagTests, SetsBinaryEmulatorUsedProperly)
@@ -1480,7 +1517,8 @@ TEST_F(ID666TagTests, SetsBinaryEmulatorUsedProperly)
     params.size = Spc::Id666::emulatorUsedInfo.binary.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetEmulatorUsed;
     params.setValue = "ZSNES";
-    TestSet<Spc::EmulatorField>(params);
+    bool isText{ false };
+    TestNumericSet<Spc::EmulatorField>(params, isText);
 }
 
 TEST_F(ID666TagTests, SetsMixedEmulatorUsedProperly)
@@ -1491,7 +1529,8 @@ TEST_F(ID666TagTests, SetsMixedEmulatorUsedProperly)
     params.size = Spc::Id666::emulatorUsedInfo.text.size;
     params.setMethodPtr = &Spc::Id666::Tag::SetEmulatorUsed;
     params.setValue = "ZSNES";
-    TestSet<Spc::EmulatorField>(params);
+    bool isText{ true };
+    TestNumericSet<Spc::EmulatorField>(params, isText);
 }
 
 TEST_F(ID666TagTests, SetsNewExtendedOstTitleProperly)

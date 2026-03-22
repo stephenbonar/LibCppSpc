@@ -98,6 +98,25 @@ protected:
     }
 
     template<typename T>
+    void TestNumericGet(TestGetParams<T> params, bool isText)
+    {
+        ASSERT_NE(tag, nullptr);
+        ASSERT_NE(tag->FieldData(), nullptr);
+        ASSERT_NE(tag->FieldData()->RawData(), nullptr);
+        ASSERT_GE(tag->FieldData()->Size(), Spc::Id666::tagSize);
+        std::memcpy(tag->FieldData()->RawData(), 
+                    params.testData, 
+                    Spc::Id666::tagSize);
+        T field = (tag.get()->*params.getMethodPtr)();
+
+        EXPECT_EQ(isText, field.IsText());
+        EXPECT_EQ(params.expectedLabel, field.Label());
+        EXPECT_EQ(params.expectedOffset, field.Offset());
+        EXPECT_EQ(params.expectedSize, field.Size());
+        EXPECT_EQ(params.expectedValue, field.ToString());
+    }
+
+    template<typename T>
     std::shared_ptr<Spc::Id666::Extended::Item> InitExtendedItem(
         Spc::Id666::Extended::ItemInfo extendedInfo, 
         std::string setValue)
@@ -231,16 +250,105 @@ protected:
         ASSERT_NE(tag->FieldData(), nullptr);
         ASSERT_NE(tag->FieldData()->RawData(), nullptr);
         ASSERT_GE(tag->FieldData()->Size(), Spc::Id666::tagSize);
+
+        /*
+        std::cerr << "Copy ptr:" << static_cast<const void*>(params.testData) << std::endl;  
+        for (int i = 0; i < Spc::Id666::tagSize; ++i)
+        {
+            std::cerr << params.testData[i] << " ";
+        }
+        std::cerr << std::endl;*/
+
         std::memcpy(tag->FieldData()->RawData(), 
                     params.testData, 
                     Spc::Id666::tagSize);
+
+        /*
+        std::cerr << "Tag after copy:" << std::endl;
+        for (int i = 0; i < Spc::Id666::tagSize; ++i)
+        {
+            std::cerr << tag->FieldData()->RawData()[i] << " ";
+        }
+        std::cerr << std::endl;
+        */
+
         (tag.get()->*params.setMethodPtr)(params.setValue);
+
+        /*
+        std::cerr << "Tag after set:" << std::endl;
+        for (int i = 0; i < Spc::Id666::tagSize; ++i)
+        {
+            std::cerr << tag->FieldData()->RawData()[i] << " ";
+        }
+        std::cerr << std::endl;
+        */
 
         Spc::FieldInfo info{ params.offset, params.size };
         T field{ "Test Field", info };
         tag->FieldData()->SetPosition(params.offset - Spc::Id666::tagOffset);
         tag->FieldData()->Read(&field);
 
+        /*
+        for (size_t i = 0; i < field.Size(); i++)
+        {
+            std::cerr << field.RawData()[i] << " ";
+        }
+        std::cerr << std::endl;*/
+        EXPECT_EQ(params.setValue, field.ToString());
+    }
+
+    template<typename T>
+    void TestNumericSet(TestSetParams<T> params, bool isText)
+    {
+        ASSERT_NE(tag, nullptr);
+        ASSERT_NE(tag->FieldData(), nullptr);
+        ASSERT_NE(tag->FieldData()->RawData(), nullptr);
+        ASSERT_GE(tag->FieldData()->Size(), Spc::Id666::tagSize);
+
+        /*
+        std::cerr << "Copy ptr:" << static_cast<const void*>(params.testData) << std::endl;  
+        for (int i = 0; i < Spc::Id666::tagSize; ++i)
+        {
+            std::cerr << params.testData[i] << " ";
+        }
+        std::cerr << std::endl;*/
+
+        std::memcpy(tag->FieldData()->RawData(), 
+                    params.testData, 
+                    Spc::Id666::tagSize);
+
+        /*
+        std::cerr << "Tag after copy:" << std::endl;
+        for (int i = 0; i < Spc::Id666::tagSize; ++i)
+        {
+            std::cerr << tag->FieldData()->RawData()[i] << " ";
+        }
+        std::cerr << std::endl;
+        */
+
+        (tag.get()->*params.setMethodPtr)(params.setValue);
+
+        /*
+        std::cerr << "Tag after set:" << std::endl;
+        for (int i = 0; i < Spc::Id666::tagSize; ++i)
+        {
+            std::cerr << tag->FieldData()->RawData()[i] << " ";
+        }
+        std::cerr << std::endl;
+        */
+
+        Spc::FieldInfo info{ params.offset, params.size };
+        T field{ "Test Field", info };
+        tag->FieldData()->SetPosition(params.offset - Spc::Id666::tagOffset);
+        tag->FieldData()->Read(&field);
+
+        /*
+        for (size_t i = 0; i < field.Size(); i++)
+        {
+            std::cerr << field.RawData()[i] << " ";
+        }
+        std::cerr << std::endl;*/
+        EXPECT_EQ(isText, field.IsText());
         EXPECT_EQ(params.setValue, field.ToString());
     }
 

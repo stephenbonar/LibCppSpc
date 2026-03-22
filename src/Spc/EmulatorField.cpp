@@ -33,10 +33,26 @@ std::string EmulatorField::ToString() const
 
 void EmulatorField::SetValue(std::string value)
 {
-    if (value == "ZSNES")
-        SetInt32(1);
-    else if (value == "SNES9X")
-        SetInt32(2);
+    if (Type() == NumericType::Binary)
+    {
+        //std::cerr << "Attemting to set a binary value for BinaryField" << std::endl;
+
+        if (value == "ZSNES")
+            SetInt32(1);
+        else if (value == "SNES9X")
+            SetInt32(2);
+        else
+            SetInt32(0);
+    }
     else
-        SetInt32(0);
+    {
+        //std::cerr << "Attempting to set a text value for BinaryField" << std::endl;
+
+        if (value == "ZSNES")
+            rawData[0] = 0x31;
+        else if (value == "SNES9X")
+            rawData[0] = 0x32;
+        else
+            rawData[0] = 0x30;
+    }
 }   

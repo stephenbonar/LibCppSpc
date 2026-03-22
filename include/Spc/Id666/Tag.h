@@ -468,9 +468,13 @@ namespace Spc::Id666
         std::shared_ptr<Binary::BufferStream> fieldData;
         std::shared_ptr<Extended::Data> extendedData;
 
-        /// @brief Reads a field from the non-extended tag only.
+        void ReadField(Field* field) const;
+
+        void WriteField(Field* field);
+
+        /// @brief Reads a text field from the non-extended tag only.
         ///
-        /// This method provides a common way for reading fields from the
+        /// This method provides a common way for reading text fields from the
         /// non-extended tag data, automatically selecting the correct offsets
         /// and sizes based on the tag type. This method should be used when
         /// only the non-extended tag data should be read.
@@ -480,7 +484,8 @@ namespace Spc::Id666
         /// @param info The offset / sizes of both text and binary versions.
         /// @return A shared pointer to the field read from the tag.
         template<typename T>
-        std::shared_ptr<T> ReadField(std::string label, TagFieldInfo info) const
+        std::shared_ptr<T> ReadTextField(std::string label, 
+                                         TagFieldInfo info) const
         {
             std::shared_ptr<T> field;
 
@@ -493,20 +498,66 @@ namespace Spc::Id666
                 field = std::make_shared<T>(label, info.text);
             }
 
+            /*
             size_t originalPosition = fieldData->Position();
             fieldData->SetPosition(field->Offset() - tagOffset);
             fieldData->Read(field.get());
-            fieldData->SetPosition(originalPosition);
+            fieldData->SetPosition(originalPosition);*/
+            ReadField(field.get());
             return field;
         }
 
-        /// @brief Reads a field from extended or non-extended tag data.
+        /// @brief Reads a numeric field from the non-extended tag only.
         ///
-        /// This method proivdes a common way for reading fields from either
-        /// the non-extended tag data or the extended tag data, automatically
-        /// selecting the correct offsets and sizes based on the tag type and
-        /// whether the extended item is available. If the extended item is
-        /// available, the extended tag data will be used instead of the
+        /// This method provides a common way for reading numeric fields from
+        /// the non-extended tag data, automatically selecting the correct 
+        /// offsets, sizes, and numeric types based on the tag type. This method
+        /// should be used when only the non-extended tag data should be read.
+        ///
+        /// @tparam T The type of the field to read.
+        /// @param label The label the read field should have.
+        /// @param info The offset / sizes of both text and binary versions.
+        /// @return A shared pointer to the field read from the tag.
+        template<typename T>
+        std::shared_ptr<T> ReadNumericField(std::string label, 
+                                            TagFieldInfo info) const
+        {
+            std::shared_ptr<T> field;
+
+            TagType type = DetermineType();
+
+            if (type == TagType::Binary)
+            {
+                field = std::make_shared<T>(label, info.binary);
+                field->SetType(NumericType::Binary);
+            }
+            else if (type == TagType::TextMixed)
+            {
+                field = std::make_shared<T>(label, info.text);
+                field->SetType(NumericType::Binary);
+            }
+            else
+            {
+                field = std::make_shared<T>(label, info.text);
+                field->SetType(NumericType::Text);
+            }
+
+            /*
+            size_t originalPosition = fieldData->Position();
+            fieldData->SetPosition(field->Offset() - tagOffset);
+            fieldData->Read(field.get());
+            fieldData->SetPosition(originalPosition);*/
+            ReadField(field.get());
+            return field;
+        }
+
+        /// @brief Reads a text field from extended or non-extended tag data.
+        ///
+        /// This method provides a common way for reading text fields from 
+        /// either the non-extended tag data or the extended tag data, 
+        /// automatically selecting the correct offsets and sizes based on the 
+        /// tag type and whether the extended item is available. If the extended
+        /// item is available, the extended tag data will be used instead of the
         /// non-extended tag data. This method should be used to read fields
         /// that exist in both the non-extended tag data and the extended tag 
         /// data.
@@ -517,7 +568,7 @@ namespace Spc::Id666
         /// @param item The extended item to read from, if available.
         /// @return A shared pointer to the field read from the tag.
         template<typename T>
-        std::shared_ptr<T> ReadField(
+        std::shared_ptr<T> ReadExtendedTextField(
             std::string label, 
             TagFieldInfo info, 
             Extended::Item* item) const
@@ -526,11 +577,53 @@ namespace Spc::Id666
 
             if (item != nullptr)
             {
-                field = ReadField<T>(label, item);
+                field = ReadExtendedField<T>(label, item);
             }
             else
             {
-                field = ReadField<T>(label, info);
+                field = ReadTextField<T>(label, info);
+            }
+
+            if (field == nullptr)
+            {
+                field = std::make_shared<T>(label, info.text);
+                return field;
+            }
+            
+            return field;
+        }
+
+        /// @brief Reads a numeric field from extended or non-extended tag data.
+        ///
+        /// This method provides a common way for reading numeric fields from 
+        /// either the non-extended tag data or the extended tag data, 
+        /// automatically selecting the correct offsets and sizes based on the 
+        /// tag type and whether the extended item is available. If the extended
+        /// item is available, the extended tag data will be used instead of the
+        /// non-extended tag data. This method should be used to read fields
+        /// that exist in both the non-extended tag data and the extended tag 
+        /// data.
+        ///
+        /// @tparam T The type of the field to read.
+        /// @param label The label the read field should have.
+        /// @param info The offset / sizes of both text and binary versions.
+        /// @param item The extended item to read from, if available.
+        /// @return A shared pointer to the field read from the tag.
+        template<typename T>
+        std::shared_ptr<T> ReadExtendedNumericField(
+            std::string label, 
+            TagFieldInfo info, 
+            Extended::Item* item) const
+        {
+            std::shared_ptr<T> field;
+
+            if (item != nullptr)
+            {
+                field = ReadExtendedField<T>(label, item);
+            }
+            else
+            {
+                field = ReadNumericField<T>(label, info);
             }
 
             if (field == nullptr)
@@ -553,8 +646,8 @@ namespace Spc::Id666
         /// @param item The extended item to read from.
         /// @return A shared pointer to the field read from extended tag item.
         template<typename T>
-        std::shared_ptr<T> ReadField(std::string label, Extended::Item* item)
-            const
+        std::shared_ptr<T> ReadExtendedField(std::string label, 
+                                             Extended::Item* item) const
         {
             std::shared_ptr<T> field;
 
@@ -587,9 +680,9 @@ namespace Spc::Id666
             return field;
         }
 
-        /// @brief Writes string value to non-extended tag data.
+        /// @brief Writes to a text field in the non-extended tag data.
         ///
-        /// This method provides a common way for writing fields to the 
+        /// This method provides a common way for writing text fields to the 
         /// non-extended tag data. This ensures that the value is written to
         /// the correct offsets and sizes depending on the tag type. This 
         /// should be used to write fields that only exist in the non-extended
@@ -599,30 +692,71 @@ namespace Spc::Id666
         /// @param info The offset / sizes of both text and binary versions.
         /// @param value The string value to write.
         template<typename T>
-        void WriteField(TagFieldInfo info, std::string value)
+        void WriteTextField(TagFieldInfo info, std::string value)
         {
             std::shared_ptr<T> field;
 
             if (DetermineType() == TagType::Binary)
             {
                 field = std::make_shared<T>("Temp", info.binary);
+                //std::cerr << "Field was created binary" << std::endl;
             }
             else
             {
                 field = std::make_shared<T>("Temp", info.text);
+                //std::cerr << "Field was created text" << std::endl;
             }
 
             field->SetValue(value);
-
-            size_t originalPosition = fieldData->Position();
-            fieldData->SetPosition(field->Offset() - tagOffset);
-            fieldData->Write(field.get());
-            fieldData->SetPosition(originalPosition);
+            WriteField(field.get());
         }
 
-        /// @brief Writes string value to extended or not extended tag data.
+        /// @brief Writes to a numeric field in the non-extended tag data.
         ///
-        /// This method provides a common way for writing string values to 
+        /// This method provides a common way for writing numeric fields to the 
+        /// non-extended tag data. This ensures that the value is written to
+        /// the correct offsets and sizes depending on the tag type. This 
+        /// should be used to write fields that only exist in the non-extended
+        /// tag data.
+        ///
+        /// @tparam T The type of the field to write.
+        /// @param info The offset / sizes of both text and binary versions.
+        /// @param value The string value to write.
+        template<typename T>
+        void WriteNumericField(TagFieldInfo info, std::string value)
+        {
+            std::shared_ptr<T> field;
+
+            TagType type = DetermineType();
+
+            if (type == TagType::Binary)
+            {
+                field = std::make_shared<T>("Temp", info.binary);
+                field->SetType(Spc::NumericType::Binary);
+                //std::cerr << "Field was created binary" << std::endl;
+            }
+            else if (type == TagType::TextMixed)
+            {
+                field = std::make_shared<T>("Temp", info.text);
+                field->SetType(Spc::NumericType::Either);
+                //std::cerr << "Field was created mixed" << std::endl;
+            }
+            else
+            {
+                field = std::make_shared<T>("Temp", info.text);
+                field->SetType(Spc::NumericType::Text);
+                //std::cerr << "Field was created text" << std::endl;
+            }
+
+            //std::cerr << "Value:" << value << std::endl;
+
+            field->SetValue(value);
+            WriteField(field.get());
+        }
+
+        /// @brief Writes to text field in extended or non-extended tag data.
+        ///
+        /// This method provides a common way for writing text values to 
         /// either the non-extended tag data or the extended tag data, 
         /// automatically selecting the correct offsets and sizes based on the
         /// tag type and whether the extended item is available. If the extended
@@ -639,7 +773,7 @@ namespace Spc::Id666
         ///                   item if the extended item does not already exist.
         /// @param value The string value to write. 
         template<typename T>
-        void WriteFieldExtendedString(
+        void WriteExtendedTextField(
             TagFieldInfo info,
             Extended::ItemInfo extendedInfo, 
             std::shared_ptr<Extended::Item>* itemPtrPtr, 
@@ -654,18 +788,18 @@ namespace Spc::Id666
 
                 if (value.size() > fieldSize)
                 {
-                    WriteFieldExtendedString<T>(extendedInfo, 
+                    WriteExtendedStringField<T>(extendedInfo, 
                                                 itemPtrPtr, 
                                                 value);
-                    WriteField<T>(info, value);
+                    WriteTextField<T>(info, value);
                 }
                 else
                 {
-                    WriteField<T>(info, value);
+                    WriteTextField<T>(info, value);
                 }
         }
 
-        /// @brief Writes string value to extended tag data only.
+        /// @brief Writes a length value to extended tag data only.
         ///
         /// This method provides a common way for writing fields to the extended
         /// tag data. This should be used to write fields that only exist in the
@@ -677,11 +811,12 @@ namespace Spc::Id666
         ///                   A pointer to a pointer is used so the pointer
         ///                   itself can be updated to point to a new extended
         ///                   item if the extended item does not already exist.
-        /// @param value The string value to write.
+        /// @param value The length value to write.
         template<typename T>
-        void WriteFieldExtended(Extended::ItemInfo extendedInfo,
-                                std::shared_ptr<Extended::Item>* itemPtrPtr, 
-                                std::string value)
+        void WriteExtendedLengthField(
+            Extended::ItemInfo extendedInfo,
+            std::shared_ptr<Extended::Item>* itemPtrPtr, 
+            std::string value)
         {
             if (*(itemPtrPtr) == nullptr)
             {
@@ -718,9 +853,9 @@ namespace Spc::Id666
         ///                   A pointer to a pointer is used so the pointer
         ///                   itself can be updated to point to a new extended
         ///                   item if the extended item does not already exist.
-        /// @param value The string value to write.
+        /// @param value The integer value to write.
         template<typename T>
-        void WriteFieldExtendedInt(Extended::ItemInfo extendedInfo,
+        void WriteExtendedIntField(Extended::ItemInfo extendedInfo,
                                    std::shared_ptr<Extended::Item>* itemPtrPtr, 
                                    std::string value)
         {
@@ -775,7 +910,7 @@ namespace Spc::Id666
         ///                   item if the extended item does not already exist.
         /// @param value The string value to write.
         template<typename T>
-        void WriteFieldExtendedString(
+        void WriteExtendedStringField(
             Extended::ItemInfo extendedInfo,
             std::shared_ptr<Extended::Item>* itemPtrPtr, 
             std::string value)
