@@ -320,11 +320,14 @@ namespace Spc::Id666
         /// @param value The value to set the song length to.
         /// @pre Value must be between 0 and 959 seconds.
         /// @throws std::out_of_range if value is out of range.
+        /// @throws std::invalid_argument if value is not numeric.
         void SetSongLength(std::string value);
 
         /// @brief Sets the length of the fade, in milliseconds.
         /// @param value The value to set the fade length to.
         /// @pre Value must be between 0 and 59999 milliseconds.
+        /// @throws std::out_of_range if value is out of range.
+        /// @throws std::invalid_argument if value is not numeric.
         void SetFadeLength(std::string value);
 
         /// @brief Sets the artist of the song. 
@@ -337,6 +340,7 @@ namespace Spc::Id666
         /// @pre Value must be <= 256 characters.
         /// @post The first 32 characters are stored in the non-extended field.
         /// @post If value > 32 characters, full value stored in extended data.
+        /// @throws std::out_of_range if value exceeds maximum string size.
         void SetSongArtist(std::string value);
 
         /// @brief Sets which channels are disabled at startup.
@@ -352,6 +356,7 @@ namespace Spc::Id666
         ///     @code 00000000 = All channels enabled
         ///     @code 11110000 = First four channels disabled
         /// @pre Value must be an 8-character string of 0s and 1s.
+        /// @throws std::invalid_argument if value is not a valid bitmask.
         void SetDefaultDisabledChannels(std::string value);
 
         /// @brief Sets the emulator used to dump the SPC file.
@@ -370,6 +375,7 @@ namespace Spc::Id666
         ///
         /// @param value The value to set the OST title to.
         /// @pre Value must be <= 256 characters.
+        /// @throws std::out_of_range if value exceeds maximum string size.
         void SetOstTitle(std::string value);
 
         /// @brief Sets the disc number of the original soundtrack (OST) album.
@@ -380,6 +386,8 @@ namespace Spc::Id666
         ///
         /// @param value The value to set the OST disc number to.
         /// @pre Value must be between 0 and 9.
+        /// @throws std::out_of_range if value is out of range.
+        /// @throws std::invalid_argument if value is not numeric.
         void SetOstDisc(std::string value);
 
         /// @brief Sets the track number of the original soundtrack (OST) album.
@@ -393,6 +401,8 @@ namespace Spc::Id666
         ///     @code "1" = Track 1
         ///     @code "2a" = Track 2, Subtrack A
         /// @pre Track must be 0 - 99 followed by an optional ASCII character.
+        /// @throws std::out_of_range if numeric part of value is out of range.
+        /// @throws std::invalid_argument if value is not in correct format.
         void SetOstTrack(std::string value);
 
         /// @brief Sets the name of the publisher.
@@ -401,6 +411,8 @@ namespace Spc::Id666
         /// that published the game.
         ///
         /// @param value The value to set the publisher name to.
+        /// @pre Value must be <= 256 characters.
+        /// @throws std::out_of_range if value exceeds maximum string size.
         void SetPublisherName(std::string value);
 
         /// @brief Sets the copyright year.
@@ -410,6 +422,7 @@ namespace Spc::Id666
         ///
         /// @param value The value to set the copyright year to.
         /// @pre Value must be >= 0.
+        /// @throws std::invalid_argument if value not numeric or is negative.
         void SetCopyrightYear(std::string value);
 
         /// @brief Sets the length of the song intro, in ticks.
@@ -421,6 +434,8 @@ namespace Spc::Id666
         ///
         /// @param value The value to set the intro length to.
         /// @pre Value must be between 0 and 383999999 ticks.
+        /// @throws std::invalid_argument if value is not numeric.
+        /// @throws std::out_of_range if value is out of range.
         void SetIntroLength(std::string value);
 
         /// @brief Sets the length of the song loop, in ticks.
@@ -431,6 +446,8 @@ namespace Spc::Id666
         ///
         /// @param value The value to set the loop length to.
         /// @pre Value must be between 0 and 383999999 ticks.
+        /// @throws std::invalid_argument if value is not numeric.
+        /// @throws std::out_of_range if value is out of range.
         void SetLoopLength(std::string value);
 
         /// @brief Sets the length of the song ending, in ticks.
@@ -442,6 +459,8 @@ namespace Spc::Id666
         ///
         /// @param value The value to set the end length to.
         /// @pre Value must be between 0 and 383999999 ticks.
+        /// @throws std::invalid_argument if value is not numeric.
+        /// @throws std::out_of_range if value is out of range.
         void SetEndLength(std::string value);
 
         /// @brief Sets which voices are muted.
@@ -456,6 +475,7 @@ namespace Spc::Id666
         ///    @code "00000000" = No voices muted
         ///    @code "11110000" = First four voices muted
         /// @pre Value must be an 8-character string of 0s and 1s.
+        /// @throws std::invalid_argument if value is not a valid bitmask.
         void SetMutedVoices(std::string value);
 
         /// @brief Sets the number of times the song loops.
@@ -465,6 +485,8 @@ namespace Spc::Id666
         ///
         /// @param value The value to set the loop times to.
         /// @pre Value must be between 1 and 9.
+        /// @throws std::invalid_argument if value is not numeric.
+        /// @throws std::out_of_range if value is out of range.
         void SetLoopTimes(std::string value);
 
         /// @brief Sets the preamp level.
@@ -474,7 +496,8 @@ namespace Spc::Id666
         ///
         /// @param value The value to set the preamp level to.
         /// @pre Value must be between 32768 and 524288.
-        /// @throws std::invalid_argument if value is out of range.
+        /// @throws std::invalid_argument if value is not numeric.
+        /// @throws std::out_of_range if value is out of range.
         void SetPreampLevel(std::string value);
 
     private:
@@ -950,7 +973,7 @@ namespace Spc::Id666
         /// @pre The specified field info is correct for the desired field.
         /// @post The extended item is created if it does not already exist
         /// @post The extended item value is updated if it does exist.
-        /// @throws std::invalid_argument if value exceeds maximum string size.
+        /// @throws std::out_of_range if value exceeds maximum string size.
         template<typename T>
         void WriteExtendedStringField(
             Extended::ItemInfo extendedInfo,
@@ -959,7 +982,7 @@ namespace Spc::Id666
         {
             if (value.size() > maxStringSize)
             {
-                throw std::invalid_argument(
+                throw std::out_of_range(
                     "Value exceeds maximum string size for extended data.");
             }
 

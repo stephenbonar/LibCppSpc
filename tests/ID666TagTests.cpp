@@ -1023,7 +1023,7 @@ TEST_F(ID666TagTests, SetGameTitleEnforcesPreconditions)
 {
     std::string tooLongString(257, 'T');
 
-    EXPECT_THROW(tag->SetGameTitle(tooLongString), std::invalid_argument);
+    EXPECT_THROW(tag->SetGameTitle(tooLongString), std::out_of_range);
 }
 
 TEST_F(ID666TagTests, SetsTextDumperNameProperly)
@@ -1115,7 +1115,7 @@ TEST_F(ID666TagTests, SetDumperNameEnforcesPreconditions)
 {
     std::string tooLongString(257, 'T');
 
-    EXPECT_THROW(tag->SetDumperName(tooLongString), std::invalid_argument);
+    EXPECT_THROW(tag->SetDumperName(tooLongString), std::out_of_range);
 }
 
 TEST_F(ID666TagTests, SetsTextCommentsProperly)
@@ -1207,7 +1207,7 @@ TEST_F(ID666TagTests, SetCommentsEnforcesPreconditions)
 {
     std::string tooLongString(257, 'T');
 
-    EXPECT_THROW(tag->SetComments(tooLongString), std::invalid_argument);
+    EXPECT_THROW(tag->SetComments(tooLongString), std::out_of_range);
 }
 
 TEST_F(ID666TagTests, SetsTextDateDumpedProperly)
@@ -1308,8 +1308,8 @@ TEST_F(ID666TagTests, SetSongLengthEnforcesPreconditions)
     std::string tooHighString{ "960" };
     std::string nonNumericString{ "abc" };
 
-    EXPECT_THROW(tag->SetSongLength(tooLowString), std::invalid_argument);
-    EXPECT_THROW(tag->SetSongLength(tooHighString), std::invalid_argument);
+    EXPECT_THROW(tag->SetSongLength(tooLowString), std::out_of_range);
+    EXPECT_THROW(tag->SetSongLength(tooHighString), std::out_of_range);
     EXPECT_THROW(tag->SetSongLength(nonNumericString), std::invalid_argument);
 }
 
@@ -1355,8 +1355,8 @@ TEST_F(ID666TagTests, SetFadeLengthEnforcesPreconditions)
     std::string tooHighString{ "60000" };
     std::string nonNumericString{ "abc" };
 
-    EXPECT_THROW(tag->SetFadeLength(tooLowString), std::invalid_argument);
-    EXPECT_THROW(tag->SetFadeLength(tooHighString), std::invalid_argument);
+    EXPECT_THROW(tag->SetFadeLength(tooLowString), std::out_of_range);
+    EXPECT_THROW(tag->SetFadeLength(tooHighString), std::out_of_range);
     EXPECT_THROW(tag->SetFadeLength(nonNumericString), std::invalid_argument);
 }
 
@@ -1444,7 +1444,7 @@ TEST_F(ID666TagTests, SetSongArtistEnforcesPreconditions)
 {
     std::string tooLongString(257, 'T');
 
-    EXPECT_THROW(tag->SetSongArtist(tooLongString), std::invalid_argument);
+    EXPECT_THROW(tag->SetSongArtist(tooLongString), std::out_of_range);
 }
 
 TEST_F(ID666TagTests, SetsTextDefaultDisabledChannelsProperly)
@@ -1565,7 +1565,7 @@ TEST_F(ID666TagTests, SetOstTitleEnforcesPreconditions)
 {
     std::string tooLongString(257, 'T');
 
-    EXPECT_THROW(tag->SetOstTitle(tooLongString), std::invalid_argument);
+    EXPECT_THROW(tag->SetOstTitle(tooLongString), std::out_of_range);
 }
 
 TEST_F(ID666TagTests, SetsNewOstDiscProperly)
@@ -1602,8 +1602,8 @@ TEST_F(ID666TagTests, SetOstDiscEnforcesPreconditions)
     std::string tooHighString{ "10" };
     std::string nonNumericString{ "abc" };
 
-    EXPECT_THROW(tag->SetOstDisc(tooLowString), std::invalid_argument);
-    EXPECT_THROW(tag->SetOstDisc(tooHighString), std::invalid_argument);
+    EXPECT_THROW(tag->SetOstDisc(tooLowString), std::out_of_range);
+    EXPECT_THROW(tag->SetOstDisc(tooHighString), std::out_of_range);
     EXPECT_THROW(tag->SetOstDisc(nonNumericString), std::invalid_argument);
 }
 
@@ -1642,7 +1642,7 @@ TEST_F(ID666TagTests, SetOstTrackEnforcesPreconditions)
     std::string nonNumericString{ "99abc" };
 
     EXPECT_THROW(tag->SetOstTrack(tooLowString), std::invalid_argument);
-    EXPECT_THROW(tag->SetOstTrack(tooHighString), std::invalid_argument);
+    EXPECT_THROW(tag->SetOstTrack(tooHighString), std::out_of_range);
     EXPECT_THROW(tag->SetOstTrack(nonNumericString), std::invalid_argument);
 }
 
@@ -1677,7 +1677,7 @@ TEST_F(ID666TagTests, SetPublisherNameEnforcesPreconditions)
 {
     std::string tooLongString(257, 'T');
 
-    EXPECT_THROW(tag->SetPublisherName(tooLongString), std::invalid_argument);
+    EXPECT_THROW(tag->SetPublisherName(tooLongString), std::out_of_range);
 }
 
 TEST_F(ID666TagTests, SetsNewCopyrightYearProperly)
@@ -1751,8 +1751,8 @@ TEST_F(ID666TagTests, SetIntroLengthEnforcesPreconditions)
     std::string tooHighString{ "384000000" };
     std::string nonNumericString{ "abc" };
 
-    EXPECT_THROW(tag->SetIntroLength(tooLowString), std::invalid_argument);
-    EXPECT_THROW(tag->SetIntroLength(tooHighString), std::invalid_argument);
+    EXPECT_THROW(tag->SetIntroLength(tooLowString), std::out_of_range);
+    EXPECT_THROW(tag->SetIntroLength(tooHighString), std::out_of_range);
     EXPECT_THROW(tag->SetIntroLength(nonNumericString), std::invalid_argument);
 }
 
@@ -1790,8 +1790,8 @@ TEST_F(ID666TagTests, SetLoopLengthEnforcesPreconditions)
     std::string tooHighString{ "384000000" };
     std::string nonNumericString{ "abc" };
 
-    EXPECT_THROW(tag->SetLoopLength(tooLowString), std::invalid_argument);
-    EXPECT_THROW(tag->SetLoopLength(tooHighString), std::invalid_argument);
+    EXPECT_THROW(tag->SetLoopLength(tooLowString), std::out_of_range);
+    EXPECT_THROW(tag->SetLoopLength(tooHighString), std::out_of_range);
     EXPECT_THROW(tag->SetLoopLength(nonNumericString), std::invalid_argument);
 }
 
@@ -1829,8 +1829,8 @@ TEST_F(ID666TagTests, SetEndLengthEnforcesPreconditions)
     std::string tooHighString{ "384000000" };
     std::string nonNumericString{ "abc" };
 
-    EXPECT_THROW(tag->SetEndLength(tooLowString), std::invalid_argument);
-    EXPECT_THROW(tag->SetEndLength(tooHighString), std::invalid_argument);
+    EXPECT_THROW(tag->SetEndLength(tooLowString), std::out_of_range);
+    EXPECT_THROW(tag->SetEndLength(tooHighString), std::out_of_range);
     EXPECT_THROW(tag->SetEndLength(nonNumericString), std::invalid_argument);
 }
 
@@ -1907,8 +1907,8 @@ TEST_F(ID666TagTests, SetLoopTimesEnforcesPreconditions)
     std::string tooHighString{ "10" };
     std::string nonNumericString{ "abc" };
 
-    EXPECT_THROW(tag->SetLoopTimes(tooLowString), std::invalid_argument);
-    EXPECT_THROW(tag->SetLoopTimes(tooHighString), std::invalid_argument);
+    EXPECT_THROW(tag->SetLoopTimes(tooLowString), std::out_of_range);
+    EXPECT_THROW(tag->SetLoopTimes(tooHighString), std::out_of_range);
     EXPECT_THROW(tag->SetLoopTimes(nonNumericString), std::invalid_argument);
 }
 
@@ -1946,7 +1946,7 @@ TEST_F(ID666TagTests, SetPreampLevelEnforcesPreconditions)
     std::string tooHighString{ "524289" };
     std::string nonNumericString{ "abc" };
 
-    EXPECT_THROW(tag->SetPreampLevel(tooLowString), std::invalid_argument);
-    EXPECT_THROW(tag->SetPreampLevel(tooHighString), std::invalid_argument);
+    EXPECT_THROW(tag->SetPreampLevel(tooLowString), std::out_of_range);
+    EXPECT_THROW(tag->SetPreampLevel(tooHighString), std::out_of_range);
     EXPECT_THROW(tag->SetPreampLevel(nonNumericString), std::invalid_argument);
 }

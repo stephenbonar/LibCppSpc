@@ -51,8 +51,6 @@ TagType Tag::DetermineType() const
 
     if (!dateDumped.IsText() || !songLength.IsText() || !fadeLength.IsText())
     {
-        //std::cerr << "Appears binary" << std::endl;
-
         // While we're pretty sure we're binary at this point, let's make 
         // absolutely sure. Some older dumps use text offsets but still store
         // times as binary. Let's check the bytes that are normally unused in
@@ -61,7 +59,6 @@ TagType Tag::DetermineType() const
         {
             if (!dateDumped.HasUnusedArea())
             {
-                //std::cerr << "Date dumped does not have unused area" << std::endl;
                 fieldData->SetPosition(previousPosition);
                 return TagType::TextMixed;
             }
@@ -90,7 +87,6 @@ TagType Tag::DetermineType() const
         // If we've made it this far, we can be pretty sure we're using
         // binary offsets.
         fieldData->SetPosition(previousPosition);
-        //std::cerr << "Tag is binary" << std::endl;
         return TagType::Binary;
     }
 
@@ -148,8 +144,7 @@ DateField Tag::DateDumped() const
     }
     else
     {
-        return *ReadNumericField<DateField>("Date Dumped", 
-                                            dateDumpedInfo);
+        return *ReadNumericField<DateField>("Date Dumped", dateDumpedInfo);
     }
 }
 
@@ -375,7 +370,6 @@ void Tag::SetSongArtist(std::string value)
 
 void Tag::SetDefaultDisabledChannels(std::string value) 
 {
-
     if (value.size() != bitsPerByte)
     {
         throw std::invalid_argument(
@@ -492,8 +486,8 @@ void Tag::SetMutedVoices(std::string value)
     }
 
     WriteExtendedLengthField<BinaryField>(Extended::mutedVoicesInfo, 
-                                    &extendedData->mutedVoices,
-                                    value);
+                                          &extendedData->mutedVoices,
+                                          value);
 }
 
 void Tag::SetLoopTimes(std::string value) 
@@ -534,9 +528,9 @@ void Spc::Id666::CheckRange(std::string value, int min, int max)
 
     if (intValue < min || intValue > max)
     {
-        throw std::invalid_argument("Value " + value + 
-                                    " is out of range [" + 
-                                    std::to_string(min) + ", " + 
-                                    std::to_string(max) + "]");
+        throw std::out_of_range("Value " + value + 
+                                " is out of range [" + 
+                                std::to_string(min) + ", " + 
+                                std::to_string(max) + "]");
     }
 }
