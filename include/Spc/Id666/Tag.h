@@ -28,6 +28,9 @@
 
 namespace Spc::Id666
 {
+    /// @brief The number of bits in a byte.
+    inline constexpr size_t bitsPerByte{ 8 };
+
     /// @brief The size of an ID666 tag in bytes.
     inline constexpr size_t tagSize{ 210 };
 
@@ -57,6 +60,9 @@ namespace Spc::Id666
 
     /// @brief The maximum preamp level allowed.
     inline constexpr size_t maxPreampLevel{ 524288 };
+
+    /// @brief The maximum number of ticks used for extended tag timings.
+    inline constexpr size_t maxTicks{ 383999999 };
 
     /// @brief The maximum length of a string field allowed.
     inline constexpr size_t maxStringSize{ 256 };
@@ -723,7 +729,8 @@ namespace Spc::Id666
         /// @param info The offset / sizes of both text and binary versions.
         /// @param value The string value to write.
         template<typename T>
-        void WriteNumericField(TagFieldInfo info, std::string value)
+        void WriteNumericField(TagFieldInfo info, 
+                               std::string value)
         {
             std::shared_ptr<T> field;
 
@@ -950,6 +957,8 @@ namespace Spc::Id666
             }
         }
     };
+
+    void CheckRange(std::string value, int min, int max);
 }
 
 #endif

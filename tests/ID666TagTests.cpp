@@ -1748,7 +1748,7 @@ TEST_F(ID666TagTests, SetsExistingIntroLengthProperly)
 TEST_F(ID666TagTests, SetIntroLengthEnforcesPreconditions)
 {
     std::string tooLowString{ "-1" };
-    std::string tooHighString{ "383999999" };
+    std::string tooHighString{ "384000000" };
     std::string nonNumericString{ "abc" };
 
     EXPECT_THROW(tag->SetIntroLength(tooLowString), std::invalid_argument);
@@ -1787,7 +1787,7 @@ TEST_F(ID666TagTests, SetsExistingLoopLengthProperly)
 TEST_F(ID666TagTests, SetLoopLengthEnforcesPreconditions)
 {
     std::string tooLowString{ "-1" };
-    std::string tooHighString{ "383999999" };
+    std::string tooHighString{ "384000000" };
     std::string nonNumericString{ "abc" };
 
     EXPECT_THROW(tag->SetLoopLength(tooLowString), std::invalid_argument);
@@ -1826,7 +1826,7 @@ TEST_F(ID666TagTests, SetsExistingEndLengthProperly)
 TEST_F(ID666TagTests, SetEndLengthEnforcesPreconditions)
 {
     std::string tooLowString{ "-1" };
-    std::string tooHighString{ "383999999" };
+    std::string tooHighString{ "384000000" };
     std::string nonNumericString{ "abc" };
 
     EXPECT_THROW(tag->SetEndLength(tooLowString), std::invalid_argument);
@@ -1931,8 +1931,8 @@ TEST_F(ID666TagTests, SetsExistingPreampLevelProperly)
         "65536");
     tag->ExtendedData()->preampLevel = item;
     TestSetExtendedParams<Spc::NumericField> extParams;
-    extParams.setValue = "640000";
-    extParams.expectedValue = "640000";
+    extParams.setValue = "64000";
+    extParams.expectedValue = "64000";
     extParams.extendedID = Spc::Id666::Extended::preampLevelInfo.id;
     extParams.extendedType = Spc::Id666::Extended::preampLevelInfo.type;
     extParams.itemPtrPtr = &tag->ExtendedData()->preampLevel;
@@ -1943,7 +1943,7 @@ TEST_F(ID666TagTests, SetsExistingPreampLevelProperly)
 TEST_F(ID666TagTests, SetPreampLevelEnforcesPreconditions)
 {
     std::string tooLowString{ "32767" };
-    std::string tooHighString{ "524288" };
+    std::string tooHighString{ "524289" };
     std::string nonNumericString{ "abc" };
 
     EXPECT_THROW(tag->SetPreampLevel(tooLowString), std::invalid_argument);

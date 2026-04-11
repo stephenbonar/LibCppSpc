@@ -60,7 +60,7 @@ protected:
     // character to create a different value.
     std::string alternateExpectedDateDumped = "01/02/2025";
     std::string alternateExpectedEmulatorUsed = "SNES9X";
-    std::string alternateExpectedDefaultDisabledChannels = "0";
+    std::string alternateExpectedDefaultDisabledChannels = "00000000";
     std::string alternateExpectedOstTrack = "1c";
     std::string alternateExpectedMutedVoices = "11110000";
 
