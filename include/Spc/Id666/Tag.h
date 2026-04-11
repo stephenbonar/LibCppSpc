@@ -268,6 +268,7 @@ namespace Spc::Id666
         /// @pre Value must be <= 256 characters.
         /// @post The first 32 characters are stored in the non-extended field.
         /// @post If value > 32 characters, full value stored in extended data.
+        /// @throws std::out_of_range if value exceeds maximum string size.
         void SetSongTitle(std::string value);
 
         /// @brief Sets the title of the game.
@@ -280,6 +281,7 @@ namespace Spc::Id666
         /// @pre Value must be <= 256 characters.
         /// @post The first 32 characters are stored in the non-extended field.
         /// @post If value > 32 characters, full value stored in extended data.
+        /// @throws std::out_of_range if value exceeds maximum string size.
         void SetGameTitle(std::string value);
 
         /// @brief Sets the name of the person who dumped the SPC file.
@@ -292,6 +294,7 @@ namespace Spc::Id666
         /// @pre Value must be <= 256 characters.
         /// @post The first 32 characters are stored in the non-extended field.
         /// @post If value > 32 characters, full value stored in extended data.
+        /// @throws std::out_of_range if value exceeds maximum string size.
         void SetDumperName(std::string value);
 
         /// @brief Sets the comments the tagger included in the tag.
@@ -304,16 +307,19 @@ namespace Spc::Id666
         /// @pre Value must be <= 256 characters.
         /// @post The first 32 characters are stored in the non-extended field.
         /// @post If value > 32 characters, full value stored in extended data.
+        /// @throws std::out_of_range if value exceeds maximum string size.
         void SetComments(std::string value);
 
         /// @brief Sets the date the SPC file was dumped.
         /// @param value The value to set the date dumped to.
         /// @pre Value must be in MM/DD/YYYY format.
+        /// @throws std::invalid_argument if value is not in correct format.
         void SetDateDumped(std::string value);
 
         /// @brief Sets the length of the song, in seconds.
         /// @param value The value to set the song length to.
         /// @pre Value must be between 0 and 959 seconds.
+        /// @throws std::out_of_range if value is out of range.
         void SetSongLength(std::string value);
 
         /// @brief Sets the length of the fade, in milliseconds.
@@ -468,17 +474,41 @@ namespace Spc::Id666
         ///
         /// @param value The value to set the preamp level to.
         /// @pre Value must be between 32768 and 524288.
+        /// @throws std::invalid_argument if value is out of range.
         void SetPreampLevel(std::string value);
 
     private:
         std::shared_ptr<Binary::BufferStream> fieldData;
         std::shared_ptr<Extended::Data> extendedData;
 
+        /// @brief Reads a field from the binary buffer stream of the tag.
+        ///
+        /// This method preserves the position of the buffer stream so it
+        /// doesn't change positions. Use this method to read a field from the
+        /// buffer stream using random access rather than sequential reads.
+        /// The specified field's offset is used to determine where to read from
+        /// in the buffer stream.
+        ///
+        /// @param field The field to read from the buffer stream.
+        /// @pre The field's offset must be the correct position in the tag.
+        /// @post The field will contain the value read from the buffer stream.
         void ReadField(Field* field) const;
 
+        /// @brief Writes a field to the binary buffer stream of the tag.
+        ///
+        /// This method preserves the position of the buffer stream so it
+        /// doesn't change positions. Use this method to write a field to the
+        /// buffer stream using random access rather than sequential writes.
+        /// The specified field's offset is used to determine where to write to
+        /// in the buffer stream.
+        ///
+        /// @param field The field to write to the buffer stream.
+        /// @pre The field's offset must be the correct position in the tag.
+        /// @post The field's value is written to buffer stream at the offset.
+        /// @post The buffer stream's position is unchanged.
         void WriteField(Field* field);
 
-        /// @brief Reads a text field from the non-extended tag only.
+        /// @brief Reads a text field from the non-extended tag data only.
         ///
         /// This method provides a common way for reading text fields from the
         /// non-extended tag data, automatically selecting the correct offsets
@@ -489,6 +519,7 @@ namespace Spc::Id666
         /// @param label The label the read field should have.
         /// @param info The offset / sizes of both text and binary versions.
         /// @return A shared pointer to the field read from the tag.
+        /// @pre The specified field info is correct for the desired field.
         template<typename T>
         std::shared_ptr<T> ReadTextField(std::string label, 
                                          TagFieldInfo info) const
@@ -504,11 +535,6 @@ namespace Spc::Id666
                 field = std::make_shared<T>(label, info.text);
             }
 
-            /*
-            size_t originalPosition = fieldData->Position();
-            fieldData->SetPosition(field->Offset() - tagOffset);
-            fieldData->Read(field.get());
-            fieldData->SetPosition(originalPosition);*/
             ReadField(field.get());
             return field;
         }
@@ -524,6 +550,7 @@ namespace Spc::Id666
         /// @param label The label the read field should have.
         /// @param info The offset / sizes of both text and binary versions.
         /// @return A shared pointer to the field read from the tag.
+        /// @pre The specified field info is correct for the desired field.
         template<typename T>
         std::shared_ptr<T> ReadNumericField(std::string label, 
                                             TagFieldInfo info) const
@@ -548,11 +575,6 @@ namespace Spc::Id666
                 field->SetType(NumericType::Text);
             }
 
-            /*
-            size_t originalPosition = fieldData->Position();
-            fieldData->SetPosition(field->Offset() - tagOffset);
-            fieldData->Read(field.get());
-            fieldData->SetPosition(originalPosition);*/
             ReadField(field.get());
             return field;
         }
@@ -573,6 +595,7 @@ namespace Spc::Id666
         /// @param info The offset / sizes of both text and binary versions.
         /// @param item The extended item to read from, if available.
         /// @return A shared pointer to the field read from the tag.
+        /// @pre The specified field info is correct for the desired field.
         template<typename T>
         std::shared_ptr<T> ReadExtendedTextField(
             std::string label, 
@@ -615,6 +638,7 @@ namespace Spc::Id666
         /// @param info The offset / sizes of both text and binary versions.
         /// @param item The extended item to read from, if available.
         /// @return A shared pointer to the field read from the tag.
+        /// @pre The specified field info is correct for the desired field.
         template<typename T>
         std::shared_ptr<T> ReadExtendedNumericField(
             std::string label, 
@@ -697,6 +721,8 @@ namespace Spc::Id666
         /// @tparam T The type of the field to write.
         /// @param info The offset / sizes of both text and binary versions.
         /// @param value The string value to write.
+        /// @pre The specified field info is correct for the desired field.
+        /// @post The value is written to correct offset in the buffer stream.
         template<typename T>
         void WriteTextField(TagFieldInfo info, std::string value)
         {
@@ -705,12 +731,10 @@ namespace Spc::Id666
             if (DetermineType() == TagType::Binary)
             {
                 field = std::make_shared<T>("Temp", info.binary);
-                //std::cerr << "Field was created binary" << std::endl;
             }
             else
             {
                 field = std::make_shared<T>("Temp", info.text);
-                //std::cerr << "Field was created text" << std::endl;
             }
 
             field->SetValue(value);
@@ -728,6 +752,8 @@ namespace Spc::Id666
         /// @tparam T The type of the field to write.
         /// @param info The offset / sizes of both text and binary versions.
         /// @param value The string value to write.
+        /// @pre The specified field info is correct for the desired field.
+        /// @post The value is written to correct offset in the buffer stream.
         template<typename T>
         void WriteNumericField(TagFieldInfo info, 
                                std::string value)
@@ -740,22 +766,17 @@ namespace Spc::Id666
             {
                 field = std::make_shared<T>("Temp", info.binary);
                 field->SetType(Spc::NumericType::Binary);
-                //std::cerr << "Field was created binary" << std::endl;
             }
             else if (type == TagType::TextMixed)
             {
                 field = std::make_shared<T>("Temp", info.text);
                 field->SetType(Spc::NumericType::Either);
-                //std::cerr << "Field was created mixed" << std::endl;
             }
             else
             {
                 field = std::make_shared<T>("Temp", info.text);
                 field->SetType(Spc::NumericType::Text);
-                //std::cerr << "Field was created text" << std::endl;
             }
-
-            //std::cerr << "Value:" << value << std::endl;
 
             field->SetValue(value);
             WriteField(field.get());
@@ -778,7 +799,11 @@ namespace Spc::Id666
         ///                   A pointer to a pointer is used so the pointer
         ///                   itself can be updated to point to a new extended
         ///                   item if the extended item does not already exist.
-        /// @param value The string value to write. 
+        /// @param value The string value to write.
+        /// @pre The specified field info is correct for the desired field.
+        /// @post The value is written to correct offset in the buffer stream.
+        /// @post The extended item is created if it does not already exist
+        /// @post The extended item value is updated if it does exist.
         template<typename T>
         void WriteExtendedTextField(
             TagFieldInfo info,
@@ -819,6 +844,9 @@ namespace Spc::Id666
         ///                   itself can be updated to point to a new extended
         ///                   item if the extended item does not already exist.
         /// @param value The length value to write.
+        /// @pre The specified field info is correct for the desired field.
+        /// @post The extended item is created if it does not already exist
+        /// @post The extended item value is updated if it does exist.
         template<typename T>
         void WriteExtendedLengthField(
             Extended::ItemInfo extendedInfo,
@@ -861,6 +889,9 @@ namespace Spc::Id666
         ///                   itself can be updated to point to a new extended
         ///                   item if the extended item does not already exist.
         /// @param value The integer value to write.
+        /// @pre The specified field info is correct for the desired field.
+        /// @post The extended item is created if it does not already exist
+        /// @post The extended item value is updated if it does exist.
         template<typename T>
         void WriteExtendedIntField(Extended::ItemInfo extendedInfo,
                                    std::shared_ptr<Extended::Item>* itemPtrPtr, 
@@ -916,6 +947,10 @@ namespace Spc::Id666
         ///                   itself can be updated to point to a new extended
         ///                   item if the extended item does not already exist.
         /// @param value The string value to write.
+        /// @pre The specified field info is correct for the desired field.
+        /// @post The extended item is created if it does not already exist
+        /// @post The extended item value is updated if it does exist.
+        /// @throws std::invalid_argument if value exceeds maximum string size.
         template<typename T>
         void WriteExtendedStringField(
             Extended::ItemInfo extendedInfo,
@@ -958,6 +993,11 @@ namespace Spc::Id666
         }
     };
 
+    /// @brief Throws an exception if the specified value is out of range.
+    /// @param value A string representation of the numeric value to check.
+    /// @param min The minimum value of the range.
+    /// @param max The maximum value of the range.
+    /// @throws std::invalid_argument if the value is out of range.
     void CheckRange(std::string value, int min, int max);
 }
 

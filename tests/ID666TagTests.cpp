@@ -931,7 +931,7 @@ TEST_F(ID666TagTests, SetSongTitleEnforcesPreconditions)
 {
     std::string tooLongString(257, 'T');
 
-    EXPECT_THROW(tag->SetSongTitle(tooLongString), std::invalid_argument);
+    EXPECT_THROW(tag->SetSongTitle(tooLongString), std::out_of_range);
 }
 
 TEST_F(ID666TagTests, SetsTextGameTitleProperly)
