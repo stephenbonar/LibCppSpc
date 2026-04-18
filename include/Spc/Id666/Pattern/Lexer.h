@@ -1,4 +1,4 @@
-// PatternLexer.h - Declares the PatternLexer class.
+// Lexer.h - Declares the Spc::Id666::Pattern::Lexer class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -18,33 +18,34 @@
 #define SPC_ID666_PATTERN_LEXER_H
 
 #include <string>
-#include "PatternToken.h"
+#include "Token.h"
+#include "Constants.h"
 
-namespace Spc::Id666
+namespace Spc::Id666::Pattern
 {
     /// @brief Responsible for tokenizing pattern strings.
     ///
-    /// The PatternLexer class takes a file name pattern string and breaks it 
+    /// The Lexer class takes a file name pattern string and breaks it 
     /// down into individual tokens for further processing.
     ///
     /// @invariant Tokens returned in sequential order.
     /// @invariant Tokens never skip or repeat.
     /// @invariant End token is returned when the end of the pattern is reached.
-    class PatternLexer
+    class Lexer
     {
     public:
-        /// @brief Constructs a PatternLexer with the given pattern string.
+        /// @brief Constructs a Lexer with the given pattern string.
         /// @param pattern The pattern string to tokenize.
-        PatternLexer(std::string_view pattern) 
+        Lexer(std::string_view pattern) 
             : pattern{ pattern }, position{ 0 } 
         { }
 
         /// @brief Lexes the next token from the pattern string.
-        /// @return The next PatternToken.
+        /// @return The next Token.
         /// @pre The pattern string must remain valid when calling this method.
         /// @post The position is advanced to the next token.
         /// @post If the end is reached, subsequent calls return an End token.
-        PatternToken Lex();
+        Token Lex();
     private:
         std::string_view pattern;
         size_t position;

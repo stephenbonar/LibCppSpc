@@ -25,18 +25,18 @@ TEST_F(PatternLexerTests, LexesPatternProperly)
 {
     std::string pattern{ "test-%test%.spc"};
 
-    Spc::Id666::PatternLexer lexer{ pattern };
-    Spc::Id666::PatternToken literalToken = lexer.Lex();
-    Spc::Id666::PatternToken placeholderToken = lexer.Lex();
-    Spc::Id666::PatternToken literalToken2 = lexer.Lex();
-    Spc::Id666::PatternToken endOfPatternToken = lexer.Lex();
+    Spc::Id666::Pattern::Lexer lexer{ pattern };
+    Spc::Id666::Pattern::Token literalToken = lexer.Lex();
+    Spc::Id666::Pattern::Token placeholderToken = lexer.Lex();
+    Spc::Id666::Pattern::Token literalToken2 = lexer.Lex();
+    Spc::Id666::Pattern::Token endOfPatternToken = lexer.Lex();
 
-    EXPECT_EQ(literalToken.Type(), Spc::Id666::PatternTokenType::Literal);
+    EXPECT_EQ(literalToken.Type(), Spc::Id666::Pattern::TokenType::Literal);
     EXPECT_EQ(literalToken.Lexeme(), "test-");
-    EXPECT_EQ(placeholderToken.Type(), Spc::Id666::PatternTokenType::Placeholder);
+    EXPECT_EQ(placeholderToken.Type(), Spc::Id666::Pattern::TokenType::Placeholder);
     EXPECT_EQ(placeholderToken.Lexeme(), "%test%");
-    EXPECT_EQ(literalToken2.Type(), Spc::Id666::PatternTokenType::Literal);
+    EXPECT_EQ(literalToken2.Type(), Spc::Id666::Pattern::TokenType::Literal);
     EXPECT_EQ(literalToken2.Lexeme(), ".spc");
-    EXPECT_EQ(endOfPatternToken.Type(), Spc::Id666::PatternTokenType::End);
+    EXPECT_EQ(endOfPatternToken.Type(), Spc::Id666::Pattern::TokenType::End);
     EXPECT_EQ(endOfPatternToken.Lexeme(), "");
 }

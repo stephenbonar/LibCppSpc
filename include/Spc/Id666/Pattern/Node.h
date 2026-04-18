@@ -1,4 +1,4 @@
-// PatternNode.h - Declares the PatternNode class.
+// Node.h - Declares the Spc::Id666::Pattern::Node class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -18,22 +18,22 @@
 #define SPC_ID666_PATTERN_NODE_H
 
 #include <string>
-#include "PatternNodeType.h"
+#include "NodeType.h"
 
-namespace Spc::Id666
+namespace Spc::Id666::Pattern
 {
     /// @brief Represents a node in the syntax tree parsed from a pattern.
     ///
-    /// A file name pattern is parsed into a syntax tree of PatternNode objects. 
+    /// A file name pattern is parsed into a syntax tree of Node objects. 
     /// Each node represents a portion of the pattern, such as a literal string
     /// or a placeholder.
-    struct PatternNode
+    struct Node
     {
         /// @brief The portion of the pattern that this node represents.
         std::string_view lexeme;
 
         /// @brief The type of syntax node this is (e.g., literal, placeholder).
-        PatternNodeType type;
+        NodeType type;
     };
 }
 

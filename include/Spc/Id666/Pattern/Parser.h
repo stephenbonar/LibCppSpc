@@ -1,4 +1,4 @@
-// PatternParser.h - Declares the PatternParser class.
+// Parser.h - Declares the Spc::Id666::Pattern::Parser class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -19,35 +19,36 @@
 
 #include <string>
 #include <vector>
-#include "PatternToken.h"
-#include "PatternNode.h"
-#include "PatternNodeType.h"
+#include "Token.h"
+#include "Node.h"
+#include "NodeType.h"
+#include "Constants.h"
 
-namespace Spc::Id666
+namespace Spc::Id666::Pattern
 {
     /// @brief Parses pattern tokens into a syntax tree of pattern nodes.
     ///
-    /// A file name pattern is first tokenized by the PatternLexer into a 
-    /// sequence of tokens. The PatternParser takes those tokens and parses
-    /// them into a syntax tree of PatternNode objects. The Spc::File class can
+    /// A file name pattern is first tokenized by the Lexer into a 
+    /// sequence of tokens. The Parser takes those tokens and parses
+    /// them into a syntax tree of Node objects. The Spc::File class can
     /// then use the syntax tree to generate file names according to the 
     /// pattern or extract values from the file name into the tag fields.
     ///
     /// @invariant The parser does not modify the tokens or their order.
-    class PatternParser
+    class Parser
     {
     public:
-        /// @brief Constructs a PatternParser with the given tokens.
+        /// @brief Constructs a Parser with the given tokens.
         /// @param tokens The tokens to parse into a syntax tree.
-        PatternParser(std::vector<PatternToken> tokens) 
+        Parser(std::vector<Token> tokens) 
             : tokens{ tokens }
         { }
 
         /// @brief Parses the tokens into a syntax tree of pattern nodes.
         /// @return A vector of pattern nodes representing the syntax tree.
-        std::vector<PatternNode> Parse() const;
+        std::vector<Node> Parse() const;
     private:
-        std::vector<PatternToken> tokens;
+        std::vector<Token> tokens;
     };
 }
 

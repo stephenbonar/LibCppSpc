@@ -1,4 +1,4 @@
-// Tag.h - Declares the Tag class.
+// Tag.h - Declares the Spc::Id666::Tag class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //

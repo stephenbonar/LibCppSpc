@@ -1,4 +1,4 @@
-// PatternToken.h - Declares the PatternToken class.
+// Token.h - Declares the Spc::Id666::Pattern::Token class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -18,42 +18,43 @@
 #define SPC_ID666_PATTERN_TOKEN_H
 
 #include <string>
-#include "PatternTokenType.h"
+#include "TokenType.h"
+#include "Constants.h"
 
-namespace Spc::Id666
+namespace Spc::Id666::Pattern
 {
     /// @brief Represents a token in the pattern string.
     ///
-    /// A file name pattern is first tokenized by the PatternLexer into a 
-    /// sequence of PatternToken objects. Each token represents a portion of the
-    /// pattern, such as a literal string or a placeholder. The PatternParser
+    /// A file name pattern is first tokenized by the Lexer into a 
+    /// sequence of Token objects. Each token represents a portion of the
+    /// pattern, such as a literal string or a placeholder. The Parser
     /// then takes these tokens and parses them into a syntax tree of 
-    /// PatternNode objects.
+    /// Node objects.
     ///
     /// @invariant The lexeme must reference a valid string for token lifetime.
     /// @invariant The lexeme does not change after the token is created.
     /// @invariant The token type is determined solely by the lexeme content.
-    class PatternToken
+    class Token
     {
     public:
         /// @brief Default constructor; creates an empty (end) token.
-        PatternToken() { }
+        Token() { }
 
-        /// @brief Constructs a PatternToken with the given lexeme.
+        /// @brief Constructs a Token with the given lexeme.
         /// @param lexeme The portion of the pattern that this token represents.
         /// @pre The lexeme string_view must reference a valid string.
-        PatternToken(std::string_view lexeme) : lexeme{ lexeme }
+        Token(std::string_view lexeme) : lexeme{ lexeme }
         { }
         
         /// @brief Determines the type of the token based on its lexeme.
         ///
         /// This method determines the type of the token by analyzing its 
-        /// lexeme. If the lexeme is empty, it is an End token. If it starts 
-        /// and ends with a percent sign, it is a Placeholder token. Otherwise,
+        /// lexeme. If the lexeme is empty, it is an End token. If it matches
+        /// a known placeholder, it is a Placeholder token. Otherwise,
         /// it is a Literal token.
         ///
-        /// @return The PatternTokenType of this token.
-        PatternTokenType Type() const;
+        /// @return The TokenType of this token.
+        TokenType Type() const;
 
         /// @brief Returns the portion of the pattern this token represents.
         /// @return The lexeme of this token.

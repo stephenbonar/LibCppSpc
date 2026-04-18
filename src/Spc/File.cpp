@@ -275,17 +275,17 @@ void File::LoadIntegerItem(std::shared_ptr<Id666::Extended::Item> item,
 
 bool File::TagToFileName(std::string pattern)
 {
-    std::vector<Id666::PatternNode> nodes = ParsePattern(pattern);
+    std::vector<Id666::Pattern::Node> nodes = ParsePattern(pattern);
     std::stringstream stream;
 
-    for (Id666::PatternNode node : nodes)
+    for (Id666::Pattern::Node node : nodes)
     {
         switch (node.type)
         {
-            case Id666::PatternNodeType::Literal:
+            case Id666::Pattern::NodeType::Literal:
                 stream << node.lexeme;
                 break;
-            case Id666::PatternNodeType::TextPlaceholder:
+            case Id666::Pattern::NodeType::TextPlaceholder:
                 if (node.lexeme == "%song%")
                 {
                     stream << tag.SongTitle().Value();
@@ -304,7 +304,7 @@ bool File::TagToFileName(std::string pattern)
                 }
 
                 break;
-            case Id666::PatternNodeType::NumericPlaceholder:
+            case Id666::Pattern::NodeType::NumericPlaceholder:
                 if (node.lexeme == "%disc%")
                 {
                     stream << tag.OstDisc().Value();
@@ -319,7 +319,7 @@ bool File::TagToFileName(std::string pattern)
                 }
                 
                 break;
-            case Id666::PatternNodeType::End:
+            case Id666::Pattern::NodeType::End:
                 break;
         }
     }
@@ -332,7 +332,7 @@ bool File::TagToFileName(std::string pattern)
 
 bool File::FileNameToTag(std::string pattern)
 {
-    std::vector<Id666::PatternNode> nodes = ParsePattern(pattern);
+    std::vector<Id666::Pattern::Node> nodes = ParsePattern(pattern);
     std::filesystem::path p(path);
     std::string filename = p.filename().string();
     std::stringstream stream{ filename };
@@ -340,8 +340,8 @@ bool File::FileNameToTag(std::string pattern)
     
     for (int i = 0; i < nodes.size(); i++)
     {
-        Id666::PatternNode* nextNode{ nullptr};
-        Id666::PatternNode node = nodes[i];
+        Id666::Pattern::Node* nextNode{ nullptr};
+        Id666::Pattern::Node node = nodes[i];
 
         if (i + 1 < nodes.size())
         {
@@ -350,16 +350,16 @@ bool File::FileNameToTag(std::string pattern)
 
         switch (node.type)
         {
-            case Id666::PatternNodeType::Literal:
+            case Id666::Pattern::NodeType::Literal:
                 success = MatchLiteral(stream, node);
                 break;
-            case Id666::PatternNodeType::TextPlaceholder:
+            case Id666::Pattern::NodeType::TextPlaceholder:
                 success = MatchText(stream, node, nextNode);
                 break;
-            case Id666::PatternNodeType::NumericPlaceholder:
+            case Id666::Pattern::NodeType::NumericPlaceholder:
                 success = MatchNumeric(stream, node, nextNode);
                 break;
-            case Id666::PatternNodeType::End:
+            case Id666::Pattern::NodeType::End:
                 success = MatchEnd(stream);
                 break;
         }
@@ -374,8 +374,8 @@ bool File::FileNameToTag(std::string pattern)
 }
 
 bool File::MatchNumeric(std::stringstream& stream, 
-                        Id666::PatternNode node,
-                        Id666::PatternNode* nextNode)
+                        Id666::Pattern::Node node,
+                        Id666::Pattern::Node* nextNode)
 {
     if (nextNode == nullptr)
     {
@@ -387,7 +387,7 @@ bool File::MatchNumeric(std::stringstream& stream,
     std::string remainingContent = fullStreamContent.substr(stream.tellg());
     std::string_view contentView{ remainingContent };
 
-    if (nextNode->type == Id666::PatternNodeType::Literal)
+    if (nextNode->type == Id666::Pattern::NodeType::Literal)
     {
         size_t index = contentView.find(nextNode->lexeme);
 
@@ -398,7 +398,7 @@ bool File::MatchNumeric(std::stringstream& stream,
 
         numericStringSize = index;
     }
-    else if (nextNode->type == Id666::PatternNodeType::End)
+    else if (nextNode->type == Id666::Pattern::NodeType::End)
     {
         numericStringSize = contentView.size();
     }
@@ -434,8 +434,8 @@ bool File::MatchNumeric(std::stringstream& stream,
 }
 
 bool File::MatchText(std::stringstream& stream,
-                     Id666::PatternNode node,
-                     Id666::PatternNode* nextNode)
+                     Id666::Pattern::Node node,
+                     Id666::Pattern::Node* nextNode)
 {
     if (nextNode == nullptr)
     {
@@ -444,7 +444,7 @@ bool File::MatchText(std::stringstream& stream,
 
     size_t textStringSize{ 0 };
 
-    if (nextNode->type == Id666::PatternNodeType::Literal)
+    if (nextNode->type == Id666::Pattern::NodeType::Literal)
     {
         std::string streamContent = stream.str();
         size_t index = streamContent.find(nextNode->lexeme);
@@ -456,7 +456,7 @@ bool File::MatchText(std::stringstream& stream,
 
         textStringSize = index;
     }
-    else if (nextNode->type == Id666::PatternNodeType::End)
+    else if (nextNode->type == Id666::Pattern::NodeType::End)
     {
         textStringSize = stream.str().size();
     }
@@ -508,9 +508,9 @@ bool Spc::MatchEnd(std::stringstream& stream)
     }
 }
 
-bool Spc::MatchLiteral(std::stringstream& stream, Id666::PatternNode node)
+bool Spc::MatchLiteral(std::stringstream& stream, Id666::Pattern::Node node)
 {
-    if (node.type != Id666::PatternNodeType::Literal)
+    if (node.type != Id666::Pattern::NodeType::Literal)
     {
         return false;
     }
@@ -549,18 +549,18 @@ bool Spc::MatchLiteral(std::stringstream& stream, Id666::PatternNode node)
     }
 }
 
-std::vector<Id666::PatternNode> Spc::ParsePattern(std::string_view pattern)
+std::vector<Id666::Pattern::Node> Spc::ParsePattern(std::string_view pattern)
 {
-    Id666::PatternLexer lexer{ pattern };
-    std::vector<Id666::PatternToken> tokens;
+    Id666::Pattern::Lexer lexer{ pattern };
+    std::vector<Id666::Pattern::Token> tokens;
 
     do
     {
-        Id666::PatternToken token = lexer.Lex();
+        Id666::Pattern::Token token = lexer.Lex();
         tokens.push_back(token); 
     }
-    while (tokens.back().Type() != Id666::PatternTokenType::End);
+    while (tokens.back().Type() != Id666::Pattern::TokenType::End);
     
-    Id666::PatternParser parser{ tokens };
+    Id666::Pattern::Parser parser{ tokens };
     return parser.Parse();
 }

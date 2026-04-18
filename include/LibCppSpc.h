@@ -34,11 +34,11 @@
 #include "Spc/Id666/TagType.h"
 #include "Spc/Id666/Extended/Data.h"
 #include "Spc/Id666/Extended/Item.h"
-#include "Spc/Id666/PatternToken.h"
-#include "Spc/Id666/PatternTokenType.h"
-#include "Spc/Id666/PatternLexer.h"
-#include "Spc/Id666/PatternNode.h"
-#include "Spc/Id666/PatternNodeType.h"
-#include "Spc/Id666/PatternParser.h"
+#include "Spc/Id666/Pattern/Token.h"
+#include "Spc/Id666/Pattern/TokenType.h"
+#include "Spc/Id666/Pattern/Lexer.h"
+#include "Spc/Id666/Pattern/Node.h"
+#include "Spc/Id666/Pattern/NodeType.h"
+#include "Spc/Id666/Pattern/Parser.h"
 
 #endif

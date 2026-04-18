@@ -18,20 +18,31 @@
 
 using namespace Spc;
 
+constexpr int dateSize{ 11 };
+constexpr int asciiZero{ 0x30 };
+constexpr int asciiNine{ 0x39 };
+constexpr int asciiSlash{ 0x2F };
+constexpr int unusedAreaIndex{ 4 };
+constexpr int endIndex{ 10 };
+constexpr int beginningYear{ 1900 };
+const char* dateFormat{ "%m/%d/%Y" };
+const char* dateSizeError{ "DateField size must be at least 11." };
+const char* dateFormatError{ "Date value must be in MM/DD/YYYY format." };
+
 DateField::DateField(std::string label, FieldInfo info)
     : NumericField{ label, info }
 {
-    if (size < 11)
-        throw std::invalid_argument{ "DateField size must be at least 11." };
+    if (size < dateSize)
+        throw std::invalid_argument{ dateSizeError };
 }
 
 bool DateField::IsText() const
 {
     for (int i = 0; i < size; i++)
     {
-        bool isAsciiNum = rawData[i] >= 0x30 && rawData[i] <= 0x39;
+        bool isAsciiNum = rawData[i] >= asciiZero && rawData[i] <= asciiNine;
         bool isZero = rawData[i] == 0x0;
-        bool isDateSlash = rawData[i] == 0x2F;
+        bool isDateSlash = rawData[i] == asciiSlash;
 
         if (!isAsciiNum && !isZero && !isDateSlash)
             return false;
@@ -42,8 +53,6 @@ bool DateField::IsText() const
 
 bool DateField::HasUnusedArea() const
 {
-    constexpr int unusedAreaIndex{ 4 };
-
     for (int i = unusedAreaIndex; i < size; i++)
     {
         if (rawData[i] != 0)
@@ -98,7 +107,7 @@ void DateField::SetTextValue(std::string value)
     std::istringstream valueStream{ value };
     std::tm date{};
 
-    valueStream >> std::get_time(&date, "%m/%d/%Y");
+    valueStream >> std::get_time(&date, dateFormat);
 
     if (!valueStream.fail())
     {
@@ -112,19 +121,17 @@ void DateField::SetTextValue(std::string value)
         dateStream << "/";
 
         // We add 1900 because years are stored as years since 1900.
-        dateStream << std::setw(4) << std::setfill('0') << date.tm_year + 1900;
+        dateStream << std::setw(4) << std::setfill('0') 
+                   << date.tm_year + beginningYear;
 
-        std::memcpy(rawData.get(), dateStream.str().c_str(), 10);
+        std::memcpy(rawData.get(), dateStream.str().c_str(), endIndex);
 
         // The last byte of the 11 byte date field should always be null.
-        rawData[10] = 0;
+        rawData[endIndex] = 0;
     }
     else
     {
-        throw std::invalid_argument
-        {
-            "Date value must be in MM/DD/YYYY format." 
-        };
+        throw std::invalid_argument{ dateFormatError };
     }
 }
 
@@ -133,7 +140,7 @@ void DateField::SetBinaryValue(std::string value)
     std::istringstream valueStream{ value };
     std::tm date;
 
-    valueStream >> std::get_time(&date, "%m/%d/%Y");
+    valueStream >> std::get_time(&date, dateFormat);
 
     if (!valueStream.fail())
     {
@@ -143,21 +150,21 @@ void DateField::SetBinaryValue(std::string value)
         Binary::Int8Field month{ static_cast<int8_t>(date.tm_mon + 1) };
 
         // We add 1900 because years are stored as years since 1900.
-        Binary::Int16Field year{ static_cast<int16_t>(date.tm_year + 1900) };
+        Binary::Int16Field year
+        { 
+            static_cast<int16_t>(date.tm_year + beginningYear) 
+        };
 
         rawData[0] = day.RawData()[0];
         rawData[1] = month.RawData()[0];
         std::memcpy(rawData.get() + 2, year.RawData(), 2);
 
         // The remaining bytes should all be unused in a binary formatted date.
-        for (int i = 4; i < 11; i++)
+        for (int i = unusedAreaIndex; i < dateSize; i++)
             rawData[i] = 0;
     }
     else
     {
-        throw std::invalid_argument
-        {
-            "Date value must be in MM/DD/YYYY format." 
-        };
+        throw std::invalid_argument{ dateFormatError };
     }
 }

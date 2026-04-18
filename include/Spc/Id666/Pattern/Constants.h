@@ -1,4 +1,4 @@
-// TagType.h - Declares the Spc::Id666::TagType enum.
+// Constants.h - Declares the constants for the pattern lexer.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -14,23 +14,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SPC_ID666_TAG_TYPE_H
-#define SPC_ID666_TAG_TYPE_H
+#ifndef SPC_ID666_PATTERN_CONSTANTS_H
+#define SPC_ID666_PATTERN_CONSTANTS_H
 
-namespace Spc::Id666
+namespace Spc::Id666::Pattern
 {
-    /// @brief Represents the type of the ID666 tag.
-    enum class TagType
-    {
-        /// @brief The tag has binary representation of numeric values.
-        Binary,
+    /// @brief The character used to denote the start and end of a placeholder.
+    inline const char placeholderChar{ '%' };
 
-        /// @brief The tag has text representation of numeric values.
-        Text,
+    /// @brief The placeholder for the disc number in the pattern.
+    extern const char* discPlaceholder;
 
-        /// @brief The tag has text offsets, but some numeric values are binary.
-        TextMixed
-    };
+    /// @brief The placeholder for the track number in the pattern.
+    extern const char* trackPlaceholder;
 }
 
 #endif

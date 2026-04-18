@@ -1,4 +1,4 @@
-// PatternParser.cpp - Defines the PatternParser class.
+// Parser.cpp - Defines the Parser class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -14,38 +14,39 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "Spc/Id666/PatternParser.h"
+#include "Spc/Id666/Pattern/Parser.h"
 
-using namespace Spc::Id666;
+using namespace Spc::Id666::Pattern;
 
-std::vector<PatternNode> PatternParser::Parse() const
+std::vector<Node> Parser::Parse() const
 {
-    std::vector<PatternNode> nodes;
+    std::vector<Node> nodes;
 
-    for (const PatternToken& token : tokens)
+    for (const Token& token : tokens)
     {
-        PatternNode node;
+        Node node;
 
         switch (token.Type())
         {
-        case PatternTokenType::Literal:
-            node.type = PatternNodeType::Literal;
+        case TokenType::Literal:
+            node.type = NodeType::Literal;
             node.lexeme = token.Lexeme();
             break;
-        case PatternTokenType::Placeholder:
-            if (token.Lexeme() == "%disc%" || token.Lexeme() == "%track%")
+        case TokenType::Placeholder:
+            if (token.Lexeme() == discPlaceholder || 
+                token.Lexeme() == trackPlaceholder)
             {
-                node.type = PatternNodeType::NumericPlaceholder;
+                node.type = NodeType::NumericPlaceholder;
             }
             else
             {
-                node.type = PatternNodeType::TextPlaceholder;
+                node.type = NodeType::TextPlaceholder;
             }
             
             node.lexeme = token.Lexeme();
             break;
-        case PatternTokenType::End:
-            node.type = PatternNodeType::End;
+        case TokenType::End:
+            node.type = NodeType::End;
             break;
         }
 

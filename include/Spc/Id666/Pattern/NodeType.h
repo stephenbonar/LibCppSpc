@@ -1,4 +1,4 @@
-// PatternTokenType.h - Declares the PatternTokenType class.
+// NodeType.h - Declares the Spc::Id666::Pattern::NodeType class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -14,21 +14,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SPC_ID666_PATTERN_TOKEN_TYPE_H
-#define SPC_ID666_PATTERN_TOKEN_TYPE_H
+#ifndef SPC_ID666_PATTERN_NODE_TYPE_H
+#define SPC_ID666_PATTERN_NODE_TYPE_H
 
-#include <string>
-
-namespace Spc::Id666
+namespace Spc::Id666::Pattern
 {
-    /// @brief The type of token in the pattern string.
-    enum class PatternTokenType
+    /// @brief The type of node in the syntax tree parsed from a pattern.
+    ///
+    /// The syntax of a file name pattern can be represented as literals or
+    /// placeholders of various types. 
+    enum class NodeType
     {
-        /// @brief A literal string in the pattern.
+        /// @brief A literal portion of the pattern that should be output as is.
         Literal,
 
-        /// @brief A placeholder in the pattern.
-        Placeholder,
+        /// @brief A placeholder that should be replaced with a text value.
+        TextPlaceholder,
+
+        /// @brief A placeholder that should be replaced with a numeric value.
+        NumericPlaceholder,
 
         /// @brief Marks the end of the pattern.
         End

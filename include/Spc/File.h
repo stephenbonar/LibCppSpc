@@ -23,8 +23,8 @@
 #include <filesystem>
 #include "Spc/Header.h"
 #include "Spc/Id666/Tag.h"
-#include "Spc/Id666/PatternLexer.h"
-#include "Spc/Id666/PatternParser.h"
+#include "Spc/Id666/Pattern/Lexer.h"
+#include "Spc/Id666/Pattern/Parser.h"
 #include "Spc/FileCorruptException.h"
 
 namespace Spc
@@ -106,19 +106,19 @@ namespace Spc
                              size_t& sizeRemaining);
 
         bool MatchNumeric(std::stringstream& stream, 
-                          Id666::PatternNode node,
-                          Id666::PatternNode* nextNode);
+                          Id666::Pattern::Node node,
+                          Id666::Pattern::Node* nextNode);
 
         bool MatchText(std::stringstream& stream,
-                       Id666::PatternNode node,
-                       Id666::PatternNode* nextNode);
+                       Id666::Pattern::Node node,
+                       Id666::Pattern::Node* nextNode);
     };
 
-    bool MatchLiteral(std::stringstream& stream, Id666::PatternNode node);
+    bool MatchLiteral(std::stringstream& stream, Id666::Pattern::Node node);
 
     bool MatchEnd(std::stringstream& stream);
 
-    std::vector<Id666::PatternNode> ParsePattern(std::string_view pattern);
+    std::vector<Id666::Pattern::Node> ParsePattern(std::string_view pattern);
 }
 
 #endif

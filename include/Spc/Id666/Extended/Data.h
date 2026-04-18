@@ -1,4 +1,4 @@
-// ID666ExtendedData.h - Declares the ID666ExtendedData class.
+// Data.h - Declares the Spc::Id666::Extended::Data class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -30,6 +30,9 @@
 
 namespace Spc::Id666::Extended
 {
+    /// @brief Defines the IFF chunk ID for the ID666 extended tag data.
+    extern const char* chunkId;
+
     /// @brief Represents the extended ID666 tag data.
     ///
     /// The extended ID666 tag items are typically used when a value, such as 
@@ -50,8 +53,8 @@ namespace Spc::Id666::Extended
     /// enough. It is not clear why such fields were included in the extended 
     /// tag data.
     ///
-    /// All fields are ID666ExtendedItem pointers. Any pointers that are null
-    /// indicate that extended item does not exist in the tag.
+    /// All fields are Spc::Id666::Extended::Item pointers. Any pointers that 
+    /// are null indicate that extended item does not exist in the tag.
     struct Data : public DataStructure
     {
         /// @brief The extended version of song title (4 - 256 bytes).
@@ -174,7 +177,7 @@ namespace Spc::Id666::Extended
         /// implementation for this method that generates the vector in the 
         /// correct order.
         ///
-        /// @return A vector containing pointers to the SpcFields.
+        /// @return A vector containing pointers to the Spc::Field elements.
         std::vector<Field*> SpcFields() const override;
     };
 }

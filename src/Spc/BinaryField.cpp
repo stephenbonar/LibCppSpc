@@ -20,6 +20,7 @@ using namespace Spc;
 
 const char* emptyError{ "Value must not be empty."};
 const char* binError{ "Value must only contain '0' and '1' characters." };
+const char* binaryChars{ "01" };
 
 void BinaryField::SetValue(std::string value)
 {
@@ -29,7 +30,7 @@ void BinaryField::SetValue(std::string value)
     if (value.empty())
         throw std::invalid_argument{ emptyError };
     
-    if (value.find_first_not_of("01") != std::string::npos)
+    if (value.find_first_not_of(binaryChars) != std::string::npos)
         throw std::invalid_argument{ binError };
 
     int dec = std::stoi(value, nonNumericPos, base);

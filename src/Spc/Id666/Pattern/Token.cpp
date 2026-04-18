@@ -1,4 +1,4 @@
-// PatternToken.cpp - Defines the PatternToken class.
+// Token.cpp - Defines the Token class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -14,22 +14,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "Spc/Id666/PatternToken.h"
+#include "Spc/Id666/Pattern/Token.h"
 
-using namespace Spc::Id666;
+using namespace Spc::Id666::Pattern;
 
-PatternTokenType PatternToken::Type() const 
+TokenType Token::Type() const 
 {
     if (lexeme.empty())
     {
-        return PatternTokenType::End;
+        return TokenType::End;
     }
-    else if (lexeme.front() == '%' && lexeme.back() == '%')
+    else if (lexeme.front() == placeholderChar && 
+             lexeme.back() == placeholderChar)
     {
-        return PatternTokenType::Placeholder;
+        return TokenType::Placeholder;
     }
     else
     {
-        return PatternTokenType::Literal;
+        return TokenType::Literal;
     }
 }

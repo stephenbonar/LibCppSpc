@@ -22,32 +22,32 @@ void PatternTokenTests::SetUp()
 
 TEST_F(PatternTokenTests, InitializesProperly)
 {
-    Spc::Id666::PatternToken token{ "test" };
+    Spc::Id666::Pattern::Token token{ "test" };
 
     EXPECT_EQ(token.Lexeme(), "test");
 }
 
 TEST_F(PatternTokenTests, IdentifiesPlaceholderToken)
 {
-    Spc::Id666::PatternToken token{ "%test%" };
+    Spc::Id666::Pattern::Token token{ "%test%" };
 
-    EXPECT_EQ(token.Type(), Spc::Id666::PatternTokenType::Placeholder);
+    EXPECT_EQ(token.Type(), Spc::Id666::Pattern::TokenType::Placeholder);
 }
 
 TEST_F(PatternTokenTests, IdentifiesLiteralTokens)
 {
-    Spc::Id666::PatternToken token1{ "literal" };
-    Spc::Id666::PatternToken token2{ "%literal" };
-    Spc::Id666::PatternToken token3{ "literal%" };
+    Spc::Id666::Pattern::Token token1{ "literal" };
+    Spc::Id666::Pattern::Token token2{ "%literal" };
+    Spc::Id666::Pattern::Token token3{ "literal%" };
 
-    EXPECT_EQ(token1.Type(), Spc::Id666::PatternTokenType::Literal);
-    EXPECT_EQ(token2.Type(), Spc::Id666::PatternTokenType::Literal);
-    EXPECT_EQ(token3.Type(), Spc::Id666::PatternTokenType::Literal);
+    EXPECT_EQ(token1.Type(), Spc::Id666::Pattern::TokenType::Literal);
+    EXPECT_EQ(token2.Type(), Spc::Id666::Pattern::TokenType::Literal);
+    EXPECT_EQ(token3.Type(), Spc::Id666::Pattern::TokenType::Literal);
 }
 
 TEST_F(PatternTokenTests, IdentifiesEndOfPatternToken)
 {
-    Spc::Id666::PatternToken token;
+    Spc::Id666::Pattern::Token token;
 
-    EXPECT_EQ(token.Type(), Spc::Id666::PatternTokenType::End);
+    EXPECT_EQ(token.Type(), Spc::Id666::Pattern::TokenType::End);
 }

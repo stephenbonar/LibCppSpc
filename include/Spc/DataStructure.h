@@ -83,7 +83,7 @@ namespace Spc
         /// implementation for this method that generates the vector in the 
         /// correct order.
         ///
-        /// @return A vector containing pointers to the SpcFields.
+        /// @return A vector containing pointers to the Spc::Field elements.
         virtual std::vector<Field*> SpcFields() const = 0;
     };
 }

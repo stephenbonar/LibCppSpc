@@ -1,4 +1,4 @@
-// ItemInfo.h - Declares the ItemInfo struct.
+// ItemInfo.h - Declares the Spc::Id666::Extended::ItemInfo struct.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -27,7 +27,16 @@ namespace Spc::Id666::Extended
     /// format supports.
     struct ItemInfo
     {
+        /// @brief The integer representing the ID of the extended item.
         uint8_t id;
+        
+        /// @brief The integer representing the type of the extended item.
+        ///
+        /// Possible types are defined as the following constants:
+        ///
+        /// @see lengthType
+        /// @see stringType
+        /// @see integerType
         uint8_t type;
     };
 

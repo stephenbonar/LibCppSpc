@@ -19,10 +19,12 @@
 using namespace Spc;
 using namespace Spc::Id666::Extended;
 
+const char* Spc::Id666::Extended::chunkId{ "xid6" };
+
 Binary::ChunkHeader Data::Header() const
 {
     Binary::ChunkHeader header;
-    header.id.SetValue("xid6");
+    header.id.SetValue(chunkId);
     header.dataSize.SetValue(static_cast<uint32_t>(Size()));
     return header;
 }

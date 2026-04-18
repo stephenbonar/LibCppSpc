@@ -1,4 +1,4 @@
-// ID666ExtendedItem.h - Declares the ID666ExtendedItem class.
+// Item.h - Declares the Spc::Id666::Extended::Item class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -27,6 +27,7 @@
 
 namespace Spc::Id666::Extended
 {
+    /// @brief Provides a map of extended IDs to their corresponding labels.
     extern const std::map<int, std::string> fieldLabels;
     
     /// @brief Represents an item in the extended ID666 tag.

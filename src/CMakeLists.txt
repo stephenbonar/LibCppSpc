@@ -28,9 +28,10 @@ set(SOURCES
     Spc/TextField.cpp
     Spc/File.cpp
     Spc/Id666/Tag.cpp
-    Spc/Id666/PatternToken.cpp
-    Spc/Id666/PatternLexer.cpp
-    Spc/Id666/PatternParser.cpp
+    Spc/Id666/Pattern/Constants.cpp
+    Spc/Id666/Pattern/Token.cpp
+    Spc/Id666/Pattern/Lexer.cpp
+    Spc/Id666/Pattern/Parser.cpp
     Spc/Id666/Extended/Item.cpp
     Spc/Id666/Extended/Data.cpp)
 

@@ -1,4 +1,4 @@
-// BinaryField.h - Declares the BinaryField class.
+// BinaryField.h - Declares the Spc::BinaryField class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -30,13 +30,14 @@ namespace Spc
     /// methods for converting the field's data to and from a binary string
     /// representation such as "00100101". It is used for representing fields
     /// that should be interpreted as binary numbers, such as flags or bitmasks.
+    ///
+    /// @invariant The field's data is always treated as binary representation.
     class BinaryField : public NumericField
     {
     public:
         /// @brief Constructor; creates a new instance of Spc::BinaryField.
         /// @param label The label to use when outputing the field. 
-        /// @param offset The offset where the field can be found in the file.
-        /// @param size The size of the field, in bytes.
+        /// @param info Sets offset and size of the field.
         BinaryField(std::string label, FieldInfo info) :
             NumericField{ label, info }
         {
