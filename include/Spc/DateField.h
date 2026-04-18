@@ -1,4 +1,4 @@
-// DateField.h - Declares the DateField class.
+// DateField.h - Declares the Spc::DateField class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -32,14 +32,15 @@ namespace Spc
     /// Date dumped can either have a text or binary representation. This field
     /// can determine which representation is used and output the date in the
     /// correct format based on the representation.
+    ///
+    /// @invariant The field's data is always treated as a date representation.
+    /// @invariant The field's data is always 11 bytes in size.
     class DateField : public NumericField
     {
     public:
-        /// @brief Constructor; creates a new instance of SpcDateField.
+        /// @brief Constructor; creates a new instance of DateField.
         /// @param label The label to use when outputing the field. 
-        /// @param offset The offset where the field can be found in the file.
-        /// @param size The size of the field, in bytes.
-        /// @invariant Size must be at least 11 bytes.
+        /// @param info Sets offset and size of the field.
         DateField(std::string label, FieldInfo info);
             
         /// @brief Determines if the field has a text representation of date.
@@ -54,6 +55,10 @@ namespace Spc
         /// @return Returns true if it is set, otherwise false.
         bool IsSet() const;
 
+        /// @brief Sets the date value using a string representation of date.
+        /// @param value The date value as a string.
+        /// @pre The value should be in MM/DD/YYYY format.
+        /// @post The field's data is updated to represent the specified value.
         virtual void SetValue(std::string value) override;
 
         /// @brief Converts the field's data to a string representation.
@@ -63,11 +68,13 @@ namespace Spc
         /// @brief Sets the date value and stores it in text format.
         /// @param value The date value as a string.
         /// @pre The value should be in MM/DD/YYYY format.
+        /// @post The field's data is updated to represent the specified value.
         void SetTextValue(std::string value);
 
         /// @brief Sets the date value and stores it in binary format.
         /// @param value The date value as a string.
         /// @pre The value should be in MM/DD/YYYY format.
+        /// @post The field's data is updated to represent the specified value.
         void SetBinaryValue(std::string value);
     };
 }

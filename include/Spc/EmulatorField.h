@@ -1,4 +1,4 @@
-// EmulatorField.h - Declares the EmulatorField class.
+// EmulatorField.h - Declares the Spc::EmulatorField class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -28,21 +28,21 @@ namespace Spc
     ///
     /// A Spc::NumericField with ToString() adjusted to interpret 
     /// the value to determine which emulator was used to dump the SPC file.
+    ///
+    /// @invariant The field's value always represents a valid emulator.
     class EmulatorField : public NumericField
     {
     public:
         /// @brief Constructor; creates a new instance of Spc::EmulatorField.
         /// @param label The label to use when outputing the field. 
-        /// @param offset The offset where the field can be found in the file.
-        /// @param size The size of the field, in bytes.
+        /// @param info Sets offset and size of the field.
         EmulatorField(std::string label, FieldInfo info) 
             : NumericField{ label, info }
         { }
 
         /// @brief Constructor; creates a new instance of Spc::EmulatorField.
         /// @param label The label to use when outputing the field. 
-        /// @param offset The offset where the field can be found in the file.
-        /// @param size The size of the field, in bytes.
+        /// @param info Sets offset and size of the field.
         /// @param type Determines the numeric type of the field.
         EmulatorField(std::string label, FieldInfo info, NumericType type) 
             : NumericField{ label, info, type }
@@ -52,6 +52,10 @@ namespace Spc
         /// @return A string representation of the field's data.
         virtual std::string ToString() const override;
 
+        /// @brief Sets the emulator used value.
+        /// @param value A string representation of the value.
+        /// @post The value is updated to match the specified value.
+        /// @post The value is set to Unknown if specified value not recognized.
         virtual void SetValue(std::string value) override;
     };
 }

@@ -1,4 +1,4 @@
-// File.cpp - Defines the File class methods.
+// File.cpp - Defines the Spc::File class methods.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -22,6 +22,9 @@
 
 using namespace Spc;
 
+const char* extSizeError{ "Extended item size exceeds remaining chunk size." };
+const char* invalidTypeError{ "Invalid extended item type detected." };
+
 void File::Load()
 {
     if (fileStream == nullptr)
@@ -44,14 +47,13 @@ void File::Load()
     fileStream->Read(&extraRam);
 
     std::shared_ptr<Binary::ChunkHeader> extendedHeader =
-        fileStream->FindNextChunk("xid6");
+        fileStream->FindNextChunk(Id666::Extended::chunkId);
 
     if (extendedHeader != nullptr)
     {
         size_t sizeRemaining = extendedHeader->dataSize.Value();
-        constexpr size_t extendedItemHeaderSize = 4;
 
-        while (sizeRemaining >= extendedItemHeaderSize)
+        while (sizeRemaining >= Id666::Extended::itemHeaderSize)
         {
             auto item = std::make_shared<Spc::Id666::Extended::Item>();
             fileStream->Read(item.get());
@@ -60,8 +62,7 @@ void File::Load()
 
             if (itemSize > sizeRemaining)
             {
-                throw FileCorruptException(
-                    "Extended item size exceeds remaining chunk size.");
+                throw FileCorruptException(extSizeError);
             }
 
             sizeRemaining -= itemSize;
@@ -82,8 +83,7 @@ void File::Load()
             }
             else
             {
-                throw FileCorruptException(
-                    "Invalid extended item type detected");
+                throw FileCorruptException(invalidTypeError);
             }
         }
     }

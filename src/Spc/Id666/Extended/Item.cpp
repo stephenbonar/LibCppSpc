@@ -1,4 +1,4 @@
-// ID666ExtendedItem.cpp - Defines the ID666ExtendedItem class.
+// Item.cpp - Defines the Spc::Id666::Extended::Item class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //

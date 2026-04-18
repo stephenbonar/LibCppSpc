@@ -1,4 +1,4 @@
-// Field.cpp - Defines the Field class.
+// Field.cpp - Defines the Spc::Field class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -18,6 +18,13 @@
 
 using namespace Spc;
 
+constexpr int hexByteLength{ 2 };
+constexpr int hexBase{ 16 };
+const char* lengthError
+{ 
+    "Each byte must be represented by exactly two hex digits." 
+};
+
 void Field::SetValue(std::string value)
 {
     std::istringstream hexStream{ value };
@@ -26,13 +33,14 @@ void Field::SetValue(std::string value)
 
     while (hexStream >> token)
     {
-        if (token.length() != 2)
+        if (token.length() != hexByteLength)
         {
-            throw std::invalid_argument{ 
-                "Each byte must be represented by exactly two hex digits." };
+            throw std::invalid_argument{ lengthError };
         }
 
-        uint8_t byte = static_cast<uint8_t>(std::stoul(token, nullptr, 16));
+        uint8_t byte = static_cast<uint8_t>(std::stoul(token, 
+                                                       nullptr, 
+                                                       hexBase));
         
         if (index < size)
         {

@@ -1,4 +1,4 @@
-// DataStructure.cpp - Defines the DataStructure struct.
+// DataStructure.cpp - Defines the Spc::DataStructure struct.
 //
 // Copyright (C) 2026 Stephen Bonar
 //

@@ -1,4 +1,4 @@
-// EmulatorField.cpp - Defines the EmulatorField class.
+// EmulatorField.cpp - Defines the Spc::EmulatorField class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -18,6 +18,10 @@
 
 using namespace Spc;
 
+constexpr int asciiZero{ 0x30 };
+constexpr int asciiOne{ 0x31 };
+constexpr int asciiTwo{ 0x32 };
+
 std::string EmulatorField::ToString() const
 {
     switch (DetectInt32())
@@ -35,8 +39,6 @@ void EmulatorField::SetValue(std::string value)
 {
     if (Type() == NumericType::Binary)
     {
-        //std::cerr << "Attemting to set a binary value for BinaryField" << std::endl;
-
         if (value == "ZSNES")
             SetInt32(1);
         else if (value == "SNES9X")
@@ -46,13 +48,11 @@ void EmulatorField::SetValue(std::string value)
     }
     else
     {
-        //std::cerr << "Attempting to set a text value for BinaryField" << std::endl;
-
         if (value == "ZSNES")
-            rawData[0] = 0x31;
+            rawData[0] = asciiOne;
         else if (value == "SNES9X")
-            rawData[0] = 0x32;
+            rawData[0] = asciiTwo;
         else
-            rawData[0] = 0x30;
+            rawData[0] = asciiZero;
     }
 }   

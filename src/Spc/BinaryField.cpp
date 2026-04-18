@@ -1,4 +1,4 @@
-// BinaryField.cpp - Defines the BinaryField class.
+// BinaryField.cpp - Defines the Spc::BinaryField class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //

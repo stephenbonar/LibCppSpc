@@ -1,4 +1,4 @@
-// DateField.cpp - Defines the DateField class.
+// DateField.cpp - Defines the Spc::DateField class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //

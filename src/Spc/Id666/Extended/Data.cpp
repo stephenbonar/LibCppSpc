@@ -1,4 +1,4 @@
-// ID666ExtendedData.cpp - Defines the ID666ExtendedData class.
+// Data.cpp - Defines the Spc::Id666::Extended::Data class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //

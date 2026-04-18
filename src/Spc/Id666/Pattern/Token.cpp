@@ -1,4 +1,4 @@
-// Token.cpp - Defines the Token class.
+// Token.cpp - Defines the Spc::Id666::Pattern::Token class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //

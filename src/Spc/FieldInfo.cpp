@@ -1,4 +1,4 @@
-// FieldInfo.cpp - Defines the FieldInfo struct.
+// FieldInfo.cpp - Defines the Spc::FieldInfo struct.
 //
 // Copyright (C) 2026 Stephen Bonar
 //

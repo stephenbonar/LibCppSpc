@@ -29,6 +29,9 @@ namespace Spc::Id666::Extended
 {
     /// @brief Provides a map of extended IDs to their corresponding labels.
     extern const std::map<int, std::string> fieldLabels;
+
+    /// @brief The size of the extended item header in bytes.
+    inline constexpr int itemHeaderSize{ 4 };
     
     /// @brief Represents an item in the extended ID666 tag.
     ///

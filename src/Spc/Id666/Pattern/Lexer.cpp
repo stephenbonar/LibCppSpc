@@ -1,4 +1,4 @@
-// Lexer.cpp - Defines the Lexer class.
+// Lexer.cpp - Defines the Spc::Id666::Pattern::Lexer class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //

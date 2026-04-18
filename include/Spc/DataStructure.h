@@ -1,4 +1,4 @@
-// DataStruct.h - Declares the DataStruct struct.
+// DataStructure.h - Declares the Spc::DataStructure struct.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -74,7 +74,7 @@ namespace Spc
         /// label: value
         ///
         /// This method is also called by the Fields() method to get a pointer 
-        /// to each field so Spc::FileStream can read this struct from and write 
+        /// to each field so Spc::File can read this struct from and write 
         /// it to an SPC file in a cross platform way, preserving the order, 
         /// size, and endianness of each field no matter which architecture the
         /// program runs on.

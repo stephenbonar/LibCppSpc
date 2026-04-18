@@ -1,4 +1,4 @@
-// Parser.cpp - Defines the Parser class.
+// Parser.cpp - Defines the Spc::Id666::Pattern::Parser class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //

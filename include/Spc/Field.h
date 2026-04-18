@@ -1,4 +1,4 @@
-// Field.h - Declares the Field class.
+// Field.h - Declares the Spc::Field class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -32,10 +32,9 @@ namespace Spc
     class Field : public Binary::RawField
     {
     public:
-        /// @brief Constructor; creates a new instance of SpcField.
+        /// @brief Constructor; creates a new instance of Spc::Field.
         /// @param label The label to use when outputing the field. 
-        /// @param offset The offset where the field can be found in the file.
-        /// @param size The size of the field, in bytes.
+        /// @param info Sets offset and size of the field.
         Field(std::string label, FieldInfo info) : 
             label{ label }, 
             offset{ info.offset },
@@ -50,12 +49,16 @@ namespace Spc
         /// @return The offset of the field,.
         virtual size_t Offset() const { return offset; }
 
+        /// @brief Gets the value of the field.
+        /// @return A string representation of the field's value.
         virtual std::string Value() const { return ToString(); }
 
         /// @brief Sets the field label to the specified value.
         /// @param value The value to set the label to.
         virtual void SetLabel(std::string value) { label = value; }
 
+        /// @brief Sets the field to the specified hexadecimal value.
+        /// @param value The string representation of a hexadecimal value.
         virtual void SetValue(std::string value);
     private:
         std::string label;

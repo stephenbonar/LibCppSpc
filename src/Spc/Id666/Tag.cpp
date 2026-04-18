@@ -1,4 +1,4 @@
-// Tag.cpp - Defines the Tag class.
+// Tag.cpp - Defines the Spc::Id666::Tag class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
