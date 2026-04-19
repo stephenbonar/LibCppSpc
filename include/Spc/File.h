@@ -24,10 +24,12 @@
 #include "Spc/Header.h"
 #include "Spc/Id666/Tag.h"
 #include "Spc/Id666/Pattern/Lexer.h"
+#include "Spc/Id666/Pattern/Constants.h"
 #include "Spc/Id666/Pattern/Parser.h"
 #include "Spc/Id666/Extended/Data.h"
 #include "Spc/Id666/Extended/Item.h"
 #include "Spc/FileCorruptException.h"
+#include "Spc/FileOperationException.h"
 
 namespace Spc
 {
@@ -125,11 +127,14 @@ namespace Spc
         /// @brief Loads the SPC file from disk.
         /// @pre The file path points to a valid SPC file that exists.
         /// @post The file's data is loaded into the class data.
+        /// @throws FileOperationException if the file cannot be opened or read.
+        /// @throws FileCorruptException if the file is not a valid SPC file.
         void Load();
 
         /// @brief Saves the SPC file to disk.
         /// @pre The file path points to a valid SPC file that exists.
         /// @post The file on disk is overwritten with the class data.
+        /// @throws FileOperationException if the file cannot open or write.
         void Save();
 
         /// @brief Renames the file on disk to match metadata from the tag.
@@ -190,11 +195,12 @@ namespace Spc
         std::shared_ptr<Binary::FileStream> fileStream;
 
 
-        /// @brief Loads a string item from the extended tag data.
+        /// @brief Loads a string type item from the extended tag data.
         /// @param item The extended tag item to load into.
         /// @param sizeRemaining The number of bytes remaining to be read.
         /// @post The item is populated with the string data
         /// @post sizeRemaining is updated.
+        /// @throws FileCorruptException if the file appears corrupt.
         void LoadStringItem(std::shared_ptr<Id666::Extended::Item> item,
                             size_t& sizeRemaining);
 
@@ -204,21 +210,25 @@ namespace Spc
         /// @param sizeRemaining The number of bytes remaining to be read.
         /// @post The item is updated to reflect the padding
         /// @post sizeRemaining is updated.
+        /// @throws FileCorruptException if the file appears corrupt.
         void LoadPadding(std::shared_ptr<Id666::Extended::Item> item,
                          size_t& sizeRemaining);
 
 
-        /// @brief Loads a length-prefixed item from the extended tag data.
+        /// @brief Loads a length type item from the extended tag data.
         /// @param item The extended tag item to load into.
-        /// @post The item is populated with the length-prefixed data.
+        /// @post The item is populated with the length type data.
+        /// @post sizeRemaining is updated.
+        /// @throws FileCorruptException if the file appears corrupt.
         void LoadLengthItem(std::shared_ptr<Id666::Extended::Item> item);
 
 
-        /// @brief Loads an integer item from the extended tag data.
+        /// @brief Loads an integer type item from the extended tag data.
         /// @param item The extended tag item to load into.
         /// @param sizeRemaining The number of bytes remaining.
-        /// @post The item is populated with the integer data.
+        /// @post The item is populated with the integer type data.
         /// @post sizeRemaining is updated.
+        /// @throws FileCorruptException if the file appears corrupt.
         void LoadIntegerItem(std::shared_ptr<Id666::Extended::Item> item,
                              size_t& sizeRemaining);
 
@@ -243,19 +253,16 @@ namespace Spc
                    Id666::Pattern::Node* nextNode);
     };
 
-
     /// @brief Matches a literal pattern node against the string stream.
     /// @param stream The string stream to match against.
     /// @param node The pattern node representing the literal to match.
     /// @return True if the literal matches the stream, false otherwise.
     bool MatchLiteral(std::stringstream& stream, Id666::Pattern::Node node);
 
-
     /// @brief Checks if the end of the string stream has been reached.
     /// @param stream The string stream to check.
     /// @return True if the stream is at the end, false otherwise.
     bool MatchEnd(std::stringstream& stream);
-
 
     /// @brief Parses a pattern string into a sequence of pattern nodes.
     /// @param pattern The pattern string to parse.

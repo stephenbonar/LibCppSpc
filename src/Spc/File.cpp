@@ -24,19 +24,22 @@ using namespace Spc;
 
 const char* extSizeError{ "Extended item size exceeds remaining chunk size." };
 const char* invalidTypeError{ "Invalid extended item type detected." };
+const char* unopenedFileError{ "File is not open." };
+const char* nullStreamError{ "File stream not initialized." };
+const char* invalidIdError{ "Invalid extended item ID detected." };
 
 void File::Load()
 {
     if (fileStream == nullptr)
     {
-        return;
+        throw FileOperationException(nullStreamError);
     }
 
     fileStream->Open(Binary::FileMode::Read);
 
     if (!fileStream->IsOpen())
     {
-        return;
+        throw FileOperationException(unopenedFileError);
     }
 
     fileStream->Read(&header);
@@ -51,8 +54,14 @@ void File::Load()
 
     if (extendedHeader != nullptr)
     {
+        // The value of the chunk's dataSize field is the size of all items
+        // (sub-chunks) contained within the chunk, minus the size of the
+        // chunk header itself.
         size_t sizeRemaining = extendedHeader->dataSize.Value();
 
+        // When sizeRemaining is less than the minimum size of an item
+        // (the header), we know we're done reading items from the chunk, but
+        // until then, keep reading items from the chunk.
         while (sizeRemaining >= Id666::Extended::itemHeaderSize)
         {
             auto item = std::make_shared<Spc::Id666::Extended::Item>();
@@ -60,6 +69,9 @@ void File::Load()
 
             const size_t itemSize = item->Size();
 
+            // If the item size exceeds the remaining size of the chunk, then 
+            // we know the file is corrupt because the last item's size should
+            // fit within the remaining size.
             if (itemSize > sizeRemaining)
             {
                 throw FileCorruptException(extSizeError);
@@ -95,14 +107,14 @@ void File::Save()
 {
     if (fileStream == nullptr)
     {
-        return;
+        throw FileOperationException(nullStreamError);
     }
 
     fileStream->Open(Binary::FileMode::Write);
 
     if (!fileStream->IsOpen())
     {
-        return;
+        throw FileOperationException(unopenedFileError);
     }
 
     fileStream->Write(&header);
@@ -133,17 +145,15 @@ void File::LoadStringItem(std::shared_ptr<Id666::Extended::Item> item,
     // chunk.
     if (itemDataSize > sizeRemaining)
     {
-        throw FileCorruptException(
-            "Extended item data size exceeds remaining chunk size.");
+        throw FileCorruptException(extSizeError);
     }
 
     Spc::FieldInfo itemDataInfo
     {
         Spc::Id666::Extended::dataOffset, itemDataSize 
     };
-    item->extendedData = std::make_shared<Spc::TextField>(
-        "Extended Data",
-        itemDataInfo);
+    item->extendedData = std::make_shared<Spc::TextField>("Extended Data",
+                                                          itemDataInfo);
     fileStream->Read(item->extendedData.get());
     sizeRemaining -= itemDataSize;
     LoadPadding(item, sizeRemaining);
@@ -172,23 +182,28 @@ void File::LoadStringItem(std::shared_ptr<Id666::Extended::Item> item,
             tag.ExtendedData()->publisherName = item;
             break;
         default:
-            throw FileCorruptException(
-                "Invalid extended item ID for string type detected");
+            throw FileCorruptException(invalidIdError);
     }
 }
 
 void File::LoadPadding(std::shared_ptr<Id666::Extended::Item> item, 
                        size_t& sizeRemaining)
 {
+
     const size_t itemDataSize = item->data->ToUInt32();
+
+    // Calculate the number of padding bytes needed to align the data on a 
+    // 4-byte boundary. If itemDataSize is already a multiple of 4, no padding 
+    // is needed (result is 0). Otherwise, subtract the remainder from 4 to get 
+    // the required padding. The final % 4 ensures that if itemDataSize % 4 == 0
+    // the result is 0, not 4.
     const size_t paddingSize = (4 - (itemDataSize % 4)) % 4;
 
     if (paddingSize > 0)
     {
         if (paddingSize > sizeRemaining)
         {
-            throw FileCorruptException(
-                "Extended item padding size exceeds remaining chunk size.");
+            throw FileCorruptException(extSizeError);
         }
 
         Spc::FieldInfo paddingInfo{ Spc::Id666::Extended::dataOffset,
@@ -223,8 +238,7 @@ void File::LoadLengthItem(std::shared_ptr<Id666::Extended::Item> item)
             tag.ExtendedData()->loopTimes = item;
             break;
         default:
-            throw FileCorruptException(
-                "Invalid extended item ID for length/integer type detected");
+            throw FileCorruptException(invalidIdError);
     }
 }
 
@@ -235,8 +249,7 @@ void File::LoadIntegerItem(std::shared_ptr<Id666::Extended::Item> item,
 
     if (sizeRemaining < integerSize)
     {
-        throw FileCorruptException(
-            "Extended item integer data size exceeds remaining chunk size.");
+        throw FileCorruptException(extSizeError);
     }
 
     auto extendedData = std::make_shared<NumericField>(
@@ -268,8 +281,7 @@ void File::LoadIntegerItem(std::shared_ptr<Id666::Extended::Item> item,
             tag.ExtendedData()->preampLevel = item;
             break;
         default:
-            throw FileCorruptException(
-                "Invalid extended item ID for length/integer type detected");
+            throw FileCorruptException(invalidIdError);
     }
 }
 
@@ -286,15 +298,15 @@ bool File::TagToFileName(std::string pattern)
                 stream << node.lexeme;
                 break;
             case Id666::Pattern::NodeType::TextPlaceholder:
-                if (node.lexeme == "%song%")
+                if (node.lexeme == Id666::Pattern::songPlaceholder)
                 {
                     stream << tag.SongTitle().Value();
                 }
-                else if (node.lexeme == "%artist%")
+                else if (node.lexeme == Id666::Pattern::artistPlaceholder)
                 {
                     stream << tag.SongArtist().Value();
                 }
-                else if (node.lexeme == "%game%")
+                else if (node.lexeme == Id666::Pattern::gamePlaceholder)
                 {
                     stream << tag.GameTitle().Value();
                 }
@@ -305,11 +317,11 @@ bool File::TagToFileName(std::string pattern)
 
                 break;
             case Id666::Pattern::NodeType::NumericPlaceholder:
-                if (node.lexeme == "%disc%")
+                if (node.lexeme == Id666::Pattern::discPlaceholder)
                 {
                     stream << tag.OstDisc().Value();
                 }
-                else if (node.lexeme == "%track%")
+                else if (node.lexeme == Id666::Pattern::trackPlaceholder)
                 {
                     stream << tag.OstTrack().Value();
                 }
@@ -412,11 +424,11 @@ bool File::MatchNumeric(std::stringstream& stream,
 
     try
     {
-        if (node.lexeme == "%disc%")
+        if (node.lexeme == Id666::Pattern::discPlaceholder)
         {
             tag.SetOstDisc(numericString);
         }
-        else if (node.lexeme == "%track%")
+        else if (node.lexeme == Id666::Pattern::trackPlaceholder)
         {
             tag.SetOstTrack(numericString);
         }
@@ -470,15 +482,15 @@ bool File::MatchText(std::stringstream& stream,
 
     try
     {
-        if (node.lexeme == "%song%")
+        if (node.lexeme == Id666::Pattern::songPlaceholder)
         {
             tag.SetSongTitle(textString);
         }
-        else if (node.lexeme == "%artist%")
+        else if (node.lexeme == Id666::Pattern::artistPlaceholder)
         {
             tag.SetSongArtist(textString);
         }
-        else if (node.lexeme == "%game%")
+        else if (node.lexeme == Id666::Pattern::gamePlaceholder)
         {
             tag.SetGameTitle(textString);
         }

@@ -22,6 +22,15 @@ namespace Spc::Id666::Pattern
     /// @brief The character used to denote the start and end of a placeholder.
     inline const char placeholderChar{ '%' };
 
+    /// @brief The placeholder for the song title in the pattern.  
+    extern const char* songPlaceholder;
+
+    /// @brief The placeholder for the artist name in the pattern.
+    extern const char* artistPlaceholder;
+
+    /// @brief The placeholder for the game title in the pattern.
+    extern const char* gamePlaceholder;
+
     /// @brief The placeholder for the disc number in the pattern.
     extern const char* discPlaceholder;
 

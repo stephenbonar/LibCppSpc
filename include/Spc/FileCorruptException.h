@@ -1,4 +1,4 @@
-// FileCorruptException.h - Declares the FileCorruptException class.
+// FileCorruptException.h - Declares the Spc::FileCorruptException class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //

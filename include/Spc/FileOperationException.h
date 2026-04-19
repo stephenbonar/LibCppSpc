@@ -1,4 +1,4 @@
-// Constants.cpp - Defines the constants for the pattern lexer.
+// FileOperationException.h - Declares the Spc::FileOperationException class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -14,13 +14,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "Spc/Id666/Pattern/Constants.h"
+#ifndef SPC_FILE_OPERATION_EXCEPTION_H
+#define SPC_FILE_OPERATION_EXCEPTION_H
 
-namespace Spc::Id666::Pattern
+#include <stdexcept>
+#include <string>
+
+namespace Spc
 {
-    const char* songPlaceholder{ "%song%" };
-    const char* artistPlaceholder{ "%artist%" };
-    const char* gamePlaceholder{ "%game%" };
-    const char* discPlaceholder{ "%disc%" };
-    const char* trackPlaceholder{ "%track%" };
+    class FileOperationException : public std::runtime_error {
+    public:
+        explicit FileOperationException(const std::string& msg)
+            : std::runtime_error(msg) {}
+    };
 }
+
+#endif
