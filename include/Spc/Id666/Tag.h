@@ -353,8 +353,8 @@ namespace Spc::Id666
         ///
         /// @param value The value to set the default disabled channels to.
         ///     Examples:
-        ///     @code 00000000 = All channels enabled
-        ///     @code 11110000 = First four channels disabled
+        ///     "00000000" = All channels enabled
+        ///     "11110000" = First four channels disabled
         /// @pre Value must be an 8-character string of 0s and 1s.
         /// @throws std::invalid_argument if value is not a valid bitmask.
         void SetDefaultDisabledChannels(std::string value);
@@ -362,9 +362,9 @@ namespace Spc::Id666
         /// @brief Sets the emulator used to dump the SPC file.
         /// @param value The value to set the emulator used to.
         ///     Examples:
-        ///     @code "ZSNES" = ZSNES emulator
-        ///     @code "SNES9X" = Snes9x emulator  
-        ///     @code "UNKNOWN" or any other value = Unknown emulator
+        ///     "ZSNES" = ZSNES emulator
+        ///     "SNES9X" = Snes9x emulator
+        ///     "UNKNOWN" or any other value = Unknown emulator
         void SetEmulatorUsed(std::string value);
 
         /// @brief Sets the title of the original soundtrack (OST) album.
@@ -398,8 +398,8 @@ namespace Spc::Id666
         ///
         /// @param value The value to set the OST track number to.
         ///     Examples:
-        ///     @code "1" = Track 1
-        ///     @code "2a" = Track 2, Subtrack A
+        ///     "1" = Track 1
+        ///     "2a" = Track 2, Subtrack A
         /// @pre Track must be 0 - 99 followed by an optional ASCII character.
         /// @throws std::out_of_range if numeric part of value is out of range.
         /// @throws std::invalid_argument if value is not in correct format.
@@ -472,8 +472,8 @@ namespace Spc::Id666
         ///
         /// @param value The value to set the muted voices to.
         ///    Examples:
-        ///    @code "00000000" = No voices muted
-        ///    @code "11110000" = First four voices muted
+        ///    "00000000" = No voices muted
+        ///    "11110000" = First four voices muted
         /// @pre Value must be an 8-character string of 0s and 1s.
         /// @throws std::invalid_argument if value is not a valid bitmask.
         void SetMutedVoices(std::string value);

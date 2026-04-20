@@ -1,4 +1,4 @@
-// TextField.cpp - Defines the TextField class.
+// TextField.cpp - Defines the Spc::TextField class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //

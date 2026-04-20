@@ -1,4 +1,4 @@
-// NumericField.h - Declares the NumericField class.
+// NumericField.h - Declares the Spc::NumericField class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -22,6 +22,7 @@
 #include "Field.h"
 #include "NumericType.h"
 #include "FieldInfo.h"
+#include "Format.h"
 
 namespace Spc
 {
@@ -36,17 +37,20 @@ namespace Spc
     /// interpret the data as binary or if it could possibly contain both.
     ///
     /// @invariant Size must be > 0.
+    /// @invariant The field data must always represent a valid number.
+    /// @invariant Setting value will always use correct format based on type.
+    /// @invariant ToString() will always format correctly based on type.
     class NumericField : public Field
     {
     public:
-        /// @brief Constructor; creates a new instance of Spc::NumericField.
+        /// @brief Constructor; creates a new instance of NumericField.
         /// @param label The label to use when outputing the field. 
         /// @param info Sets offset and size of the field.
         NumericField(std::string label, FieldInfo info) 
             : Field{ label, info }, type{ NumericType::Either }
         { };
 
-        /// @brief Constructor; creates a new instance of SpcNumericField.
+        /// @brief Constructor; creates a new instance of NumericField.
         /// @param label The label to use when outputing the field. 
         /// @param info Sets offset and size of the field.
         /// @param type Determines the numeric type of the field.

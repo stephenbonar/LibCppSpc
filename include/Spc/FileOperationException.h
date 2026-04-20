@@ -22,8 +22,11 @@
 
 namespace Spc
 {
+    /// @brief Exception thrown when an error occurs during file operations.
     class FileOperationException : public std::runtime_error {
     public:
+        /// @brief Constructor; creates new instance of FileOperationException.
+        /// @param msg The error message to include with the exception.
         explicit FileOperationException(const std::string& msg)
             : std::runtime_error(msg) {}
     };

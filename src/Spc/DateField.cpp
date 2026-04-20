@@ -19,8 +19,6 @@
 using namespace Spc;
 
 constexpr int dateSize{ 11 };
-constexpr int asciiZero{ 0x30 };
-constexpr int asciiNine{ 0x39 };
 constexpr int asciiSlash{ 0x2F };
 constexpr int unusedAreaIndex{ 4 };
 constexpr int endIndex{ 10 };

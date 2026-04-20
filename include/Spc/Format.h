@@ -29,6 +29,12 @@ namespace Spc
     // This value perfectly wraps hexadecimal output.
     inline constexpr int valueChunkSize{ 54 };
 
+    /// @brief The ASCII value of the '0' character.
+    inline constexpr int asciiZero{ 0x30 };
+
+    /// @brief The ASCII value of the '9' character.
+    inline constexpr int asciiNine{ 0x39 };
+
     /// @brief Formats the specified value prefixed with the specified label.
     /// @param label The label to use.
     /// @param value The value to label.

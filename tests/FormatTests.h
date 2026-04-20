@@ -1,4 +1,4 @@
-// NumericType.h - Declares the Spc::NumericType enum.
+// FormatTests.h - Declares the FormatTests class and tests.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -14,23 +14,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SPC_NUMERIC_TYPE_H
-#define SPC_NUMERIC_TYPE_H
+#ifndef FORMAT_TESTS_H
+#define FORMAT_TESTS_H
 
-namespace Spc
+#include <gtest/gtest.h>
+#include <memory>
+#include "LibCppSpc.h"
+
+class FormatTests : public ::testing::Test
 {
-    /// @brief Determines the value type of a Spc::NumericField.
-    enum class NumericType
-    {
-        /// @brief The field's value is always in binary format.
-        Binary,
-
-        /// @brief The field's value is always in text format.
-        Text,
-
-        /// @brief The field's value could be in either binary or text format.
-        Either
-    };
-}
+protected:
+    void SetUp() override;
+};
 
 #endif

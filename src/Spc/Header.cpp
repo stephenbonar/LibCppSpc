@@ -1,4 +1,4 @@
-// Header.h - Defines the Header struct.
+// Header.h - Defines the Spc::Header struct.
 //
 // Copyright (C) 2026 Stephen Bonar
 //

@@ -24,6 +24,7 @@
 #include <stdexcept>
 #include "NumericField.h"
 #include "FieldInfo.h"
+#include "Format.h"
 
 namespace Spc
 {

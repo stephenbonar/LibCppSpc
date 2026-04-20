@@ -1,4 +1,4 @@
-// Header.h - Declares the Header struct.
+// Header.h - Declares the Spc::Header struct.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -31,10 +31,10 @@ namespace Spc
         /// @brief The first bytes of the file that identify it as an SPC file.
         TextField id{ "SPC Header ID", headerIdInfo };
 
-        /// @brief Separates the ID from the rest of the header. Purpose unclear.
+        /// @brief Separates ID from the rest of the header. Purpose unclear.
         Field separator{ "Separator", headerSeparatorInfo };
 
-        /// @brief A byte related to the separator that determines if a tag exists.
+        /// @brief A byte related to the separator; determines if a tag exists.
         NumericField containsTag
         {
             "Contains Tag", headerContainsTagInfo, NumericType::Binary
@@ -70,23 +70,23 @@ namespace Spc
         /// @brief Default constructor; initalizes the labeled fields list.
         ///
         /// While this is a standard struct with public fields, it is also an 
-        /// SpcStruct, which maintains an internal vector of labeled pointers to
-        /// each public field accessible via the SpcFields() method. The 
-        /// constructor initializes this internal vector.
+        /// Spc::DataStructure, which maintains an internal vector of labeled 
+        /// pointers to each public field accessible via the SpcFields() method. 
+        /// The constructor initializes this internal vector.
         Header();
 
-        /// @brief Gets list of pointers to this struct's fields paired w/ labels.
+        /// @brief Gets list of pointers struct fields paired w/ labels.
         ///
         /// This method will be called by the ToString() method to output each
         /// field as a formatted string on its own line of the format,
         ///
         /// label: value
         ///
-        /// This method is also called by the Fields() method to get a pointer to
-        /// each field so SpcFileStream can read this struct from and write it to
-        /// an SPC file in a cross platform way, preserving the order, size, and
-        /// endianness of each field no matter which architecture the program runs
-        /// on.
+        /// This method is also called by the Fields() method to get a pointer
+        /// to each field so Spc::File can read this struct from and write it to
+        /// a SPC file in a cross platform way, preserving the order, size, and
+        /// endianness of each field no matter which architecture the program 
+        /// runs on.
         std::vector<Field*> SpcFields() const override { return spcFields; }
     private:
         std::vector<Field*> spcFields;

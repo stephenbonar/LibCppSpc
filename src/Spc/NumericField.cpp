@@ -1,4 +1,4 @@
-// NumericField.cpp - Defines the NumericField class.
+// NumericField.cpp - Defines the Spc::NumericField class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -33,7 +33,7 @@ bool NumericField::IsText() const
 {
     for (int i = 0; i < size; i++)
     {
-        bool isAsciiNum = rawData[i] >= 0x30 && rawData[i] <= 0x39;
+        bool isAsciiNum = rawData[i] >= asciiZero && rawData[i] <= asciiNine;
         bool isZero = rawData[i] == 0x0;
 
         if (!isAsciiNum && !isZero)
@@ -116,13 +116,11 @@ void NumericField::SetInt32(int32_t value)
         for (int i = 0; i < size && i < stringValue.size(); i++)
             rawData[i] = stringValue[i];
     }
-    //else
-    //{
-        Binary::Int32Field field{ value };
-    
-        for (int i = 0; i < size && i < field.Size(); i++)
-            rawData[i] = field.RawData()[i];
-    //}
+
+    Binary::Int32Field field{ value };
+
+    for (int i = 0; i < size && i < field.Size(); i++)
+        rawData[i] = field.RawData()[i];
 }
 
 void NumericField::SetUInt32(uint32_t value)
@@ -136,13 +134,11 @@ void NumericField::SetUInt32(uint32_t value)
         for (int i = 0; i < size && i < stringValue.size(); i++)
             rawData[i] = stringValue[i];
     }
-    //else
-    //{
-        Binary::UInt32Field field{ value };
-        
-        for (int i = 0; i < size && i < field.Size(); i++)
-            rawData[i] = field.RawData()[i];
-   // }
+   
+    Binary::UInt32Field field{ value };
+    
+    for (int i = 0; i < size && i < field.Size(); i++)
+        rawData[i] = field.RawData()[i];
 }
 
 void NumericField::SetValue(std::string value)

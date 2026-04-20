@@ -1,4 +1,4 @@
-// TextField.h - Declares the TextField class.
+// TextField.h - Declares the Spc::TextField class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -27,24 +27,27 @@ namespace Spc
     /// @brief Represents a field containing text in an SPC file.
     ///
     /// Texts fields are to be used for fields that are guaranteed to contain
-    /// strings of ASCII text. They should not be used for fields that can contain
-    /// text or binary representations of numbers.
+    /// strings of ASCII text. They should not be used for fields that can 
+    /// contain text or binary representations of numbers.
+    ///
+    /// @invariant Size > 0.
+    /// @invariant The field's data is always treated as a string of text.
+    /// @invariant Setting string values will always fit the available size.
+    /// @invariant ToString() always returns a null terminated string. 
     class TextField : public Field
     {
     public:
         /// @brief Constructor; creates a new instance of TextField.
         /// @param label The label to use when outputing the field. 
-        /// @param offset The offset where the field can be found in the file.
-        /// @param size The size of the field, in bytes.
+        /// @param info Sets offset and size of the field.
         TextField(std::string label, FieldInfo info) : Field{ label, info }
         { }
 
-        /// @brief Gets the text value of the field.
-        /// @return A string representing the text value of the field.
-        //std::string Value() const { return ToString(); }
-
         /// @brief Sets the text value of the field.
         /// @param value The value to set.
+        /// @post The field's data is updated to match the specified value.
+        /// @post If the value is shorter than size, remaining bytes are 0.
+        /// @post If the value is longer than size, it is truncated to fit.
         void SetValue(std::string value) override;
         
         /// @brief Converts the field's data to a string representation.

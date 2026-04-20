@@ -18,6 +18,31 @@ cmake_minimum_required(VERSION 3.10.0)
 
 project(LibCppSpc VERSION 1.0.0 LANGUAGES C CXX)
 
+# Enable CTest integration and the BUILD_TESTING option.
+include(CTest)
+
+# Determine if Doxygen is available to build documentation.
+find_package(Doxygen)
+
+# Generate the documentation target if Doxygen is found.
+if (DOXYGEN_FOUND)
+    message(STATUS "Doxygen found — building docs target")
+
+    set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
+    set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+
+    configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+
+    doxygen_add_docs(
+        docs
+        ${PROJECT_SOURCE_DIR}/include
+        ${PROJECT_SOURCE_DIR}/src
+        COMMENT "Generate API documentation"
+    )
+else()
+    message(STATUS "Doxygen not found — docs target will not be available")
+endif()
+
 if (WIN32)
     # By default, GoogleTest expects to statically link to the C++ runtime on 
     # the MSVC compiler. So if we run on Windows, we need to set our compiler 
@@ -39,4 +64,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_subdirectory(src)
 
-add_subdirectory(tests)
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()

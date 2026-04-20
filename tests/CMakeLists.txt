@@ -33,6 +33,8 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 # Makes GoogleTest available at configure time rather than build time. 
 FetchContent_MakeAvailable(googletest)
 
+include(GoogleTest)
+
 # Defines the test executable target.
 add_executable(libcppspctests
                BinaryFieldTests.cpp
@@ -40,11 +42,15 @@ add_executable(libcppspctests
                DateFieldTests.cpp
                EmulatorFieldTests.cpp
                FileTests.cpp
+               FormatTests.cpp
+               HeaderTests.cpp
                ID666ExtendedDataTests.cpp
                ID666ExtendedItemTests.cpp
                ID666TagTests.cpp
                FieldTests.cpp
                NumericFieldTests.cpp
+               TextFieldTests.cpp
+               TrackFieldTests.cpp
                PatternTokenTests.cpp
                PatternLexerTests.cpp
                PatternParserTests.cpp)
@@ -61,3 +67,6 @@ target_include_directories(libcppspctests
                            PRIVATE
                            ${PROJECT_SOURCE_DIR}/include
                            ${CMAKE_CURRENT_SOURCE_DIR}) # Ensure MockEmulatorField.h is included
+
+# Register all TEST/TEST_F cases in the executable as CTest tests.
+gtest_discover_tests(libcppspctests)

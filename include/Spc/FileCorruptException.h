@@ -22,8 +22,11 @@
 
 namespace Spc
 {
+    /// @brief Exception thrown when an SPC file appears to be corrupt.
     class FileCorruptException : public std::runtime_error {
     public:
+        /// @brief Constructor; creates a new instance of FileCorruptException.
+        /// @param msg The error message to include with the exception.
         explicit FileCorruptException(const std::string& msg)
             : std::runtime_error(msg) {}
     };

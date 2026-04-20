@@ -1,4 +1,4 @@
-// TrackField.cpp - Defines the TrackField class.
+// TrackField.cpp - Defines the Spc::TrackField class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -17,13 +17,6 @@
 #include "Spc/TrackField.h"
 
 using namespace Spc;
-
-/*
-uint8_t TrackField::Value() const
-{
-    return static_cast<uint8_t>(rawData[1]);
-}
-*/
 
 char TrackField::Suffix() const
 {
