@@ -48,8 +48,7 @@ namespace Spc
             : NumericField{ label, info, type }
         { }
         
-        /// @brief Converts the field's data to a string representation.
-        /// @return A string representation of the field's data.
+        /// @copydoc Field::ToString()
         virtual std::string ToString() const override;
 
         /// @brief Sets the emulator used value.

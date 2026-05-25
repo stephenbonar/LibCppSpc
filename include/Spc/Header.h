@@ -75,18 +75,7 @@ namespace Spc
         /// The constructor initializes this internal vector.
         Header();
 
-        /// @brief Gets list of pointers struct fields paired w/ labels.
-        ///
-        /// This method will be called by the ToString() method to output each
-        /// field as a formatted string on its own line of the format,
-        ///
-        /// label: value
-        ///
-        /// This method is also called by the Fields() method to get a pointer
-        /// to each field so Spc::File can read this struct from and write it to
-        /// a SPC file in a cross platform way, preserving the order, size, and
-        /// endianness of each field no matter which architecture the program 
-        /// runs on.
+        /// @copydoc DataStructure::SpcFields()
         std::vector<Field*> SpcFields() const override { return spcFields; }
     private:
         std::vector<Field*> spcFields;

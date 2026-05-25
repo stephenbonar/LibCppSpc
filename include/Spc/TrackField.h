@@ -50,8 +50,7 @@ namespace Spc
         /// @return The suffix character.
         char Suffix() const;
 
-        /// @brief Gets a string representation of the track number w/ suffix.
-        /// @return A string representation of the track value.
+        /// @copydoc Field::ToString()
         virtual std::string ToString() const override;
 
         /// @brief Sets the track number and optional suffix.

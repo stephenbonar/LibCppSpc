@@ -50,8 +50,7 @@ namespace Spc
         /// @post If the value is longer than size, it is truncated to fit.
         void SetValue(std::string value) override;
         
-        /// @brief Converts the field's data to a string representation.
-        /// @return A string representation of the field's data.
+        /// @copydoc Field::ToString()
         std::string ToString() const override
         {
             return Binary::RawField::ToString(Binary::StringFormat::Terminated);

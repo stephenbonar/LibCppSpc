@@ -47,10 +47,10 @@ endif()
 include(FetchContent)
 FetchContent_Declare(
     LibCppBinary
-    URL https://github.com/stephenbonar/LibCppBinary/archive/da792430b60749faf3115b276abd0dc89badef7a.zip
+    URL https://github.com/stephenbonar/LibCppBinary/archive/fb77aeaa1e1939b2a290b18c6ca08147d83bf573.zip
 )
 
-# Makes GoogleTest available at configure time rather than build time. 
+# Makes LibCppBinary available at configure time rather than build time. 
 FetchContent_MakeAvailable(LibCppBinary)
 
 add_library(LibCppSpc ${SOURCES})

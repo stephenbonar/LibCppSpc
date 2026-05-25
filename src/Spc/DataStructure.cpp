@@ -29,6 +29,16 @@ std::vector<Binary::DataField*> DataStructure::Fields()
     return fields;
 }
 
+std::vector<const Binary::DataField*> DataStructure::Fields() const
+{
+    std::vector<const Binary::DataField*> fields;
+    std::vector<Field*> spcFields = SpcFields();
+
+    for (int i = 0; i < spcFields.size(); ++i)
+        fields.push_back(spcFields[i]);
+
+    return fields;
+}
 
 size_t DataStructure::Size() const
 {

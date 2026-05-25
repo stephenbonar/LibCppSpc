@@ -1,0 +1,15 @@
+var searchData=
+[
+  ['ram_0',['Ram',['../class_spc_1_1_file.html#a74c1186eb753d139bd4a4e2c7517f16b',1,'Spc::File']]],
+  ['raminfo_1',['ramInfo',['../namespace_spc.html#a2d29b33338b9aeed67ae4b9dc8a2c32c',1,'Spc']]],
+  ['raw_2',['Raw',['../namespace_binary.html#a2b21524f46dfbef17fbf57518c8b4ad6a65e65c8ab0d8609ce12fc68a03cb8e00',1,'Binary']]],
+  ['rawdata_3',['RawData',['../class_binary_1_1_data_field.html#a7418480785092b424a60edc55f93b529',1,'Binary::DataField::RawData()=0'],['../class_binary_1_1_data_field.html#a969949b625eef9ecbab4ca3ca73f8938',1,'Binary::DataField::RawData() const =0'],['../class_binary_1_1_raw_field.html#ad8cf36c39a60b42345e8f9fe11dceeae',1,'Binary::RawField::RawData() override'],['../class_binary_1_1_raw_field.html#a9035c9170076a8a4c6cabc2852c0bde1',1,'Binary::RawField::RawData() const override']]],
+  ['rawdata_4',['rawData',['../class_binary_1_1_raw_field.html#a315baeb283fee64ddc74703f0cd2c2df',1,'Binary::RawField']]],
+  ['rawfield_5',['RawField',['../class_binary_1_1_raw_field.html',1,'Binary::RawField'],['../class_binary_1_1_raw_field.html#a8fa1a73034def152e62f738730c65b69',1,'Binary::RawField::RawField(size_t size)'],['../class_binary_1_1_raw_field.html#ab7fd475ec81607ef94119119eef5a1b0',1,'Binary::RawField::RawField(const RawField &amp;other)']]],
+  ['rawfield_2eh_6',['RawField.h',['../_raw_field_8h.html',1,'']]],
+  ['read_7',['Read',['../class_binary_1_1_buffer_stream.html#ab12201b941f1807cbb0d3f30f21d0a39',1,'Binary::BufferStream::Read(DataField *field) const override'],['../class_binary_1_1_buffer_stream.html#a47398c5ca9e8de2de3630d6d165910ae',1,'Binary::BufferStream::Read(DataStructure *structure) const override'],['../class_binary_1_1_standard_file_stream.html#a7ccde2503a0706c132cd79420fd3792f',1,'Binary::StandardFileStream::Read(DataField *field) const override'],['../class_binary_1_1_standard_file_stream.html#a280eef9824aa490295bb4ded93147d30',1,'Binary::StandardFileStream::Read(DataStructure *structure) const override'],['../class_binary_1_1_stream.html#afb96b4ba95d561f234fc2e455ff18ae3',1,'Binary::Stream::Read(DataField *field) const =0'],['../class_binary_1_1_stream.html#a33bf6b0b8bb699afae128b0c9944fbd9',1,'Binary::Stream::Read(DataStructure *structure) const =0'],['../namespace_binary.html#ae14a9837d984c20da9fe0ab449347c9ba7a1a5f3e79fdc91edf2f5ead9d66abb4',1,'Binary::Read']]],
+  ['readme_2emd_8',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
+  ['readwrite_9',['ReadWrite',['../namespace_binary.html#ae14a9837d984c20da9fe0ab449347c9ba70a2a84088d405a2e3f1e3accaa16723',1,'Binary']]],
+  ['reserved_10',['reserved',['../struct_spc_1_1_header.html#ac48d17891c043a9da5d66e420e8f4226',1,'Spc::Header']]],
+  ['reservedinfo_11',['reservedInfo',['../namespace_spc_1_1_id666.html#a1abcc4a78c226c35577d512f98b143ee',1,'Spc::Id666']]]
+];

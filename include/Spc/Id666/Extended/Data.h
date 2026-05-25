@@ -160,24 +160,7 @@ namespace Spc::Id666::Extended
         /// @return The IFF chunk header.
         Binary::ChunkHeader Header() const;
 
-        /// @brief Gets list of pointers to this struct's fields.
-        ///
-        /// This method will be called by the ToString() method to output each
-        /// field as a formatted string on its own line of the format,
-        ///
-        /// label: value
-        ///
-        /// This method is also called by the Fields() method to get a pointer
-        /// to each field so Spc::File can read this struct from and write 
-        /// it to an SPC file in a cross platform way, preserving the order, 
-        /// size, and endianness of each field no matter which architecture the
-        /// program runs on.
-        ///
-        /// Structs that inherit from this struct should provide an 
-        /// implementation for this method that generates the vector in the 
-        /// correct order.
-        ///
-        /// @return A vector containing pointers to the Spc::Field elements.
+        /// @copydoc Spc::DataStructure::Fields()
         std::vector<Field*> SpcFields() const override;
     };
 }

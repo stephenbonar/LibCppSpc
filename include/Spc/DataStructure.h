@@ -42,17 +42,13 @@ namespace Spc
     /// needs to provide is an implementation for SpcFields(). 
     struct DataStructure : Binary::DataStructure
     {
-        /// @brief Provides a vector of raw pointers to the structure's fields.
-        ///
-        /// This method is primarily intended for use by Binary::Stream and its
-        /// derivatives for reading the fields from and to those streams.
-        /// Access the fields directly rather than via this method.
-        ///
-        /// @return The vector containing the raw pointers for the field.
+        /// @copydoc Binary::DataStructure::Fields()
         std::vector<Binary::DataField*> Fields() override;
 
-        /// @brief Gets the total size of all fields in the structure.
-        /// @return The total size of the structure.
+        /// @copydoc Binary::DataStructure::Fields() const
+        std::vector<const Binary::DataField*> Fields() const override;
+
+        /// @copydoc Binary::DataStructure::Size() const
         size_t Size() const override;
 
         /// @brief Provides a string representation of the struct.

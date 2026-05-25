@@ -113,8 +113,8 @@ protected:
     std::shared_ptr<MockFileStream> mockFileStream;
 };
 
-bool AllBytesMatch(Binary::DataField* expected, 
-                   Binary::DataField* actual);
+bool AllBytesMatch(const Binary::DataField* expected,
+                   const Binary::DataField* actual);
 
 bool NeedsPadding(size_t valueSize);
 

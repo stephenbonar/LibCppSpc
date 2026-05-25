@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['checkrange_0',['CheckRange',['../namespace_spc_1_1_id666.html#a83bee1770e247116432d543da904f9c5',1,'Spc::Id666']]],
+  ['chunkheader_1',['ChunkHeader',['../struct_binary_1_1_chunk_header.html',1,'Binary']]],
+  ['chunkheader_2eh_2',['ChunkHeader.h',['../_chunk_header_8h.html',1,'']]],
+  ['chunkid_3',['chunkId',['../namespace_spc_1_1_id666_1_1_extended.html#ad762571a9d912eaf0a67e99426d1c031',1,'Spc::Id666::Extended']]],
+  ['chunkidsize_4',['chunkIDSize',['../namespace_binary.html#a14f0bfa3b60617d3575a6440c89b6392',1,'Binary']]],
+  ['chunkidsizeerror_5',['chunkIDSizeError',['../namespace_binary.html#a52d3edaa4778c6f9e45a11dcc9184b20',1,'Binary']]],
+  ['close_6',['Close',['../class_binary_1_1_file_stream.html#a8cdc2a0dd10db23c4d1694ab186c8bcb',1,'Binary::FileStream::Close()'],['../class_binary_1_1_standard_file_stream.html#a82f4c11c37496f5e71a8404e0a785c44',1,'Binary::StandardFileStream::Close()']]],
+  ['comments_7',['Comments',['../class_spc_1_1_id666_1_1_tag.html#aa123de7efef9f55cabed900a0f0bf0ab',1,'Spc::Id666::Tag']]],
+  ['comments_8',['comments',['../struct_spc_1_1_id666_1_1_extended_1_1_data.html#a3cfc4fe6bcd045d5b75e8d5200748e94',1,'Spc::Id666::Extended::Data']]],
+  ['commentsinfo_9',['commentsInfo',['../namespace_spc_1_1_id666_1_1_extended.html#a95e9ead9ca5c1e634f1ee038dd44bc4d',1,'Spc::Id666::Extended::commentsInfo'],['../namespace_spc_1_1_id666.html#a518d470268655665e6b6bca46b63702f',1,'Spc::Id666::commentsInfo']]],
+  ['constants_2eh_10',['Constants.h',['../_constants_8h.html',1,'']]],
+  ['containstag_11',['containsTag',['../struct_spc_1_1_header.html#a5c0803e75562e289e14cb9fe544ede3b',1,'Spc::Header']]],
+  ['copyrawdatato_12',['CopyRawDataTo',['../class_binary_1_1_data_field.html#acf25db5e1425c40c58b821d1e84481ab',1,'Binary::DataField']]],
+  ['copyrightyear_13',['CopyrightYear',['../class_spc_1_1_id666_1_1_tag.html#a587254f91470bc629a07bf8cbb2bacf9',1,'Spc::Id666::Tag']]],
+  ['copyrightyear_14',['copyrightYear',['../struct_spc_1_1_id666_1_1_extended_1_1_data.html#ae6ec626eee78d0fda19fa80c00edc1ac',1,'Spc::Id666::Extended::Data']]],
+  ['copyrightyearinfo_15',['copyrightYearInfo',['../namespace_spc_1_1_id666_1_1_extended.html#ac9ac970ffd62a1e71486667263322bf5',1,'Spc::Id666::Extended']]],
+  ['currentversionminor_16',['currentVersionMinor',['../namespace_spc.html#a803d67e8214810f61a7584479e2c04f4',1,'Spc']]]
+];

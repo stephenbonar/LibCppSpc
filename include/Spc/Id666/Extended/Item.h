@@ -62,19 +62,7 @@ namespace Spc::Id666::Extended
         /// @brief Points to the padding bytes, if any.
         std::shared_ptr<TextField> padding;
 
-        /// @brief Gets list of pointers to this struct's fields.
-        ///
-        /// This method will be called by the ToString() method to output each
-        /// field as a formatted string on its own line of the format,
-        ///
-        /// label: value
-        ///
-        /// This method is also called by the Fields() method to get a pointer
-        /// to each field so Spc::File can read this struct from and write
-        /// it to each field so Spc::File can read this struct from and 
-        /// write it to an SPC file in a cross platform way, preserving the 
-        /// order, size, and endianness of each field no matter which 
-        /// architecture the program runs on.
+        /// @copydoc Spc::DataStructure::Fields()
         std::vector<Field*> SpcFields() const override;
     };
 }

@@ -1,0 +1,37 @@
+var namespace_spc_1_1_id666 =
+[
+    [ "Extended", "namespace_spc_1_1_id666_1_1_extended.html", "namespace_spc_1_1_id666_1_1_extended" ],
+    [ "Pattern", "namespace_spc_1_1_id666_1_1_pattern.html", "namespace_spc_1_1_id666_1_1_pattern" ],
+    [ "Tag", "class_spc_1_1_id666_1_1_tag.html", "class_spc_1_1_id666_1_1_tag" ],
+    [ "TagFieldInfo", "struct_spc_1_1_id666_1_1_tag_field_info.html", "struct_spc_1_1_id666_1_1_tag_field_info" ],
+    [ "TagType", "namespace_spc_1_1_id666.html#a41afe0ef9302c913fc54fd97f3d3bdc0", [
+      [ "Binary", "namespace_spc_1_1_id666.html#a41afe0ef9302c913fc54fd97f3d3bdc0a6ce976e8f061b2b5cfe4d0c50c3405dd", null ],
+      [ "Text", "namespace_spc_1_1_id666.html#a41afe0ef9302c913fc54fd97f3d3bdc0a9dffbf69ffba8bc38bc4e01abf4b1675", null ],
+      [ "TextMixed", "namespace_spc_1_1_id666.html#a41afe0ef9302c913fc54fd97f3d3bdc0a23074982cd93395aa6411be30afca663", null ]
+    ] ],
+    [ "CheckRange", "namespace_spc_1_1_id666.html#a83bee1770e247116432d543da904f9c5", null ],
+    [ "bitsPerByte", "namespace_spc_1_1_id666.html#a1cadfd5130cc814461a6a85523776059", null ],
+    [ "commentsInfo", "namespace_spc_1_1_id666.html#a518d470268655665e6b6bca46b63702f", null ],
+    [ "dateDumpedInfo", "namespace_spc_1_1_id666.html#ab35a1b1ecc67f731027ee17b924342f5", null ],
+    [ "defaultDisabledChannelsInfo", "namespace_spc_1_1_id666.html#a81fa9b73e777d600613db23ff54a74da", null ],
+    [ "dumperNameInfo", "namespace_spc_1_1_id666.html#aefbf5e75d0cac7b493e5bc412be088cc", null ],
+    [ "emulatorUsedInfo", "namespace_spc_1_1_id666.html#a98c133a5380ee5b2215b16148fff77a4", null ],
+    [ "fadeLengthInfo", "namespace_spc_1_1_id666.html#a745cb43ec27415b14e373f83340dc81b", null ],
+    [ "gameTitleInfo", "namespace_spc_1_1_id666.html#a9e42bc765a5466dd71cd385a9121807a", null ],
+    [ "maxDiscNumber", "namespace_spc_1_1_id666.html#a81b0d7e675c3475d26e90ddd616aa53f", null ],
+    [ "maxFadeLength", "namespace_spc_1_1_id666.html#a0c522e37f0befd58d44f51d6e20ed37d", null ],
+    [ "maxLoopTimes", "namespace_spc_1_1_id666.html#ac9f841e3cb2b676c69e991ec12490b66", null ],
+    [ "maxPreampLevel", "namespace_spc_1_1_id666.html#af8619a3d8ab2ded3912bb7917229ce27", null ],
+    [ "maxSongLength", "namespace_spc_1_1_id666.html#a2c47b0f48798219a3394488479dede7e", null ],
+    [ "maxStringSize", "namespace_spc_1_1_id666.html#af5322c657ed7b18202466e61390bde99", null ],
+    [ "maxTicks", "namespace_spc_1_1_id666.html#a0901d9e9340008af2bfeeb86951b0b90", null ],
+    [ "maxTrackNumber", "namespace_spc_1_1_id666.html#ab9282d783b5dc27317d541144a4bc91e", null ],
+    [ "minNumeric", "namespace_spc_1_1_id666.html#a3df0bc48000c10512e808349d3ac5747", null ],
+    [ "minPreampLevel", "namespace_spc_1_1_id666.html#a029b0a7c095af3c3e682bf1c540b523b", null ],
+    [ "reservedInfo", "namespace_spc_1_1_id666.html#a1abcc4a78c226c35577d512f98b143ee", null ],
+    [ "songArtistInfo", "namespace_spc_1_1_id666.html#aa546fe83e423fc79d537c78c01fabbcf", null ],
+    [ "songLengthInfo", "namespace_spc_1_1_id666.html#ab18ac369756122199dd77a574396b5d1", null ],
+    [ "songTitleInfo", "namespace_spc_1_1_id666.html#a8f4ac929125fa71a6c2f30678f77965f", null ],
+    [ "tagOffset", "namespace_spc_1_1_id666.html#a5704b3a2d32476f0850ea1198ef8144e", null ],
+    [ "tagSize", "namespace_spc_1_1_id666.html#a2a3d1cde422d95dbaa652f4a2d230352", null ]
+];

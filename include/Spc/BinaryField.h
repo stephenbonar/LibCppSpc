@@ -44,17 +44,13 @@ namespace Spc
             SetType(NumericType::Binary);
         }
 
-        /// @brief Converts the field's data to a string representation.
-        /// @return A string representation of the field's data.
+        /// @copydoc Field::ToString() 
         std::string ToString() const override
         {
             return Binary::RawField::ToString(Binary::StringFormat::Bin);
         }
 
-        /// @brief Sets value using a string representation of a binary number.
-        /// @param value A string representation of the binary number to set.
-        /// @pre The string must only contain '0' and '1' characters.
-        /// @post The field's data is updated to represent the specified value.
+        /// @copydoc Field::SetValue()
         virtual void SetValue(std::string value) override;
 
         // In C++, base class methods are hidden by derived class methods with 

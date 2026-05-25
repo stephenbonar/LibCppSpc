@@ -58,9 +58,7 @@ add_executable(libcppspctests
 # Links the libraries to the test executable target.
 target_link_libraries(libcppspctests
                       LibCppSpc
-                      gtest
-                      gtest_main
-                      gmock)
+                      gmock_main)
 
 # Sets the include directories the exectable target needs for linking.
 target_include_directories(libcppspctests 

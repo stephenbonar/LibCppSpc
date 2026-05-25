@@ -104,8 +104,7 @@ namespace Spc
         /// @return The uint32_t representation of the field value.
         virtual uint32_t ToUInt32() const;
 
-        /// @brief Converts the field's data to a string representation.
-        /// @return A string representation of the field's data.
+        /// @copydoc Field::ToString() 
         virtual std::string ToString() const override;
 
         /// @brief Gets the numeric type of the field.

@@ -44,8 +44,7 @@ namespace Spc
         /// @param info Sets offset and size of the field.
         DateField(std::string label, FieldInfo info);
             
-        /// @brief Determines if the field has a text representation of date.
-        /// @return True if it has a text representation or false if binary.
+        /// @copydoc NumericField::IsText()
         virtual bool IsText() const override;
 
         /// @brief Determines if bytes 4 - 7 are unused, which indicates binary.
@@ -62,8 +61,7 @@ namespace Spc
         /// @post The field's data is updated to represent the specified value.
         virtual void SetValue(std::string value) override;
 
-        /// @brief Converts the field's data to a string representation.
-        /// @return A string representation of the field's data.
+        /// @copydoc Field::ToString()
         virtual std::string ToString() const override;
     private:
         /// @brief Sets the date value and stores it in text format.

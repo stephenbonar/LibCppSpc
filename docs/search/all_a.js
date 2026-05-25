@@ -1,0 +1,21 @@
+var searchData=
+[
+  ['matchend_0',['MatchEnd',['../namespace_spc.html#a116c89ea35225380dc857fcdafa67d60',1,'Spc']]],
+  ['matchliteral_1',['MatchLiteral',['../namespace_spc.html#a6300160ae61e051739c8d987cea3be3e',1,'Spc']]],
+  ['maxdiscnumber_2',['maxDiscNumber',['../namespace_spc_1_1_id666.html#a81b0d7e675c3475d26e90ddd616aa53f',1,'Spc::Id666']]],
+  ['maxfadelength_3',['maxFadeLength',['../namespace_spc_1_1_id666.html#a0c522e37f0befd58d44f51d6e20ed37d',1,'Spc::Id666']]],
+  ['maxlooptimes_4',['maxLoopTimes',['../namespace_spc_1_1_id666.html#ac9f841e3cb2b676c69e991ec12490b66',1,'Spc::Id666']]],
+  ['maxpreamplevel_5',['maxPreampLevel',['../namespace_spc_1_1_id666.html#af8619a3d8ab2ded3912bb7917229ce27',1,'Spc::Id666']]],
+  ['maxsonglength_6',['maxSongLength',['../namespace_spc_1_1_id666.html#a2c47b0f48798219a3394488479dede7e',1,'Spc::Id666']]],
+  ['maxstringsize_7',['maxStringSize',['../namespace_spc_1_1_id666.html#af5322c657ed7b18202466e61390bde99',1,'Spc::Id666']]],
+  ['maxticks_8',['maxTicks',['../namespace_spc_1_1_id666.html#a0901d9e9340008af2bfeeb86951b0b90',1,'Spc::Id666']]],
+  ['maxtracknumber_9',['maxTrackNumber',['../namespace_spc_1_1_id666.html#ab9282d783b5dc27317d541144a4bc91e',1,'Spc::Id666']]],
+  ['maxvalue_10',['MaxValue',['../class_binary_1_1_int_field.html#a447df0a868ab36216aa27986b9bb6dc2',1,'Binary::IntField']]],
+  ['minnumeric_11',['minNumeric',['../namespace_spc_1_1_id666.html#a3df0bc48000c10512e808349d3ac5747',1,'Spc::Id666']]],
+  ['minpreamplevel_12',['minPreampLevel',['../namespace_spc_1_1_id666.html#a029b0a7c095af3c3e682bf1c540b523b',1,'Spc::Id666']]],
+  ['minvalue_13',['MinValue',['../class_binary_1_1_int_field.html#ae5977d2ae64c945ac859fa6afd8b9af9',1,'Binary::IntField']]],
+  ['mode_14',['Mode',['../class_binary_1_1_file_stream.html#a65bb6b7944e65af4ded417171bc7368e',1,'Binary::FileStream::Mode()'],['../class_binary_1_1_standard_file_stream.html#a0b0942443ab73d9316d94a5d77b04dcf',1,'Binary::StandardFileStream::Mode()']]],
+  ['mutedvoices_15',['MutedVoices',['../class_spc_1_1_id666_1_1_tag.html#af30f04f6567ee22ca63549cb2cc0b3cb',1,'Spc::Id666::Tag']]],
+  ['mutedvoices_16',['mutedVoices',['../struct_spc_1_1_id666_1_1_extended_1_1_data.html#a65c1f819906ae03f1594a53f601ff475',1,'Spc::Id666::Extended::Data']]],
+  ['mutedvoicesinfo_17',['mutedVoicesInfo',['../namespace_spc_1_1_id666_1_1_extended.html#a5a9c2471625eb681fc169458f69f1ef6',1,'Spc::Id666::Extended']]]
+];
