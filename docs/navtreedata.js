@@ -25,6 +25,20 @@
 var NAVTREE =
 [
   [ "LibCppSpc", "index.html", [
+    [ "Features", "index.html#autotoc_md1", null ],
+    [ "Requirements", "index.html#autotoc_md2", null ],
+    [ "Getting Started", "index.html#autotoc_md3", null ],
+    [ "Using LibCppSpc In Your Project", "index.html#autotoc_md4", [
+      [ "Option 1: FetchContent", "index.html#autotoc_md5", null ],
+      [ "Option 2: Add As A Subdirectory", "index.html#autotoc_md6", null ],
+      [ "Build The Library", "index.html#autotoc_md7", null ],
+      [ "Enable And Build Tests", "index.html#autotoc_md8", null ],
+      [ "Run Tests", "index.html#autotoc_md9", null ],
+      [ "Generate API Docs (Optional)", "index.html#autotoc_md10", null ]
+    ] ],
+    [ "Quick Example", "index.html#autotoc_md11", null ],
+    [ "Repository Layout", "index.html#autotoc_md12", null ],
+    [ "License", "index.html#autotoc_md13", null ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -56,7 +70,7 @@ var NAVTREEINDEX =
 "_binary_field_8h.html",
 "class_binary_1_1_stream.html#aa04b0edd4bd68098aac6b225e5a27e84",
 "class_spc_1_1_numeric_field.html#a8f4386a51c5ccf8085f907f1314037c4",
-"namespaces.html"
+"namespace_spc_1_1_id666_1_1_pattern.html#a670c14f9e787d165a852d90277613a7f"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

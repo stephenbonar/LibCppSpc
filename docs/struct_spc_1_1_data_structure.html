@@ -111,6 +111,8 @@ Inheritance diagram for Spc::DataStructure:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a2f38f907f3a9d9c84d5c64df77f9b95e" id="r_a2f38f907f3a9d9c84d5c64df77f9b95e"><td class="memItemLeft">virtual&#160;</td><td class="memItemRight"><a class="el" href="#a2f38f907f3a9d9c84d5c64df77f9b95e">~DataStructure</a> ()=default</td></tr>
+<tr class="memdesc:a2f38f907f3a9d9c84d5c64df77f9b95e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default virtual destructor for safe polymorphic destruction.  <br /></td></tr>
 <tr class="memitem:a4303a7b15fc95c1a967ce310ef021a96" id="r_a4303a7b15fc95c1a967ce310ef021a96"><td class="memItemLeft">std::vector&lt; <a class="el" href="class_binary_1_1_data_field.html">Binary::DataField</a> * &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a4303a7b15fc95c1a967ce310ef021a96">Fields</a> () override</td></tr>
 <tr class="memdesc:a4303a7b15fc95c1a967ce310ef021a96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides a vector of raw pointers to the structure's fields.     <br /></td></tr>
 <tr class="memitem:aeaf7bb0ad636ede05f2cff299e16c176" id="r_aeaf7bb0ad636ede05f2cff299e16c176"><td class="memItemLeft">std::vector&lt; const <a class="el" href="class_binary_1_1_data_field.html">Binary::DataField</a> * &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aeaf7bb0ad636ede05f2cff299e16c176">Fields</a> () const override</td></tr>
@@ -127,7 +129,37 @@ Public Member Functions</h2></td></tr>
 <p>Adds a <a class="el" href="#a5ec6a1757dbff0c7bdb9d1bc30f44c07" title="Provides a string representation of the struct.">ToString()</a> method to the original <a class="el" href="struct_binary_1_1_data_structure.html" title="Abstract base struct representing data structure in binary file.">Binary::DataStructure</a> for displaying SPC file data. Each field in the structure is labeled so when <a class="el" href="#a5ec6a1757dbff0c7bdb9d1bc30f44c07" title="Provides a string representation of the struct.">ToString()</a> is called, the resulting string lists each field in the format,</p>
 <p>label: value</p>
 <p>Any struct representing a data structure in an SPC file should inherit from this struct. It provides a default implementation for the <a class="el" href="#a4303a7b15fc95c1a967ce310ef021a96" title="Provides a vector of raw pointers to the structure&#39;s fields.">Fields()</a>, <a class="el" href="#a044c5eb94fb1412c654c10a90c07bd95" title="Gets the total size of all fields in the structure.">Size()</a>, and <a class="el" href="#a5ec6a1757dbff0c7bdb9d1bc30f44c07" title="Provides a string representation of the struct.">ToString()</a> methods so all the inheriting struct needs to provide is an implementation for <a class="el" href="#a57a1f6de6f525d59a79bc09379a533ce" title="Gets list of pointers to this struct&#39;s fields.">SpcFields()</a>. </p>
-</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a2f38f907f3a9d9c84d5c64df77f9b95e" name="a2f38f907f3a9d9c84d5c64df77f9b95e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f38f907f3a9d9c84d5c64df77f9b95e">&#9670;&#160;</a></span>~DataStructure()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual Spc::DataStructure::~DataStructure </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default virtual destructor for safe polymorphic destruction. </p>
+
+<p>Reimplemented from <a class="el" href="struct_binary_1_1_data_structure.html#a7cfa337b64d04a86430949c19c475d19">Binary::DataStructure</a>.</p>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="aeaf7bb0ad636ede05f2cff299e16c176" name="aeaf7bb0ad636ede05f2cff299e16c176"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aeaf7bb0ad636ede05f2cff299e16c176">&#9670;&#160;</a></span>Fields() <span class="overload">[1/2]</span></h2>
 

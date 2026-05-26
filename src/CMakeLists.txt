@@ -47,11 +47,16 @@ endif()
 include(FetchContent)
 FetchContent_Declare(
     LibCppBinary
-    URL https://github.com/stephenbonar/LibCppBinary/archive/fb77aeaa1e1939b2a290b18c6ca08147d83bf573.zip
+    URL https://github.com/stephenbonar/LibCppBinary/archive/4e7492d8178ec64d7c42cb50f9af360304c7b443.zip
 )
 
-# Makes LibCppBinary available at configure time rather than build time. 
+# Makes LibCppBinary available at configure time rather than build time.
 FetchContent_MakeAvailable(LibCppBinary)
+
+# Do not build dependency tests as part of this project's default build.
+if(TARGET libcppbinarytests)
+    set_target_properties(libcppbinarytests PROPERTIES EXCLUDE_FROM_ALL TRUE)
+endif()
 
 add_library(LibCppSpc ${SOURCES})
 

@@ -112,6 +112,8 @@ Inheritance diagram for Binary::DataStructure:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a7cfa337b64d04a86430949c19c475d19" id="r_a7cfa337b64d04a86430949c19c475d19"><td class="memItemLeft">virtual&#160;</td><td class="memItemRight"><a class="el" href="#a7cfa337b64d04a86430949c19c475d19">~DataStructure</a> ()=default</td></tr>
+<tr class="memdesc:a7cfa337b64d04a86430949c19c475d19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default virtual destructor for polymorphic cleanup.  <br /></td></tr>
 <tr class="memitem:a1eaabe7e15fd760a9b18787617f17ff3" id="r_a1eaabe7e15fd760a9b18787617f17ff3"><td class="memItemLeft">virtual std::vector&lt; <a class="el" href="class_binary_1_1_data_field.html">DataField</a> * &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a1eaabe7e15fd760a9b18787617f17ff3">Fields</a> ()=0</td></tr>
 <tr class="memdesc:a1eaabe7e15fd760a9b18787617f17ff3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides a vector of raw pointers to the structure's fields.  <br /></td></tr>
 <tr class="memitem:ab6d05eae7f86129d3423fea792b69dea" id="r_ab6d05eae7f86129d3423fea792b69dea"><td class="memItemLeft">virtual std::vector&lt; const <a class="el" href="class_binary_1_1_data_field.html">DataField</a> * &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ab6d05eae7f86129d3423fea792b69dea">Fields</a> () const =0</td></tr>
@@ -124,7 +126,37 @@ Public Member Functions</h2></td></tr>
 <p>Structs that represent a data structure in a binary file should derive from this struct. The <a class="el" href="class_binary_1_1_stream.html" title="Abstract base class representing a binary stream.">Binary::Stream</a> class accepts pointers to instances of <a class="el" href="struct_binary_1_1_data_structure.html" title="Abstract base struct representing data structure in binary file.">DataStructure</a> for reading and writing data structures to binary data sources. By properly inheriting from this struct, the <a class="el" href="class_binary_1_1_stream.html" title="Abstract base class representing a binary stream.">Binary::Stream</a> class and its derivatives will automatically support reading and writing your derived type.</p>
 <p>This provides an interface for a binary data structures. It is recommended that the derived implementations follow these guidelines:</p>
 <p>1) Make fields available as public struct members for general access. 2) <a class="el" href="#a1eaabe7e15fd760a9b18787617f17ff3" title="Provides a vector of raw pointers to the structure&#39;s fields.">Fields()</a> should return a vector of pointers to the struct members in the order that they should be read from and written to files. 3) <a class="el" href="#a0193d19e2cfff357ceb8c71f73caf4c4" title="Gets the total size of all fields in the structure.">Size()</a> should sum all of the field sizes. </p>
-</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a7cfa337b64d04a86430949c19c475d19" name="a7cfa337b64d04a86430949c19c475d19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cfa337b64d04a86430949c19c475d19">&#9670;&#160;</a></span>~DataStructure()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual Binary::DataStructure::~DataStructure </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default virtual destructor for polymorphic cleanup. </p>
+
+<p>Reimplemented in <a class="el" href="struct_spc_1_1_data_structure.html#a2f38f907f3a9d9c84d5c64df77f9b95e">Spc::DataStructure</a>.</p>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="ab6d05eae7f86129d3423fea792b69dea" name="ab6d05eae7f86129d3423fea792b69dea"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab6d05eae7f86129d3423fea792b69dea">&#9670;&#160;</a></span>Fields() <span class="overload">[1/2]</span></h2>
 

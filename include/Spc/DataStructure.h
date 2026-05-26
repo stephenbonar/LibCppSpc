@@ -42,6 +42,9 @@ namespace Spc
     /// needs to provide is an implementation for SpcFields(). 
     struct DataStructure : Binary::DataStructure
     {
+        /// @brief Default virtual destructor for safe polymorphic destruction.
+        virtual ~DataStructure() = default;
+
         /// @copydoc Binary::DataStructure::Fields()
         std::vector<Binary::DataField*> Fields() override;
 

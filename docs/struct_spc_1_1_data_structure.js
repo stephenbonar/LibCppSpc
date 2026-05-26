@@ -1,5 +1,6 @@
 var struct_spc_1_1_data_structure =
 [
+    [ "~DataStructure", "struct_spc_1_1_data_structure.html#a2f38f907f3a9d9c84d5c64df77f9b95e", null ],
     [ "Fields", "struct_spc_1_1_data_structure.html#aeaf7bb0ad636ede05f2cff299e16c176", null ],
     [ "Fields", "struct_spc_1_1_data_structure.html#a4303a7b15fc95c1a967ce310ef021a96", null ],
     [ "Size", "struct_spc_1_1_data_structure.html#a044c5eb94fb1412c654c10a90c07bd95", null ],

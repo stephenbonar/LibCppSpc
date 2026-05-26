@@ -28,6 +28,50 @@ const char* unopenedFileError{ "File is not open." };
 const char* nullStreamError{ "File stream not initialized." };
 const char* invalidIdError{ "Invalid extended item ID detected." };
 
+namespace
+{
+    void TryCloseStream(Binary::FileStream* stream) noexcept
+    {
+        if (stream == nullptr || !stream->IsOpen())
+        {
+            return;
+        }
+
+        try
+        {
+            stream->Close();
+        }
+        catch (...)
+        {
+            // Never mask the original exception with a close failure.
+        }
+    }
+
+    bool IsSafeFileName(std::string_view fileName)
+    {
+        if (fileName.empty() || fileName == "." || fileName == "..")
+        {
+            return false;
+        }
+
+        if (fileName.find('/') != std::string_view::npos ||
+            fileName.find('\\') != std::string_view::npos ||
+            fileName.find(':') != std::string_view::npos)
+        {
+            return false;
+        }
+
+        std::filesystem::path p{ fileName };
+
+        if (p.has_parent_path() || p.has_root_path() || p.is_absolute())
+        {
+            return false;
+        }
+
+        return true;
+    }
+}
+
 void File::Load()
 {
     if (fileStream == nullptr)
@@ -42,65 +86,73 @@ void File::Load()
         throw FileOperationException(unopenedFileError);
     }
 
-    fileStream->Read(&header);
-    fileStream->Read(tag.FieldData().get());
-    fileStream->Read(&ram);
-    fileStream->Read(&dspRegisters);
-    fileStream->Read(&unused);
-    fileStream->Read(&extraRam);
-
-    std::shared_ptr<Binary::ChunkHeader> extendedHeader =
-        fileStream->FindNextChunk(Id666::Extended::chunkId);
-
-    if (extendedHeader != nullptr)
+    try
     {
-        // The value of the chunk's dataSize field is the size of all items
-        // (sub-chunks) contained within the chunk, minus the size of the
-        // chunk header itself.
-        size_t sizeRemaining = extendedHeader->dataSize.Value();
+        fileStream->Read(&header);
+        fileStream->Read(tag.FieldData().get());
+        fileStream->Read(&ram);
+        fileStream->Read(&dspRegisters);
+        fileStream->Read(&unused);
+        fileStream->Read(&extraRam);
 
-        // When sizeRemaining is less than the minimum size of an item
-        // (the header), we know we're done reading items from the chunk, but
-        // until then, keep reading items from the chunk.
-        while (sizeRemaining >= Id666::Extended::itemHeaderSize)
+        std::shared_ptr<Binary::ChunkHeader> extendedHeader =
+            fileStream->FindNextChunk(Id666::Extended::chunkId);
+
+        if (extendedHeader != nullptr)
         {
-            auto item = std::make_shared<Spc::Id666::Extended::Item>();
-            fileStream->Read(item.get());
+            // The value of the chunk's dataSize field is the size of all items
+            // (sub-chunks) contained within the chunk, minus the size of the
+            // chunk header itself.
+            size_t sizeRemaining = extendedHeader->dataSize.Value();
 
-            const size_t itemSize = item->Size();
+            // When sizeRemaining is less than the minimum size of an item
+            // (the header), we know we're done reading items from the chunk,
+            // but until then, keep reading items from the chunk.
+            while (sizeRemaining >= Id666::Extended::itemHeaderSize)
+            {
+                auto item = std::make_shared<Spc::Id666::Extended::Item>();
+                fileStream->Read(item.get());
 
-            // If the item size exceeds the remaining size of the chunk, then 
-            // we know the file is corrupt because the last item's size should
-            // fit within the remaining size.
-            if (itemSize > sizeRemaining)
-            {
-                throw FileCorruptException(extSizeError);
-            }
+                const size_t itemSize = item->Size();
 
-            sizeRemaining -= itemSize;
-            
-            const uint32_t type = item->type->ToUInt32();
+                // If the item size exceeds the remaining size of the chunk,
+                // then we know the file is corrupt because the last item's
+                // size should fit within the remaining size.
+                if (itemSize > sizeRemaining)
+                {
+                    throw FileCorruptException(extSizeError);
+                }
 
-            if (type == Spc::Id666::Extended::stringType)
-            {
-                LoadStringItem(item, sizeRemaining);
-            }
-            else if (type == Spc::Id666::Extended::lengthType)
-            {
-                LoadLengthItem(item);
-            }
-            else if (type == Spc::Id666::Extended::integerType)
-            {
-                LoadIntegerItem(item, sizeRemaining);
-            }
-            else
-            {
-                throw FileCorruptException(invalidTypeError);
+                sizeRemaining -= itemSize;
+
+                const uint32_t type = item->type->ToUInt32();
+
+                if (type == Spc::Id666::Extended::stringType)
+                {
+                    LoadStringItem(item, sizeRemaining);
+                }
+                else if (type == Spc::Id666::Extended::lengthType)
+                {
+                    LoadLengthItem(item);
+                }
+                else if (type == Spc::Id666::Extended::integerType)
+                {
+                    LoadIntegerItem(item, sizeRemaining);
+                }
+                else
+                {
+                    throw FileCorruptException(invalidTypeError);
+                }
             }
         }
-    }
 
-    fileStream->Close();
+        fileStream->Close();
+    }
+    catch (...)
+    {
+        TryCloseStream(fileStream.get());
+        throw;
+    }
 }
 
 void File::Save()
@@ -117,23 +169,31 @@ void File::Save()
         throw FileOperationException(unopenedFileError);
     }
 
-    fileStream->Write(&header);
-    fileStream->Write(tag.FieldData().get());
-    fileStream->Write(&ram);
-    fileStream->Write(&dspRegisters);
-    fileStream->Write(&unused);
-    fileStream->Write(&extraRam);
-
-    std::shared_ptr<Id666::Extended::Data> extendedData = tag.ExtendedData();
-
-    if (extendedData->Size() > 0)
+    try
     {
-        Binary::ChunkHeader extendedHeader = extendedData->Header();
-        fileStream->Write(&extendedHeader);
-        fileStream->Write(extendedData.get());
-    }
+        fileStream->Write(&header);
+        fileStream->Write(tag.FieldData().get());
+        fileStream->Write(&ram);
+        fileStream->Write(&dspRegisters);
+        fileStream->Write(&unused);
+        fileStream->Write(&extraRam);
 
-    fileStream->Close();
+        std::shared_ptr<Id666::Extended::Data> extendedData = tag.ExtendedData();
+
+        if (extendedData->Size() > 0)
+        {
+            Binary::ChunkHeader extendedHeader = extendedData->Header();
+            fileStream->Write(&extendedHeader);
+            fileStream->Write(extendedData.get());
+        }
+
+        fileStream->Close();
+    }
+    catch (...)
+    {
+        TryCloseStream(fileStream.get());
+        throw;
+    }
 }
 
 void File::LoadStringItem(std::shared_ptr<Id666::Extended::Item> item, 
@@ -336,10 +396,30 @@ bool File::TagToFileName(std::string pattern)
         }
     }
 
-    std::filesystem::path p(path);
-    path = p.replace_filename(stream.str()).string();
+    std::filesystem::path sourcePath(path);
+    std::filesystem::path destinationPath(sourcePath);
+    std::string fileName = stream.str();
 
-    return true;
+    if (!IsSafeFileName(fileName))
+    {
+        return false;
+    }
+
+    destinationPath.replace_filename(fileName);
+
+    if (sourcePath == destinationPath)
+    {
+        return false;
+    }
+
+    std::error_code error;
+    const bool copied = std::filesystem::copy_file(
+        sourcePath,
+        destinationPath,
+        std::filesystem::copy_options::none,
+        error);
+
+    return copied && !error;
 }
 
 bool File::FileNameToTag(std::string pattern)
@@ -395,8 +475,16 @@ bool File::MatchNumeric(std::stringstream& stream,
     }
 
     size_t numericStringSize{ 0 };
+    std::streampos currentPos = stream.tellg();
+
+    if (currentPos == -1)
+    {
+        return false;
+    }
+
     std::string fullStreamContent = stream.str();
-    std::string remainingContent = fullStreamContent.substr(stream.tellg());
+    std::string remainingContent =
+        fullStreamContent.substr(static_cast<size_t>(currentPos));
     std::string_view contentView{ remainingContent };
 
     if (nextNode->type == Id666::Pattern::NodeType::Literal)
@@ -455,11 +543,21 @@ bool File::MatchText(std::stringstream& stream,
     }
 
     size_t textStringSize{ 0 };
+    std::streampos currentPos = stream.tellg();
+
+    if (currentPos == -1)
+    {
+        return false;
+    }
+
+    std::string fullStreamContent = stream.str();
+    std::string remainingContent =
+        fullStreamContent.substr(static_cast<size_t>(currentPos));
+    std::string_view contentView{ remainingContent };
 
     if (nextNode->type == Id666::Pattern::NodeType::Literal)
     {
-        std::string streamContent = stream.str();
-        size_t index = streamContent.find(nextNode->lexeme);
+        size_t index = contentView.find(nextNode->lexeme);
 
         if (index == std::string::npos)
         {
@@ -470,7 +568,7 @@ bool File::MatchText(std::stringstream& stream,
     }
     else if (nextNode->type == Id666::Pattern::NodeType::End)
     {
-        textStringSize = stream.str().size();
+        textStringSize = contentView.size();
     }
     else
     {

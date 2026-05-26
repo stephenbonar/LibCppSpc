@@ -16,7 +16,10 @@
 
 #include "FileTests.h"
 
+#include <chrono>
 #include <cstring>
+#include <filesystem>
+#include <fstream>
 
 constexpr size_t headerSize{ 4 };
 constexpr size_t intSize{ 4 };
@@ -324,7 +327,7 @@ void FileTests::MockExtendedTagValueReads()
     MockStringRead(Spc::Id666::Extended::ostTitleInfo.id, expectedOstTitle);
     MockLengthRead(Spc::Id666::Extended::ostDiscInfo.id, expectedTag.OstDisc());
 
-    // Do not use the generic MockLenghtRead here as we need the specialty
+    // Do not use the generic MockLengthRead here as we need the specialty
     // Spc::TrackField for the track to set properly. 
     EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
         .WillOnce(testing::Invoke([ostTrack = expectedTag.OstTrack()](
@@ -883,9 +886,40 @@ TEST_F(FileTests, ConvertsFilenameToTagProperly)
     EXPECT_EQ(tag.OstTrack().Value(), "10");
 }
 
+TEST_F(FileTests, ConvertsFilenameToTagProperlyWithLiteralPrefix)
+{
+    Spc::File file("AB-Game-10.spc", mockFileStream);
+
+    bool success = file.FileNameToTag("AB-%game%-%track%.spc");
+
+    Spc::Id666::Tag tag = file.Tag();
+    EXPECT_TRUE(success);
+    EXPECT_EQ(tag.GameTitle().Value(), "Game");
+    EXPECT_EQ(tag.OstTrack().Value(), "10");
+}
+
 TEST_F(FileTests, ConvertsTagToFilenameProperly)
 {
-    Spc::File file("t-1.spc", mockFileStream);
+    namespace fs = std::filesystem;
+
+    const std::string uniqueDirName =
+        "LibCppSpc_FileTests_" +
+        std::to_string(std::chrono::steady_clock::now()
+                           .time_since_epoch()
+                           .count());
+    const fs::path tempDir = fs::temp_directory_path() / uniqueDirName;
+    const fs::path sourcePath = tempDir / "t-1.spc";
+    const fs::path expectedCopyPath = tempDir / "Test-10.spc";
+
+    ASSERT_TRUE(fs::create_directories(tempDir));
+
+    {
+        std::ofstream sourceFile(sourcePath, std::ios::binary);
+        ASSERT_TRUE(sourceFile.is_open());
+        sourceFile << "spc-test-data";
+    }
+
+    Spc::File file(sourcePath.string());
     Spc::Id666::Tag tag;
 
     tag.SetGameTitle("Test");
@@ -895,6 +929,45 @@ TEST_F(FileTests, ConvertsTagToFilenameProperly)
     bool success = file.TagToFileName("%game%-%track%.spc");
 
     EXPECT_TRUE(success);
-    EXPECT_EQ(file.Path(), "Test-10.spc");
+    EXPECT_EQ(file.Path(), sourcePath.string());
+    EXPECT_TRUE(fs::exists(sourcePath));
+    EXPECT_TRUE(fs::exists(expectedCopyPath));
+    EXPECT_EQ(fs::file_size(sourcePath), fs::file_size(expectedCopyPath));
+
+    fs::remove_all(tempDir);
+}
+
+TEST_F(FileTests, FailsTagToFilenameWhenGeneratedNameContainsPath)
+{
+    namespace fs = std::filesystem;
+
+    const std::string uniqueDirName =
+        "LibCppSpc_FileTests_" +
+        std::to_string(std::chrono::steady_clock::now()
+                           .time_since_epoch()
+                           .count());
+    const fs::path tempDir = fs::temp_directory_path() / uniqueDirName;
+    const fs::path sourcePath = tempDir / "t-1.spc";
+
+    ASSERT_TRUE(fs::create_directories(tempDir));
+
+    {
+        std::ofstream sourceFile(sourcePath, std::ios::binary);
+        ASSERT_TRUE(sourceFile.is_open());
+        sourceFile << "spc-test-data";
+    }
+
+    Spc::File file(sourcePath.string());
+    Spc::Id666::Tag tag;
+
+    tag.SetGameTitle("../escape");
+    file.SetTag(tag);
+
+    bool success = file.TagToFileName("%game%.spc");
+
+    EXPECT_FALSE(success);
+    EXPECT_TRUE(fs::exists(sourcePath));
+
+    fs::remove_all(tempDir);
 }
 

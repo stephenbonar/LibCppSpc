@@ -134,7 +134,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a79ec4c411b422004ccd54fdc7ea99bd5" id="r_a79ec4c411b422004ccd54fdc7ea99bd5"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a79ec4c411b422004ccd54fdc7ea99bd5">Save</a> ()</td></tr>
 <tr class="memdesc:a79ec4c411b422004ccd54fdc7ea99bd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves the SPC file to disk.  <br /></td></tr>
 <tr class="memitem:a1664d44d6a5275ae74cc055d137abcf9" id="r_a1664d44d6a5275ae74cc055d137abcf9"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a1664d44d6a5275ae74cc055d137abcf9">TagToFileName</a> (std::string pattern)</td></tr>
-<tr class="memdesc:a1664d44d6a5275ae74cc055d137abcf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renames the file on disk to match metadata from the tag.  <br /></td></tr>
+<tr class="memdesc:a1664d44d6a5275ae74cc055d137abcf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a copy of the file with a new name based on metadata.  <br /></td></tr>
 <tr class="memitem:a5b9a51887530fe1db267d5b271da5157" id="r_a5b9a51887530fe1db267d5b271da5157"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a5b9a51887530fe1db267d5b271da5157">FileNameToTag</a> (std::string pattern)</td></tr>
 <tr class="memdesc:a5b9a51887530fe1db267d5b271da5157"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the tag based on the file name.  <br /></td></tr>
 </table>
@@ -683,8 +683,8 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Renames the file on disk to match metadata from the tag. </p>
-<p>Uses the specified pattern to determine what the file shoud be renamed to based on the tag metadata. The pattern consists of literal characters and placeholders that bring in values from the tag. For example, if the tag has a track number of 02 and a song title of "Intro", you would use the following pattern to get the file name "02 - Intro.spc":</p>
+<p>Creates a copy of the file with a new name based on metadata. </p>
+<p>Uses the specified pattern to determine what the copy file should be named based on the tag metadata. The pattern consists of literal characters and placeholders that bring in values from the tag. For example, if the tag has a track number of 02 and a song title of "Intro", you would use the following pattern to get the file name "02 - Intro.spc":</p>
 <p>track% - song%.spc</p>
 <p>Supported placeholders currently include:</p>
 <p>song% - The song title. game% - The game title. artist% - The name of the person who dumped the SPC file. disc% - The OST disc number. track% - The OST track number.</p>
@@ -694,9 +694,9 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the file was successfully renamed, false otherwise. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the file was successfully copied, false otherwise. </dd></dl>
 <dl class="section pre"><dt>Precondition</dt><dd>Must be a valid pattern with supported placeholders. </dd></dl>
-<dl class="section post"><dt>Postcondition</dt><dd>The file on disk is renamed to match the pattern if valid. </dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd>The file on disk is copied to match the pattern if valid. </dd></dl>
 
 </div>
 </div>

@@ -52,7 +52,9 @@ namespace Spc
             unused{ unusedInfo.size }, 
             extraRam{ extraRamInfo.size },
             fileStream{ nullptr }
-        { }
+        { 
+            fileStream = std::make_shared<Binary::StandardFileStream>(path);
+        }
 
         /// @brief Constructor; creates a new instance of SPC file.
         ///
@@ -137,10 +139,10 @@ namespace Spc
         /// @throws FileOperationException if the file cannot open or write.
         void Save();
 
-        /// @brief Renames the file on disk to match metadata from the tag.
+        /// @brief Creates a copy of the file with a new name based on metadata.
         ///
-        /// Uses the specified pattern to determine what the file shoud be
-        /// renamed to based on the tag metadata. The pattern consists of 
+        /// Uses the specified pattern to determine what the copy file should be
+        /// named based on the tag metadata. The pattern consists of 
         /// literal characters and placeholders that bring in values from the
         /// tag. For example, if the tag has a track number of 02 and a song
         /// title of "Intro", you would use the following pattern to get the
@@ -157,9 +159,9 @@ namespace Spc
         /// %track% - The OST track number.
         ///
         /// @param pattern The pattern to select the metadata.
-        /// @return True if the file was successfully renamed, false otherwise.
+        /// @return True if the file was successfully copied, false otherwise.
         /// @pre Must be a valid pattern with supported placeholders.
-        /// @post The file on disk is renamed to match the pattern if valid.
+        /// @post The file on disk is copied to match the pattern if valid.
         bool TagToFileName(std::string pattern);
 
         /// @brief Updates the tag based on the file name.

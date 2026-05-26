@@ -1,0 +1,4 @@
+var searchData=
+[
+  ['project_0',['Using LibCppSpc In Your Project',['../index.html#autotoc_md4',1,'']]]
+];

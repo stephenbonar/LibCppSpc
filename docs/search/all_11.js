@@ -1,14 +1,18 @@
 var searchData=
 [
-  ['uint16field_0',['UInt16Field',['../namespace_binary.html#a17d258f9fee6ba4f0873de4345c1051b',1,'Binary']]],
-  ['uint24field_1',['UInt24Field',['../namespace_binary.html#a00bdb75f7c7d3f9c362162d8deb5cc04',1,'Binary']]],
-  ['uint24max_2',['uint24Max',['../namespace_binary.html#a77ebc738d3464d7cbb0ea7b0afe37b2f',1,'Binary']]],
-  ['uint32field_3',['UInt32Field',['../namespace_binary.html#a4a791dba48613098c4d2f35be9a6bfaa',1,'Binary']]],
-  ['uint40max_4',['uint40Max',['../namespace_binary.html#a85ced1737dd7df3cc235065158f95973',1,'Binary']]],
-  ['uint48max_5',['uint48Max',['../namespace_binary.html#a5bb07741e904f6c9ce4fce52d1a82ee6',1,'Binary']]],
-  ['uint56max_6',['uint56Max',['../namespace_binary.html#a64d4c019bfdda30c08678affee1163f6',1,'Binary']]],
-  ['uint64field_7',['UInt64Field',['../namespace_binary.html#a33cd6d28ea723a4c7476e5ecb194f01e',1,'Binary']]],
-  ['uint8field_8',['UInt8Field',['../namespace_binary.html#a0fda1fee043991556db5a40b6e5c5416',1,'Binary']]],
-  ['unused_9',['Unused',['../class_spc_1_1_file.html#a0249a69abf226c8416dbcb2f60db92db',1,'Spc::File']]],
-  ['unusedinfo_10',['unusedInfo',['../namespace_spc.html#a57fe3070d9a1860ac275a8f8575a0e3f',1,'Spc']]]
+  ['ram_0',['Ram',['../class_spc_1_1_file.html#a74c1186eb753d139bd4a4e2c7517f16b',1,'Spc::File']]],
+  ['raminfo_1',['ramInfo',['../namespace_spc.html#a2d29b33338b9aeed67ae4b9dc8a2c32c',1,'Spc']]],
+  ['raw_2',['Raw',['../namespace_binary.html#a2b21524f46dfbef17fbf57518c8b4ad6a65e65c8ab0d8609ce12fc68a03cb8e00',1,'Binary']]],
+  ['rawdata_3',['RawData',['../class_binary_1_1_data_field.html#a7418480785092b424a60edc55f93b529',1,'Binary::DataField::RawData()=0'],['../class_binary_1_1_data_field.html#a969949b625eef9ecbab4ca3ca73f8938',1,'Binary::DataField::RawData() const =0'],['../class_binary_1_1_raw_field.html#ad8cf36c39a60b42345e8f9fe11dceeae',1,'Binary::RawField::RawData() override'],['../class_binary_1_1_raw_field.html#a9035c9170076a8a4c6cabc2852c0bde1',1,'Binary::RawField::RawData() const override']]],
+  ['rawdata_4',['rawData',['../class_binary_1_1_raw_field.html#a315baeb283fee64ddc74703f0cd2c2df',1,'Binary::RawField']]],
+  ['rawfield_5',['RawField',['../class_binary_1_1_raw_field.html',1,'Binary::RawField'],['../class_binary_1_1_raw_field.html#a8fa1a73034def152e62f738730c65b69',1,'Binary::RawField::RawField(size_t size)'],['../class_binary_1_1_raw_field.html#ab7fd475ec81607ef94119119eef5a1b0',1,'Binary::RawField::RawField(const RawField &amp;other)']]],
+  ['rawfield_2eh_6',['RawField.h',['../_raw_field_8h.html',1,'']]],
+  ['read_7',['Read',['../class_binary_1_1_buffer_stream.html#ab12201b941f1807cbb0d3f30f21d0a39',1,'Binary::BufferStream::Read(DataField *field) const override'],['../class_binary_1_1_buffer_stream.html#a47398c5ca9e8de2de3630d6d165910ae',1,'Binary::BufferStream::Read(DataStructure *structure) const override'],['../class_binary_1_1_standard_file_stream.html#a7ccde2503a0706c132cd79420fd3792f',1,'Binary::StandardFileStream::Read(DataField *field) const override'],['../class_binary_1_1_standard_file_stream.html#a280eef9824aa490295bb4ded93147d30',1,'Binary::StandardFileStream::Read(DataStructure *structure) const override'],['../class_binary_1_1_stream.html#afb96b4ba95d561f234fc2e455ff18ae3',1,'Binary::Stream::Read(DataField *field) const =0'],['../class_binary_1_1_stream.html#a33bf6b0b8bb699afae128b0c9944fbd9',1,'Binary::Stream::Read(DataStructure *structure) const =0'],['../namespace_binary.html#ae14a9837d984c20da9fe0ab449347c9ba7a1a5f3e79fdc91edf2f5ead9d66abb4',1,'Binary::Read']]],
+  ['readme_2emd_8',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
+  ['readwrite_9',['ReadWrite',['../namespace_binary.html#ae14a9837d984c20da9fe0ab449347c9ba70a2a84088d405a2e3f1e3accaa16723',1,'Binary']]],
+  ['repository_20layout_10',['Repository Layout',['../index.html#autotoc_md12',1,'']]],
+  ['requirements_11',['Requirements',['../index.html#autotoc_md2',1,'']]],
+  ['reserved_12',['reserved',['../struct_spc_1_1_header.html#ac48d17891c043a9da5d66e420e8f4226',1,'Spc::Header']]],
+  ['reservedinfo_13',['reservedInfo',['../namespace_spc_1_1_id666.html#a1abcc4a78c226c35577d512f98b143ee',1,'Spc::Id666']]],
+  ['run_20tests_14',['Run Tests',['../index.html#autotoc_md9',1,'']]]
 ];

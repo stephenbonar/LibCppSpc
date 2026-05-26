@@ -92,7 +92,124 @@ $(function(){initNavTree('index.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md__r_e_a_d_m_e"></a></p>
-<p>A modern, cross-platform C++ library for reading from and writing to SNES music files (.spc) </p>
+<p>LibCppSpc is a modern, cross-platform C++ library for reading, writing, and manipulating SNES SPC music files (<span class="tt">.spc</span>) and their ID666 metadata tags.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
+Features</h1>
+<ul>
+<li>Read and write SPC file data, including header, tag, and audio memory.</li>
+<li>Read and write ID666 metadata (song title, game title, artist, track/disc, timing, and more).</li>
+<li>Support pattern-based metadata/filename conversion with <span class="tt">TagToFileName(pattern)</span> and <span class="tt">FileNameToTag(pattern)</span>.</li>
+<li>Support extended ID666 tag structures.</li>
+</ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
+Requirements</h1>
+<ul>
+<li>C++17-compatible compiler</li>
+<li>CMake 3.10+</li>
+</ul>
+<p>Notes:</p><ul>
+<li><span class="tt">LibCppBinary</span> is fetched automatically via CMake (<span class="tt">FetchContent</span>).</li>
+<li>Unit tests fetch GoogleTest automatically when enabled.</li>
+</ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
+Getting Started</h1>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
+Using LibCppSpc In Your Project</h1>
+<p>This repository currently builds a CMake target named <span class="tt">LibCppSpc</span>. It is designed to be included directly into your C++ project, but it can be built as a separate static or dynamic library as well.</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
+Option 1: FetchContent</h2>
+<p>Add the following to the CMakeLists.txt file for your CMake C++ project:</p>
+<div class="fragment"><div class="line">include(FetchContent)</div>
+<div class="line"> </div>
+<div class="line">FetchContent_Declare(</div>
+<div class="line">    LibCppSpc URL https://github.com/stephenbonar/LibCppSpc/archive/HASH.zip </div>
+<div class="line">)</div>
+<div class="line"> </div>
+<div class="line">FetchContent_MakeAvailable(LibCppSpc)</div>
+<div class="line">target_link_libraries(your_target PRIVATE LibCppSpc)</div>
+</div><!-- fragment --><p>Where HASH is the SHA hash for the specific commit of the library you want to include, which most likely should be the commit of the most recent stable release version of the library. Replace HASH with the specific commit hash you want to use.</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
+Option 2: Add As A Subdirectory</h2>
+<p>Alternatively, you can simply add this library's repository as a subdirectory to your own CMake C++ project and add the following to your CMakeLists.txt.</p>
+<div class="fragment"><div class="line">add_subdirectory(path/to/LibCppSpc)</div>
+<div class="line">target_link_libraries(your_target PRIVATE LibCppSpc)</div>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
+Build The Library</h2>
+<p>If you do want to build the library separately from your own project, perhaps to modify and test the library, run the following from the root of the repository:</p>
+<div class="fragment"><div class="line">cmake -S . -B build</div>
+<div class="line">cmake --build build</div>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
+Enable And Build Tests</h2>
+<p><span class="tt">BUILD_TESTING</span> is enabled by default through CTest integration.</p>
+<div class="fragment"><div class="line">cmake -S . -B build -DBUILD_TESTING=ON</div>
+<div class="line">cmake --build build</div>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
+Run Tests</h2>
+<div class="fragment"><div class="line">ctest --test-dir build --output-on-failure</div>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
+Generate API Docs (Optional)</h2>
+<p>If Doxygen is installed, the <span class="tt">docs</span> target is available:</p>
+<div class="fragment"><div class="line">cmake --build build --target docs</div>
+</div><!-- fragment --><p>Generated output is written under the CMake build directory.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
+Quick Example</h1>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="_lib_cpp_spc_8h.html">LibCppSpc.h</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv)</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordflow">if</span> (argc &lt; 2)</div>
+<div class="line">    {</div>
+<div class="line">        std::cerr &lt;&lt; <span class="stringliteral">&quot;Must specify .SPC file to modify.&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">        <span class="keywordflow">return</span> 1;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <a class="code hl_class" href="class_spc_1_1_file.html">Spc::File</a> spcFile(argv[1]);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// Load SPC file from disk.</span></div>
+<div class="line">    spcFile.Load();</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Loaded &quot;</span> &lt;&lt; spcFile.Path() &lt;&lt; std::endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// Retrieve metadata tag values.</span></div>
+<div class="line">    <a class="code hl_class" href="class_spc_1_1_id666_1_1_tag.html">Spc::Id666::Tag</a> tag = spcFile.<a class="code hl_function" href="class_spc_1_1_id666_1_1_tag.html#abc4316138b2ce67e13e64534099c7545">Tag</a>();</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Song Name : &quot;</span> &lt;&lt; tag.<a class="code hl_function" href="class_spc_1_1_id666_1_1_tag.html#aade6327a51a8a4309184ebca3ebc36c2">SongTitle</a>().<a class="code hl_function" href="class_spc_1_1_text_field.html#a662c7afcb9a67fe7bfc564da6e775b65">ToString</a>() &lt;&lt; std::endl;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Track No  : &quot;</span> &lt;&lt; tag.<a class="code hl_function" href="class_spc_1_1_id666_1_1_tag.html#a3484a6ce66fbfbb6336642f6ed311813">OstTrack</a>().<a class="code hl_function" href="class_spc_1_1_track_field.html#a785915ecfe13be74aa53e352d05bd85d">ToString</a>() &lt;&lt; std::endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// Change metadata tag values.</span></div>
+<div class="line">    tag.<a class="code hl_function" href="class_spc_1_1_id666_1_1_tag.html#a399429df357cc30a8e498bef8fa4ea4f">SetSongTitle</a>(<span class="stringliteral">&quot;New Song Name&quot;</span>);</div>
+<div class="line">    tag.<a class="code hl_function" href="class_spc_1_1_id666_1_1_tag.html#a73e1b95cb14310c5874107ed13a76c06">SetOstTrack</a>(<span class="stringliteral">&quot;1&quot;</span>);</div>
+<div class="line">    spcFile.SetTag(tag);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// Persist changes.</span></div>
+<div class="line">    spcFile.Save();</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// Convert metadata to file name using a pattern.</span></div>
+<div class="line">    spcFile.TagToFileName(<span class="stringliteral">&quot;%track% - %song%.spc&quot;</span>);</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Copied file to new name based on pattern&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+<div class="ttc" id="a_lib_cpp_spc_8h_html"><div class="ttname"><a href="_lib_cpp_spc_8h.html">LibCppSpc.h</a></div></div>
+<div class="ttc" id="aclass_spc_1_1_file_html"><div class="ttname"><a href="class_spc_1_1_file.html">Spc::File</a></div><div class="ttdoc">Represents an SPC file.</div><div class="ttdef"><b>Definition</b> File.h:40</div></div>
+<div class="ttc" id="aclass_spc_1_1_id666_1_1_tag_html"><div class="ttname"><a href="class_spc_1_1_id666_1_1_tag.html">Spc::Id666::Tag</a></div><div class="ttdoc">Represents an ID666 tag in an SPC file.</div><div class="ttdef"><b>Definition</b> Tag.h:74</div></div>
+<div class="ttc" id="aclass_spc_1_1_id666_1_1_tag_html_a3484a6ce66fbfbb6336642f6ed311813"><div class="ttname"><a href="class_spc_1_1_id666_1_1_tag.html#a3484a6ce66fbfbb6336642f6ed311813">Spc::Id666::Tag::OstTrack</a></div><div class="ttdeci">TrackField OstTrack() const</div><div class="ttdoc">Gets the track number of the original soundtrack (OST) album.</div></div>
+<div class="ttc" id="aclass_spc_1_1_id666_1_1_tag_html_a399429df357cc30a8e498bef8fa4ea4f"><div class="ttname"><a href="class_spc_1_1_id666_1_1_tag.html#a399429df357cc30a8e498bef8fa4ea4f">Spc::Id666::Tag::SetSongTitle</a></div><div class="ttdeci">void SetSongTitle(std::string value)</div><div class="ttdoc">Sets the title of the song.</div></div>
+<div class="ttc" id="aclass_spc_1_1_id666_1_1_tag_html_a73e1b95cb14310c5874107ed13a76c06"><div class="ttname"><a href="class_spc_1_1_id666_1_1_tag.html#a73e1b95cb14310c5874107ed13a76c06">Spc::Id666::Tag::SetOstTrack</a></div><div class="ttdeci">void SetOstTrack(std::string value)</div><div class="ttdoc">Sets the track number of the original soundtrack (OST) album.</div></div>
+<div class="ttc" id="aclass_spc_1_1_id666_1_1_tag_html_aade6327a51a8a4309184ebca3ebc36c2"><div class="ttname"><a href="class_spc_1_1_id666_1_1_tag.html#aade6327a51a8a4309184ebca3ebc36c2">Spc::Id666::Tag::SongTitle</a></div><div class="ttdeci">TextField SongTitle() const</div><div class="ttdoc">Gets the title of the song.</div></div>
+<div class="ttc" id="aclass_spc_1_1_id666_1_1_tag_html_abc4316138b2ce67e13e64534099c7545"><div class="ttname"><a href="class_spc_1_1_id666_1_1_tag.html#abc4316138b2ce67e13e64534099c7545">Spc::Id666::Tag::Tag</a></div><div class="ttdeci">Tag()</div><div class="ttdoc">Default constructor; creates a new instance of Tag.</div></div>
+<div class="ttc" id="aclass_spc_1_1_text_field_html_a662c7afcb9a67fe7bfc564da6e775b65"><div class="ttname"><a href="class_spc_1_1_text_field.html#a662c7afcb9a67fe7bfc564da6e775b65">Spc::TextField::ToString</a></div><div class="ttdeci">std::string ToString() const override</div><div class="ttdoc">Converts the field&#39;s data to a string representation.</div><div class="ttdef"><b>Definition</b> TextField.h:54</div></div>
+<div class="ttc" id="aclass_spc_1_1_track_field_html_a785915ecfe13be74aa53e352d05bd85d"><div class="ttname"><a href="class_spc_1_1_track_field.html#a785915ecfe13be74aa53e352d05bd85d">Spc::TrackField::ToString</a></div><div class="ttdeci">virtual std::string ToString() const override</div><div class="ttdoc">Converts the field&#39;s data to a string representation.</div></div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
+Repository Layout</h1>
+<ul>
+<li><span class="tt">include/</span> - public headers (<span class="tt"><a class="el" href="_lib_cpp_spc_8h.html">LibCppSpc.h</a></span>, <span class="tt">Spc/*</span>)</li>
+<li><span class="tt">src/</span> - library implementation</li>
+<li><span class="tt">tests/</span> - GoogleTest test suite</li>
+<li><span class="tt">docs/</span> - generated API documentation output</li>
+</ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
+License</h1>
+<p>Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE). </p>
 </div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>
 </div><!-- contents -->

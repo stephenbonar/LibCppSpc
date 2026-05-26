@@ -350,8 +350,8 @@ void Tag::SetSongLength(std::string value)
 
 void Tag::SetFadeLength(std::string value)
 {
-    // TODO: Consider adding logic to write to the extended area if the extended
-    // area. It is not yet clear under what conditions this field would be used
+    // TODO: Consider adding logic to write to the extended area. It is not yet
+    // clear under what conditions this field would be used
     // as opposed to the standard one. Would need to know the maximum number of
     // ticks vs milliseconds.
     constexpr int min{ 0 };
