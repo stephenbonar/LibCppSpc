@@ -704,6 +704,8 @@ namespace Spc::Id666
         {
             std::shared_ptr<T> field;
 
+            std::string extendedLabel = label + "*";
+
             if (item != nullptr)
             {
                 if (item->type->ToInt32() == Extended::lengthType)

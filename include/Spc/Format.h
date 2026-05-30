@@ -24,7 +24,7 @@
 namespace Spc
 {
     // This value is enough to fit all labels with at least one space after.
-    inline constexpr int labelSize{ 22 };
+    inline constexpr int labelSize{ 26 };
 
     // This value perfectly wraps hexadecimal output.
     inline constexpr int valueChunkSize{ 54 };
