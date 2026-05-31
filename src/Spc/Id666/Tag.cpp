@@ -271,7 +271,7 @@ BinaryField Tag::MutedVoices() const
     // Muted voices is stored as an 16-bit integer in the extended area, so
     // we need to read it differently from the standard BinaryField field.
     std::shared_ptr<NumericField> mutedVoicesInt;
-    mutedVoicesInt = ReadExtendedField<NumericField>("Muted Voices", 
+    mutedVoicesInt = ReadExtendedField<NumericField>("Muted Voices*", 
                                                      item.get());
 
     if (item != nullptr)
@@ -279,14 +279,14 @@ BinaryField Tag::MutedVoices() const
         // Since muted voices was found in the extended area, convert it to
         // a standard BinaryField to return.
         Spc::FieldInfo extendedInfo{ Extended::dataOffset, 1 };
-        BinaryField mutedVoices{ "Muted Voices", extendedInfo };
+        BinaryField mutedVoices{ "Muted Voices*", extendedInfo };
         mutedVoicesInt->CopyRawDataTo(&mutedVoices);
         return mutedVoices;
     }
     else
     {
         Spc::FieldInfo errorInfo{ 0, 1 };
-        return BinaryField{ "Muted Voices (ERROR)", errorInfo };
+        return BinaryField{ "Muted Voices*", errorInfo };
     }
 }
 

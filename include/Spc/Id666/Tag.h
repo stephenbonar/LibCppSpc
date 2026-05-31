@@ -715,21 +715,24 @@ namespace Spc::Id666
                     // is created as a NumericField, but may represent a
                     // BinaryField or other type and needs to be recreated as
                     // such. 
-                    field = std::make_shared<T>(label, Extended::dataInfo);
+                    field = std::make_shared<T>(extendedLabel, 
+                                                Extended::dataInfo);
                     item->data->CopyRawDataTo(field.get());
                 }
                 else if (item->extendedData != nullptr)
                 {
                     field = std::static_pointer_cast<T>(item->extendedData);
+                    field->SetLabel(extendedLabel);
                 }
                 else
                 {
-                    field = std::make_shared<T>(label, Extended::dataInfo);
+                    field = std::make_shared<T>(extendedLabel, 
+                                                Extended::dataInfo);
                 }
             }
             else
             {
-                field = std::make_shared<T>(label, Extended::dataInfo);
+                field = std::make_shared<T>(extendedLabel, Extended::dataInfo);
             }
 
             return field;

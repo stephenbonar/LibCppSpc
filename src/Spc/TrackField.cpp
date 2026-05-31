@@ -30,9 +30,13 @@ std::string TrackField::ToString() const
     auto trackNum = static_cast<uint8_t>(rawData[1]);
 
     if (Suffix() != 0)
-        stream << trackNum << Suffix();
+    {
+        stream << std::to_string(trackNum) << Suffix();
+    }
     else
-        stream << trackNum;
+    {
+        stream << std::to_string(trackNum);
+    }
         
     return stream.str();
 }
