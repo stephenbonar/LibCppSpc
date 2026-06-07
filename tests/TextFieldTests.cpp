@@ -38,6 +38,15 @@ TEST_F(TextFieldTests, ConstructorInitializesProperly)
     EXPECT_EQ(textField.Label(), label);
     EXPECT_EQ(textField.Offset(), info.offset);
     EXPECT_EQ(textField.Size(), info.size);
+    EXPECT_TRUE(textField.IsPresent());
+}
+
+TEST_F(TextFieldTests, ConstructorInitializesExplicitIsPresent)
+{
+    Spc::FieldInfo info{ 4, 4 };
+    Spc::TextField textField("Test Text Field", info, false);
+
+    EXPECT_FALSE(textField.IsPresent());
 }
 
 TEST_F(TextFieldTests, SetValueSetsStringValueCorrectly)

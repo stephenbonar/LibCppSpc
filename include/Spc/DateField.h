@@ -42,7 +42,8 @@ namespace Spc
         /// @brief Constructor; creates a new instance of DateField.
         /// @param label The label to use when outputing the field. 
         /// @param info Sets offset and size of the field.
-        DateField(std::string label, FieldInfo info);
+        /// @param isPresent Indicates whether field is present in the SPC file.
+        DateField(std::string label, FieldInfo info, bool isPresent = true);
             
         /// @copydoc NumericField::IsText()
         virtual bool IsText() const override;

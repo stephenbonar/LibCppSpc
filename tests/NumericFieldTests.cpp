@@ -34,14 +34,21 @@ TEST_F(NumericFieldTests, ConstructorsInitializesProperly)
     std::string label{ "Test Numeric Field" };
     Spc::NumericField numericField(label, info);
     Spc::NumericField numericFieldWithType(label, info, Spc::NumericType::Text);
+    Spc::NumericField notPresentField(label, info, false);
+    Spc::NumericField notPresentFieldWithType(label, info,
+                                              Spc::NumericType::Text, false);
 
     EXPECT_EQ(numericField.Label(), label);
     EXPECT_EQ(numericField.Offset(), info.offset);
     EXPECT_EQ(numericField.Size(), info.size);
+    EXPECT_TRUE(numericField.IsPresent());
     EXPECT_EQ(numericFieldWithType.Label(), label);
     EXPECT_EQ(numericFieldWithType.Offset(), info.offset);
     EXPECT_EQ(numericFieldWithType.Size(), info.size);
     EXPECT_EQ(numericFieldWithType.Type(), Spc::NumericType::Text);
+    EXPECT_TRUE(numericFieldWithType.IsPresent());
+    EXPECT_FALSE(notPresentField.IsPresent());
+    EXPECT_FALSE(notPresentFieldWithType.IsPresent());
 }
 
 TEST_F(NumericFieldTests, IsZeroReturnsTrueForAllZeroBytes)

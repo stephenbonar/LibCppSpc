@@ -27,8 +27,8 @@ const char* dateFormat{ "%m/%d/%Y" };
 const char* dateSizeError{ "DateField size must be at least 11." };
 const char* dateFormatError{ "Date value must be in MM/DD/YYYY format." };
 
-DateField::DateField(std::string label, FieldInfo info)
-    : NumericField{ label, info }
+DateField::DateField(std::string label, FieldInfo info, bool isPresent)
+    : NumericField{ label, info, isPresent }
 {
     if (size < dateSize)
         throw std::invalid_argument{ dateSizeError };

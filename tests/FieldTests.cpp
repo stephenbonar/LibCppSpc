@@ -37,6 +37,28 @@ TEST_F(FieldTests, SizeReflectsConstructorValue)
     EXPECT_EQ(field->Size(), 5);
 }
 
+TEST_F(FieldTests, IsPresentDefaultsToTrue)
+{
+    EXPECT_TRUE(field->IsPresent());
+}
+
+TEST_F(FieldTests, IsPresentReflectsExplicitConstructorValue)
+{
+    Spc::FieldInfo info{ 100, 5 };
+    Spc::Field notPresentField("TestLabel", info, false);
+
+    EXPECT_FALSE(notPresentField.IsPresent());
+}
+
+TEST_F(FieldTests, SetIsPresentUpdatesPresenceState)
+{
+    field->SetIsPresent(false);
+    EXPECT_FALSE(field->IsPresent());
+
+    field->SetIsPresent(true);
+    EXPECT_TRUE(field->IsPresent());
+}
+
 TEST_F(FieldTests, SetValuePopulatesRawDataCorrectly)
 {
     // Use the hex values for "TEST "

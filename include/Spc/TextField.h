@@ -40,7 +40,9 @@ namespace Spc
         /// @brief Constructor; creates a new instance of TextField.
         /// @param label The label to use when outputing the field. 
         /// @param info Sets offset and size of the field.
-        TextField(std::string label, FieldInfo info) : Field{ label, info }
+        /// @param isPresent Indicates whether field is present in the SPC file.
+        TextField(std::string label, FieldInfo info, bool isPresent = true) :
+            Field{ label, info, isPresent }
         { }
 
         /// @brief Sets the text value of the field.

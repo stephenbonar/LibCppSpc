@@ -16,6 +16,16 @@
 
 #include "DateFieldTests.h"
 
+TEST_F(DateFieldTests, ConstructorInitializesIsPresentProperly)
+{
+    Spc::FieldInfo info{ 0x9E, 11 };
+    Spc::DateField defaultPresence("TestDate", info);
+    Spc::DateField notPresent("TestDate", info, false);
+
+    EXPECT_TRUE(defaultPresence.IsPresent());
+    EXPECT_FALSE(notPresent.IsPresent());
+}
+
 TEST_F(DateFieldTests, IsTextReturnsTrueForValidTextRepresentation)
 {
     //dateField->SetTextValue("02/06/2000");

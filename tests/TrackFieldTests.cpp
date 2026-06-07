@@ -33,6 +33,15 @@ TEST_F(TrackFieldTests, ConstructorInitializesProperly)
     EXPECT_EQ(trackField->Label(), "Test Track Field");
     EXPECT_EQ(trackField->Offset(), 0xA0);
     EXPECT_EQ(trackField->Size(), 2);
+    EXPECT_TRUE(trackField->IsPresent());
+}
+
+TEST_F(TrackFieldTests, ConstructorInitializesExplicitIsPresent)
+{
+    Spc::FieldInfo info{ 0xA0, 2 };
+    Spc::TrackField notPresentField("Test Track Field", info, false);
+
+    EXPECT_FALSE(notPresentField.IsPresent());
 }
 
 TEST_F(TrackFieldTests, SuffixReturnsNullCharByDefault)

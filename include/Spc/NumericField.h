@@ -46,16 +46,19 @@ namespace Spc
         /// @brief Constructor; creates a new instance of NumericField.
         /// @param label The label to use when outputing the field. 
         /// @param info Sets offset and size of the field.
-        NumericField(std::string label, FieldInfo info) 
-            : Field{ label, info }, type{ NumericType::Either }
+        /// @param isPresent Indicates whether field is present in the SPC file.
+        NumericField(std::string label, FieldInfo info, bool isPresent = true)
+            : Field{ label, info, isPresent }, type{ NumericType::Either }
         { };
 
         /// @brief Constructor; creates a new instance of NumericField.
         /// @param label The label to use when outputing the field. 
         /// @param info Sets offset and size of the field.
         /// @param type Determines the numeric type of the field.
-        NumericField(std::string label, FieldInfo info, NumericType type) 
-            : Field{ label, info }, type{ type }
+        /// @param isPresent Indicates whether field is present in the SPC file.
+        NumericField(std::string label, FieldInfo info, NumericType type,
+                     bool isPresent = true)
+            : Field{ label, info, isPresent }, type{ type }
         { };
 
         /// @brief Determines if all bytes in the field contain zeros. 

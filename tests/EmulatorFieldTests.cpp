@@ -25,6 +25,22 @@ void EmulatorFieldTests::SetUp()
     binaryField->SetType(Spc::NumericType::Binary);
 }
 
+TEST_F(EmulatorFieldTests, ConstructorsInitializeIsPresentProperly)
+{
+    Spc::FieldInfo emulatorInfo{ 0xD1, 1 };
+    Spc::EmulatorField defaultPresence("Default", emulatorInfo);
+    Spc::EmulatorField notPresent("Missing", emulatorInfo, false);
+    Spc::EmulatorField typedDefaultPresence(
+        "TypedDefault", emulatorInfo, Spc::NumericType::Text);
+    Spc::EmulatorField typedNotPresent(
+        "TypedMissing", emulatorInfo, Spc::NumericType::Text, false);
+
+    EXPECT_TRUE(defaultPresence.IsPresent());
+    EXPECT_FALSE(notPresent.IsPresent());
+    EXPECT_TRUE(typedDefaultPresence.IsPresent());
+    EXPECT_FALSE(typedNotPresent.IsPresent());
+}
+
 TEST_F(EmulatorFieldTests, ToStringReturnsZSNESIfValue1) 
 {
     textField->SetInt32(1);

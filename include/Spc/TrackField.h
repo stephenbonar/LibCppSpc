@@ -42,8 +42,9 @@ namespace Spc
         /// @brief Constructor; creates a new instance of TrackField.
         /// @param label The label to use when outputing the field. 
         /// @param info Sets offset and size of the field.
-        TrackField(std::string label, FieldInfo info) :
-            NumericField{ label, info }
+        /// @param isPresent Indicates whether field is present in the SPC file.
+        TrackField(std::string label, FieldInfo info, bool isPresent = true) :
+            NumericField{ label, info, isPresent }
         { }
 
         /// @brief Gets the suffix character of the track field.

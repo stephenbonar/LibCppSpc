@@ -36,16 +36,19 @@ namespace Spc
         /// @brief Constructor; creates a new instance of Spc::EmulatorField.
         /// @param label The label to use when outputing the field. 
         /// @param info Sets offset and size of the field.
-        EmulatorField(std::string label, FieldInfo info) 
-            : NumericField{ label, info }
+        /// @param isPresent Indicates whether field is present in the SPC file.
+        EmulatorField(std::string label, FieldInfo info, bool isPresent = true)
+            : NumericField{ label, info, isPresent }
         { }
 
         /// @brief Constructor; creates a new instance of Spc::EmulatorField.
         /// @param label The label to use when outputing the field. 
         /// @param info Sets offset and size of the field.
         /// @param type Determines the numeric type of the field.
-        EmulatorField(std::string label, FieldInfo info, NumericType type) 
-            : NumericField{ label, info, type }
+        /// @param isPresent Indicates whether field is present in the SPC file.
+        EmulatorField(std::string label, FieldInfo info, NumericType type,
+                      bool isPresent = true)
+            : NumericField{ label, info, type, isPresent }
         { }
         
         /// @copydoc Field::ToString()

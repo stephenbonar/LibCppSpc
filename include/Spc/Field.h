@@ -35,9 +35,11 @@ namespace Spc
         /// @brief Constructor; creates a new instance of Spc::Field.
         /// @param label The label to use when outputing the field. 
         /// @param info Sets offset and size of the field.
-        Field(std::string label, FieldInfo info) : 
+        /// @param isPresent Indicates whether field is present in the SPC file.
+        Field(std::string label, FieldInfo info, bool isPresent = true) : 
             label{ label }, 
             offset{ info.offset },
+            isPresent{ isPresent },
             Binary::RawField{ info.size }
         { }
         
@@ -49,6 +51,15 @@ namespace Spc
         /// @return The offset of the field,.
         virtual size_t Offset() const { return offset; }
 
+        /// @brief Determines if the field is present in the SPC file.
+        ///
+        /// A field may be marked as not present if it does not exist in the
+        /// extended ID666 tag data or if there is no ID666 tag in the file at
+        /// all.
+        /// 
+        /// @return True if the field is present, false otherwise.
+        virtual bool IsPresent() const { return isPresent; }
+
         /// @brief Gets the value of the field.
         /// @return A string representation of the field's value.
         virtual std::string Value() const { return ToString(); }
@@ -57,12 +68,17 @@ namespace Spc
         /// @param value The value to set the label to.
         virtual void SetLabel(std::string value) { label = value; }
 
+        /// @brief Sets the field's presence status to the specified value.
+        /// @param value True if the field is present, false otherwise.
+        virtual void SetIsPresent(bool value) { isPresent = value; }
+
         /// @brief Sets the field to the specified hexadecimal value.
         /// @param value The string representation of a hexadecimal value.
         virtual void SetValue(std::string value);
     private:
         std::string label;
         size_t offset;
+        bool isPresent;
     };
 }
 

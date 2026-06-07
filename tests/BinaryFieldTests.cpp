@@ -26,6 +26,15 @@ void BinaryFieldTests::SetUp()
     twoByteFieldInfo->size = 2;
 }
 
+TEST_F(BinaryFieldTests, ConstructorInitializesIsPresentProperly)
+{
+    Spc::BinaryField defaultPresence("Test Binary Field", *oneByteFieldInfo);
+    Spc::BinaryField notPresent("Test Binary Field", *oneByteFieldInfo, false);
+
+    EXPECT_TRUE(defaultPresence.IsPresent());
+    EXPECT_FALSE(notPresent.IsPresent());
+}
+
 TEST_F(BinaryFieldTests, SetValueAccceptsBinaryString)
 {
     Spc::BinaryField binaryField("Test Binary Field", *oneByteFieldInfo);
