@@ -138,7 +138,7 @@ DateField Tag::DateDumped() const
         Spc::FieldInfo extendedInfo;
         extendedInfo.offset = Extended::dataOffset;
         extendedInfo.size = dateDumpedInfo.binary.size;
-        DateField dateDumped{ "Date Dumped", extendedInfo };
+        DateField dateDumped{ "Date Dumped*", extendedInfo };
         dateDumpedInt->CopyRawDataTo(&dateDumped);
         return dateDumped;
     }
@@ -205,7 +205,7 @@ EmulatorField Tag::EmulatorUsed() const
         Spc::FieldInfo extendedInfo;
         extendedInfo.offset = Extended::dataOffset;
         extendedInfo.size = emulatorUsedInfo.binary.size;
-        EmulatorField emulatorUsed{ "Emulator Used", extendedInfo };
+        EmulatorField emulatorUsed{ "Emulator Used*", extendedInfo };
         emulatorUsedInt->CopyRawDataTo(&emulatorUsed);
         return emulatorUsed;
     }
@@ -286,7 +286,7 @@ BinaryField Tag::MutedVoices() const
     else
     {
         Spc::FieldInfo errorInfo{ 0, 1 };
-        return BinaryField{ "Muted Voices*", errorInfo };
+        return BinaryField{ "Muted Voices*", errorInfo, false };
     }
 }
 
@@ -336,15 +336,24 @@ void Tag::SetComments(std::string value)
 
 void Tag::SetDateDumped(std::string value) 
 {
+    if (value.empty())
+    {
+        extendedData->dateDumped = nullptr;
+    }
+
     WriteNumericField<DateField>(dateDumpedInfo,
                                  value);
 }
 
 void Tag::SetSongLength(std::string value) 
 {
-    constexpr int min{ 0 };
-    constexpr int max{ 959 };
-    CheckRange(value, min, max);
+    if (!value.empty())
+    {
+        constexpr int min{ 0 };
+        constexpr int max{ 959 };
+        CheckRange(value, min, max);
+    }
+
     WriteNumericField<NumericField>(songLengthInfo, value);
 }
 
@@ -354,9 +363,17 @@ void Tag::SetFadeLength(std::string value)
     // clear under what conditions this field would be used
     // as opposed to the standard one. Would need to know the maximum number of
     // ticks vs milliseconds.
-    constexpr int min{ 0 };
-    constexpr int max{ 59999 };
-    CheckRange(value, min, max);
+    if (value.empty())
+    {
+        extendedData->fadeLength = nullptr;
+    }
+    else
+    {
+        constexpr int min{ 0 };
+        constexpr int max{ 59999 };
+        CheckRange(value, min, max);
+    }
+
     WriteNumericField<NumericField>(fadeLengthInfo, value);
 }
 
@@ -370,7 +387,7 @@ void Tag::SetSongArtist(std::string value)
 
 void Tag::SetDefaultDisabledChannels(std::string value) 
 {
-    if (value.size() != bitsPerByte)
+    if (!value.empty() && value.size() != bitsPerByte)
     {
         throw std::invalid_argument(
             "Default disabled channels value must be 8 bits");
@@ -381,6 +398,11 @@ void Tag::SetDefaultDisabledChannels(std::string value)
 
 void Tag::SetEmulatorUsed(std::string value) 
 {
+    if (value.empty())
+    {
+        extendedData->emulatorUsed = nullptr;
+    }
+
     WriteNumericField<EmulatorField>(emulatorUsedInfo, value);
 }
 
@@ -393,9 +415,13 @@ void Tag::SetOstTitle(std::string value)
 
 void Tag::SetOstDisc(std::string value) 
 {
-    constexpr int min{ 0 };
-    constexpr int max{ 9 };
-    CheckRange(value, min, max);
+    if (!value.empty())
+    {
+        constexpr int min{ 0 };
+        constexpr int max{ 9 };
+        CheckRange(value, min, max);
+    }
+
     WriteExtendedLengthField<NumericField>(Extended::ostDiscInfo, 
                                            &extendedData->ostDisc,
                                            value);
@@ -403,6 +429,14 @@ void Tag::SetOstDisc(std::string value)
 
 void Tag::SetOstTrack(std::string value)
 {
+    if (value.empty())
+    {
+        WriteExtendedLengthField<TrackField>(Extended::ostTrackInfo,
+                                             &extendedData->ostTrack,
+                                             value);
+        return;
+    }
+
     std::string numericPart;
     std::string charSuffix;
 
@@ -442,6 +476,14 @@ void Tag::SetPublisherName(std::string value)
 
 void Tag::SetCopyrightYear(std::string value) 
 {
+    if (value.empty())
+    {
+        WriteExtendedLengthField<NumericField>(Extended::copyrightYearInfo,
+                                               &extendedData->copyrightYear,
+                                               value);
+        return;
+    }
+
     int intValue = std::stoi(value);
 
     if (intValue < 0)
@@ -456,7 +498,11 @@ void Tag::SetCopyrightYear(std::string value)
 
 void Tag::SetIntroLength(std::string value) 
 {
-    CheckRange(value, 0, maxTicks);
+    if (!value.empty())
+    {
+        CheckRange(value, 0, maxTicks);
+    }
+
     WriteExtendedIntField<NumericField>(Extended::introLengthInfo, 
                                         &extendedData->introLength,
                                         value);
@@ -464,7 +510,11 @@ void Tag::SetIntroLength(std::string value)
 
 void Tag::SetLoopLength(std::string value) 
 {
-    CheckRange(value, 0, maxTicks);
+    if (!value.empty())
+    {
+        CheckRange(value, 0, maxTicks);
+    }
+
     WriteExtendedIntField<NumericField>(Extended::loopLengthInfo, 
                                         &extendedData->loopLength,
                                         value);
@@ -472,7 +522,11 @@ void Tag::SetLoopLength(std::string value)
 
 void Tag::SetEndLength(std::string value) 
 {
-    CheckRange(value, 0, maxTicks);
+    if (!value.empty())
+    {
+        CheckRange(value, 0, maxTicks);
+    }
+
     WriteExtendedIntField<NumericField>(Extended::endLengthInfo, 
                                         &extendedData->endLength,
                                         value);
@@ -480,7 +534,7 @@ void Tag::SetEndLength(std::string value)
 
 void Tag::SetMutedVoices(std::string value)
 {
-    if (value.size() != bitsPerByte)
+    if (!value.empty() && value.size() != bitsPerByte)
     {
         throw std::invalid_argument("Muted voices value must be 8 bits");
     }
@@ -492,7 +546,11 @@ void Tag::SetMutedVoices(std::string value)
 
 void Tag::SetLoopTimes(std::string value) 
 {
-    CheckRange(value, 0, maxLoopTimes);
+    if (!value.empty())
+    {
+        CheckRange(value, 0, maxLoopTimes);
+    }
+
     WriteExtendedLengthField<NumericField>(Extended::loopTimesInfo, 
                                            &extendedData->loopTimes,
                                            value);
@@ -500,7 +558,11 @@ void Tag::SetLoopTimes(std::string value)
 
 void Tag::SetPreampLevel(std::string value) 
 {
-    CheckRange(value, minPreampLevel, maxPreampLevel);
+    if (!value.empty())
+    {
+        CheckRange(value, minPreampLevel, maxPreampLevel);
+    }
+
     WriteExtendedIntField<NumericField>(Extended::preampLevelInfo, 
                                         &extendedData->preampLevel,
                                         value);

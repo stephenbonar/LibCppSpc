@@ -68,7 +68,7 @@ TEST_F(TrackFieldTests, SetValueWithoutSuffixPopulatesTrackOnly)
 TEST_F(TrackFieldTests, ToStringReflectsUnderlyingTrackAndSuffixBytes)
 {
     trackField->RawData()[0] = 'b';
-    trackField->RawData()[1] = '7';
+    trackField->RawData()[1] = 7;
 
     EXPECT_EQ(trackField->ToString(), "7b");
 }

@@ -168,7 +168,7 @@ TEST_F(ID666TagTests, GetsExtendedSongTitleProperly)
     tag->ExtendedData()->songTitle = 
         std::make_shared<Spc::Id666::Extended::Item>();
     TestGetExtendedParams<Spc::TextField> params;
-    params.expectedLabel = "Song Title";
+    params.expectedLabel = "Song Title*";
     params.expectedValue = expectedSongTitle;
     params.expectedSize = expectedSongTitle.size();
     params.extendedID = Spc::Id666::Extended::songTitleInfo.id;
@@ -220,7 +220,7 @@ TEST_F(ID666TagTests, GetsExtendedGameTitleProperly)
     tag->ExtendedData()->gameTitle = 
         std::make_shared<Spc::Id666::Extended::Item>();
     TestGetExtendedParams<Spc::TextField> params;
-    params.expectedLabel = "Game Title";
+    params.expectedLabel = "Game Title*";
     params.expectedValue = expectedGameTitle;
     params.expectedSize = expectedGameTitle.size();
     params.extendedID = Spc::Id666::Extended::gameTitleInfo.id;
@@ -272,7 +272,7 @@ TEST_F(ID666TagTests, GetsExtendedDumperProperly)
     tag->ExtendedData()->dumperName = 
         std::make_shared<Spc::Id666::Extended::Item>();
     TestGetExtendedParams<Spc::TextField> params;
-    params.expectedLabel = "Dumper Name";
+    params.expectedLabel = "Dumper Name*";
     params.expectedValue = expectedDumperName;
     params.expectedSize = expectedDumperName.size();
     params.extendedID = Spc::Id666::Extended::dumperNameInfo.id;
@@ -324,7 +324,7 @@ TEST_F(ID666TagTests, GetsExtendedCommentsProperly)
     tag->ExtendedData()->comments = 
     std::make_shared<Spc::Id666::Extended::Item>();
     TestGetExtendedParams<Spc::TextField> params;
-    params.expectedLabel = "Comments";
+    params.expectedLabel = "Comments*";
     params.expectedValue = expectedComments;
     params.expectedSize = expectedComments.size();
     params.extendedID = Spc::Id666::Extended::commentsInfo.id;
@@ -380,7 +380,7 @@ TEST_F(ID666TagTests, GetsExtendedDateDumpedProperly)
         std::make_shared<Spc::Id666::Extended::Item>();
     
     TestGetExtendedParams<Spc::DateField> params;
-    params.expectedLabel = "Date Dumped";
+    params.expectedLabel = "Date Dumped*";
     params.expectedValue = expectedDateDumped;
     params.expectedSize = Spc::Id666::dateDumpedInfo.binary.size;
     params.extendedID = Spc::Id666::Extended::dateDumpedInfo.id;
@@ -478,7 +478,7 @@ TEST_F(ID666TagTests, GetsExtendedFadeLengthProperly)
         std::make_shared<Spc::Id666::Extended::Item>();
     
     TestGetExtendedParams<Spc::NumericField> params;
-    params.expectedLabel = "Fade Length (ticks)";
+    params.expectedLabel = "Fade Length (ticks)*";
     params.expectedValue = "320000";
     params.expectedSize = Spc::Id666::fadeLengthInfo.binary.size;
     params.extendedID = Spc::Id666::Extended::fadeLengthInfo.id;
@@ -533,7 +533,7 @@ TEST_F(ID666TagTests, GetsExtendedArtistProperly)
     tag->ExtendedData()->songArtist = 
         std::make_shared<Spc::Id666::Extended::Item>();
     TestGetExtendedParams<Spc::TextField> params;
-    params.expectedLabel = "Song Artist";
+    params.expectedLabel = "Song Artist*";
     params.expectedValue = expectedSongArtist;
     params.expectedSize = expectedSongArtist.size();
     params.extendedID = Spc::Id666::Extended::songArtistInfo.id;
@@ -627,7 +627,7 @@ TEST_F(ID666TagTests, GetsExtendedEmulatorUsedProperly)
     tag->ExtendedData()->emulatorUsed = 
         std::make_shared<Spc::Id666::Extended::Item>();
     TestGetExtendedParams<Spc::EmulatorField> params;
-    params.expectedLabel = "Emulator Used";
+    params.expectedLabel = "Emulator Used*";
     params.expectedValue = "SNES9X";
     params.expectedSize = Spc::Id666::emulatorUsedInfo.binary.size;
     params.extendedID = Spc::Id666::Extended::emulatorUsedInfo.id;
@@ -644,7 +644,7 @@ TEST_F(ID666TagTests, GetsOstTitleProperly)
         std::make_shared<Spc::Id666::Extended::Item>();
     std::string expectedOstTitle = "Test Album Title ABCDEFGHIJ";
     TestGetExtendedParams<Spc::TextField> params;
-    params.expectedLabel = "OST Title";
+    params.expectedLabel = "OST Title*";
     params.expectedValue = expectedOstTitle;
     params.expectedSize = expectedOstTitle.size();
     params.extendedID = Spc::Id666::Extended::ostTitleInfo.id;
@@ -671,7 +671,7 @@ TEST_F(ID666TagTests, GetsOstDiscProperly)
     */
 
     TestGetExtendedParams<Spc::NumericField> params;
-    params.expectedLabel = "OST Disc";
+    params.expectedLabel = "OST Disc*";
     params.expectedValue = "1";
     params.expectedSize = 2;
     params.extendedID = Spc::Id666::Extended::ostDiscInfo.id;
@@ -687,7 +687,7 @@ TEST_F(ID666TagTests, GetsOstTrackProperly)
     tag->ExtendedData()->ostTrack = 
         std::make_shared<Spc::Id666::Extended::Item>();
     TestGetExtendedParams<Spc::TrackField> params;
-    params.expectedLabel = "OST Track";
+    params.expectedLabel = "OST Track*";
     params.expectedValue = "5b";
     params.expectedSize = 2;
     params.extendedID = Spc::Id666::Extended::ostTrackInfo.id;
@@ -704,7 +704,7 @@ TEST_F(ID666TagTests, GetsPublisherNameProperly)
         std::make_shared<Spc::Id666::Extended::Item>();
     std::string expectedPublisherName = "Test Publisher Name 123456";
     TestGetExtendedParams<Spc::TextField> params;
-    params.expectedLabel = "Publisher Name";
+    params.expectedLabel = "Publisher Name*";
     params.expectedValue = expectedPublisherName;
     params.expectedSize = expectedPublisherName.size();
     params.extendedID = Spc::Id666::Extended::publisherNameInfo.id;
@@ -721,7 +721,7 @@ TEST_F(ID666TagTests, GetsCopyrightYearProperly)
         std::make_shared<Spc::Id666::Extended::Item>();
 
     TestGetExtendedParams<Spc::NumericField> params;
-    params.expectedLabel = "Copyright Year";
+    params.expectedLabel = "Copyright Year*";
     params.expectedValue = "1995";
     params.expectedSize = 2;
     params.extendedID = Spc::Id666::Extended::copyrightYearInfo.id;
@@ -737,7 +737,7 @@ TEST_F(ID666TagTests, GetsIntroLengthProperly)
     tag->ExtendedData()->introLength = 
         std::make_shared<Spc::Id666::Extended::Item>();
     TestGetExtendedParams<Spc::NumericField> params;
-    params.expectedLabel = "Intro Length (ticks)";
+    params.expectedLabel = "Intro Length (ticks)*";
     params.expectedValue = "15000";
     params.expectedSize = 4;
     params.extendedID = Spc::Id666::Extended::introLengthInfo.id;
@@ -753,7 +753,7 @@ TEST_F(ID666TagTests, GetsLoopLengthProperly)
     tag->ExtendedData()->loopLength = 
         std::make_shared<Spc::Id666::Extended::Item>();
     TestGetExtendedParams<Spc::NumericField> params;
-    params.expectedLabel = "Loop Length (ticks)";
+    params.expectedLabel = "Loop Length (ticks)*";
     params.expectedValue = "30000";
     params.expectedSize = 4;
     params.extendedID = Spc::Id666::Extended::loopLengthInfo.id;
@@ -769,7 +769,7 @@ TEST_F(ID666TagTests, GetsEndLengthProperly)
     tag->ExtendedData()->endLength = 
         std::make_shared<Spc::Id666::Extended::Item>();
     TestGetExtendedParams<Spc::NumericField> params;
-    params.expectedLabel = "End Length (ticks)";
+    params.expectedLabel = "End Length (ticks)*";
     params.expectedValue = "20000";
     params.expectedSize = 4;
     params.extendedID = Spc::Id666::Extended::endLengthInfo.id;
@@ -796,7 +796,7 @@ TEST_F(ID666TagTests, GetsMutedVoicesProperly)
 
     tag->ExtendedData()->mutedVoices = item;
     TestGetExtendedParams<Spc::BinaryField> params;
-    params.expectedLabel = "Muted Voices";
+    params.expectedLabel = "Muted Voices*";
     params.expectedValue = "00001111";
     params.expectedSize = 1;
     params.extendedID = Spc::Id666::Extended::mutedVoicesInfo.id;
@@ -816,7 +816,7 @@ TEST_F(ID666TagTests, GetLoopTimes)
     tag->ExtendedData()->loopTimes = 
         std::make_shared<Spc::Id666::Extended::Item>();
     TestGetExtendedParams<Spc::NumericField> params;
-    params.expectedLabel = "Loop Times";
+    params.expectedLabel = "Loop Times*";
     params.expectedValue = "5";
     params.expectedSize = 2;
     params.extendedID = Spc::Id666::Extended::loopTimesInfo.id;
@@ -832,7 +832,7 @@ TEST_F(ID666TagTests, GetPreampLevel)
     tag->ExtendedData()->preampLevel = 
         std::make_shared<Spc::Id666::Extended::Item>();
     TestGetExtendedParams<Spc::NumericField> params;
-    params.expectedLabel = "Preamp Level";
+    params.expectedLabel = "Preamp Level*";
     params.expectedValue = "65536";
     params.expectedSize = 4;
     params.extendedID = Spc::Id666::Extended::preampLevelInfo.id;
@@ -841,6 +841,16 @@ TEST_F(ID666TagTests, GetPreampLevel)
     params.item = tag->ExtendedData()->preampLevel;
     params.getMethodPtr = &Spc::Id666::Tag::PreampLevel;
     TestGetExtendedData<Spc::NumericField, Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, GetsMissingExtendedOnlyFieldAsNotPresent)
+{
+    tag->ExtendedData()->ostTitle = nullptr;
+
+    Spc::TextField ostTitle = tag->OstTitle();
+
+    EXPECT_FALSE(ostTitle.IsPresent());
+    EXPECT_EQ("", ostTitle.ToString());
 }
 
 TEST_F(ID666TagTests, SetsTextSongTitleProperly)
@@ -932,6 +942,23 @@ TEST_F(ID666TagTests, SetSongTitleEnforcesPreconditions)
     std::string tooLongString(257, 'T');
 
     EXPECT_THROW(tag->SetSongTitle(tooLongString), std::out_of_range);
+}
+
+TEST_F(ID666TagTests, SetSongTitleEmptyClearsStandardAndExtendedData)
+{
+    std::memcpy(tag->FieldData()->RawData(), textData, Spc::Id666::tagSize);
+    tag->ExtendedData()->songTitle = InitExtendedItem<Spc::TextField>(
+        Spc::Id666::Extended::songTitleInfo,
+        "Extended Song Title Value");
+
+    EXPECT_NO_THROW(tag->SetSongTitle(""));
+    EXPECT_EQ(nullptr, tag->ExtendedData()->songTitle);
+
+    TestFieldWithoutGetParams params;
+    params.offset = Spc::Id666::songTitleInfo.text.offset;
+    params.size = Spc::Id666::songTitleInfo.text.size;
+    params.expectedValue = "";
+    TestFieldsWithoutGet<Spc::TextField>(params);
 }
 
 TEST_F(ID666TagTests, SetsTextGameTitleProperly)
@@ -1313,6 +1340,19 @@ TEST_F(ID666TagTests, SetSongLengthEnforcesPreconditions)
     EXPECT_THROW(tag->SetSongLength(nonNumericString), std::invalid_argument);
 }
 
+TEST_F(ID666TagTests, SetSongLengthAcceptsEmptyString)
+{
+    std::memcpy(tag->FieldData()->RawData(), textData, Spc::Id666::tagSize);
+
+    EXPECT_NO_THROW(tag->SetSongLength(""));
+
+    TestFieldWithoutGetParams params;
+    params.offset = Spc::Id666::songLengthInfo.text.offset;
+    params.size = Spc::Id666::songLengthInfo.text.size;
+    params.expectedValue = "0";
+    TestFieldsWithoutGet<Spc::NumericField>(params);
+}
+
 TEST_F(ID666TagTests, SetsTextFadeLengthProperly)
 {
     TestSetParams<Spc::NumericField> params;
@@ -1566,6 +1606,19 @@ TEST_F(ID666TagTests, SetOstTitleEnforcesPreconditions)
     std::string tooLongString(257, 'T');
 
     EXPECT_THROW(tag->SetOstTitle(tooLongString), std::out_of_range);
+}
+
+TEST_F(ID666TagTests, SetOstTitleEmptyRemovesExtendedItem)
+{
+    tag->ExtendedData()->ostTitle = InitExtendedItem<Spc::TextField>(
+        Spc::Id666::Extended::ostTitleInfo,
+        "Extended OST");
+
+    EXPECT_NO_THROW(tag->SetOstTitle(""));
+    EXPECT_EQ(nullptr, tag->ExtendedData()->ostTitle);
+
+    Spc::TextField ostTitle = tag->OstTitle();
+    EXPECT_FALSE(ostTitle.IsPresent());
 }
 
 TEST_F(ID666TagTests, SetsNewOstDiscProperly)
@@ -1949,4 +2002,219 @@ TEST_F(ID666TagTests, SetPreampLevelEnforcesPreconditions)
     EXPECT_THROW(tag->SetPreampLevel(tooLowString), std::out_of_range);
     EXPECT_THROW(tag->SetPreampLevel(tooHighString), std::out_of_range);
     EXPECT_THROW(tag->SetPreampLevel(nonNumericString), std::invalid_argument);
+}
+
+TEST_F(ID666TagTests, SetPreampLevelEmptyRemovesExtendedItem)
+{
+    auto item = InitNumericExtendedItem<Spc::NumericField>(
+        Spc::Id666::Extended::preampLevelInfo,
+        "65536");
+    tag->ExtendedData()->preampLevel = item;
+
+    EXPECT_NO_THROW(tag->SetPreampLevel(""));
+    EXPECT_EQ(nullptr, tag->ExtendedData()->preampLevel);
+
+    Spc::NumericField preampLevel = tag->PreampLevel();
+    EXPECT_FALSE(preampLevel.IsPresent());
+}
+
+TEST_F(ID666TagTests, SetGameTitleEmptyClearsStandardAndExtendedData)
+{
+    tag->ExtendedData()->gameTitle = std::make_shared<Spc::Id666::Extended::Item>();
+
+    SetEmptyAndExpectRawFieldCleared(&Spc::Id666::Tag::SetGameTitle,
+                                     Spc::Id666::gameTitleInfo.text.offset,
+                                     Spc::Id666::gameTitleInfo.text.size);
+    EXPECT_EQ(nullptr, tag->ExtendedData()->gameTitle);
+}
+
+TEST_F(ID666TagTests, SetDumperNameEmptyClearsStandardAndExtendedData)
+{
+    tag->ExtendedData()->dumperName = std::make_shared<Spc::Id666::Extended::Item>();
+
+    SetEmptyAndExpectRawFieldCleared(&Spc::Id666::Tag::SetDumperName,
+                                     Spc::Id666::dumperNameInfo.text.offset,
+                                     Spc::Id666::dumperNameInfo.text.size);
+    EXPECT_EQ(nullptr, tag->ExtendedData()->dumperName);
+}
+
+TEST_F(ID666TagTests, SetCommentsEmptyClearsStandardAndExtendedData)
+{
+    tag->ExtendedData()->comments = std::make_shared<Spc::Id666::Extended::Item>();
+
+    SetEmptyAndExpectRawFieldCleared(&Spc::Id666::Tag::SetComments,
+                                     Spc::Id666::commentsInfo.text.offset,
+                                     Spc::Id666::commentsInfo.text.size);
+    EXPECT_EQ(nullptr, tag->ExtendedData()->comments);
+}
+
+TEST_F(ID666TagTests, SetDateDumpedEmptyClearsStandardAndExtendedData)
+{
+    tag->ExtendedData()->dateDumped = std::make_shared<Spc::Id666::Extended::Item>();
+
+    SetEmptyAndExpectRawFieldCleared(&Spc::Id666::Tag::SetDateDumped,
+                                     Spc::Id666::dateDumpedInfo.text.offset,
+                                     Spc::Id666::dateDumpedInfo.text.size);
+    EXPECT_EQ(nullptr, tag->ExtendedData()->dateDumped);
+}
+
+TEST_F(ID666TagTests, SetSongLengthEmptyClearsStandardFieldData)
+{
+    SetEmptyAndExpectRawFieldCleared(&Spc::Id666::Tag::SetSongLength,
+                                     Spc::Id666::songLengthInfo.text.offset,
+                                     Spc::Id666::songLengthInfo.text.size);
+}
+
+TEST_F(ID666TagTests, SetFadeLengthEmptyClearsStandardAndExtendedData)
+{
+    tag->ExtendedData()->fadeLength = std::make_shared<Spc::Id666::Extended::Item>();
+
+    SetEmptyAndExpectRawFieldCleared(&Spc::Id666::Tag::SetFadeLength,
+                                     Spc::Id666::fadeLengthInfo.text.offset,
+                                     Spc::Id666::fadeLengthInfo.text.size);
+    EXPECT_EQ(nullptr, tag->ExtendedData()->fadeLength);
+}
+
+TEST_F(ID666TagTests, SetSongArtistEmptyClearsStandardAndExtendedData)
+{
+    tag->ExtendedData()->songArtist = std::make_shared<Spc::Id666::Extended::Item>();
+
+    SetEmptyAndExpectRawFieldCleared(&Spc::Id666::Tag::SetSongArtist,
+                                     Spc::Id666::songArtistInfo.text.offset,
+                                     Spc::Id666::songArtistInfo.text.size);
+    EXPECT_EQ(nullptr, tag->ExtendedData()->songArtist);
+}
+
+TEST_F(ID666TagTests, SetDefaultDisabledChannelsEmptyClearsStandardFieldData)
+{
+    SetEmptyAndExpectRawFieldCleared(&Spc::Id666::Tag::SetDefaultDisabledChannels,
+                                     Spc::Id666::defaultDisabledChannelsInfo.text.offset,
+                                     Spc::Id666::defaultDisabledChannelsInfo.text.size);
+}
+
+TEST_F(ID666TagTests, SetEmulatorUsedEmptyClearsStandardAndExtendedData)
+{
+    tag->ExtendedData()->emulatorUsed = std::make_shared<Spc::Id666::Extended::Item>();
+
+    SetEmptyAndExpectRawFieldCleared(&Spc::Id666::Tag::SetEmulatorUsed,
+                                     Spc::Id666::emulatorUsedInfo.text.offset,
+                                     Spc::Id666::emulatorUsedInfo.text.size);
+    EXPECT_EQ(nullptr, tag->ExtendedData()->emulatorUsed);
+}
+
+TEST_F(ID666TagTests, SetOstDiscEmptyClearsExtendedDataAndMarksNotPresent)
+{
+    tag->ExtendedData()->ostDisc = InitNumericExtendedItem<Spc::NumericField>(
+        Spc::Id666::Extended::ostDiscInfo,
+        "1");
+
+    SetEmptyAndExpectExtendedItemCleared(&Spc::Id666::Tag::SetOstDisc,
+                                         &tag->ExtendedData()->ostDisc);
+
+    Spc::NumericField ostDisc = tag->OstDisc();
+    EXPECT_FALSE(ostDisc.IsPresent());
+}
+
+TEST_F(ID666TagTests, SetOstTrackEmptyClearsExtendedDataAndMarksNotPresent)
+{
+    tag->ExtendedData()->ostTrack = InitNumericExtendedItem<Spc::TrackField>(
+        Spc::Id666::Extended::ostTrackInfo,
+        "4");
+
+    SetEmptyAndExpectExtendedItemCleared(&Spc::Id666::Tag::SetOstTrack,
+                                         &tag->ExtendedData()->ostTrack);
+
+    Spc::TrackField ostTrack = tag->OstTrack();
+    EXPECT_FALSE(ostTrack.IsPresent());
+}
+
+TEST_F(ID666TagTests, SetPublisherNameEmptyClearsExtendedDataAndMarksNotPresent)
+{
+    tag->ExtendedData()->publisherName = InitExtendedItem<Spc::TextField>(
+        Spc::Id666::Extended::publisherNameInfo,
+        "Test Publisher");
+
+    SetEmptyAndExpectExtendedItemCleared(&Spc::Id666::Tag::SetPublisherName,
+                                         &tag->ExtendedData()->publisherName);
+
+    Spc::TextField publisherName = tag->PublisherName();
+    EXPECT_FALSE(publisherName.IsPresent());
+}
+
+TEST_F(ID666TagTests, SetCopyrightYearEmptyClearsExtendedDataAndMarksNotPresent)
+{
+    tag->ExtendedData()->copyrightYear = InitNumericExtendedItem<Spc::NumericField>(
+        Spc::Id666::Extended::copyrightYearInfo,
+        "1995");
+
+    SetEmptyAndExpectExtendedItemCleared(&Spc::Id666::Tag::SetCopyrightYear,
+                                         &tag->ExtendedData()->copyrightYear);
+
+    Spc::NumericField copyrightYear = tag->CopyrightYear();
+    EXPECT_FALSE(copyrightYear.IsPresent());
+}
+
+TEST_F(ID666TagTests, SetIntroLengthEmptyClearsExtendedDataAndMarksNotPresent)
+{
+    tag->ExtendedData()->introLength = InitNumericExtendedItem<Spc::NumericField>(
+        Spc::Id666::Extended::introLengthInfo,
+        "320000");
+
+    SetEmptyAndExpectExtendedItemCleared(&Spc::Id666::Tag::SetIntroLength,
+                                         &tag->ExtendedData()->introLength);
+
+    Spc::NumericField introLength = tag->IntroLength();
+    EXPECT_FALSE(introLength.IsPresent());
+}
+
+TEST_F(ID666TagTests, SetLoopLengthEmptyClearsExtendedDataAndMarksNotPresent)
+{
+    tag->ExtendedData()->loopLength = InitNumericExtendedItem<Spc::NumericField>(
+        Spc::Id666::Extended::loopLengthInfo,
+        "3200000");
+
+    SetEmptyAndExpectExtendedItemCleared(&Spc::Id666::Tag::SetLoopLength,
+                                         &tag->ExtendedData()->loopLength);
+
+    Spc::NumericField loopLength = tag->LoopLength();
+    EXPECT_FALSE(loopLength.IsPresent());
+}
+
+TEST_F(ID666TagTests, SetEndLengthEmptyClearsExtendedDataAndMarksNotPresent)
+{
+    tag->ExtendedData()->endLength = InitNumericExtendedItem<Spc::NumericField>(
+        Spc::Id666::Extended::endLengthInfo,
+        "320000");
+
+    SetEmptyAndExpectExtendedItemCleared(&Spc::Id666::Tag::SetEndLength,
+                                         &tag->ExtendedData()->endLength);
+
+    Spc::NumericField endLength = tag->EndLength();
+    EXPECT_FALSE(endLength.IsPresent());
+}
+
+TEST_F(ID666TagTests, SetMutedVoicesEmptyClearsExtendedDataAndMarksNotPresent)
+{
+    tag->ExtendedData()->mutedVoices = InitNumericExtendedItem<Spc::BinaryField>(
+        Spc::Id666::Extended::mutedVoicesInfo,
+        "00001111");
+
+    SetEmptyAndExpectExtendedItemCleared(&Spc::Id666::Tag::SetMutedVoices,
+                                         &tag->ExtendedData()->mutedVoices);
+
+    Spc::BinaryField mutedVoices = tag->MutedVoices();
+    EXPECT_FALSE(mutedVoices.IsPresent());
+}
+
+TEST_F(ID666TagTests, SetLoopTimesEmptyClearsExtendedDataAndMarksNotPresent)
+{
+    tag->ExtendedData()->loopTimes = InitNumericExtendedItem<Spc::NumericField>(
+        Spc::Id666::Extended::loopTimesInfo,
+        "2");
+
+    SetEmptyAndExpectExtendedItemCleared(&Spc::Id666::Tag::SetLoopTimes,
+                                         &tag->ExtendedData()->loopTimes);
+
+    Spc::NumericField loopTimes = tag->LoopTimes();
+    EXPECT_FALSE(loopTimes.IsPresent());
 }

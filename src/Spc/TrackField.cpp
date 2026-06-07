@@ -15,6 +15,7 @@
 // limitations under the License.
  
 #include "Spc/TrackField.h"
+#include <stdexcept>
 
 using namespace Spc;
 
@@ -27,30 +28,52 @@ std::string TrackField::ToString() const
 {
     std::stringstream stream;
 
-    auto trackNum = static_cast<uint8_t>(rawData[1]);
+    // Convert first to an int so it is not accidentally interpreted
+    // as an ASCII value when converting to a string. But cast the byte to 
+    // unsigned char first to avoid sign extension issues on certain platforms.
+    const unsigned int trackByte = static_cast<unsigned char>(rawData[1]);
+
+    stream << trackByte;
 
     if (Suffix() != 0)
     {
-        stream << std::to_string(trackNum) << Suffix();
+        stream << Suffix();
     }
-    else
-    {
-        stream << std::to_string(trackNum);
-    }
-        
+
     return stream.str();
 }
 
 void TrackField::SetValue(std::string value)
 {
-    std::istringstream stream{ value };
-    uint8_t trackNo;
-    char trackChar;
+    if (value.empty())
+    {
+        throw std::invalid_argument("Track value cannot be empty");
+    }
 
-    stream >> trackNo;
+    size_t numericEnd{ 0 };
+    while (numericEnd < value.size() &&
+           std::isdigit(static_cast<unsigned char>(value[numericEnd])))
+    {
+        ++numericEnd;
+    }
 
-    if (stream >> trackChar)
-        rawData[0] = trackChar;
+    if (numericEnd == 0)
+    {
+        throw std::invalid_argument("Track value must start with digits");
+    }
 
-    rawData[1] = trackNo;
+    if (value.size() - numericEnd > 1)
+    {
+        throw std::invalid_argument(
+            "Track value can only contain one suffix character");
+    }
+
+    const int trackNo = std::stoi(value.substr(0, numericEnd));
+    if (trackNo < 0 || trackNo > 99)
+    {
+        throw std::out_of_range("Track number must be between 0 and 99");
+    }
+
+    rawData[0] = numericEnd < value.size() ? value[numericEnd] : '\0';
+    rawData[1] = static_cast<char>(trackNo);
 }

@@ -418,6 +418,42 @@ protected:
         EXPECT_EQ(params.expectedValue, field.ToString());
     }
 
+    void SetEmptyAndExpectRawFieldCleared(
+        void (Spc::Id666::Tag::*setMethodPtr)(std::string value),
+        size_t offset,
+        size_t size)
+    {
+        ASSERT_NE(tag, nullptr);
+        ASSERT_NE(tag->FieldData(), nullptr);
+        ASSERT_NE(tag->FieldData()->RawData(), nullptr);
+        ASSERT_GE(tag->FieldData()->Size(), Spc::Id666::tagSize);
+
+        std::memcpy(tag->FieldData()->RawData(),
+                    textData,
+                    Spc::Id666::tagSize);
+
+        EXPECT_NO_THROW((tag.get()->*setMethodPtr)(""));
+
+        const size_t start = offset - Spc::Id666::tagOffset;
+
+        for (size_t i = 0; i < size; i++)
+        {
+            EXPECT_EQ(0, tag->FieldData()->RawData()[start + i]);
+        }
+    }
+
+    void SetEmptyAndExpectExtendedItemCleared(
+        void (Spc::Id666::Tag::*setMethodPtr)(std::string value),
+        std::shared_ptr<Spc::Id666::Extended::Item>* itemPtr)
+    {
+        ASSERT_NE(tag, nullptr);
+        ASSERT_NE(itemPtr, nullptr);
+        ASSERT_NE(*itemPtr, nullptr);
+
+        EXPECT_NO_THROW((tag.get()->*setMethodPtr)(""));
+        EXPECT_EQ(nullptr, *itemPtr);
+    }
+
     std::unique_ptr<Spc::Id666::Tag> tag;
     const char* textData;
     const char* binaryData;

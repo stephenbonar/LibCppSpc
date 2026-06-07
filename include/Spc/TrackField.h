@@ -56,10 +56,13 @@ namespace Spc
 
         /// @brief Sets the track number and optional suffix.
         /// @param value A string representation of the track number w/ suffix.
-        /// @pre The numeric portion should be a value between 0 and 99.
-        /// @pre The suffix should be a single character or not included at all.
+        /// @pre Value must begin with one or more digits.
+        /// @pre The numeric portion must be in the range [0, 99].
+        /// @pre At most one optional suffix character may follow.
         /// @post The first data byte will be set to the suffix character.
         /// @post The second data byte will be set to the track number.
+        /// @throws std::invalid_argument if value is empty or malformed.
+        /// @throws std::out_of_range if numeric portion is outside [0, 99].
         virtual void SetValue(std::string value) override;
     };
 }
