@@ -71,3 +71,16 @@ TEST_F(FormatTests, FormatFieldUsesFieldLabelAndStringValue)
 
     EXPECT_EQ(Spc::FormatField(&field), expected);
 }
+
+TEST_F(FormatTests, FormatFieldOutputsDashWhenFieldIsNotPresent)
+{
+    Spc::FieldInfo info{ 0x00, 2 };
+    Spc::Field field("Header", info, false);
+
+    std::string expected =
+        std::string("Header") +
+        std::string(Spc::labelSize - std::string("Header").size(), ' ') +
+        ": -";
+
+    EXPECT_EQ(Spc::FormatField(&field), expected);
+}

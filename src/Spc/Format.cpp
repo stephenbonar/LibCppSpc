@@ -49,5 +49,12 @@ std::string Spc::FormatValue(std::string label, std::string value)
 
 std::string Spc::FormatField(Field* field)
 {
-    return Spc::FormatValue(field->Label(), field->ToString());
+    if (field->IsPresent())
+    {
+        return Spc::FormatValue(field->Label(), field->ToString());
+    }
+    else
+    {
+        return Spc::FormatValue(field->Label(), "-");
+    }
 }
