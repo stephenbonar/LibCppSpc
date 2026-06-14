@@ -32,3 +32,20 @@ Header::Header()
     spcFields.push_back(&spRegister);
     spcFields.push_back(&reserved);
 }
+
+bool Header::ContainsTag() const
+{
+    if (containsTag.ToUInt32() == headerContainsTag)
+    {
+        return true;
+    }
+    else if (containsTag.ToUInt32() == headerContainsNoTag)
+    {
+        return false;
+    }
+    else
+    {
+        // The value is not valid, but we will treat it as indicating no tag.
+        return false;
+    }
+}

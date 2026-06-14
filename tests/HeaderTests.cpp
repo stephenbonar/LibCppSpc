@@ -21,6 +21,15 @@ void HeaderTests::SetUp()
     header = std::make_unique<Spc::Header>();
 }
 
+TEST_F(HeaderTests, ContainsTagWorksCorrectly)
+{
+    header->containsTag.SetValue(std::to_string(Spc::headerContainsTag));
+    EXPECT_TRUE(header->ContainsTag());
+
+    header->containsTag.SetValue(std::to_string(Spc::headerContainsNoTag));
+    EXPECT_FALSE(header->ContainsTag());
+}
+
 TEST_F(HeaderTests, SpcFieldsReturnsAllHeaderFieldsInCorrectOrder)
 {
     std::vector<Spc::Field*> fields = header->SpcFields();

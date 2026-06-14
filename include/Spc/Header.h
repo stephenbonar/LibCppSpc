@@ -75,6 +75,10 @@ namespace Spc
         /// The constructor initializes this internal vector.
         Header();
 
+        /// @brief Determines if the header indicates tag is present.
+        /// @return True if header indicates tag is present, otherwise false.
+        bool ContainsTag() const;
+
         /// @copydoc DataStructure::SpcFields()
         std::vector<Field*> SpcFields() const override { return spcFields; }
     private:
