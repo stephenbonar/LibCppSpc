@@ -2218,3 +2218,11 @@ TEST_F(ID666TagTests, SetLoopTimesEmptyClearsExtendedDataAndMarksNotPresent)
     Spc::NumericField loopTimes = tag->LoopTimes();
     EXPECT_FALSE(loopTimes.IsPresent());
 }
+
+TEST_F(ID666TagTests, HasExtendedTagWorksProperly)
+{
+    EXPECT_FALSE(tag->HasExtendedData());
+
+    tag->ExtendedData()->gameTitle = std::make_shared<Spc::Id666::Extended::Item>();
+    EXPECT_TRUE(tag->HasExtendedData());
+}

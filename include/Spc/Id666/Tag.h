@@ -91,6 +91,10 @@ namespace Spc::Id666
             return fieldData;
         }
 
+        /// @brief Determines if the tag has extended data.
+        /// @return True if the tag has extended data, otherwise false.
+        bool HasExtendedData() const;
+
         /// @brief Gets a pointer to the extended data structure of the tag.
         /// @return A pointer if the tag has extended data, otherwise nullptr.
         std::shared_ptr<Extended::Data> ExtendedData() const

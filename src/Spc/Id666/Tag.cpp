@@ -25,6 +25,11 @@ Tag::Tag()
     extendedData = std::make_shared<Extended::Data>();
 }
 
+bool Tag::HasExtendedData() const
+{
+    return extendedData->SpcFields().size() > 0;
+}
+
 TagType Tag::DetermineType() const
 {
     // Preserve the existing position as we have to jump around the tag data to
