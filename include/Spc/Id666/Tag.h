@@ -1101,6 +1101,24 @@ namespace Spc::Id666
                 field->SetValue(value);
                 item->extendedData = field;
 
+                if (value.size() % 4 != 0)
+                { 
+                    int paddingSize{ 0 };
+
+                    while ((value.size() + paddingSize) % 4 != 0)
+                    {
+                        paddingSize++;
+                    }
+
+                    FieldInfo paddingInfo{ Extended::dataOffset, paddingSize };
+                    item->padding = std::make_shared<TextField>("Padding", 
+                                                                paddingInfo);
+                }
+                else
+                {
+                    item->padding = nullptr;
+                }
+
                 *(itemPtrPtr) = item;  
             }
             else
@@ -1113,6 +1131,24 @@ namespace Spc::Id666
                 Spc::FieldInfo info{ Extended::dataOffset,  value.size() };
                 item->extendedData = std::make_shared<T>("Temp", info);
                 item->extendedData->SetValue(value);
+
+                if (value.size() % 4 != 0)
+                {
+                    int paddingSize{ 0 };
+
+                    while ((value.size() + paddingSize) % 4 != 0)
+                    {
+                        paddingSize++;
+                    }
+
+                    FieldInfo paddingInfo{ Extended::dataOffset, paddingSize };
+                    item->padding = std::make_shared<TextField>("Padding",
+                                                                paddingInfo);
+                }
+                else
+                {
+                    item->padding = nullptr;
+                }
             }
         }
     };

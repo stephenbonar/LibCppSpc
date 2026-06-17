@@ -385,17 +385,37 @@ protected:
         ASSERT_NE(item, nullptr);
         ASSERT_NE(item->extendedData, nullptr);
         
+        auto extendedDataSize = std::static_pointer_cast<Spc::NumericField>(
+            item->data);
+
+        const auto actualExtendedSize = item->extendedData->Size();
+        ASSERT_EQ(actualExtendedSize, extendedDataSize->ToUInt32());
+
+        if (params.extendedType == Spc::Id666::Extended::stringType)
+        {
+            const auto expectedPadding =
+                (4 - (actualExtendedSize % 4)) % 4;
+
+            if (expectedPadding > 0)
+            {
+                EXPECT_NE(item->padding, nullptr);
+                EXPECT_EQ(expectedPadding, item->padding->Size());
+            }
+            else
+            {
+                EXPECT_EQ(item->padding, nullptr);
+            }
+        }
+
         // When the data is not in the header, then item-data contains the
         // extended data size. Ensure it matches the size of the extended
         // data before proceeding with any additional checks as we don't
         // want any buffer overflows.
-        auto extendedDataSize = std::static_pointer_cast<Spc::NumericField>(
-            item->data);
-        ASSERT_EQ(extendedDataSize->ToInt32(), item->extendedData->Size());
+        ASSERT_EQ(actualExtendedSize, item->extendedData->Size());
 
         EXPECT_EQ(item->id->ToInt32(), params.extendedID);
-        EXPECT_EQ(item->type->ToInt32(), params.extendedType); 
-        EXPECT_EQ(params.expectedValue, item->extendedData->ToString());
+        EXPECT_EQ(item->type->ToInt32(), params.extendedType);
+        EXPECT_EQ(params.expectedValue, item->extendedData->ToString());   
     }
 
     template<typename T>
