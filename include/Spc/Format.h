@@ -27,7 +27,7 @@ namespace Spc
     inline constexpr int labelSize{ 26 };
 
     // This value perfectly wraps hexadecimal output.
-    inline constexpr int valueChunkSize{ 54 };
+    inline constexpr int valueChunkSize{ 51 };
 
     /// @brief The ASCII value of the '0' character.
     inline constexpr int asciiZero{ 0x30 };
