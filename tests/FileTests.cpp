@@ -878,6 +878,18 @@ TEST_F(FileTests, ConvertsFilenameToTagProperly)
 {
     Spc::File file("Test-10.spc", mockFileStream);
     
+    // Mock the file operations that occur during Save()
+    ON_CALL(*mockFileStream, Open(testing::_))
+        .WillByDefault(testing::Return());
+    ON_CALL(*mockFileStream, IsOpen())
+        .WillByDefault(testing::Return(true));
+    ON_CALL(*mockFileStream, Write(testing::A<const Binary::DataStructure*>()))
+        .WillByDefault(testing::Return());
+    ON_CALL(*mockFileStream, Write(testing::A<const Binary::DataField*>()))
+        .WillByDefault(testing::Return());
+    ON_CALL(*mockFileStream, Close())
+        .WillByDefault(testing::Return());
+    
     bool success = file.FileNameToTag("%game%-%track%.spc");
     
     Spc::Id666::Tag tag = file.Tag();
@@ -889,6 +901,18 @@ TEST_F(FileTests, ConvertsFilenameToTagProperly)
 TEST_F(FileTests, ConvertsFilenameToTagProperlyWithLiteralPrefix)
 {
     Spc::File file("AB-Game-10.spc", mockFileStream);
+
+    // Mock the file operations that occur during Save()
+    ON_CALL(*mockFileStream, Open(testing::_))
+        .WillByDefault(testing::Return());
+    ON_CALL(*mockFileStream, IsOpen())
+        .WillByDefault(testing::Return(true));
+    ON_CALL(*mockFileStream, Write(testing::A<const Binary::DataStructure*>()))
+        .WillByDefault(testing::Return());
+    ON_CALL(*mockFileStream, Write(testing::A<const Binary::DataField*>()))
+        .WillByDefault(testing::Return());
+    ON_CALL(*mockFileStream, Close())
+        .WillByDefault(testing::Return());
 
     bool success = file.FileNameToTag("AB-%game%-%track%.spc");
 

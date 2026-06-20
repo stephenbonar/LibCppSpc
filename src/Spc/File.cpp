@@ -462,6 +462,8 @@ bool File::FileNameToTag(std::string pattern)
         }
     }
 
+    Save();
+
     return true;
 }
 
