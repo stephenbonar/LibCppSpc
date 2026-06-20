@@ -19,6 +19,20 @@
 
 using namespace Spc;
 
+int32_t TrackField::ToInt32() const
+{
+    Binary::Int32Field value{ Binary::FieldEndianness::Little };
+    value.RawData()[0] = rawData[1];
+    return value.Value();
+}
+
+uint32_t TrackField::ToUInt32() const
+{
+    Binary::UInt32Field value{ Binary::FieldEndianness::Little };
+    value.RawData()[0] = rawData[1];
+    return value.Value();
+}
+
 char TrackField::Suffix() const
 {
     return rawData[0];

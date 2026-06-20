@@ -47,6 +47,12 @@ namespace Spc
             NumericField{ label, info, isPresent }
         { }
 
+        /// @copydoc NumericField::ToUInt32
+        uint32_t ToUInt32() const override;
+        
+        /// @copydoc NumericField::ToInt32
+        int32_t ToInt32() const override;
+
         /// @brief Gets the suffix character of the track field.
         /// @return The suffix character.
         char Suffix() const;

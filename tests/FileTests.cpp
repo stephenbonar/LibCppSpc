@@ -331,12 +331,12 @@ void FileTests::MockExtendedTagValueReads()
     // Spc::TrackField for the track to set properly. 
     EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
         .WillOnce(testing::Invoke([ostTrack = expectedTag.OstTrack()](
-            Binary::DataStructure* structure)
+            Binary::DataStructure* structure) mutable
         {
             auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
             item->id->SetUInt32(Spc::Id666::Extended::ostTrackInfo.id);
             item->type->SetUInt32(Spc::Id666::Extended::lengthType);
-            item->data->SetUInt32(ostTrack.ToUInt32());
+            ostTrack.CopyRawDataTo(item->data.get());
         }));
 
     MockStringRead(Spc::Id666::Extended::publisherNameInfo.id, 

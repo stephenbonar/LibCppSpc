@@ -72,3 +72,31 @@ TEST_F(TrackFieldTests, ToStringReflectsUnderlyingTrackAndSuffixBytes)
 
     EXPECT_EQ(trackField->ToString(), "7b");
 }
+
+TEST_F(TrackFieldTests, ConvertsToUInt32Correctly)
+{
+    trackField->SetValue("2");
+
+    EXPECT_EQ(trackField->ToUInt32(), 2);
+}
+
+TEST_F(TrackFieldTests, ConvertsToUInt32CorrectlyWithSuffix)
+{
+    trackField->SetValue("2a");
+
+    EXPECT_EQ(trackField->ToUInt32(), 2);
+}
+
+TEST_F(TrackFieldTests, ConvertsToInt32Correctly)
+{
+    trackField->SetValue("2");
+
+    EXPECT_EQ(trackField->ToInt32(), 2);
+}
+
+TEST_F(TrackFieldTests, ConvertsToInt32CorrectlyWithSuffix)
+{
+    trackField->SetValue("2a");
+
+    EXPECT_EQ(trackField->ToInt32(), 2);
+}
