@@ -1103,7 +1103,7 @@ namespace Spc::Id666
 
                 if (value.size() % 4 != 0)
                 { 
-                    int paddingSize{ 0 };
+                    size_t paddingSize{ 0 };
 
                     while ((value.size() + paddingSize) % 4 != 0)
                     {
@@ -1134,7 +1134,7 @@ namespace Spc::Id666
 
                 if (value.size() % 4 != 0)
                 {
-                    int paddingSize{ 0 };
+                    user_size_t paddingSize{ 0 };
 
                     while ((value.size() + paddingSize) % 4 != 0)
                     {
