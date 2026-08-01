@@ -47,7 +47,7 @@ std::string Spc::FormatValue(std::string label, std::string value)
     return stream.str();
 }
 
-std::string Spc::FormatField(Field* field)
+std::string Spc::FormatField(const Field* field)
 {
     if (field->IsPresent())
     {

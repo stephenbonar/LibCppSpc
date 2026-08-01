@@ -44,7 +44,7 @@ namespace Spc
     /// @brief Formats the specified field as as string in label: value format.
     /// @param field The field to output as a formatted string.
     /// @return The formatted string representation of the field.
-    std::string FormatField(Field* field);
+    std::string FormatField(const Field* field);
 }
 
 #endif
