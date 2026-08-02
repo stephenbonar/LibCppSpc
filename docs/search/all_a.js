@@ -34,12 +34,13 @@ var searchData=
   ['introlength_31',['introLength',['../struct_spc_1_1_id666_1_1_extended_1_1_data.html#a090596a6ae77e12fc42f77b6f08a4703',1,'Spc::Id666::Extended::Data']]],
   ['introlengthinfo_32',['introLengthInfo',['../namespace_spc_1_1_id666_1_1_extended.html#ae85ea163a7dbf992d428fdd72bed28c1',1,'Spc::Id666::Extended']]],
   ['isopen_33',['IsOpen',['../class_binary_1_1_file_stream.html#a3ab8bc9f41c2fb7d0621797ab348c61f',1,'Binary::FileStream::IsOpen()'],['../class_binary_1_1_standard_file_stream.html#a28337cdec2b692889179bf157b2449de',1,'Binary::StandardFileStream::IsOpen()']]],
-  ['isset_34',['IsSet',['../class_spc_1_1_date_field.html#a2c21dfb9e0ab2e98c3c3b1ab87b23313',1,'Spc::DateField']]],
-  ['istext_35',['IsText',['../class_spc_1_1_date_field.html#a1ce939694dd67c602f39dcec159a6569',1,'Spc::DateField::IsText()'],['../class_spc_1_1_numeric_field.html#a7f06902e8da0572d4d134a2c350ff74a',1,'Spc::NumericField::IsText() const']]],
-  ['iszero_36',['IsZero',['../class_spc_1_1_numeric_field.html#a41984756491322fb1a021f495c2f2b4e',1,'Spc::NumericField']]],
-  ['item_37',['Item',['../struct_spc_1_1_id666_1_1_extended_1_1_item.html',1,'Spc::Id666::Extended::Item'],['../struct_spc_1_1_id666_1_1_extended_1_1_item.html#a43d11fc9bdfa0e43a05c9dd4e051f035',1,'Spc::Id666::Extended::Item::Item()']]],
-  ['item_2eh_38',['Item.h',['../_item_8h.html',1,'']]],
-  ['itemheadersize_39',['itemHeaderSize',['../namespace_spc_1_1_id666_1_1_extended.html#a2d46400666777275d0563a8a8fd5ae6e',1,'Spc::Id666::Extended']]],
-  ['iteminfo_40',['ItemInfo',['../struct_spc_1_1_id666_1_1_extended_1_1_item_info.html',1,'Spc::Id666::Extended']]],
-  ['iteminfo_2eh_41',['ItemInfo.h',['../_item_info_8h.html',1,'']]]
+  ['ispresent_34',['IsPresent',['../class_spc_1_1_field.html#a3e95f677d296305a4e487c429a3306f7',1,'Spc::Field']]],
+  ['isset_35',['IsSet',['../class_spc_1_1_date_field.html#a2c21dfb9e0ab2e98c3c3b1ab87b23313',1,'Spc::DateField']]],
+  ['istext_36',['IsText',['../class_spc_1_1_date_field.html#a1ce939694dd67c602f39dcec159a6569',1,'Spc::DateField::IsText()'],['../class_spc_1_1_numeric_field.html#a7f06902e8da0572d4d134a2c350ff74a',1,'Spc::NumericField::IsText() const']]],
+  ['iszero_37',['IsZero',['../class_spc_1_1_numeric_field.html#a41984756491322fb1a021f495c2f2b4e',1,'Spc::NumericField']]],
+  ['item_38',['Item',['../struct_spc_1_1_id666_1_1_extended_1_1_item.html',1,'Spc::Id666::Extended::Item'],['../struct_spc_1_1_id666_1_1_extended_1_1_item.html#a43d11fc9bdfa0e43a05c9dd4e051f035',1,'Spc::Id666::Extended::Item::Item()']]],
+  ['item_2eh_39',['Item.h',['../_item_8h.html',1,'']]],
+  ['itemheadersize_40',['itemHeaderSize',['../namespace_spc_1_1_id666_1_1_extended.html#a2d46400666777275d0563a8a8fd5ae6e',1,'Spc::Id666::Extended']]],
+  ['iteminfo_41',['ItemInfo',['../struct_spc_1_1_id666_1_1_extended_1_1_item_info.html',1,'Spc::Id666::Extended']]],
+  ['iteminfo_2eh_42',['ItemInfo.h',['../_item_info_8h.html',1,'']]]
 ];

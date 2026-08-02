@@ -1,7 +1,7 @@
 var searchData=
 [
   ['either_0',['Either',['../namespace_spc.html#a1477e515ca39a86a6acd2c977240a928a9e70a5d3dab1960c04b55a29f310331e',1,'Spc']]],
-  ['emulatorfield_1',['EmulatorField',['../class_spc_1_1_emulator_field.html',1,'Spc::EmulatorField'],['../class_spc_1_1_emulator_field.html#a82ab173f1b10b7c65fc4106f2127b34d',1,'Spc::EmulatorField::EmulatorField(std::string label, FieldInfo info)'],['../class_spc_1_1_emulator_field.html#ab858fdd247a8eeca5cb45fee2913b0f0',1,'Spc::EmulatorField::EmulatorField(std::string label, FieldInfo info, NumericType type)']]],
+  ['emulatorfield_1',['EmulatorField',['../class_spc_1_1_emulator_field.html',1,'Spc::EmulatorField'],['../class_spc_1_1_emulator_field.html#af44acb70f4e40af1aea20980faec253a',1,'Spc::EmulatorField::EmulatorField(const std::string &amp;label, FieldInfo info, bool isPresent=true)'],['../class_spc_1_1_emulator_field.html#a8f627af6e3eb9399897fb725cc976688',1,'Spc::EmulatorField::EmulatorField(const std::string &amp;label, FieldInfo info, NumericType type, bool isPresent=true)']]],
   ['emulatorfield_2eh_2',['EmulatorField.h',['../_emulator_field_8h.html',1,'']]],
   ['emulatorused_3',['EmulatorUsed',['../class_spc_1_1_id666_1_1_tag.html#aa5a58eb328468030e6bbc17aecb427f9',1,'Spc::Id666::Tag']]],
   ['emulatorused_4',['emulatorUsed',['../struct_spc_1_1_id666_1_1_extended_1_1_data.html#a8e0c92ccd096ff35bf2c0db98f461194',1,'Spc::Id666::Extended::Data']]],

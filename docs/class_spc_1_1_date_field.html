@@ -111,23 +111,23 @@ Inheritance diagram for Spc::DateField:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9c68c0265d834839e92932696560dc06" id="r_a9c68c0265d834839e92932696560dc06"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a9c68c0265d834839e92932696560dc06">DateField</a> (std::string label, <a class="el" href="struct_spc_1_1_field_info.html">FieldInfo</a> info)</td></tr>
-<tr class="memdesc:a9c68c0265d834839e92932696560dc06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor; creates a new instance of <a class="el" href="class_spc_1_1_date_field.html" title="Represents a field containing a date in an SPC file.">DateField</a>.  <br /></td></tr>
+<tr class="memitem:a6ffb51f271093ffd1e79a5e4a4372d20" id="r_a6ffb51f271093ffd1e79a5e4a4372d20"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a6ffb51f271093ffd1e79a5e4a4372d20">DateField</a> (const std::string &amp;label, <a class="el" href="struct_spc_1_1_field_info.html">FieldInfo</a> info, bool isPresent=true)</td></tr>
+<tr class="memdesc:a6ffb51f271093ffd1e79a5e4a4372d20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor; creates a new instance of <a class="el" href="class_spc_1_1_date_field.html" title="Represents a field containing a date in an SPC file.">DateField</a>.  <br /></td></tr>
 <tr class="memitem:a1ce939694dd67c602f39dcec159a6569" id="r_a1ce939694dd67c602f39dcec159a6569"><td class="memItemLeft">virtual bool&#160;</td><td class="memItemRight"><a class="el" href="#a1ce939694dd67c602f39dcec159a6569">IsText</a> () const override</td></tr>
 <tr class="memdesc:a1ce939694dd67c602f39dcec159a6569"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if all bytes in the field are ASCII numbers.     <br /></td></tr>
 <tr class="memitem:a84d192ea557b30b87613874900538a27" id="r_a84d192ea557b30b87613874900538a27"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a84d192ea557b30b87613874900538a27">HasUnusedArea</a> () const</td></tr>
 <tr class="memdesc:a84d192ea557b30b87613874900538a27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if bytes 4 - 7 are unused, which indicates binary.  <br /></td></tr>
 <tr class="memitem:a2c21dfb9e0ab2e98c3c3b1ab87b23313" id="r_a2c21dfb9e0ab2e98c3c3b1ab87b23313"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a2c21dfb9e0ab2e98c3c3b1ab87b23313">IsSet</a> () const</td></tr>
 <tr class="memdesc:a2c21dfb9e0ab2e98c3c3b1ab87b23313"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if the date is set.  <br /></td></tr>
-<tr class="memitem:a6148f93581a645aeafbb353712dc067c" id="r_a6148f93581a645aeafbb353712dc067c"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a6148f93581a645aeafbb353712dc067c">SetValue</a> (std::string value) override</td></tr>
-<tr class="memdesc:a6148f93581a645aeafbb353712dc067c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the date value using a string representation of date.  <br /></td></tr>
+<tr class="memitem:ae6a4fbea93527564b76362e494c1b55f" id="r_ae6a4fbea93527564b76362e494c1b55f"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#ae6a4fbea93527564b76362e494c1b55f">SetValue</a> (const std::string &amp;value) override</td></tr>
+<tr class="memdesc:ae6a4fbea93527564b76362e494c1b55f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the date value using a string representation of date.  <br /></td></tr>
 <tr class="memitem:a65873378945cc94166f4b6fdd89d3a88" id="r_a65873378945cc94166f4b6fdd89d3a88"><td class="memItemLeft">virtual std::string&#160;</td><td class="memItemRight"><a class="el" href="#a65873378945cc94166f4b6fdd89d3a88">ToString</a> () const override</td></tr>
 <tr class="memdesc:a65873378945cc94166f4b6fdd89d3a88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the field's data to a string representation.     <br /></td></tr>
 <tr class="inherit_header pub_methods_class_spc_1_1_numeric_field"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_spc_1_1_numeric_field')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="class_spc_1_1_numeric_field.html">Spc::NumericField</a></td></tr>
-<tr class="memitem:a93b0dbcca5ed2235aa02043f5bcd51c2 inherit pub_methods_class_spc_1_1_numeric_field" id="r_a93b0dbcca5ed2235aa02043f5bcd51c2"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="class_spc_1_1_numeric_field.html#a93b0dbcca5ed2235aa02043f5bcd51c2">NumericField</a> (std::string label, <a class="el" href="struct_spc_1_1_field_info.html">FieldInfo</a> info)</td></tr>
-<tr class="memdesc:a93b0dbcca5ed2235aa02043f5bcd51c2 inherit pub_methods_class_spc_1_1_numeric_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor; creates a new instance of <a class="el" href="class_spc_1_1_numeric_field.html" title="Represents a field containing a number in an SPC file.">NumericField</a>.  <br /></td></tr>
-<tr class="memitem:a16fc04fabc24a8aca7f2a52372add655 inherit pub_methods_class_spc_1_1_numeric_field" id="r_a16fc04fabc24a8aca7f2a52372add655"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="class_spc_1_1_numeric_field.html#a16fc04fabc24a8aca7f2a52372add655">NumericField</a> (std::string label, <a class="el" href="struct_spc_1_1_field_info.html">FieldInfo</a> info, <a class="el" href="namespace_spc.html#a1477e515ca39a86a6acd2c977240a928">NumericType</a> type)</td></tr>
-<tr class="memdesc:a16fc04fabc24a8aca7f2a52372add655 inherit pub_methods_class_spc_1_1_numeric_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor; creates a new instance of <a class="el" href="class_spc_1_1_numeric_field.html" title="Represents a field containing a number in an SPC file.">NumericField</a>.  <br /></td></tr>
+<tr class="memitem:a803edfe53eeb82d3466010c3858ae2f9 inherit pub_methods_class_spc_1_1_numeric_field" id="r_a803edfe53eeb82d3466010c3858ae2f9"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="class_spc_1_1_numeric_field.html#a803edfe53eeb82d3466010c3858ae2f9">NumericField</a> (const std::string &amp;label, <a class="el" href="struct_spc_1_1_field_info.html">FieldInfo</a> info, bool isPresent=true)</td></tr>
+<tr class="memdesc:a803edfe53eeb82d3466010c3858ae2f9 inherit pub_methods_class_spc_1_1_numeric_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor; creates a new instance of <a class="el" href="class_spc_1_1_numeric_field.html" title="Represents a field containing a number in an SPC file.">NumericField</a>.  <br /></td></tr>
+<tr class="memitem:ab47f3bc5842c690db4bd63a26caefa3c inherit pub_methods_class_spc_1_1_numeric_field" id="r_ab47f3bc5842c690db4bd63a26caefa3c"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="class_spc_1_1_numeric_field.html#ab47f3bc5842c690db4bd63a26caefa3c">NumericField</a> (const std::string &amp;label, <a class="el" href="struct_spc_1_1_field_info.html">FieldInfo</a> info, <a class="el" href="namespace_spc.html#a1477e515ca39a86a6acd2c977240a928">NumericType</a> type, bool isPresent=true)</td></tr>
+<tr class="memdesc:ab47f3bc5842c690db4bd63a26caefa3c inherit pub_methods_class_spc_1_1_numeric_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor; creates a new instance of <a class="el" href="class_spc_1_1_numeric_field.html" title="Represents a field containing a number in an SPC file.">NumericField</a>.  <br /></td></tr>
 <tr class="memitem:a41984756491322fb1a021f495c2f2b4e inherit pub_methods_class_spc_1_1_numeric_field" id="r_a41984756491322fb1a021f495c2f2b4e"><td class="memItemLeft">virtual bool&#160;</td><td class="memItemRight"><a class="el" href="class_spc_1_1_numeric_field.html#a41984756491322fb1a021f495c2f2b4e">IsZero</a> () const</td></tr>
 <tr class="memdesc:a41984756491322fb1a021f495c2f2b4e inherit pub_methods_class_spc_1_1_numeric_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if all bytes in the field contain zeros.  <br /></td></tr>
 <tr class="memitem:a2d2aaa9b279b2b3986a32f6338801983 inherit pub_methods_class_spc_1_1_numeric_field" id="r_a2d2aaa9b279b2b3986a32f6338801983"><td class="memItemLeft">virtual int32_t&#160;</td><td class="memItemRight"><a class="el" href="class_spc_1_1_numeric_field.html#a2d2aaa9b279b2b3986a32f6338801983">DetectInt32</a> () const</td></tr>
@@ -145,16 +145,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a29655f7e9fca3a688736dd6cd4898887 inherit pub_methods_class_spc_1_1_numeric_field" id="r_a29655f7e9fca3a688736dd6cd4898887"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_spc_1_1_numeric_field.html#a29655f7e9fca3a688736dd6cd4898887">SetType</a> (<a class="el" href="namespace_spc.html#a1477e515ca39a86a6acd2c977240a928">NumericType</a> t)</td></tr>
 <tr class="memdesc:a29655f7e9fca3a688736dd6cd4898887 inherit pub_methods_class_spc_1_1_numeric_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the numeric type of the field.  <br /></td></tr>
 <tr class="inherit_header pub_methods_class_spc_1_1_field"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_spc_1_1_field')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="class_spc_1_1_field.html">Spc::Field</a></td></tr>
-<tr class="memitem:a11b3bc6cc4a900284779bcc5f10ec47c inherit pub_methods_class_spc_1_1_field" id="r_a11b3bc6cc4a900284779bcc5f10ec47c"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="class_spc_1_1_field.html#a11b3bc6cc4a900284779bcc5f10ec47c">Field</a> (std::string label, <a class="el" href="struct_spc_1_1_field_info.html">FieldInfo</a> info)</td></tr>
-<tr class="memdesc:a11b3bc6cc4a900284779bcc5f10ec47c inherit pub_methods_class_spc_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor; creates a new instance of <a class="el" href="class_spc_1_1_field.html" title="Represents a binary data field in an SPC file.">Spc::Field</a>.  <br /></td></tr>
+<tr class="memitem:af733271ed2aaea5289200bd29c81114c inherit pub_methods_class_spc_1_1_field" id="r_af733271ed2aaea5289200bd29c81114c"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="class_spc_1_1_field.html#af733271ed2aaea5289200bd29c81114c">Field</a> (const std::string &amp;label, <a class="el" href="struct_spc_1_1_field_info.html">FieldInfo</a> info, bool isPresent=true)</td></tr>
+<tr class="memdesc:af733271ed2aaea5289200bd29c81114c inherit pub_methods_class_spc_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor; creates a new instance of <a class="el" href="class_spc_1_1_field.html" title="Represents a binary data field in an SPC file.">Spc::Field</a>.  <br /></td></tr>
 <tr class="memitem:a2caf1058fdde91977dc888edb7e871e3 inherit pub_methods_class_spc_1_1_field" id="r_a2caf1058fdde91977dc888edb7e871e3"><td class="memItemLeft">virtual std::string&#160;</td><td class="memItemRight"><a class="el" href="class_spc_1_1_field.html#a2caf1058fdde91977dc888edb7e871e3">Label</a> () const</td></tr>
 <tr class="memdesc:a2caf1058fdde91977dc888edb7e871e3 inherit pub_methods_class_spc_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the field label used to describe the field.  <br /></td></tr>
 <tr class="memitem:a22bdec9ab240fbcbece50b6c5164685a inherit pub_methods_class_spc_1_1_field" id="r_a22bdec9ab240fbcbece50b6c5164685a"><td class="memItemLeft">virtual size_t&#160;</td><td class="memItemRight"><a class="el" href="class_spc_1_1_field.html#a22bdec9ab240fbcbece50b6c5164685a">Offset</a> () const</td></tr>
 <tr class="memdesc:a22bdec9ab240fbcbece50b6c5164685a inherit pub_methods_class_spc_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the offset where the field can be found in the SPC file.  <br /></td></tr>
+<tr class="memitem:a3e95f677d296305a4e487c429a3306f7 inherit pub_methods_class_spc_1_1_field" id="r_a3e95f677d296305a4e487c429a3306f7"><td class="memItemLeft">virtual bool&#160;</td><td class="memItemRight"><a class="el" href="class_spc_1_1_field.html#a3e95f677d296305a4e487c429a3306f7">IsPresent</a> () const</td></tr>
+<tr class="memdesc:a3e95f677d296305a4e487c429a3306f7 inherit pub_methods_class_spc_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if the field is present in the SPC file.  <br /></td></tr>
 <tr class="memitem:a452d449cf21bf0a589a093439cac5f54 inherit pub_methods_class_spc_1_1_field" id="r_a452d449cf21bf0a589a093439cac5f54"><td class="memItemLeft">virtual std::string&#160;</td><td class="memItemRight"><a class="el" href="class_spc_1_1_field.html#a452d449cf21bf0a589a093439cac5f54">Value</a> () const</td></tr>
 <tr class="memdesc:a452d449cf21bf0a589a093439cac5f54 inherit pub_methods_class_spc_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the value of the field.  <br /></td></tr>
-<tr class="memitem:aa48501dfc33c03b273b77fa8117a955b inherit pub_methods_class_spc_1_1_field" id="r_aa48501dfc33c03b273b77fa8117a955b"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_spc_1_1_field.html#aa48501dfc33c03b273b77fa8117a955b">SetLabel</a> (std::string value)</td></tr>
-<tr class="memdesc:aa48501dfc33c03b273b77fa8117a955b inherit pub_methods_class_spc_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the field label to the specified value.  <br /></td></tr>
+<tr class="memitem:a10dc8b4ec353b674978d9bbb9d140b82 inherit pub_methods_class_spc_1_1_field" id="r_a10dc8b4ec353b674978d9bbb9d140b82"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_spc_1_1_field.html#a10dc8b4ec353b674978d9bbb9d140b82">SetLabel</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:a10dc8b4ec353b674978d9bbb9d140b82 inherit pub_methods_class_spc_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the field label to the specified value.  <br /></td></tr>
+<tr class="memitem:a6f1c13710db7e5fe8e1f380e19ea7659 inherit pub_methods_class_spc_1_1_field" id="r_a6f1c13710db7e5fe8e1f380e19ea7659"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_spc_1_1_field.html#a6f1c13710db7e5fe8e1f380e19ea7659">SetIsPresent</a> (bool value)</td></tr>
+<tr class="memdesc:a6f1c13710db7e5fe8e1f380e19ea7659 inherit pub_methods_class_spc_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the field's presence status to the specified value.  <br /></td></tr>
 <tr class="inherit_header pub_methods_class_binary_1_1_raw_field"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_binary_1_1_raw_field')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="class_binary_1_1_raw_field.html">Binary::RawField</a></td></tr>
 <tr class="memitem:a8fa1a73034def152e62f738730c65b69 inherit pub_methods_class_binary_1_1_raw_field" id="r_a8fa1a73034def152e62f738730c65b69"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="class_binary_1_1_raw_field.html#a8fa1a73034def152e62f738730c65b69">RawField</a> (size_t <a class="el" href="class_binary_1_1_raw_field.html#a771503096df70e6eba77715224814a50">size</a>)</td></tr>
 <tr class="memdesc:a8fa1a73034def152e62f738730c65b69 inherit pub_methods_class_binary_1_1_raw_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor; creates a new instance of Field.  <br /></td></tr>
@@ -175,8 +179,8 @@ Public Member Functions</h2></td></tr>
 <tr class="inherit_header pub_methods_class_binary_1_1_data_field"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_binary_1_1_data_field')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="class_binary_1_1_data_field.html">Binary::DataField</a></td></tr>
 <tr class="memitem:ad1cdf084fc5ccf5da3fa6fcb9ef350e0 inherit pub_methods_class_binary_1_1_data_field" id="r_ad1cdf084fc5ccf5da3fa6fcb9ef350e0"><td class="memItemLeft">virtual&#160;</td><td class="memItemRight"><a class="el" href="class_binary_1_1_data_field.html#ad1cdf084fc5ccf5da3fa6fcb9ef350e0">~DataField</a> ()=default</td></tr>
 <tr class="memdesc:ad1cdf084fc5ccf5da3fa6fcb9ef350e0 inherit pub_methods_class_binary_1_1_data_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor; properly destroys the instance.  <br /></td></tr>
-<tr class="memitem:acf25db5e1425c40c58b821d1e84481ab inherit pub_methods_class_binary_1_1_data_field" id="r_acf25db5e1425c40c58b821d1e84481ab"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_binary_1_1_data_field.html#acf25db5e1425c40c58b821d1e84481ab">CopyRawDataTo</a> (<a class="el" href="class_binary_1_1_data_field.html">DataField</a> *other)</td></tr>
-<tr class="memdesc:acf25db5e1425c40c58b821d1e84481ab inherit pub_methods_class_binary_1_1_data_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the raw data to another <a class="el" href="class_binary_1_1_data_field.html" title="Abstract base class representing a data field in a binary file.">DataField</a>.  <br /></td></tr>
+<tr class="memitem:aab603bb109b391feb490aebd850bf8db inherit pub_methods_class_binary_1_1_data_field" id="r_aab603bb109b391feb490aebd850bf8db"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_binary_1_1_data_field.html#aab603bb109b391feb490aebd850bf8db">CopyRawDataTo</a> (<a class="el" href="class_binary_1_1_data_field.html">DataField</a> &amp;other)</td></tr>
+<tr class="memdesc:aab603bb109b391feb490aebd850bf8db inherit pub_methods_class_binary_1_1_data_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the raw data to another <a class="el" href="class_binary_1_1_data_field.html" title="Abstract base class representing a data field in a binary file.">DataField</a>.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-inherited" class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -194,8 +198,8 @@ Additional Inherited Members</h2></td></tr>
 <dd>
 The field's data is always 11 bytes in size. </dd></dl>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a9c68c0265d834839e92932696560dc06" name="a9c68c0265d834839e92932696560dc06"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9c68c0265d834839e92932696560dc06">&#9670;&#160;</a></span>DateField()</h2>
+<a id="a6ffb51f271093ffd1e79a5e4a4372d20" name="a6ffb51f271093ffd1e79a5e4a4372d20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ffb51f271093ffd1e79a5e4a4372d20">&#9670;&#160;</a></span>DateField()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -203,12 +207,17 @@ The field's data is always 11 bytes in size. </dd></dl>
         <tr>
           <td class="memname">Spc::DateField::DateField </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>label</em></span>, </td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>label</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="struct_spc_1_1_field_info.html">FieldInfo</a></td>          <td class="paramname"><span class="paramname"><em>info</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="struct_spc_1_1_field_info.html">FieldInfo</a></td>          <td class="paramname"><span class="paramname"><em>info</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>isPresent</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -218,6 +227,7 @@ The field's data is always 11 bytes in size. </dd></dl>
   <table class="params">
     <tr><td class="paramname">label</td><td>The label to use when outputing the field. </td></tr>
     <tr><td class="paramname">info</td><td>Sets offset and size of the field. </td></tr>
+    <tr><td class="paramname">isPresent</td><td>Indicates whether field is present in the SPC file. </td></tr>
   </table>
   </dd>
 </dl>
@@ -296,8 +306,8 @@ The field's data is always 11 bytes in size. </dd></dl>
 
 </div>
 </div>
-<a id="a6148f93581a645aeafbb353712dc067c" name="a6148f93581a645aeafbb353712dc067c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6148f93581a645aeafbb353712dc067c">&#9670;&#160;</a></span>SetValue()</h2>
+<a id="ae6a4fbea93527564b76362e494c1b55f" name="ae6a4fbea93527564b76362e494c1b55f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6a4fbea93527564b76362e494c1b55f">&#9670;&#160;</a></span>SetValue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -308,7 +318,7 @@ The field's data is always 11 bytes in size. </dd></dl>
         <tr>
           <td class="memname">virtual void Spc::DateField::SetValue </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -329,7 +339,7 @@ The field's data is always 11 bytes in size. </dd></dl>
 <dl class="section pre"><dt>Precondition</dt><dd>The value should be in MM/DD/YYYY format. </dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd>The field's data is updated to represent the specified value. </dd></dl>
 
-<p>Reimplemented from <a class="el" href="class_spc_1_1_numeric_field.html#a706e571004ad8f4e57cb5dc624f4c1a3">Spc::NumericField</a>.</p>
+<p>Reimplemented from <a class="el" href="class_spc_1_1_numeric_field.html#aab05010a3654abb2a2fd5c12ddf88b20">Spc::NumericField</a>.</p>
 
 </div>
 </div>

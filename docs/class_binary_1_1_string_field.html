@@ -111,14 +111,14 @@ Inheritance diagram for Binary::StringField:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a2e6e8224aaa88ecaeae36adde53f34cf" id="r_a2e6e8224aaa88ecaeae36adde53f34cf"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a2e6e8224aaa88ecaeae36adde53f34cf">StringField</a> (size_t <a class="el" href="class_binary_1_1_raw_field.html#a771503096df70e6eba77715224814a50">size</a>)</td></tr>
 <tr class="memdesc:a2e6e8224aaa88ecaeae36adde53f34cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor; creates a new instance of <a class="el" href="class_binary_1_1_string_field.html" title="Represents a string field in a binary file.">StringField</a>.  <br /></td></tr>
-<tr class="memitem:ab7c8d55977b820da58f075e7c801aa98" id="r_ab7c8d55977b820da58f075e7c801aa98"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ab7c8d55977b820da58f075e7c801aa98">StringField</a> (std::string value)</td></tr>
-<tr class="memdesc:ab7c8d55977b820da58f075e7c801aa98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor; creates a new instance of <a class="el" href="class_binary_1_1_string_field.html" title="Represents a string field in a binary file.">StringField</a>.  <br /></td></tr>
+<tr class="memitem:a9ba3bb4ce2de2f26b876e83e0f939ed9" id="r_a9ba3bb4ce2de2f26b876e83e0f939ed9"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a9ba3bb4ce2de2f26b876e83e0f939ed9">StringField</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:a9ba3bb4ce2de2f26b876e83e0f939ed9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor; creates a new instance of <a class="el" href="class_binary_1_1_string_field.html" title="Represents a string field in a binary file.">StringField</a>.  <br /></td></tr>
 <tr class="memitem:aacee6c08aed18cec26c5c3b677a9a1b6" id="r_aacee6c08aed18cec26c5c3b677a9a1b6"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aacee6c08aed18cec26c5c3b677a9a1b6">StringField</a> (const StringField &amp;other)</td></tr>
 <tr class="memdesc:aacee6c08aed18cec26c5c3b677a9a1b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor; creates a deep copy of the field.  <br /></td></tr>
 <tr class="memitem:a026f1529530b90eca2c7a7cbbd8d4a4c" id="r_a026f1529530b90eca2c7a7cbbd8d4a4c"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a026f1529530b90eca2c7a7cbbd8d4a4c">Value</a> () const</td></tr>
 <tr class="memdesc:a026f1529530b90eca2c7a7cbbd8d4a4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the value of the field as a string.  <br /></td></tr>
-<tr class="memitem:aac34fb0c20167d7e482700c03671608b" id="r_aac34fb0c20167d7e482700c03671608b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aac34fb0c20167d7e482700c03671608b">SetValue</a> (std::string value)</td></tr>
-<tr class="memdesc:aac34fb0c20167d7e482700c03671608b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value of the field.  <br /></td></tr>
+<tr class="memitem:a83f129aef0af3b26790ae8d6b71179be" id="r_a83f129aef0af3b26790ae8d6b71179be"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a83f129aef0af3b26790ae8d6b71179be">SetValue</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:a83f129aef0af3b26790ae8d6b71179be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value of the field.  <br /></td></tr>
 <tr class="memitem:a9421dc492fea77fe53b068a4be4e0bda" id="r_a9421dc492fea77fe53b068a4be4e0bda"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a9421dc492fea77fe53b068a4be4e0bda">ToString</a> () const override</td></tr>
 <tr class="memdesc:a9421dc492fea77fe53b068a4be4e0bda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the field's data to a string representation.     <br /></td></tr>
 <tr class="memitem:ae3418a95a0e3e353e406e7c6b4e4f957" id="r_ae3418a95a0e3e353e406e7c6b4e4f957"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#ae3418a95a0e3e353e406e7c6b4e4f957">ToString</a> (<a class="el" href="namespace_binary.html#a2b21524f46dfbef17fbf57518c8b4ad6">StringFormat</a> format) const override</td></tr>
@@ -141,8 +141,8 @@ Public Member Functions</h2></td></tr>
 <tr class="inherit_header pub_methods_class_binary_1_1_data_field"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_binary_1_1_data_field')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="class_binary_1_1_data_field.html">Binary::DataField</a></td></tr>
 <tr class="memitem:ad1cdf084fc5ccf5da3fa6fcb9ef350e0 inherit pub_methods_class_binary_1_1_data_field" id="r_ad1cdf084fc5ccf5da3fa6fcb9ef350e0"><td class="memItemLeft">virtual&#160;</td><td class="memItemRight"><a class="el" href="class_binary_1_1_data_field.html#ad1cdf084fc5ccf5da3fa6fcb9ef350e0">~DataField</a> ()=default</td></tr>
 <tr class="memdesc:ad1cdf084fc5ccf5da3fa6fcb9ef350e0 inherit pub_methods_class_binary_1_1_data_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor; properly destroys the instance.  <br /></td></tr>
-<tr class="memitem:acf25db5e1425c40c58b821d1e84481ab inherit pub_methods_class_binary_1_1_data_field" id="r_acf25db5e1425c40c58b821d1e84481ab"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_binary_1_1_data_field.html#acf25db5e1425c40c58b821d1e84481ab">CopyRawDataTo</a> (<a class="el" href="class_binary_1_1_data_field.html">DataField</a> *other)</td></tr>
-<tr class="memdesc:acf25db5e1425c40c58b821d1e84481ab inherit pub_methods_class_binary_1_1_data_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the raw data to another <a class="el" href="class_binary_1_1_data_field.html" title="Abstract base class representing a data field in a binary file.">DataField</a>.  <br /></td></tr>
+<tr class="memitem:aab603bb109b391feb490aebd850bf8db inherit pub_methods_class_binary_1_1_data_field" id="r_aab603bb109b391feb490aebd850bf8db"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_binary_1_1_data_field.html#aab603bb109b391feb490aebd850bf8db">CopyRawDataTo</a> (<a class="el" href="class_binary_1_1_data_field.html">DataField</a> &amp;other)</td></tr>
+<tr class="memdesc:aab603bb109b391feb490aebd850bf8db inherit pub_methods_class_binary_1_1_data_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the raw data to another <a class="el" href="class_binary_1_1_data_field.html" title="Abstract base class representing a data field in a binary file.">DataField</a>.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-inherited" class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -191,8 +191,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="ab7c8d55977b820da58f075e7c801aa98" name="ab7c8d55977b820da58f075e7c801aa98"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7c8d55977b820da58f075e7c801aa98">&#9670;&#160;</a></span>StringField() <span class="overload">[2/3]</span></h2>
+<a id="a9ba3bb4ce2de2f26b876e83e0f939ed9" name="a9ba3bb4ce2de2f26b876e83e0f939ed9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ba3bb4ce2de2f26b876e83e0f939ed9">&#9670;&#160;</a></span>StringField() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -203,7 +203,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">Binary::StringField::StringField </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -292,8 +292,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="aac34fb0c20167d7e482700c03671608b" name="aac34fb0c20167d7e482700c03671608b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aac34fb0c20167d7e482700c03671608b">&#9670;&#160;</a></span>SetValue()</h2>
+<a id="a83f129aef0af3b26790ae8d6b71179be" name="a83f129aef0af3b26790ae8d6b71179be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83f129aef0af3b26790ae8d6b71179be">&#9670;&#160;</a></span>SetValue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -301,7 +301,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">void Binary::StringField::SetValue </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>

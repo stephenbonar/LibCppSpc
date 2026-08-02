@@ -103,6 +103,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:abc4316138b2ce67e13e64534099c7545"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor; creates a new instance of <a class="el" href="class_spc_1_1_id666_1_1_tag.html" title="Represents an ID666 tag in an SPC file.">Tag</a>.  <br /></td></tr>
 <tr class="memitem:a155ef5f286507da08af07aeaa73dc378" id="r_a155ef5f286507da08af07aeaa73dc378"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_binary_1_1_buffer_stream.html">Binary::BufferStream</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a155ef5f286507da08af07aeaa73dc378">FieldData</a> () const</td></tr>
 <tr class="memdesc:a155ef5f286507da08af07aeaa73dc378"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a pointer to the raw field data of the tag.  <br /></td></tr>
+<tr class="memitem:a71376ce6c51d979d4b650f6f9b71f67f" id="r_a71376ce6c51d979d4b650f6f9b71f67f"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a71376ce6c51d979d4b650f6f9b71f67f">HasExtendedData</a> () const</td></tr>
+<tr class="memdesc:a71376ce6c51d979d4b650f6f9b71f67f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if the tag has extended data.  <br /></td></tr>
 <tr class="memitem:afd5e361abab7d1741b1b467130e39606" id="r_afd5e361abab7d1741b1b467130e39606"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="struct_spc_1_1_id666_1_1_extended_1_1_data.html">Extended::Data</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#afd5e361abab7d1741b1b467130e39606">ExtendedData</a> () const</td></tr>
 <tr class="memdesc:afd5e361abab7d1741b1b467130e39606"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a pointer to the extended data structure of the tag.  <br /></td></tr>
 <tr class="memitem:a427481023d7ff78326dc6e3ba32e5156" id="r_a427481023d7ff78326dc6e3ba32e5156"><td class="memItemLeft"><a class="el" href="namespace_spc_1_1_id666.html#a41afe0ef9302c913fc54fd97f3d3bdc0">TagType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a427481023d7ff78326dc6e3ba32e5156">DetermineType</a> () const</td></tr>
@@ -149,54 +151,54 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a33505ef32acc0fd19abd42e967ee0c56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of times the song loops.  <br /></td></tr>
 <tr class="memitem:a11321ed23a9e67483b9123b608be5659" id="r_a11321ed23a9e67483b9123b608be5659"><td class="memItemLeft"><a class="el" href="class_spc_1_1_numeric_field.html">NumericField</a>&#160;</td><td class="memItemRight"><a class="el" href="#a11321ed23a9e67483b9123b608be5659">PreampLevel</a> () const</td></tr>
 <tr class="memdesc:a11321ed23a9e67483b9123b608be5659"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets amplification level to apply to the output of the song.  <br /></td></tr>
-<tr class="memitem:a399429df357cc30a8e498bef8fa4ea4f" id="r_a399429df357cc30a8e498bef8fa4ea4f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a399429df357cc30a8e498bef8fa4ea4f">SetSongTitle</a> (std::string value)</td></tr>
-<tr class="memdesc:a399429df357cc30a8e498bef8fa4ea4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the title of the song.  <br /></td></tr>
-<tr class="memitem:a662e69dc9dff29b8691797c7daed1b36" id="r_a662e69dc9dff29b8691797c7daed1b36"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a662e69dc9dff29b8691797c7daed1b36">SetGameTitle</a> (std::string value)</td></tr>
-<tr class="memdesc:a662e69dc9dff29b8691797c7daed1b36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the title of the game.  <br /></td></tr>
-<tr class="memitem:aa44579c4c850767f593287378180572a" id="r_aa44579c4c850767f593287378180572a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa44579c4c850767f593287378180572a">SetDumperName</a> (std::string value)</td></tr>
-<tr class="memdesc:aa44579c4c850767f593287378180572a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the name of the person who dumped the SPC file.  <br /></td></tr>
-<tr class="memitem:a2cced427695872d05dce4a6d58cb68ca" id="r_a2cced427695872d05dce4a6d58cb68ca"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2cced427695872d05dce4a6d58cb68ca">SetComments</a> (std::string value)</td></tr>
-<tr class="memdesc:a2cced427695872d05dce4a6d58cb68ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the comments the tagger included in the tag.  <br /></td></tr>
-<tr class="memitem:a78c9c3154a4ed1942e9a5c2e4eaaf897" id="r_a78c9c3154a4ed1942e9a5c2e4eaaf897"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a78c9c3154a4ed1942e9a5c2e4eaaf897">SetDateDumped</a> (std::string value)</td></tr>
-<tr class="memdesc:a78c9c3154a4ed1942e9a5c2e4eaaf897"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the date the SPC file was dumped.  <br /></td></tr>
-<tr class="memitem:a34ff97d2a33946f67958b9d085e488d0" id="r_a34ff97d2a33946f67958b9d085e488d0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a34ff97d2a33946f67958b9d085e488d0">SetSongLength</a> (std::string value)</td></tr>
-<tr class="memdesc:a34ff97d2a33946f67958b9d085e488d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the length of the song, in seconds.  <br /></td></tr>
-<tr class="memitem:a6f3c1c36aaba21f8d7e6ff3186f4bcac" id="r_a6f3c1c36aaba21f8d7e6ff3186f4bcac"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6f3c1c36aaba21f8d7e6ff3186f4bcac">SetFadeLength</a> (std::string value)</td></tr>
-<tr class="memdesc:a6f3c1c36aaba21f8d7e6ff3186f4bcac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the length of the fade, in milliseconds.  <br /></td></tr>
-<tr class="memitem:a9ee85ffdb2113b1974c5f860749389b2" id="r_a9ee85ffdb2113b1974c5f860749389b2"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a9ee85ffdb2113b1974c5f860749389b2">SetSongArtist</a> (std::string value)</td></tr>
-<tr class="memdesc:a9ee85ffdb2113b1974c5f860749389b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the artist of the song.  <br /></td></tr>
-<tr class="memitem:a01c35df46ee8e1c290e6a22d2dc418f9" id="r_a01c35df46ee8e1c290e6a22d2dc418f9"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a01c35df46ee8e1c290e6a22d2dc418f9">SetDefaultDisabledChannels</a> (std::string value)</td></tr>
-<tr class="memdesc:a01c35df46ee8e1c290e6a22d2dc418f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets which channels are disabled at startup.  <br /></td></tr>
-<tr class="memitem:a9902d5e66401043abb33b174f31f4836" id="r_a9902d5e66401043abb33b174f31f4836"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a9902d5e66401043abb33b174f31f4836">SetEmulatorUsed</a> (std::string value)</td></tr>
-<tr class="memdesc:a9902d5e66401043abb33b174f31f4836"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the emulator used to dump the SPC file.  <br /></td></tr>
-<tr class="memitem:a87d479c725bbd2a196cac3c8f26963a0" id="r_a87d479c725bbd2a196cac3c8f26963a0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a87d479c725bbd2a196cac3c8f26963a0">SetOstTitle</a> (std::string value)</td></tr>
-<tr class="memdesc:a87d479c725bbd2a196cac3c8f26963a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the title of the original soundtrack (OST) album.  <br /></td></tr>
-<tr class="memitem:ae0e02883f9a3dbb538b43f0e0af69171" id="r_ae0e02883f9a3dbb538b43f0e0af69171"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae0e02883f9a3dbb538b43f0e0af69171">SetOstDisc</a> (std::string value)</td></tr>
-<tr class="memdesc:ae0e02883f9a3dbb538b43f0e0af69171"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the disc number of the original soundtrack (OST) album.  <br /></td></tr>
-<tr class="memitem:a73e1b95cb14310c5874107ed13a76c06" id="r_a73e1b95cb14310c5874107ed13a76c06"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a73e1b95cb14310c5874107ed13a76c06">SetOstTrack</a> (std::string value)</td></tr>
-<tr class="memdesc:a73e1b95cb14310c5874107ed13a76c06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the track number of the original soundtrack (OST) album.  <br /></td></tr>
-<tr class="memitem:a447034776b14ad9f14b808c96dedcdd7" id="r_a447034776b14ad9f14b808c96dedcdd7"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a447034776b14ad9f14b808c96dedcdd7">SetPublisherName</a> (std::string value)</td></tr>
-<tr class="memdesc:a447034776b14ad9f14b808c96dedcdd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the name of the publisher.  <br /></td></tr>
-<tr class="memitem:ac91ea4660c6acb03eabc8a7bd3049078" id="r_ac91ea4660c6acb03eabc8a7bd3049078"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac91ea4660c6acb03eabc8a7bd3049078">SetCopyrightYear</a> (std::string value)</td></tr>
-<tr class="memdesc:ac91ea4660c6acb03eabc8a7bd3049078"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the copyright year.  <br /></td></tr>
-<tr class="memitem:a320b3e20c28dc72ad8406a3d0bb1cd36" id="r_a320b3e20c28dc72ad8406a3d0bb1cd36"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a320b3e20c28dc72ad8406a3d0bb1cd36">SetIntroLength</a> (std::string value)</td></tr>
-<tr class="memdesc:a320b3e20c28dc72ad8406a3d0bb1cd36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the length of the song intro, in ticks.  <br /></td></tr>
-<tr class="memitem:a880d085d8e3ef178f272c9cdd70cc8d2" id="r_a880d085d8e3ef178f272c9cdd70cc8d2"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a880d085d8e3ef178f272c9cdd70cc8d2">SetLoopLength</a> (std::string value)</td></tr>
-<tr class="memdesc:a880d085d8e3ef178f272c9cdd70cc8d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the length of the song loop, in ticks.  <br /></td></tr>
-<tr class="memitem:a9f71e85e4b7cbe7a14278adc6d87623d" id="r_a9f71e85e4b7cbe7a14278adc6d87623d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a9f71e85e4b7cbe7a14278adc6d87623d">SetEndLength</a> (std::string value)</td></tr>
-<tr class="memdesc:a9f71e85e4b7cbe7a14278adc6d87623d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the length of the song ending, in ticks.  <br /></td></tr>
-<tr class="memitem:acae191992dcb3c331c57e1498eab38ce" id="r_acae191992dcb3c331c57e1498eab38ce"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#acae191992dcb3c331c57e1498eab38ce">SetMutedVoices</a> (std::string value)</td></tr>
-<tr class="memdesc:acae191992dcb3c331c57e1498eab38ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets which voices are muted.  <br /></td></tr>
-<tr class="memitem:a9a34ae58ab2a0fd537e135f2c4f2e27f" id="r_a9a34ae58ab2a0fd537e135f2c4f2e27f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a9a34ae58ab2a0fd537e135f2c4f2e27f">SetLoopTimes</a> (std::string value)</td></tr>
-<tr class="memdesc:a9a34ae58ab2a0fd537e135f2c4f2e27f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the number of times the song loops.  <br /></td></tr>
-<tr class="memitem:aaabcce882d7bb6eeb48a414b89111580" id="r_aaabcce882d7bb6eeb48a414b89111580"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aaabcce882d7bb6eeb48a414b89111580">SetPreampLevel</a> (std::string value)</td></tr>
-<tr class="memdesc:aaabcce882d7bb6eeb48a414b89111580"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the preamp level.  <br /></td></tr>
+<tr class="memitem:a391cbc7aee5767e0fd92a0b508bda92c" id="r_a391cbc7aee5767e0fd92a0b508bda92c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a391cbc7aee5767e0fd92a0b508bda92c">SetSongTitle</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:a391cbc7aee5767e0fd92a0b508bda92c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the title of the song.  <br /></td></tr>
+<tr class="memitem:a1e50fe81e42846b9e9d9d9c81c6df634" id="r_a1e50fe81e42846b9e9d9d9c81c6df634"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1e50fe81e42846b9e9d9d9c81c6df634">SetGameTitle</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:a1e50fe81e42846b9e9d9d9c81c6df634"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the title of the game.  <br /></td></tr>
+<tr class="memitem:a377ef66c60033c3dcfdcfc6723c3a072" id="r_a377ef66c60033c3dcfdcfc6723c3a072"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a377ef66c60033c3dcfdcfc6723c3a072">SetDumperName</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:a377ef66c60033c3dcfdcfc6723c3a072"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the name of the person who dumped the SPC file.  <br /></td></tr>
+<tr class="memitem:a1d8f2c54b9d928d0e2216b9b3e82f670" id="r_a1d8f2c54b9d928d0e2216b9b3e82f670"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1d8f2c54b9d928d0e2216b9b3e82f670">SetComments</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:a1d8f2c54b9d928d0e2216b9b3e82f670"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the comments the tagger included in the tag.  <br /></td></tr>
+<tr class="memitem:aa3d6f2857a7f99c7adae6e01b72c8767" id="r_aa3d6f2857a7f99c7adae6e01b72c8767"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa3d6f2857a7f99c7adae6e01b72c8767">SetDateDumped</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:aa3d6f2857a7f99c7adae6e01b72c8767"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the date the SPC file was dumped.  <br /></td></tr>
+<tr class="memitem:a032fe029c162c635cf77bc919df5c0d2" id="r_a032fe029c162c635cf77bc919df5c0d2"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a032fe029c162c635cf77bc919df5c0d2">SetSongLength</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:a032fe029c162c635cf77bc919df5c0d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the length of the song, in seconds.  <br /></td></tr>
+<tr class="memitem:a6465734b46df2ba8952654922d86da0f" id="r_a6465734b46df2ba8952654922d86da0f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6465734b46df2ba8952654922d86da0f">SetFadeLength</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:a6465734b46df2ba8952654922d86da0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the length of the fade, in milliseconds.  <br /></td></tr>
+<tr class="memitem:adaaa731afc3b75a280bbb5eb5b026e8f" id="r_adaaa731afc3b75a280bbb5eb5b026e8f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#adaaa731afc3b75a280bbb5eb5b026e8f">SetSongArtist</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:adaaa731afc3b75a280bbb5eb5b026e8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the artist of the song.  <br /></td></tr>
+<tr class="memitem:a6bdb4a2fced0922302a228700b1cd444" id="r_a6bdb4a2fced0922302a228700b1cd444"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6bdb4a2fced0922302a228700b1cd444">SetDefaultDisabledChannels</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:a6bdb4a2fced0922302a228700b1cd444"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets which channels are disabled at startup.  <br /></td></tr>
+<tr class="memitem:a9defcbec27d702c4e8d30c7799e9d7ae" id="r_a9defcbec27d702c4e8d30c7799e9d7ae"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a9defcbec27d702c4e8d30c7799e9d7ae">SetEmulatorUsed</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:a9defcbec27d702c4e8d30c7799e9d7ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the emulator used to dump the SPC file.  <br /></td></tr>
+<tr class="memitem:a7b07aed6261eb8c95c3f3dc4b9e00385" id="r_a7b07aed6261eb8c95c3f3dc4b9e00385"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7b07aed6261eb8c95c3f3dc4b9e00385">SetOstTitle</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:a7b07aed6261eb8c95c3f3dc4b9e00385"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the title of the original soundtrack (OST) album.  <br /></td></tr>
+<tr class="memitem:a50aea2eb8ca865fc131a43eb1b1908db" id="r_a50aea2eb8ca865fc131a43eb1b1908db"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a50aea2eb8ca865fc131a43eb1b1908db">SetOstDisc</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:a50aea2eb8ca865fc131a43eb1b1908db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the disc number of the original soundtrack (OST) album.  <br /></td></tr>
+<tr class="memitem:aa81dd2d1d3e474e016b1f892284af683" id="r_aa81dd2d1d3e474e016b1f892284af683"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa81dd2d1d3e474e016b1f892284af683">SetOstTrack</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:aa81dd2d1d3e474e016b1f892284af683"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the track number of the original soundtrack (OST) album.  <br /></td></tr>
+<tr class="memitem:ab1bbce1b11d27381a1be00ae11ca33d9" id="r_ab1bbce1b11d27381a1be00ae11ca33d9"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab1bbce1b11d27381a1be00ae11ca33d9">SetPublisherName</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:ab1bbce1b11d27381a1be00ae11ca33d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the name of the publisher.  <br /></td></tr>
+<tr class="memitem:ad04d51058a9afc57673c24e23c89cddf" id="r_ad04d51058a9afc57673c24e23c89cddf"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad04d51058a9afc57673c24e23c89cddf">SetCopyrightYear</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:ad04d51058a9afc57673c24e23c89cddf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the copyright year.  <br /></td></tr>
+<tr class="memitem:a0dfcf5e55ec3038ecbe92c4a33685372" id="r_a0dfcf5e55ec3038ecbe92c4a33685372"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0dfcf5e55ec3038ecbe92c4a33685372">SetIntroLength</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:a0dfcf5e55ec3038ecbe92c4a33685372"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the length of the song intro, in ticks.  <br /></td></tr>
+<tr class="memitem:acc9e9c352d7522bcac383bcfa12c28f0" id="r_acc9e9c352d7522bcac383bcfa12c28f0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#acc9e9c352d7522bcac383bcfa12c28f0">SetLoopLength</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:acc9e9c352d7522bcac383bcfa12c28f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the length of the song loop, in ticks.  <br /></td></tr>
+<tr class="memitem:a883d032601adb7526d756be070ac14d7" id="r_a883d032601adb7526d756be070ac14d7"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a883d032601adb7526d756be070ac14d7">SetEndLength</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:a883d032601adb7526d756be070ac14d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the length of the song ending, in ticks.  <br /></td></tr>
+<tr class="memitem:a811aa120cd03d6d6f3526509d34d9c4b" id="r_a811aa120cd03d6d6f3526509d34d9c4b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a811aa120cd03d6d6f3526509d34d9c4b">SetMutedVoices</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:a811aa120cd03d6d6f3526509d34d9c4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets which voices are muted.  <br /></td></tr>
+<tr class="memitem:a528c0437ccde06ebd4e345a0d40002ad" id="r_a528c0437ccde06ebd4e345a0d40002ad"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a528c0437ccde06ebd4e345a0d40002ad">SetLoopTimes</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:a528c0437ccde06ebd4e345a0d40002ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the number of times the song loops.  <br /></td></tr>
+<tr class="memitem:a02434351e1e4c2465332d3011b071d6d" id="r_a02434351e1e4c2465332d3011b071d6d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a02434351e1e4c2465332d3011b071d6d">SetPreampLevel</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:a02434351e1e4c2465332d3011b071d6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the preamp level.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents an ID666 tag in an SPC file. </p>
-<dl class="section invariant"><dt>Invariant</dt><dd>Pointers read from tag should never be nullptr. </dd>
+<dl class="section invariant"><dt>Invariant</dt><dd>The internal field and extended data pointers are initialized by the constructor. </dd>
 <dd>
-If a tag's field is empty or unused, returns an empty field. </dd></dl>
+If a tag's field is empty or unused, accessors return a field with an empty value and/or IsPresent() == false. </dd></dl>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="abc4316138b2ce67e13e64534099c7545" name="abc4316138b2ce67e13e64534099c7545"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abc4316138b2ce67e13e64534099c7545">&#9670;&#160;</a></span>Tag()</h2>
@@ -479,6 +481,26 @@ If a tag's field is empty or unused, returns an empty field. </dd></dl>
 
 </div>
 </div>
+<a id="a71376ce6c51d979d4b650f6f9b71f67f" name="a71376ce6c51d979d4b650f6f9b71f67f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71376ce6c51d979d4b650f6f9b71f67f">&#9670;&#160;</a></span>HasExtendedData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Spc::Id666::Tag::HasExtendedData </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determines if the tag has extended data. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if the tag has extended data, otherwise false. </dd></dl>
+
+</div>
+</div>
 <a id="adf5ebabbd9569fb8ea7a7fbe6663af48" name="adf5ebabbd9569fb8ea7a7fbe6663af48"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adf5ebabbd9569fb8ea7a7fbe6663af48">&#9670;&#160;</a></span>IntroLength()</h2>
 
@@ -668,8 +690,8 @@ If a tag's field is empty or unused, returns an empty field. </dd></dl>
 
 </div>
 </div>
-<a id="a2cced427695872d05dce4a6d58cb68ca" name="a2cced427695872d05dce4a6d58cb68ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2cced427695872d05dce4a6d58cb68ca">&#9670;&#160;</a></span>SetComments()</h2>
+<a id="a1d8f2c54b9d928d0e2216b9b3e82f670" name="a1d8f2c54b9d928d0e2216b9b3e82f670"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d8f2c54b9d928d0e2216b9b3e82f670">&#9670;&#160;</a></span>SetComments()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -677,7 +699,7 @@ If a tag's field is empty or unused, returns an empty field. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetComments </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -691,10 +713,12 @@ If a tag's field is empty or unused, returns an empty field. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Value must be &lt;= 256 characters. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or &lt;= 256 characters. </dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd>The first 32 characters are stored in the non-extended field. </dd>
 <dd>
-If value &gt; 32 characters, full value stored in extended data. </dd></dl>
+If value &gt; 32 characters, full value stored in extended data. </dd>
+<dd>
+If value is empty, the non-extended field is zeroed and the extended item is removed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::out_of_range</td><td>if value exceeds maximum string size. </td></tr>
@@ -704,8 +728,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
 
 </div>
 </div>
-<a id="ac91ea4660c6acb03eabc8a7bd3049078" name="ac91ea4660c6acb03eabc8a7bd3049078"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac91ea4660c6acb03eabc8a7bd3049078">&#9670;&#160;</a></span>SetCopyrightYear()</h2>
+<a id="ad04d51058a9afc57673c24e23c89cddf" name="ad04d51058a9afc57673c24e23c89cddf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad04d51058a9afc57673c24e23c89cddf">&#9670;&#160;</a></span>SetCopyrightYear()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -713,7 +737,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetCopyrightYear </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -727,18 +751,20 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Value must be &gt;= 0. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or a numeric value &gt;= 0. </dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd>If value is empty, the extended item is removed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::invalid_argument</td><td>if value not numeric or is negative. </td></tr>
+    <tr><td class="paramname">std::invalid_argument</td><td>if value is not numeric or negative. </td></tr>
+    <tr><td class="paramname">std::out_of_range</td><td>if numeric conversion overflows. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a78c9c3154a4ed1942e9a5c2e4eaaf897" name="a78c9c3154a4ed1942e9a5c2e4eaaf897"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a78c9c3154a4ed1942e9a5c2e4eaaf897">&#9670;&#160;</a></span>SetDateDumped()</h2>
+<a id="aa3d6f2857a7f99c7adae6e01b72c8767" name="aa3d6f2857a7f99c7adae6e01b72c8767"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3d6f2857a7f99c7adae6e01b72c8767">&#9670;&#160;</a></span>SetDateDumped()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -746,7 +772,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetDateDumped </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -759,7 +785,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Value must be in MM/DD/YYYY format. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or in MM/DD/YYYY format. </dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd>If value is empty, the non-extended field is zeroed and the extended item is removed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::invalid_argument</td><td>if value is not in correct format. </td></tr>
@@ -769,8 +796,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
 
 </div>
 </div>
-<a id="a01c35df46ee8e1c290e6a22d2dc418f9" name="a01c35df46ee8e1c290e6a22d2dc418f9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01c35df46ee8e1c290e6a22d2dc418f9">&#9670;&#160;</a></span>SetDefaultDisabledChannels()</h2>
+<a id="a6bdb4a2fced0922302a228700b1cd444" name="a6bdb4a2fced0922302a228700b1cd444"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bdb4a2fced0922302a228700b1cd444">&#9670;&#160;</a></span>SetDefaultDisabledChannels()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -778,7 +805,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetDefaultDisabledChannels </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -792,7 +819,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Value must be an 8-character string of 0s and 1s. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or an 8-character string of 0s and 1s. </dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd>If value is empty, the non-extended field is zeroed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::invalid_argument</td><td>if value is not a valid bitmask. </td></tr>
@@ -802,8 +830,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
 
 </div>
 </div>
-<a id="aa44579c4c850767f593287378180572a" name="aa44579c4c850767f593287378180572a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa44579c4c850767f593287378180572a">&#9670;&#160;</a></span>SetDumperName()</h2>
+<a id="a377ef66c60033c3dcfdcfc6723c3a072" name="a377ef66c60033c3dcfdcfc6723c3a072"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a377ef66c60033c3dcfdcfc6723c3a072">&#9670;&#160;</a></span>SetDumperName()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -811,7 +839,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetDumperName </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -825,10 +853,12 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Value must be &lt;= 256 characters. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or &lt;= 256 characters. </dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd>The first 32 characters are stored in the non-extended field. </dd>
 <dd>
-If value &gt; 32 characters, full value stored in extended data. </dd></dl>
+If value &gt; 32 characters, full value stored in extended data. </dd>
+<dd>
+If value is empty, the non-extended field is zeroed and the extended item is removed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::out_of_range</td><td>if value exceeds maximum string size. </td></tr>
@@ -838,8 +868,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
 
 </div>
 </div>
-<a id="a9902d5e66401043abb33b174f31f4836" name="a9902d5e66401043abb33b174f31f4836"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9902d5e66401043abb33b174f31f4836">&#9670;&#160;</a></span>SetEmulatorUsed()</h2>
+<a id="a9defcbec27d702c4e8d30c7799e9d7ae" name="a9defcbec27d702c4e8d30c7799e9d7ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9defcbec27d702c4e8d30c7799e9d7ae">&#9670;&#160;</a></span>SetEmulatorUsed()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -847,7 +877,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetEmulatorUsed </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -860,11 +890,13 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value may be empty to clear the field. </dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd>If value is empty, the non-extended field is zeroed and the extended item is removed. </dd></dl>
 
 </div>
 </div>
-<a id="a9f71e85e4b7cbe7a14278adc6d87623d" name="a9f71e85e4b7cbe7a14278adc6d87623d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f71e85e4b7cbe7a14278adc6d87623d">&#9670;&#160;</a></span>SetEndLength()</h2>
+<a id="a883d032601adb7526d756be070ac14d7" name="a883d032601adb7526d756be070ac14d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a883d032601adb7526d756be070ac14d7">&#9670;&#160;</a></span>SetEndLength()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -872,7 +904,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetEndLength </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -886,7 +918,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Value must be between 0 and 383999999 ticks. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or between 0 and 383999999 ticks. </dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd>If value is empty, the extended item is removed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::invalid_argument</td><td>if value is not numeric. </td></tr>
@@ -897,8 +930,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
 
 </div>
 </div>
-<a id="a6f3c1c36aaba21f8d7e6ff3186f4bcac" name="a6f3c1c36aaba21f8d7e6ff3186f4bcac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f3c1c36aaba21f8d7e6ff3186f4bcac">&#9670;&#160;</a></span>SetFadeLength()</h2>
+<a id="a6465734b46df2ba8952654922d86da0f" name="a6465734b46df2ba8952654922d86da0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6465734b46df2ba8952654922d86da0f">&#9670;&#160;</a></span>SetFadeLength()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -906,7 +939,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetFadeLength </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -919,7 +952,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Value must be between 0 and 59999 milliseconds. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or between 0 and 59999 milliseconds. </dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd>If value is empty, the non-extended field is zeroed and the extended item is removed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::out_of_range</td><td>if value is out of range. </td></tr>
@@ -930,8 +964,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
 
 </div>
 </div>
-<a id="a662e69dc9dff29b8691797c7daed1b36" name="a662e69dc9dff29b8691797c7daed1b36"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a662e69dc9dff29b8691797c7daed1b36">&#9670;&#160;</a></span>SetGameTitle()</h2>
+<a id="a1e50fe81e42846b9e9d9d9c81c6df634" name="a1e50fe81e42846b9e9d9d9c81c6df634"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e50fe81e42846b9e9d9d9c81c6df634">&#9670;&#160;</a></span>SetGameTitle()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -939,7 +973,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetGameTitle </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -953,10 +987,12 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Value must be &lt;= 256 characters. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or &lt;= 256 characters. </dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd>The first 32 characters are stored in the non-extended field. </dd>
 <dd>
-If value &gt; 32 characters, full value stored in extended data. </dd></dl>
+If value &gt; 32 characters, full value stored in extended data. </dd>
+<dd>
+If value is empty, the non-extended field is zeroed and the extended item is removed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::out_of_range</td><td>if value exceeds maximum string size. </td></tr>
@@ -966,8 +1002,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
 
 </div>
 </div>
-<a id="a320b3e20c28dc72ad8406a3d0bb1cd36" name="a320b3e20c28dc72ad8406a3d0bb1cd36"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a320b3e20c28dc72ad8406a3d0bb1cd36">&#9670;&#160;</a></span>SetIntroLength()</h2>
+<a id="a0dfcf5e55ec3038ecbe92c4a33685372" name="a0dfcf5e55ec3038ecbe92c4a33685372"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dfcf5e55ec3038ecbe92c4a33685372">&#9670;&#160;</a></span>SetIntroLength()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -975,7 +1011,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetIntroLength </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -989,7 +1025,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Value must be between 0 and 383999999 ticks. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or between 0 and 383999999 ticks. </dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd>If value is empty, the extended item is removed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::invalid_argument</td><td>if value is not numeric. </td></tr>
@@ -1000,8 +1037,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
 
 </div>
 </div>
-<a id="a880d085d8e3ef178f272c9cdd70cc8d2" name="a880d085d8e3ef178f272c9cdd70cc8d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a880d085d8e3ef178f272c9cdd70cc8d2">&#9670;&#160;</a></span>SetLoopLength()</h2>
+<a id="acc9e9c352d7522bcac383bcfa12c28f0" name="acc9e9c352d7522bcac383bcfa12c28f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc9e9c352d7522bcac383bcfa12c28f0">&#9670;&#160;</a></span>SetLoopLength()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1009,7 +1046,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetLoopLength </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1023,7 +1060,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Value must be between 0 and 383999999 ticks. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or between 0 and 383999999 ticks. </dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd>If value is empty, the extended item is removed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::invalid_argument</td><td>if value is not numeric. </td></tr>
@@ -1034,8 +1072,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
 
 </div>
 </div>
-<a id="a9a34ae58ab2a0fd537e135f2c4f2e27f" name="a9a34ae58ab2a0fd537e135f2c4f2e27f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9a34ae58ab2a0fd537e135f2c4f2e27f">&#9670;&#160;</a></span>SetLoopTimes()</h2>
+<a id="a528c0437ccde06ebd4e345a0d40002ad" name="a528c0437ccde06ebd4e345a0d40002ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a528c0437ccde06ebd4e345a0d40002ad">&#9670;&#160;</a></span>SetLoopTimes()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1043,7 +1081,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetLoopTimes </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1057,7 +1095,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Value must be between 1 and 9. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or between 0 and 9. </dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd>If value is empty, the extended item is removed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::invalid_argument</td><td>if value is not numeric. </td></tr>
@@ -1068,8 +1107,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
 
 </div>
 </div>
-<a id="acae191992dcb3c331c57e1498eab38ce" name="acae191992dcb3c331c57e1498eab38ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acae191992dcb3c331c57e1498eab38ce">&#9670;&#160;</a></span>SetMutedVoices()</h2>
+<a id="a811aa120cd03d6d6f3526509d34d9c4b" name="a811aa120cd03d6d6f3526509d34d9c4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a811aa120cd03d6d6f3526509d34d9c4b">&#9670;&#160;</a></span>SetMutedVoices()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1077,7 +1116,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetMutedVoices </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1091,7 +1130,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Value must be an 8-character string of 0s and 1s. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or an 8-character string of 0s and 1s. </dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd>If value is empty, the extended item is removed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::invalid_argument</td><td>if value is not a valid bitmask. </td></tr>
@@ -1101,8 +1141,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
 
 </div>
 </div>
-<a id="ae0e02883f9a3dbb538b43f0e0af69171" name="ae0e02883f9a3dbb538b43f0e0af69171"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0e02883f9a3dbb538b43f0e0af69171">&#9670;&#160;</a></span>SetOstDisc()</h2>
+<a id="a50aea2eb8ca865fc131a43eb1b1908db" name="a50aea2eb8ca865fc131a43eb1b1908db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50aea2eb8ca865fc131a43eb1b1908db">&#9670;&#160;</a></span>SetOstDisc()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1110,7 +1150,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetOstDisc </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1124,7 +1164,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Value must be between 0 and 9. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or between 0 and 9. </dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd>If value is empty, the extended item is removed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::out_of_range</td><td>if value is out of range. </td></tr>
@@ -1135,8 +1176,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
 
 </div>
 </div>
-<a id="a87d479c725bbd2a196cac3c8f26963a0" name="a87d479c725bbd2a196cac3c8f26963a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a87d479c725bbd2a196cac3c8f26963a0">&#9670;&#160;</a></span>SetOstTitle()</h2>
+<a id="a7b07aed6261eb8c95c3f3dc4b9e00385" name="a7b07aed6261eb8c95c3f3dc4b9e00385"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b07aed6261eb8c95c3f3dc4b9e00385">&#9670;&#160;</a></span>SetOstTitle()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1144,7 +1185,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetOstTitle </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1158,7 +1199,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Value must be &lt;= 256 characters. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or &lt;= 256 characters. </dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd>If value is empty, the extended item is removed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::out_of_range</td><td>if value exceeds maximum string size. </td></tr>
@@ -1168,8 +1210,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
 
 </div>
 </div>
-<a id="a73e1b95cb14310c5874107ed13a76c06" name="a73e1b95cb14310c5874107ed13a76c06"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a73e1b95cb14310c5874107ed13a76c06">&#9670;&#160;</a></span>SetOstTrack()</h2>
+<a id="aa81dd2d1d3e474e016b1f892284af683" name="aa81dd2d1d3e474e016b1f892284af683"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa81dd2d1d3e474e016b1f892284af683">&#9670;&#160;</a></span>SetOstTrack()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1177,7 +1219,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetOstTrack </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1191,7 +1233,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Track must be 0 - 99 followed by an optional ASCII character. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or a track in the form [0-99][suffix?]. </dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd>If value is empty, the extended item is removed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::out_of_range</td><td>if numeric part of value is out of range. </td></tr>
@@ -1202,8 +1245,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
 
 </div>
 </div>
-<a id="aaabcce882d7bb6eeb48a414b89111580" name="aaabcce882d7bb6eeb48a414b89111580"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaabcce882d7bb6eeb48a414b89111580">&#9670;&#160;</a></span>SetPreampLevel()</h2>
+<a id="a02434351e1e4c2465332d3011b071d6d" name="a02434351e1e4c2465332d3011b071d6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02434351e1e4c2465332d3011b071d6d">&#9670;&#160;</a></span>SetPreampLevel()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1211,7 +1254,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetPreampLevel </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1225,7 +1268,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Value must be between 32768 and 524288. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or between 32768 and 524288. </dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd>If value is empty, the extended item is removed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::invalid_argument</td><td>if value is not numeric. </td></tr>
@@ -1236,8 +1280,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
 
 </div>
 </div>
-<a id="a447034776b14ad9f14b808c96dedcdd7" name="a447034776b14ad9f14b808c96dedcdd7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a447034776b14ad9f14b808c96dedcdd7">&#9670;&#160;</a></span>SetPublisherName()</h2>
+<a id="ab1bbce1b11d27381a1be00ae11ca33d9" name="ab1bbce1b11d27381a1be00ae11ca33d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1bbce1b11d27381a1be00ae11ca33d9">&#9670;&#160;</a></span>SetPublisherName()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1245,7 +1289,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetPublisherName </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1259,7 +1303,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Value must be &lt;= 256 characters. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or &lt;= 256 characters. </dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd>If value is empty, the extended item is removed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::out_of_range</td><td>if value exceeds maximum string size. </td></tr>
@@ -1269,8 +1314,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
 
 </div>
 </div>
-<a id="a9ee85ffdb2113b1974c5f860749389b2" name="a9ee85ffdb2113b1974c5f860749389b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ee85ffdb2113b1974c5f860749389b2">&#9670;&#160;</a></span>SetSongArtist()</h2>
+<a id="adaaa731afc3b75a280bbb5eb5b026e8f" name="adaaa731afc3b75a280bbb5eb5b026e8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adaaa731afc3b75a280bbb5eb5b026e8f">&#9670;&#160;</a></span>SetSongArtist()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1278,7 +1323,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetSongArtist </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1292,10 +1337,12 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Value must be &lt;= 256 characters. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or &lt;= 256 characters. </dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd>The first 32 characters are stored in the non-extended field. </dd>
 <dd>
-If value &gt; 32 characters, full value stored in extended data. </dd></dl>
+If value &gt; 32 characters, full value stored in extended data. </dd>
+<dd>
+If value is empty, the non-extended field is zeroed and the extended item is removed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::out_of_range</td><td>if value exceeds maximum string size. </td></tr>
@@ -1305,8 +1352,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
 
 </div>
 </div>
-<a id="a34ff97d2a33946f67958b9d085e488d0" name="a34ff97d2a33946f67958b9d085e488d0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34ff97d2a33946f67958b9d085e488d0">&#9670;&#160;</a></span>SetSongLength()</h2>
+<a id="a032fe029c162c635cf77bc919df5c0d2" name="a032fe029c162c635cf77bc919df5c0d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a032fe029c162c635cf77bc919df5c0d2">&#9670;&#160;</a></span>SetSongLength()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1314,7 +1361,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetSongLength </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1327,7 +1374,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Value must be between 0 and 959 seconds. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or between 0 and 959 seconds. </dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd>If value is empty, the non-extended field is zeroed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::out_of_range</td><td>if value is out of range. </td></tr>
@@ -1338,8 +1386,8 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
 
 </div>
 </div>
-<a id="a399429df357cc30a8e498bef8fa4ea4f" name="a399429df357cc30a8e498bef8fa4ea4f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a399429df357cc30a8e498bef8fa4ea4f">&#9670;&#160;</a></span>SetSongTitle()</h2>
+<a id="a391cbc7aee5767e0fd92a0b508bda92c" name="a391cbc7aee5767e0fd92a0b508bda92c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a391cbc7aee5767e0fd92a0b508bda92c">&#9670;&#160;</a></span>SetSongTitle()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1347,7 +1395,7 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
         <tr>
           <td class="memname">void Spc::Id666::Tag::SetSongTitle </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1360,10 +1408,12 @@ If value &gt; 32 characters, full value stored in extended data. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Value must be &lt;= 256 characters. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Value must be empty or &lt;= 256 characters. </dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd>The first 32 characters are stored in the non-extended field. </dd>
 <dd>
-If value &gt; 32 characters, full value stored in extended data. </dd></dl>
+If value &gt; 32 characters, full value stored in extended data. </dd>
+<dd>
+If value is empty, the non-extended field is zeroed and the extended item is removed. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::out_of_range</td><td>if value exceeds maximum string size. </td></tr>

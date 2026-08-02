@@ -99,8 +99,8 @@ $(function(){initNavTree('class_spc_1_1_id666_1_1_pattern_1_1_parser.html','','c
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a334c535e67f863af2927b2344c0c7f27" id="r_a334c535e67f863af2927b2344c0c7f27"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a334c535e67f863af2927b2344c0c7f27">Parser</a> (std::vector&lt; <a class="el" href="class_spc_1_1_id666_1_1_pattern_1_1_token.html">Token</a> &gt; tokens)</td></tr>
-<tr class="memdesc:a334c535e67f863af2927b2344c0c7f27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="class_spc_1_1_id666_1_1_pattern_1_1_parser.html" title="Parses pattern tokens into a syntax tree of pattern nodes.">Parser</a> with the given tokens.  <br /></td></tr>
+<tr class="memitem:a26d2b3762bcdebcd3929ba492be28b4d" id="r_a26d2b3762bcdebcd3929ba492be28b4d"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a26d2b3762bcdebcd3929ba492be28b4d">Parser</a> (const std::vector&lt; <a class="el" href="class_spc_1_1_id666_1_1_pattern_1_1_token.html">Token</a> &gt; &amp;tokens)</td></tr>
+<tr class="memdesc:a26d2b3762bcdebcd3929ba492be28b4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="class_spc_1_1_id666_1_1_pattern_1_1_parser.html" title="Parses pattern tokens into a syntax tree of pattern nodes.">Parser</a> with the given tokens.  <br /></td></tr>
 <tr class="memitem:a9f924f432f699d013b874973c1f44915" id="r_a9f924f432f699d013b874973c1f44915"><td class="memItemLeft">std::vector&lt; <a class="el" href="struct_spc_1_1_id666_1_1_pattern_1_1_node.html">Node</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a9f924f432f699d013b874973c1f44915">Parse</a> () const</td></tr>
 <tr class="memdesc:a9f924f432f699d013b874973c1f44915"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses the tokens into a syntax tree of pattern nodes.  <br /></td></tr>
 </table>
@@ -109,8 +109,8 @@ Public Member Functions</h2></td></tr>
 <p>A file name pattern is first tokenized by the <a class="el" href="class_spc_1_1_id666_1_1_pattern_1_1_lexer.html" title="Responsible for tokenizing pattern strings.">Lexer</a> into a sequence of tokens. The <a class="el" href="class_spc_1_1_id666_1_1_pattern_1_1_parser.html" title="Parses pattern tokens into a syntax tree of pattern nodes.">Parser</a> takes those tokens and parses them into a syntax tree of <a class="el" href="struct_spc_1_1_id666_1_1_pattern_1_1_node.html" title="Represents a node in the syntax tree parsed from a pattern.">Node</a> objects. The <a class="el" href="class_spc_1_1_file.html" title="Represents an SPC file.">Spc::File</a> class can then use the syntax tree to generate file names according to the pattern or extract values from the file name into the tag fields.</p>
 <dl class="section invariant"><dt>Invariant</dt><dd>The parser does not modify the tokens or their order. </dd></dl>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a334c535e67f863af2927b2344c0c7f27" name="a334c535e67f863af2927b2344c0c7f27"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a334c535e67f863af2927b2344c0c7f27">&#9670;&#160;</a></span>Parser()</h2>
+<a id="a26d2b3762bcdebcd3929ba492be28b4d" name="a26d2b3762bcdebcd3929ba492be28b4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26d2b3762bcdebcd3929ba492be28b4d">&#9670;&#160;</a></span>Parser()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -121,7 +121,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">Spc::Id666::Pattern::Parser::Parser </td>
           <td>(</td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="class_spc_1_1_id666_1_1_pattern_1_1_token.html">Token</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>tokens</em></span></td><td>)</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="class_spc_1_1_id666_1_1_pattern_1_1_token.html">Token</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>tokens</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>

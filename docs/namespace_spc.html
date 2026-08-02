@@ -141,10 +141,10 @@ Functions</h2></td></tr>
 <tr class="memdesc:a116c89ea35225380dc857fcdafa67d60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the end of the string stream has been reached.  <br /></td></tr>
 <tr class="memitem:a699a1e20c553960427773fca0635e915" id="r_a699a1e20c553960427773fca0635e915"><td class="memItemLeft">std::vector&lt; <a class="el" href="struct_spc_1_1_id666_1_1_pattern_1_1_node.html">Id666::Pattern::Node</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a699a1e20c553960427773fca0635e915">ParsePattern</a> (std::string_view pattern)</td></tr>
 <tr class="memdesc:a699a1e20c553960427773fca0635e915"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses a pattern string into a sequence of pattern nodes.  <br /></td></tr>
-<tr class="memitem:a79b655da38633e75a49e23f020a5a90f" id="r_a79b655da38633e75a49e23f020a5a90f"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a79b655da38633e75a49e23f020a5a90f">FormatValue</a> (std::string label, std::string value)</td></tr>
-<tr class="memdesc:a79b655da38633e75a49e23f020a5a90f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formats the specified value prefixed with the specified label.  <br /></td></tr>
-<tr class="memitem:a13f37b616269be63fa49fc6688ff7b86" id="r_a13f37b616269be63fa49fc6688ff7b86"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a13f37b616269be63fa49fc6688ff7b86">FormatField</a> (<a class="el" href="class_spc_1_1_field.html">Field</a> *field)</td></tr>
-<tr class="memdesc:a13f37b616269be63fa49fc6688ff7b86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formats the specified field as as string in label: value format.  <br /></td></tr>
+<tr class="memitem:afe56fabe008302a3624ebd9dcd2a96fe" id="r_afe56fabe008302a3624ebd9dcd2a96fe"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#afe56fabe008302a3624ebd9dcd2a96fe">FormatValue</a> (const std::string &amp;label, const std::string &amp;value)</td></tr>
+<tr class="memdesc:afe56fabe008302a3624ebd9dcd2a96fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formats the specified value prefixed with the specified label.  <br /></td></tr>
+<tr class="memitem:abb11051c0180632f6cf75353fa056921" id="r_abb11051c0180632f6cf75353fa056921"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#abb11051c0180632f6cf75353fa056921">FormatField</a> (const <a class="el" href="class_spc_1_1_field.html">Field</a> &amp;field)</td></tr>
+<tr class="memdesc:abb11051c0180632f6cf75353fa056921"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formats the specified field as as string in label: value format.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -188,8 +188,8 @@ Variables</h2></td></tr>
 <tr class="memdesc:a2e52759d5a87c09c1780cacdaba78741"><td class="mdescLeft">&#160;</td><td class="mdescRight">The value used to determine if header contains no tag.  <br /></td></tr>
 <tr class="memitem:a803d67e8214810f61a7584479e2c04f4" id="r_a803d67e8214810f61a7584479e2c04f4"><td class="memItemLeft">constexpr uint8_t&#160;</td><td class="memItemRight"><a class="el" href="#a803d67e8214810f61a7584479e2c04f4">currentVersionMinor</a> { 30 }</td></tr>
 <tr class="memdesc:a803d67e8214810f61a7584479e2c04f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The current version minor of the SPC file format.  <br /></td></tr>
-<tr class="memitem:a4b8610a18d2a43b97610c08eb2ebe773" id="r_a4b8610a18d2a43b97610c08eb2ebe773"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a4b8610a18d2a43b97610c08eb2ebe773">labelSize</a> { 22 }</td></tr>
-<tr class="memitem:ab0839b380fd3d8954b30561deb3d8957" id="r_ab0839b380fd3d8954b30561deb3d8957"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#ab0839b380fd3d8954b30561deb3d8957">valueChunkSize</a> { 54 }</td></tr>
+<tr class="memitem:a4b8610a18d2a43b97610c08eb2ebe773" id="r_a4b8610a18d2a43b97610c08eb2ebe773"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a4b8610a18d2a43b97610c08eb2ebe773">labelSize</a> { 26 }</td></tr>
+<tr class="memitem:ab0839b380fd3d8954b30561deb3d8957" id="r_ab0839b380fd3d8954b30561deb3d8957"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#ab0839b380fd3d8954b30561deb3d8957">valueChunkSize</a> { 51 }</td></tr>
 <tr class="memitem:a027810e404ed0d53b5ebfe1456bdf5d1" id="r_a027810e404ed0d53b5ebfe1456bdf5d1"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a027810e404ed0d53b5ebfe1456bdf5d1">asciiZero</a> { 0x30 }</td></tr>
 <tr class="memdesc:a027810e404ed0d53b5ebfe1456bdf5d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The ASCII value of the '0' character.  <br /></td></tr>
 <tr class="memitem:a3c7ece366da4f59fbc5ecb4bc9867782" id="r_a3c7ece366da4f59fbc5ecb4bc9867782"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a3c7ece366da4f59fbc5ecb4bc9867782">asciiNine</a> { 0x39 }</td></tr>
@@ -229,8 +229,8 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
-<a id="a13f37b616269be63fa49fc6688ff7b86" name="a13f37b616269be63fa49fc6688ff7b86"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13f37b616269be63fa49fc6688ff7b86">&#9670;&#160;</a></span>FormatField()</h2>
+<a id="abb11051c0180632f6cf75353fa056921" name="abb11051c0180632f6cf75353fa056921"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb11051c0180632f6cf75353fa056921">&#9670;&#160;</a></span>FormatField()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -238,7 +238,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">std::string Spc::FormatField </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_spc_1_1_field.html">Field</a> *</td>          <td class="paramname"><span class="paramname"><em>field</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="class_spc_1_1_field.html">Field</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>field</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -255,8 +255,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a79b655da38633e75a49e23f020a5a90f" name="a79b655da38633e75a49e23f020a5a90f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79b655da38633e75a49e23f020a5a90f">&#9670;&#160;</a></span>FormatValue()</h2>
+<a id="afe56fabe008302a3624ebd9dcd2a96fe" name="afe56fabe008302a3624ebd9dcd2a96fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe56fabe008302a3624ebd9dcd2a96fe">&#9670;&#160;</a></span>FormatValue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -264,12 +264,12 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">std::string Spc::FormatValue </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>label</em></span>, </td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>label</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -836,7 +836,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int Spc::labelSize { 22 }</td>
+          <td class="memname">int Spc::labelSize { 26 }</td>
         </tr>
       </table>
   </td>
@@ -930,7 +930,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int Spc::valueChunkSize { 54 }</td>
+          <td class="memname">int Spc::valueChunkSize { 51 }</td>
         </tr>
       </table>
   </td>

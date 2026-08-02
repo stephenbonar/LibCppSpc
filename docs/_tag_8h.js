@@ -1,7 +1,7 @@
 var _tag_8h =
 [
     [ "Spc::Id666::Tag", "class_spc_1_1_id666_1_1_tag.html", "class_spc_1_1_id666_1_1_tag" ],
-    [ "Spc::Id666::CheckRange", "namespace_spc_1_1_id666.html#a83bee1770e247116432d543da904f9c5", null ],
+    [ "Spc::Id666::CheckRange", "namespace_spc_1_1_id666.html#a50dc4f6eb8f341bb6d5ce985141856a5", null ],
     [ "Spc::Id666::bitsPerByte", "namespace_spc_1_1_id666.html#a1cadfd5130cc814461a6a85523776059", null ],
     [ "Spc::Id666::maxDiscNumber", "namespace_spc_1_1_id666.html#a81b0d7e675c3475d26e90ddd616aa53f", null ],
     [ "Spc::Id666::maxFadeLength", "namespace_spc_1_1_id666.html#a0c522e37f0befd58d44f51d6e20ed37d", null ],

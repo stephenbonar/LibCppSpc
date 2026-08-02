@@ -112,16 +112,16 @@ Inheritance diagram for Binary::BufferStream:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a9845a71aa0417e570d741f5dfa663872" id="r_a9845a71aa0417e570d741f5dfa663872"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a9845a71aa0417e570d741f5dfa663872">BufferStream</a> (size_t <a class="el" href="class_binary_1_1_raw_field.html#a771503096df70e6eba77715224814a50">size</a>)</td></tr>
 <tr class="memdesc:a9845a71aa0417e570d741f5dfa663872"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new instance of <a class="el" href="class_binary_1_1_buffer_stream.html" title="Represents a memory buffer that can be used as a stream.">BufferStream</a>.  <br /></td></tr>
-<tr class="memitem:ab12201b941f1807cbb0d3f30f21d0a39" id="r_ab12201b941f1807cbb0d3f30f21d0a39"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab12201b941f1807cbb0d3f30f21d0a39">Read</a> (<a class="el" href="class_binary_1_1_data_field.html">DataField</a> *field) const override</td></tr>
-<tr class="memdesc:ab12201b941f1807cbb0d3f30f21d0a39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads data from the stream into the specified field.     <br /></td></tr>
-<tr class="memitem:a47398c5ca9e8de2de3630d6d165910ae" id="r_a47398c5ca9e8de2de3630d6d165910ae"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a47398c5ca9e8de2de3630d6d165910ae">Read</a> (<a class="el" href="struct_binary_1_1_data_structure.html">DataStructure</a> *structure) const override</td></tr>
-<tr class="memdesc:a47398c5ca9e8de2de3630d6d165910ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads data from stream into the specified data structure.     <br /></td></tr>
-<tr class="memitem:a12deccd018e17032309eaeeaa5961c83" id="r_a12deccd018e17032309eaeeaa5961c83"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="struct_binary_1_1_chunk_header.html">ChunkHeader</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a12deccd018e17032309eaeeaa5961c83">FindNextChunk</a> (std::string id) const override</td></tr>
-<tr class="memdesc:a12deccd018e17032309eaeeaa5961c83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the next chunk header with the specified ID.     <br /></td></tr>
-<tr class="memitem:ab19e95ed820e338e4c18332c3f7bb740" id="r_ab19e95ed820e338e4c18332c3f7bb740"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab19e95ed820e338e4c18332c3f7bb740">Write</a> (const <a class="el" href="class_binary_1_1_data_field.html">DataField</a> *field) override</td></tr>
-<tr class="memdesc:ab19e95ed820e338e4c18332c3f7bb740"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes data to the stream from the specified field.     <br /></td></tr>
-<tr class="memitem:a337d85d20990273d835653e57117ee76" id="r_a337d85d20990273d835653e57117ee76"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a337d85d20990273d835653e57117ee76">Write</a> (const <a class="el" href="struct_binary_1_1_data_structure.html">DataStructure</a> *structure) override</td></tr>
-<tr class="memdesc:a337d85d20990273d835653e57117ee76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the specified structure to the stream.     <br /></td></tr>
+<tr class="memitem:a2c83a657350cf65f711dadab01e28d14" id="r_a2c83a657350cf65f711dadab01e28d14"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2c83a657350cf65f711dadab01e28d14">Read</a> (<a class="el" href="class_binary_1_1_data_field.html">DataField</a> &amp;field) const override</td></tr>
+<tr class="memdesc:a2c83a657350cf65f711dadab01e28d14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads data from the stream into the specified field.     <br /></td></tr>
+<tr class="memitem:aebbb55eebd1905b90e24bce5a6f442b4" id="r_aebbb55eebd1905b90e24bce5a6f442b4"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aebbb55eebd1905b90e24bce5a6f442b4">Read</a> (<a class="el" href="struct_binary_1_1_data_structure.html">DataStructure</a> &amp;structure) const override</td></tr>
+<tr class="memdesc:aebbb55eebd1905b90e24bce5a6f442b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads data from stream into the specified data structure.     <br /></td></tr>
+<tr class="memitem:aabd99369b1174f02d3c7802c517366e3" id="r_aabd99369b1174f02d3c7802c517366e3"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="struct_binary_1_1_chunk_header.html">ChunkHeader</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aabd99369b1174f02d3c7802c517366e3">FindNextChunk</a> (const std::string &amp;id) const override</td></tr>
+<tr class="memdesc:aabd99369b1174f02d3c7802c517366e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the next chunk header with the specified ID.     <br /></td></tr>
+<tr class="memitem:a548da05d8f9709819c3d360c79a09801" id="r_a548da05d8f9709819c3d360c79a09801"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a548da05d8f9709819c3d360c79a09801">Write</a> (const <a class="el" href="class_binary_1_1_data_field.html">DataField</a> &amp;field) override</td></tr>
+<tr class="memdesc:a548da05d8f9709819c3d360c79a09801"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes data to the stream from the specified field.     <br /></td></tr>
+<tr class="memitem:a0dfa604c0bfaf6825471eb6172ef3119" id="r_a0dfa604c0bfaf6825471eb6172ef3119"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0dfa604c0bfaf6825471eb6172ef3119">Write</a> (const <a class="el" href="struct_binary_1_1_data_structure.html">DataStructure</a> &amp;structure) override</td></tr>
+<tr class="memdesc:a0dfa604c0bfaf6825471eb6172ef3119"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the specified structure to the stream.     <br /></td></tr>
 <tr class="memitem:a7e048d13df1d3fed5432c8d69c21a732" id="r_a7e048d13df1d3fed5432c8d69c21a732"><td class="memItemLeft">size_t&#160;</td><td class="memItemRight"><a class="el" href="#a7e048d13df1d3fed5432c8d69c21a732">Position</a> () const override</td></tr>
 <tr class="memdesc:a7e048d13df1d3fed5432c8d69c21a732"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the current position in the stream.     <br /></td></tr>
 <tr class="memitem:ade280275f2b66e7de3ef09c736046469" id="r_ade280275f2b66e7de3ef09c736046469"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ade280275f2b66e7de3ef09c736046469">SetPosition</a> (size_t position) const override</td></tr>
@@ -150,8 +150,8 @@ Public Member Functions</h2></td></tr>
 <tr class="inherit_header pub_methods_class_binary_1_1_data_field"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_binary_1_1_data_field')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="class_binary_1_1_data_field.html">Binary::DataField</a></td></tr>
 <tr class="memitem:ad1cdf084fc5ccf5da3fa6fcb9ef350e0 inherit pub_methods_class_binary_1_1_data_field" id="r_ad1cdf084fc5ccf5da3fa6fcb9ef350e0"><td class="memItemLeft">virtual&#160;</td><td class="memItemRight"><a class="el" href="class_binary_1_1_data_field.html#ad1cdf084fc5ccf5da3fa6fcb9ef350e0">~DataField</a> ()=default</td></tr>
 <tr class="memdesc:ad1cdf084fc5ccf5da3fa6fcb9ef350e0 inherit pub_methods_class_binary_1_1_data_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor; properly destroys the instance.  <br /></td></tr>
-<tr class="memitem:acf25db5e1425c40c58b821d1e84481ab inherit pub_methods_class_binary_1_1_data_field" id="r_acf25db5e1425c40c58b821d1e84481ab"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_binary_1_1_data_field.html#acf25db5e1425c40c58b821d1e84481ab">CopyRawDataTo</a> (<a class="el" href="class_binary_1_1_data_field.html">DataField</a> *other)</td></tr>
-<tr class="memdesc:acf25db5e1425c40c58b821d1e84481ab inherit pub_methods_class_binary_1_1_data_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the raw data to another <a class="el" href="class_binary_1_1_data_field.html" title="Abstract base class representing a data field in a binary file.">DataField</a>.  <br /></td></tr>
+<tr class="memitem:aab603bb109b391feb490aebd850bf8db inherit pub_methods_class_binary_1_1_data_field" id="r_aab603bb109b391feb490aebd850bf8db"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_binary_1_1_data_field.html#aab603bb109b391feb490aebd850bf8db">CopyRawDataTo</a> (<a class="el" href="class_binary_1_1_data_field.html">DataField</a> &amp;other)</td></tr>
+<tr class="memdesc:aab603bb109b391feb490aebd850bf8db inherit pub_methods_class_binary_1_1_data_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the raw data to another <a class="el" href="class_binary_1_1_data_field.html" title="Abstract base class representing a data field in a binary file.">DataField</a>.  <br /></td></tr>
 <tr class="inherit_header pub_methods_class_binary_1_1_stream"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_binary_1_1_stream')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="class_binary_1_1_stream.html">Binary::Stream</a></td></tr>
 <tr class="memitem:abd20bcbd24cf76e3eca29d8863ba6969 inherit pub_methods_class_binary_1_1_stream" id="r_abd20bcbd24cf76e3eca29d8863ba6969"><td class="memItemLeft">virtual&#160;</td><td class="memItemRight"><a class="el" href="class_binary_1_1_stream.html#abd20bcbd24cf76e3eca29d8863ba6969">~Stream</a> ()=default</td></tr>
 <tr class="memdesc:abd20bcbd24cf76e3eca29d8863ba6969 inherit pub_methods_class_binary_1_1_stream"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor; properly destroys the instance.  <br /></td></tr>
@@ -275,8 +275,8 @@ Writing both advances the position and modifies buffer. </dd></dl>
 
 </div>
 </div>
-<a id="a12deccd018e17032309eaeeaa5961c83" name="a12deccd018e17032309eaeeaa5961c83"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12deccd018e17032309eaeeaa5961c83">&#9670;&#160;</a></span>FindNextChunk()</h2>
+<a id="aabd99369b1174f02d3c7802c517366e3" name="aabd99369b1174f02d3c7802c517366e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabd99369b1174f02d3c7802c517366e3">&#9670;&#160;</a></span>FindNextChunk()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -287,7 +287,7 @@ Writing both advances the position and modifies buffer. </dd></dl>
         <tr>
           <td class="memname">std::shared_ptr&lt; <a class="el" href="struct_binary_1_1_chunk_header.html">ChunkHeader</a> &gt; Binary::BufferStream::FindNextChunk </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -315,7 +315,7 @@ Writing both advances the position and modifies buffer. </dd></dl>
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="class_binary_1_1_stream.html#a3d08caedcc6cc4abfb8ed69392e00bc6">Binary::Stream</a>.</p>
+<p>Implements <a class="el" href="class_binary_1_1_stream.html#a5731aa48019d2ad48703110ebc7f9c66">Binary::Stream</a>.</p>
 
 </div>
 </div>
@@ -349,8 +349,8 @@ Writing both advances the position and modifies buffer. </dd></dl>
 
 </div>
 </div>
-<a id="ab12201b941f1807cbb0d3f30f21d0a39" name="ab12201b941f1807cbb0d3f30f21d0a39"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab12201b941f1807cbb0d3f30f21d0a39">&#9670;&#160;</a></span>Read() <span class="overload">[1/2]</span></h2>
+<a id="a2c83a657350cf65f711dadab01e28d14" name="a2c83a657350cf65f711dadab01e28d14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c83a657350cf65f711dadab01e28d14">&#9670;&#160;</a></span>Read() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -361,7 +361,7 @@ Writing both advances the position and modifies buffer. </dd></dl>
         <tr>
           <td class="memname">void Binary::BufferStream::Read </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_binary_1_1_data_field.html">DataField</a> *</td>          <td class="paramname"><span class="paramname"><em>field</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_binary_1_1_data_field.html">DataField</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>field</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -375,30 +375,27 @@ Writing both advances the position and modifies buffer. </dd></dl>
 <p>Reads data from the stream into the specified field.    </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">field</td><td>A pointer to the field to read data into. </td></tr>
+    <tr><td class="paramname">field</td><td>The field to read data into. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Field must not be null. </dd>
-<dd>
-Field size must be &lt;= remaining buffer size. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Field size must be &lt;= remaining buffer size. </dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd>Position is advanced by field size. </dd>
 <dd>
 Specified field is updated with the data read from the buffer. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::out_of_range</td><td>if field size &gt; remaining buffer size. </td></tr>
-    <tr><td class="paramname">std::invalid_argument</td><td>if field is null.    </td></tr>
+    <tr><td class="paramname">std::out_of_range</td><td>if field size &gt; remaining buffer size.    </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="class_binary_1_1_stream.html#afb96b4ba95d561f234fc2e455ff18ae3">Binary::Stream</a>.</p>
+<p>Implements <a class="el" href="class_binary_1_1_stream.html#a12568462653ab7bcd61d7d9606ec22ae">Binary::Stream</a>.</p>
 
 </div>
 </div>
-<a id="a47398c5ca9e8de2de3630d6d165910ae" name="a47398c5ca9e8de2de3630d6d165910ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a47398c5ca9e8de2de3630d6d165910ae">&#9670;&#160;</a></span>Read() <span class="overload">[2/2]</span></h2>
+<a id="aebbb55eebd1905b90e24bce5a6f442b4" name="aebbb55eebd1905b90e24bce5a6f442b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebbb55eebd1905b90e24bce5a6f442b4">&#9670;&#160;</a></span>Read() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -409,7 +406,7 @@ Specified field is updated with the data read from the buffer. </dd></dl>
         <tr>
           <td class="memname">void Binary::BufferStream::Read </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_binary_1_1_data_structure.html">DataStructure</a> *</td>          <td class="paramname"><span class="paramname"><em>structure</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="struct_binary_1_1_data_structure.html">DataStructure</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>structure</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -423,25 +420,22 @@ Specified field is updated with the data read from the buffer. </dd></dl>
 <p>Reads data from stream into the specified data structure.    </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">structure</td><td>A pointer to the data structure to read data into. </td></tr>
+    <tr><td class="paramname">structure</td><td>The data structure to read data into. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Structure must not be null. </dd>
-<dd>
-Structure size must be &lt;= remaining buffer size. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Structure size must be &lt;= remaining buffer size. </dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd>Position is advanced by structure size. </dd>
 <dd>
 Specified structure is updated with the data read from buffer. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::out_of_range</td><td>if structure size &gt; remaining buffer size. </td></tr>
-    <tr><td class="paramname">std::invalid_argument</td><td>if structure is null.    </td></tr>
+    <tr><td class="paramname">std::out_of_range</td><td>if structure size &gt; remaining buffer size.    </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="class_binary_1_1_stream.html#a33bf6b0b8bb699afae128b0c9944fbd9">Binary::Stream</a>.</p>
+<p>Implements <a class="el" href="class_binary_1_1_stream.html#a666929edd30db0c5d5fb6476cfb3d028">Binary::Stream</a>.</p>
 
 </div>
 </div>
@@ -488,8 +482,8 @@ Specified structure is updated with the data read from buffer. </dd></dl>
 
 </div>
 </div>
-<a id="ab19e95ed820e338e4c18332c3f7bb740" name="ab19e95ed820e338e4c18332c3f7bb740"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab19e95ed820e338e4c18332c3f7bb740">&#9670;&#160;</a></span>Write() <span class="overload">[1/2]</span></h2>
+<a id="a548da05d8f9709819c3d360c79a09801" name="a548da05d8f9709819c3d360c79a09801"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a548da05d8f9709819c3d360c79a09801">&#9670;&#160;</a></span>Write() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -500,7 +494,7 @@ Specified structure is updated with the data read from buffer. </dd></dl>
         <tr>
           <td class="memname">void Binary::BufferStream::Write </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_binary_1_1_data_field.html">DataField</a> *</td>          <td class="paramname"><span class="paramname"><em>field</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="class_binary_1_1_data_field.html">DataField</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>field</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -514,30 +508,27 @@ Specified structure is updated with the data read from buffer. </dd></dl>
 <p>Writes data to the stream from the specified field.    </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">field</td><td>A pointer to the field to write to the stream. </td></tr>
+    <tr><td class="paramname">field</td><td>The field to write to the stream. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Field must not be null. </dd>
-<dd>
-Field size must be &lt;= remaining buffer size. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Field size must be &lt;= remaining buffer size. </dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd>Position is advanced by field size. </dd>
 <dd>
 Buffer is updated with the data from the specified field. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::out_of_range</td><td>if field size &gt; remaining buffer size. </td></tr>
-    <tr><td class="paramname">std::invalid_argument</td><td>if field is null.    </td></tr>
+    <tr><td class="paramname">std::out_of_range</td><td>if field size &gt; remaining buffer size.    </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="class_binary_1_1_stream.html#a108e7f7229e58532f55d53d8fec35703">Binary::Stream</a>.</p>
+<p>Implements <a class="el" href="class_binary_1_1_stream.html#a57dd340d2eae3585b3d728ebea966349">Binary::Stream</a>.</p>
 
 </div>
 </div>
-<a id="a337d85d20990273d835653e57117ee76" name="a337d85d20990273d835653e57117ee76"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a337d85d20990273d835653e57117ee76">&#9670;&#160;</a></span>Write() <span class="overload">[2/2]</span></h2>
+<a id="a0dfa604c0bfaf6825471eb6172ef3119" name="a0dfa604c0bfaf6825471eb6172ef3119"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dfa604c0bfaf6825471eb6172ef3119">&#9670;&#160;</a></span>Write() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -548,7 +539,7 @@ Buffer is updated with the data from the specified field. </dd></dl>
         <tr>
           <td class="memname">void Binary::BufferStream::Write </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_binary_1_1_data_structure.html">DataStructure</a> *</td>          <td class="paramname"><span class="paramname"><em>structure</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="struct_binary_1_1_data_structure.html">DataStructure</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>structure</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -562,25 +553,22 @@ Buffer is updated with the data from the specified field. </dd></dl>
 <p>Writes the specified structure to the stream.    </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">structure</td><td>A pointer to the structure to write to the stream. </td></tr>
+    <tr><td class="paramname">structure</td><td>The structure to write to the stream. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Structure must not be null. </dd>
-<dd>
-Structure size must be &lt;= remaining buffer size. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Structure size must be &lt;= remaining buffer size. </dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd>Position is advanced by structure size. </dd>
 <dd>
 Buffer is updated with the data from the specified structure. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::out_of_range</td><td>if structure size &gt; remaining buffer size. </td></tr>
-    <tr><td class="paramname">std::invalid_argument</td><td>if structure is null.    </td></tr>
+    <tr><td class="paramname">std::out_of_range</td><td>if structure size &gt; remaining buffer size.    </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="class_binary_1_1_stream.html#a6332f230902c3ab418b0fcd4ecf5d020">Binary::Stream</a>.</p>
+<p>Implements <a class="el" href="class_binary_1_1_stream.html#a22f2da77358cdb3eb76be760ab41bbe2">Binary::Stream</a>.</p>
 
 </div>
 </div>

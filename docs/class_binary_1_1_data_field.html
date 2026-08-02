@@ -130,8 +130,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a7418480785092b424a60edc55f93b529"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides access to the field's raw data via pointer.  <br /></td></tr>
 <tr class="memitem:a969949b625eef9ecbab4ca3ca73f8938" id="r_a969949b625eef9ecbab4ca3ca73f8938"><td class="memItemLeft">virtual const char *&#160;</td><td class="memItemRight"><a class="el" href="#a969949b625eef9ecbab4ca3ca73f8938">RawData</a> () const =0</td></tr>
 <tr class="memdesc:a969949b625eef9ecbab4ca3ca73f8938"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides access to the field's raw data via const pointer.  <br /></td></tr>
-<tr class="memitem:acf25db5e1425c40c58b821d1e84481ab" id="r_acf25db5e1425c40c58b821d1e84481ab"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#acf25db5e1425c40c58b821d1e84481ab">CopyRawDataTo</a> (<a class="el" href="class_binary_1_1_data_field.html">DataField</a> *other)</td></tr>
-<tr class="memdesc:acf25db5e1425c40c58b821d1e84481ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the raw data to another <a class="el" href="class_binary_1_1_data_field.html" title="Abstract base class representing a data field in a binary file.">DataField</a>.  <br /></td></tr>
+<tr class="memitem:aab603bb109b391feb490aebd850bf8db" id="r_aab603bb109b391feb490aebd850bf8db"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#aab603bb109b391feb490aebd850bf8db">CopyRawDataTo</a> (<a class="el" href="class_binary_1_1_data_field.html">DataField</a> &amp;other)</td></tr>
+<tr class="memdesc:aab603bb109b391feb490aebd850bf8db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the raw data to another <a class="el" href="class_binary_1_1_data_field.html" title="Abstract base class representing a data field in a binary file.">DataField</a>.  <br /></td></tr>
 <tr class="memitem:a82ed3561f16c76587b258645fa993867" id="r_a82ed3561f16c76587b258645fa993867"><td class="memItemLeft">virtual std::string&#160;</td><td class="memItemRight"><a class="el" href="#a82ed3561f16c76587b258645fa993867">ToString</a> () const =0</td></tr>
 <tr class="memdesc:a82ed3561f16c76587b258645fa993867"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the field's data to a string representation.  <br /></td></tr>
 <tr class="memitem:a9541fd6b38328f2dcf421131f3383c0d" id="r_a9541fd6b38328f2dcf421131f3383c0d"><td class="memItemLeft">virtual std::string&#160;</td><td class="memItemRight"><a class="el" href="#a9541fd6b38328f2dcf421131f3383c0d">ToString</a> (<a class="el" href="namespace_binary.html#a2b21524f46dfbef17fbf57518c8b4ad6">StringFormat</a> format) const =0</td></tr>
@@ -169,8 +169,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="acf25db5e1425c40c58b821d1e84481ab" name="acf25db5e1425c40c58b821d1e84481ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf25db5e1425c40c58b821d1e84481ab">&#9670;&#160;</a></span>CopyRawDataTo()</h2>
+<a id="aab603bb109b391feb490aebd850bf8db" name="aab603bb109b391feb490aebd850bf8db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab603bb109b391feb490aebd850bf8db">&#9670;&#160;</a></span>CopyRawDataTo()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -181,7 +181,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual void Binary::DataField::CopyRawDataTo </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_binary_1_1_data_field.html">DataField</a> *</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_binary_1_1_data_field.html">DataField</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -196,18 +196,11 @@ Public Member Functions</h2></td></tr>
 <p>This method copies the raw data to another <a class="el" href="class_binary_1_1_data_field.html" title="Abstract base class representing a data field in a binary file.">DataField</a>, truncating the data if the other field is smaller than this one.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">other</td><td>A pointer to the other <a class="el" href="class_binary_1_1_data_field.html" title="Abstract base class representing a data field in a binary file.">DataField</a> to copy the data to. </td></tr>
+    <tr><td class="paramname">other</td><td>The other <a class="el" href="class_binary_1_1_data_field.html" title="Abstract base class representing a data field in a binary file.">DataField</a> to copy the data to. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Other must not be null. </dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd>The raw data from this field is copied to the other field. </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">std::invalid_argument</td><td>if other is null. </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>

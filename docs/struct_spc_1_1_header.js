@@ -1,6 +1,7 @@
 var struct_spc_1_1_header =
 [
     [ "Header", "struct_spc_1_1_header.html#a43fb6855d4a9d5a9c29b4b91a24c2235", null ],
+    [ "ContainsTag", "struct_spc_1_1_header.html#afd401c701aec9afc8f07d8150fa014a4", null ],
     [ "SpcFields", "struct_spc_1_1_header.html#a998e5c62c9a8ba59413bb1829c1132f1", null ],
     [ "aRegister", "struct_spc_1_1_header.html#af2d2ba5d6c7b698a2f8d930b0e9f6a3a", null ],
     [ "containsTag", "struct_spc_1_1_header.html#a5c0803e75562e289e14cb9fe544ede3b", null ],

@@ -19,8 +19,8 @@ var namespace_spc =
       [ "Text", "namespace_spc.html#a1477e515ca39a86a6acd2c977240a928a9dffbf69ffba8bc38bc4e01abf4b1675", null ],
       [ "Either", "namespace_spc.html#a1477e515ca39a86a6acd2c977240a928a9e70a5d3dab1960c04b55a29f310331e", null ]
     ] ],
-    [ "FormatField", "namespace_spc.html#a13f37b616269be63fa49fc6688ff7b86", null ],
-    [ "FormatValue", "namespace_spc.html#a79b655da38633e75a49e23f020a5a90f", null ],
+    [ "FormatField", "namespace_spc.html#abb11051c0180632f6cf75353fa056921", null ],
+    [ "FormatValue", "namespace_spc.html#afe56fabe008302a3624ebd9dcd2a96fe", null ],
     [ "MatchEnd", "namespace_spc.html#a116c89ea35225380dc857fcdafa67d60", null ],
     [ "MatchLiteral", "namespace_spc.html#a6300160ae61e051739c8d987cea3be3e", null ],
     [ "ParsePattern", "namespace_spc.html#a699a1e20c553960427773fca0635e915", null ],

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['checkrange_0',['CheckRange',['../namespace_spc_1_1_id666.html#a83bee1770e247116432d543da904f9c5',1,'Spc::Id666']]],
+  ['checkrange_0',['CheckRange',['../namespace_spc_1_1_id666.html#a50dc4f6eb8f341bb6d5ce985141856a5',1,'Spc::Id666']]],
   ['chunkheader_1',['ChunkHeader',['../struct_binary_1_1_chunk_header.html',1,'Binary']]],
   ['chunkheader_2eh_2',['ChunkHeader.h',['../_chunk_header_8h.html',1,'']]],
   ['chunkid_3',['chunkId',['../namespace_spc_1_1_id666_1_1_extended.html#ad762571a9d912eaf0a67e99426d1c031',1,'Spc::Id666::Extended']]],
@@ -11,10 +11,11 @@ var searchData=
   ['comments_8',['comments',['../struct_spc_1_1_id666_1_1_extended_1_1_data.html#a3cfc4fe6bcd045d5b75e8d5200748e94',1,'Spc::Id666::Extended::Data']]],
   ['commentsinfo_9',['commentsInfo',['../namespace_spc_1_1_id666_1_1_extended.html#a95e9ead9ca5c1e634f1ee038dd44bc4d',1,'Spc::Id666::Extended::commentsInfo'],['../namespace_spc_1_1_id666.html#a518d470268655665e6b6bca46b63702f',1,'Spc::Id666::commentsInfo']]],
   ['constants_2eh_10',['Constants.h',['../_constants_8h.html',1,'']]],
-  ['containstag_11',['containsTag',['../struct_spc_1_1_header.html#a5c0803e75562e289e14cb9fe544ede3b',1,'Spc::Header']]],
-  ['copyrawdatato_12',['CopyRawDataTo',['../class_binary_1_1_data_field.html#acf25db5e1425c40c58b821d1e84481ab',1,'Binary::DataField']]],
-  ['copyrightyear_13',['CopyrightYear',['../class_spc_1_1_id666_1_1_tag.html#a587254f91470bc629a07bf8cbb2bacf9',1,'Spc::Id666::Tag']]],
-  ['copyrightyear_14',['copyrightYear',['../struct_spc_1_1_id666_1_1_extended_1_1_data.html#ae6ec626eee78d0fda19fa80c00edc1ac',1,'Spc::Id666::Extended::Data']]],
-  ['copyrightyearinfo_15',['copyrightYearInfo',['../namespace_spc_1_1_id666_1_1_extended.html#ac9ac970ffd62a1e71486667263322bf5',1,'Spc::Id666::Extended']]],
-  ['currentversionminor_16',['currentVersionMinor',['../namespace_spc.html#a803d67e8214810f61a7584479e2c04f4',1,'Spc']]]
+  ['containstag_11',['ContainsTag',['../struct_spc_1_1_header.html#afd401c701aec9afc8f07d8150fa014a4',1,'Spc::Header']]],
+  ['containstag_12',['containsTag',['../struct_spc_1_1_header.html#a5c0803e75562e289e14cb9fe544ede3b',1,'Spc::Header']]],
+  ['copyrawdatato_13',['CopyRawDataTo',['../class_binary_1_1_data_field.html#aab603bb109b391feb490aebd850bf8db',1,'Binary::DataField']]],
+  ['copyrightyear_14',['CopyrightYear',['../class_spc_1_1_id666_1_1_tag.html#a587254f91470bc629a07bf8cbb2bacf9',1,'Spc::Id666::Tag']]],
+  ['copyrightyear_15',['copyrightYear',['../struct_spc_1_1_id666_1_1_extended_1_1_data.html#ae6ec626eee78d0fda19fa80c00edc1ac',1,'Spc::Id666::Extended::Data']]],
+  ['copyrightyearinfo_16',['copyrightYearInfo',['../namespace_spc_1_1_id666_1_1_extended.html#ac9ac970ffd62a1e71486667263322bf5',1,'Spc::Id666::Extended']]],
+  ['currentversionminor_17',['currentVersionMinor',['../namespace_spc.html#a803d67e8214810f61a7584479e2c04f4',1,'Spc']]]
 ];
