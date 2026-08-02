@@ -27,11 +27,13 @@ const char* dateFormat{ "%m/%d/%Y" };
 const char* dateSizeError{ "DateField size must be at least 11." };
 const char* dateFormatError{ "Date value must be in MM/DD/YYYY format." };
 
-DateField::DateField(std::string label, FieldInfo info, bool isPresent)
+DateField::DateField(const std::string& label, FieldInfo info, bool isPresent)
     : NumericField{ label, info, isPresent }
 {
     if (size < dateSize)
+    {
         throw std::invalid_argument{ dateSizeError };
+    }
 }
 
 bool DateField::IsText() const
@@ -43,7 +45,9 @@ bool DateField::IsText() const
         bool isDateSlash = rawData[i] == asciiSlash;
 
         if (!isAsciiNum && !isZero && !isDateSlash)
+        {
             return false;
+        }
     }
 
     return true;
@@ -54,7 +58,9 @@ bool DateField::HasUnusedArea() const
     for (int i = unusedAreaIndex; i < size; i++)
     {
         if (rawData[i] != 0)
+        {
             return false;
+        }
     }
 
     return true;
@@ -65,7 +71,9 @@ bool DateField::IsSet() const
     for (int i = 0; i < size; i++)
     {
         if (rawData[i] != 0)
+        {
             return true;
+        }
     }
 
     return false;
@@ -74,7 +82,9 @@ bool DateField::IsSet() const
 std::string DateField::ToString() const
 {
     if (IsText())
+    {
         return Binary::RawField::ToString(Binary::StringFormat::Terminated);
+    }
 
     Binary::UInt8Field day{ Binary::FieldEndianness::Little };
     Binary::UInt8Field month{ Binary::FieldEndianness::Little };
@@ -92,15 +102,19 @@ std::string DateField::ToString() const
     return stream.str();
 }
 
-void DateField::SetValue(std::string value)
+void DateField::SetValue(const std::string& value)
 {
     if (Type() == NumericType::Text || Type() == NumericType::Either)
+    {
         SetTextValue(value);
+    }
     else
+    {
         SetBinaryValue(value);
+    }
 }
 
-void DateField::SetTextValue(std::string value)
+void DateField::SetTextValue(const std::string& value)
 {
     std::istringstream valueStream{ value };
     std::tm date{};
@@ -109,6 +123,13 @@ void DateField::SetTextValue(std::string value)
 
     if (!valueStream.fail())
     {
+        valueStream >> std::ws;
+
+        if (!valueStream.eof())
+        {
+            throw std::invalid_argument{ dateFormatError };
+        }
+
         std::stringstream dateStream;
 
         // We add 1 to date.tm_mon because January is stored as month 0, etc.
@@ -133,7 +154,7 @@ void DateField::SetTextValue(std::string value)
     }
 }
 
-void DateField::SetBinaryValue(std::string value)
+void DateField::SetBinaryValue(const std::string& value)
 {
     std::istringstream valueStream{ value };
     std::tm date;
@@ -142,6 +163,13 @@ void DateField::SetBinaryValue(std::string value)
 
     if (!valueStream.fail())
     {
+        valueStream >> std::ws;
+
+        if (!valueStream.eof())
+        {
+            throw std::invalid_argument{ dateFormatError };
+        }
+
         Binary::Int8Field day{ static_cast<int8_t>(date.tm_mday) };
 
         // We add 1 to date.tm_mon because January is stored as month 0, etc.
@@ -159,7 +187,9 @@ void DateField::SetBinaryValue(std::string value)
 
         // The remaining bytes should all be unused in a binary formatted date.
         for (int i = unusedAreaIndex; i < dateSize; i++)
+        {
             rawData[i] = 0;
+        }
     }
     else
     {

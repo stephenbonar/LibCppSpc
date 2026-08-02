@@ -36,7 +36,7 @@ namespace Spc
         /// @param label The label to use when outputing the field. 
         /// @param info Sets offset and size of the field.
         /// @param isPresent Indicates whether field is present in the SPC file.
-        Field(std::string label, FieldInfo info, bool isPresent = true) : 
+        Field(const std::string& label, FieldInfo info, bool isPresent = true) : 
             label{ label }, 
             offset{ info.offset },
             isPresent{ isPresent },
@@ -66,7 +66,7 @@ namespace Spc
 
         /// @brief Sets the field label to the specified value.
         /// @param value The value to set the label to.
-        virtual void SetLabel(std::string value) { label = value; }
+        virtual void SetLabel(const std::string& value) { label = value; }
 
         /// @brief Sets the field's presence status to the specified value.
         /// @param value True if the field is present, false otherwise.
@@ -74,7 +74,7 @@ namespace Spc
 
         /// @brief Sets the field to the specified hexadecimal value.
         /// @param value The string representation of a hexadecimal value.
-        virtual void SetValue(std::string value);
+        virtual void SetValue(const std::string& value);
     private:
         std::string label;
         size_t offset;

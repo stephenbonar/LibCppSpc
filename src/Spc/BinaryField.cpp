@@ -22,17 +22,29 @@ const char* emptyError{ "Value must not be empty."};
 const char* binError{ "Value must only contain '0' and '1' characters." };
 const char* binaryChars{ "01" };
 
-void BinaryField::SetValue(std::string value)
+void BinaryField::SetValue(const std::string& value)
 {
     constexpr int base{ 2 };
     constexpr size_t* nonNumericPos{ nullptr };
 
     if (value.empty())
+    {
         throw std::invalid_argument{ emptyError };
+    }
     
     if (value.find_first_not_of(binaryChars) != std::string::npos)
+    {
         throw std::invalid_argument{ binError };
+    }
 
     int dec = std::stoi(value, nonNumericPos, base);
-    NumericField::SetInt32(dec);
+
+    // BinaryField values should always be stored as binary bytes regardless
+    // of the NumericType configured by callers.
+    Binary::Int32Field field{ dec };
+
+    for (int i = 0; i < size && i < field.Size(); i++)
+    {
+        rawData[i] = field.RawData()[i];
+    }
 }

@@ -23,7 +23,9 @@ bool NumericField::IsZero() const
     for (int i = 0; i < size; i++)
     {
         if (rawData[i] != 0)
+        {
             return false;
+        }
     }
 
     return true;
@@ -37,7 +39,9 @@ bool NumericField::IsText() const
         bool isZero = rawData[i] == 0x0;
 
         if (!isAsciiNum && !isZero)
+        {
             return false;
+        }
     }
 
     return true;
@@ -65,7 +69,9 @@ int32_t NumericField::ToInt32() const
     Binary::Int32Field value{ Binary::FieldEndianness::Little };
 
     for (int i = 0; i < size && i < value.Size(); i++)
+    {
         value.RawData()[i] = rawData[i];
+    }
 
     return value.Value();
 }
@@ -75,7 +81,9 @@ uint32_t NumericField::ToUInt32() const
     Binary::UInt32Field value{ Binary::FieldEndianness::Little };
 
     for (int i = 0; i < size && i < value.Size(); i++)
+    {
         value.RawData()[i] = rawData[i];
+    }
 
     return value.Value();
 }
@@ -85,7 +93,9 @@ std::string NumericField::ToString() const
     if (type == NumericType::Either)
     {
         if (IsZero())
+        {
             return "0";
+        }
 
         if (IsText())
         {
@@ -95,12 +105,16 @@ std::string NumericField::ToString() const
     }
     
     if (type == NumericType::Text)
+    {
         return Binary::RawField::ToString(Binary::StringFormat::Terminated);
+    }
 
     Binary::Int32Field value{ Binary::FieldEndianness::Little };
 
     for (int i = 0; i < size && i < value.Size(); i++)
+    {
         value.RawData()[i] = rawData[i];
+    }
 
     return value.ToString();
 }
@@ -113,14 +127,27 @@ void NumericField::SetInt32(int32_t value)
         stream << value;
         std::string stringValue{ stream.str() };
 
-        for (int i = 0; i < size && i < stringValue.size(); i++)
-            rawData[i] = stringValue[i];
+        for (int i = 0; i < size; i++)
+        {
+            if (i < stringValue.size())
+            {
+                rawData[i] = stringValue[i];
+            }
+            else
+            {
+                rawData[i] = 0;
+            }
+        }
+
+        return;
     }
 
     Binary::Int32Field field{ value };
 
     for (int i = 0; i < size && i < field.Size(); i++)
+    {
         rawData[i] = field.RawData()[i];
+    }
 }
 
 void NumericField::SetUInt32(uint32_t value)
@@ -131,28 +158,45 @@ void NumericField::SetUInt32(uint32_t value)
         stream << value;
         std::string stringValue{ stream.str() };
 
-        for (int i = 0; i < size && i < stringValue.size(); i++)
-            rawData[i] = stringValue[i];
+        for (int i = 0; i < size; i++)
+        {
+            if (i < stringValue.size())
+            {
+                rawData[i] = stringValue[i];
+            }
+            else
+            {
+                rawData[i] = 0;
+            }
+        }
+
+        return;
     }
    
     Binary::UInt32Field field{ value };
     
     for (int i = 0; i < size && i < field.Size(); i++)
+    {
         rawData[i] = field.RawData()[i];
+    }
 }
 
-void NumericField::SetValue(std::string value)
+void NumericField::SetValue(const std::string& value)
 {
     if (type == NumericType::Binary || type == NumericType::Either)
     {
         Binary::Int32Field field{ std::stoi(value) };
 
         for (int i = 0; i < size && i < field.Size(); i++)
+        {
             rawData[i] = field.RawData()[i];
+        }
     }
     else
     {
         for (int i = 0; i < size && i < value.size(); i++)
+        {
             rawData[i] = value[i];
+        }
     }
 }

@@ -47,7 +47,7 @@ endif()
 include(FetchContent)
 FetchContent_Declare(
     LibCppBinary
-    URL https://github.com/stephenbonar/LibCppBinary/archive/4e7492d8178ec64d7c42cb50f9af360304c7b443.zip
+    URL https://github.com/stephenbonar/LibCppBinary/archive/60e581048daaf8fc801b25008660f682885efe63.zip
 )
 
 # Makes LibCppBinary available at configure time rather than build time.
@@ -58,11 +58,17 @@ if(TARGET libcppbinarytests)
     set_target_properties(libcppbinarytests PROPERTIES EXCLUDE_FROM_ALL TRUE)
 endif()
 
+# Define the library target so a static library can be built from sources.
 add_library(LibCppSpc ${SOURCES})
 
+# Remove the default "lib" prefix from the library name to match the naming 
+# convention of other libraries in this project.
 set_target_properties(LibCppBinary PROPERTIES PREFIX "")
 set_target_properties(LibCppSpc PROPERTIES PREFIX "")
 
+# Configure the include directories so the compiler knows where to find the 
+# header files.
 target_include_directories(LibCppSpc PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
+# Link the library target to the LibCppBinary dependency.
 target_link_libraries(LibCppSpc ${LIBRARIES})

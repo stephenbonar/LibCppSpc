@@ -39,7 +39,8 @@ namespace Spc
         /// @param label The label to use when outputing the field. 
         /// @param info Sets offset and size of the field.
         /// @param isPresent Indicates whether field is present in the SPC file.
-        BinaryField(std::string label, FieldInfo info, bool isPresent = true) :
+        BinaryField(const std::string& label, FieldInfo info, 
+                    bool isPresent = true) :
             NumericField{ label, info, isPresent }
         {
             SetType(NumericType::Binary);
@@ -52,7 +53,7 @@ namespace Spc
         }
 
         /// @copydoc Field::SetValue()
-        virtual void SetValue(std::string value) override;
+        virtual void SetValue(const std::string& value) override;
 
         // In C++, base class methods are hidden by derived class methods with 
         // the same name. In order to call the base class version of SetValue,

@@ -77,10 +77,10 @@ void FileTests::SetUp()
 
 void FileTests::MockHeaderRead()
 {
-    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
-        .WillOnce(testing::Invoke([this](Binary::DataStructure* structure)
+    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure&>()))
+        .WillOnce(testing::Invoke([this](Binary::DataStructure& structure)
         {
-            auto header = static_cast<Spc::Header*>(structure);
+            auto header = static_cast<Spc::Header*>(&structure);
             *header = this->expectedHeader;
         }));
 }
@@ -88,10 +88,10 @@ void FileTests::MockHeaderRead()
 void FileTests::MockHeaderWrite()
 {
     EXPECT_CALL(*mockFileStream,
-                Write(testing::A<const Binary::DataStructure*>()))
-        .WillOnce(testing::Invoke([this](const Binary::DataStructure* structure)
+                Write(testing::A<const Binary::DataStructure&>()))
+        .WillOnce(testing::Invoke([this](const Binary::DataStructure& structure)
         {
-            auto header = static_cast<const Spc::Header*>(structure);
+            auto header = static_cast<const Spc::Header*>(&structure);
 
             EXPECT_EQ(header->id.Value(), this->expectedHeader.id.Value());
             EXPECT_EQ(header->separator.RawData()[0],
@@ -121,8 +121,8 @@ void FileTests::MockHeaderWrite()
 
 void FileTests::MockBufferStreamRead(Binary::BufferStream* stream)
 {
-    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField*>()))
-        .WillOnce(testing::Invoke([stream](Binary::DataField* field)
+    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField&>()))
+        .WillOnce(testing::Invoke([stream](Binary::DataField& field)
         {
             stream->CopyRawDataTo(field);
         }));
@@ -130,13 +130,13 @@ void FileTests::MockBufferStreamRead(Binary::BufferStream* stream)
 
 void FileTests::MockBufferStreamWrite(Binary::BufferStream* stream)
 {
-    EXPECT_CALL(*mockFileStream, Write(testing::A<const Binary::DataField*>()))
+    EXPECT_CALL(*mockFileStream, Write(testing::A<const Binary::DataField&>()))
         .Times(1)
-        .WillOnce(testing::Invoke([stream](const Binary::DataField* field)
+        .WillOnce(testing::Invoke([stream](const Binary::DataField& field)
         {
-            ASSERT_EQ(field->Size(), stream->Size());
+            ASSERT_EQ(field.Size(), stream->Size());
 
-            bool streamSetToField = AllBytesMatch(stream, field);
+            bool streamSetToField = AllBytesMatch(stream, &field);
             EXPECT_TRUE(streamSetToField);
         }));
 }
@@ -167,32 +167,32 @@ void FileTests::MockNonExtendedDataWrites()
 
 void FileTests::MockStringRead(uint8_t id, std::string expectedValue)
 {
-    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
-        .WillOnce(testing::Invoke([id, expectedValue](Binary::DataStructure* structure)
+    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure&>()))
+        .WillOnce(testing::Invoke([id, expectedValue](Binary::DataStructure& structure)
         {
-            auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
+            auto item = static_cast<Spc::Id666::Extended::Item*>(&structure);
             item->id->SetUInt32(id);
             item->type->SetUInt32(Spc::Id666::Extended::stringType);
             item->data->SetUInt32(
                 static_cast<uint32_t>(expectedValue.size()));
         }));
-    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField*>()))
+    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField&>()))
         .WillOnce(testing::Invoke([expectedValue](
-            Binary::DataField* field)
+            Binary::DataField& field)
         {
-            std::memset(field->RawData(), 0, field->Size());
-            std::memcpy(field->RawData(),
+            std::memset(field.RawData(), 0, field.Size());
+            std::memcpy(field.RawData(),
                         expectedValue.c_str(),
                         expectedValue.size());
         }));
 
     if (NeedsPadding(expectedValue.size()))
     {
-        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField*>()))
+        EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField&>()))
             .WillOnce(testing::Invoke([](
-                Binary::DataField* field)
+                Binary::DataField& field)
             {
-                std::memset(field->RawData(), 0, field->Size());
+                std::memset(field.RawData(), 0, field.Size());
             }));
     }
 }
@@ -200,35 +200,35 @@ void FileTests::MockStringRead(uint8_t id, std::string expectedValue)
 void FileTests::MockStringWrite(uint8_t id, std::string value)
 {
     EXPECT_CALL(*mockFileStream,
-                Write(testing::A<const Binary::DataStructure*>()))
-        .WillOnce(testing::Invoke([id, value](const Binary::DataStructure* structure)
+                Write(testing::A<const Binary::DataStructure&>()))
+        .WillOnce(testing::Invoke([id, value](const Binary::DataStructure& structure)
         {
             auto item =
-                static_cast<const Spc::Id666::Extended::Item*>(structure);
+                static_cast<const Spc::Id666::Extended::Item*>(&structure);
             EXPECT_EQ(item->id->ToUInt32(), id);
             EXPECT_EQ(item->type->ToUInt32(), Spc::Id666::Extended::stringType);
             EXPECT_EQ(item->data->ToUInt32(),
                       static_cast<uint32_t>(value.size()));
         }));
-    EXPECT_CALL(*mockFileStream, Write(testing::A<const Binary::DataField*>()))
+    EXPECT_CALL(*mockFileStream, Write(testing::A<const Binary::DataField&>()))
         .WillOnce(testing::Invoke([value](
-            const Binary::DataField* field)
+            const Binary::DataField& field)
         {
-            EXPECT_EQ(std::string(field->RawData(), value.size()), value);
+            EXPECT_EQ(std::string(field.RawData(), value.size()), value);
         }));
 
     if (NeedsPadding(value.size()))
     {
         EXPECT_CALL(*mockFileStream,
-                    Write(testing::A<const Binary::DataField*>()))
+                    Write(testing::A<const Binary::DataField&>()))
             .WillOnce(testing::Invoke([value](
-                const Binary::DataField* field)
+                const Binary::DataField& field)
             {
-                EXPECT_EQ(field->Size(), PaddingSize(value));
+                EXPECT_EQ(field.Size(), PaddingSize(value));
 
-                for (size_t i = 0; i < field->Size(); i++)
+                for (size_t i = 0; i < field.Size(); i++)
                 {
-                    EXPECT_EQ(field->RawData()[i], 0);
+                    EXPECT_EQ(field.RawData()[i], 0);
                 }
             }));
     }
@@ -256,11 +256,11 @@ void FileTests::MockLongTagValueWrites()
 
 void FileTests::MockLengthRead(uint8_t id, Spc::NumericField expectedField)
 {
-    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
+    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure&>()))
         .WillOnce(testing::Invoke([id, expectedField](
-            Binary::DataStructure* structure)
+            Binary::DataStructure& structure)
         {
-            auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
+            auto item = static_cast<Spc::Id666::Extended::Item*>(&structure);
             item->id->SetUInt32(id);
             item->type->SetUInt32(Spc::Id666::Extended::lengthType);
             item->data->SetUInt32(expectedField.ToUInt32());
@@ -270,11 +270,11 @@ void FileTests::MockLengthRead(uint8_t id, Spc::NumericField expectedField)
 void FileTests::MockLengthWrite(uint8_t id, Spc::NumericField field)
 {
     EXPECT_CALL(*mockFileStream,
-                Write(testing::A<const Binary::DataStructure*>()))
-        .WillOnce(testing::Invoke([id, field](const Binary::DataStructure* structure)
+                Write(testing::A<const Binary::DataStructure&>()))
+        .WillOnce(testing::Invoke([id, field](const Binary::DataStructure& structure)
         {
             auto item =
-                static_cast<const Spc::Id666::Extended::Item*>(structure);
+                static_cast<const Spc::Id666::Extended::Item*>(&structure);
             EXPECT_EQ(item->id->ToUInt32(), id);
             EXPECT_EQ(item->type->ToUInt32(), Spc::Id666::Extended::lengthType);
             EXPECT_EQ(item->data->ToUInt32(), field.ToUInt32());
@@ -283,19 +283,19 @@ void FileTests::MockLengthWrite(uint8_t id, Spc::NumericField field)
 
 void FileTests::MockIntRead(uint8_t id, Spc::NumericField expectedField)
 {
-    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
-        .WillOnce(testing::Invoke([id](Binary::DataStructure* structure)
+    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure&>()))
+        .WillOnce(testing::Invoke([id](Binary::DataStructure& structure)
         {
-            auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
+            auto item = static_cast<Spc::Id666::Extended::Item*>(&structure);
             item->id->SetUInt32(id);
             item->type->SetUInt32(Spc::Id666::Extended::integerType);
             item->data->SetUInt32(intSize);
         }));
-    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField*>()))
+    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataField&>()))
         .WillOnce(testing::Invoke([expectedField](
-            Binary::DataField* field)
+            Binary::DataField& field)
         {
-            auto introField = static_cast<Spc::NumericField*>(field);
+            auto introField = static_cast<Spc::NumericField*>(&field);
             introField->SetUInt32(expectedField.ToUInt32());
         }));
 }
@@ -303,21 +303,21 @@ void FileTests::MockIntRead(uint8_t id, Spc::NumericField expectedField)
 void FileTests::MockIntWrite(uint8_t id, Spc::NumericField field)
 {
     EXPECT_CALL(*mockFileStream,
-                Write(testing::A<const Binary::DataStructure*>()))
-        .WillOnce(testing::Invoke([id, field](const Binary::DataStructure* structure)
+                Write(testing::A<const Binary::DataStructure&>()))
+        .WillOnce(testing::Invoke([id, field](const Binary::DataStructure& structure)
         {
             auto item =
-                static_cast<const Spc::Id666::Extended::Item*>(structure);
+                static_cast<const Spc::Id666::Extended::Item*>(&structure);
             EXPECT_EQ(item->id->ToUInt32(), id);
-            EXPECT_EQ(item->type->ToUInt32(), 
+            EXPECT_EQ(item->type->ToUInt32(),
                       Spc::Id666::Extended::integerType);
             EXPECT_EQ(item->data->ToUInt32(), intSize);
         }));
-    EXPECT_CALL(*mockFileStream, Write(testing::A<const Binary::DataField*>()))
+    EXPECT_CALL(*mockFileStream, Write(testing::A<const Binary::DataField&>()))
         .WillOnce(testing::Invoke([field](
-            const Binary::DataField* dataField)
+            const Binary::DataField& dataField)
         {
-            auto introField = static_cast<const Spc::NumericField*>(dataField);
+            auto introField = static_cast<const Spc::NumericField*>(&dataField);
             EXPECT_EQ(introField->ToUInt32(), field.ToUInt32());
         }));
 }
@@ -329,14 +329,14 @@ void FileTests::MockExtendedTagValueReads()
 
     // Do not use the generic MockLengthRead here as we need the specialty
     // Spc::TrackField for the track to set properly. 
-    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
+    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure&>()))
         .WillOnce(testing::Invoke([ostTrack = expectedTag.OstTrack()](
-            Binary::DataStructure* structure) mutable
+            Binary::DataStructure& structure) mutable
         {
-            auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
+            auto item = static_cast<Spc::Id666::Extended::Item*>(&structure);
             item->id->SetUInt32(Spc::Id666::Extended::ostTrackInfo.id);
             item->type->SetUInt32(Spc::Id666::Extended::lengthType);
-            ostTrack.CopyRawDataTo(item->data.get());
+            ostTrack.CopyRawDataTo(*item->data);
         }));
 
     MockStringRead(Spc::Id666::Extended::publisherNameInfo.id, 
@@ -352,11 +352,11 @@ void FileTests::MockExtendedTagValueReads()
     MockLengthRead(Spc::Id666::Extended::loopTimesInfo.id, 
                    expectedTag.LoopTimes());
     
-    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure*>()))
+    EXPECT_CALL(*mockFileStream, Read(testing::A<Binary::DataStructure&>()))
         .WillOnce(testing::Invoke([muted = expectedTag.MutedVoices()](
-            Binary::DataStructure* structure)
+            Binary::DataStructure& structure)
         {
-            auto item = static_cast<Spc::Id666::Extended::Item*>(structure);
+            auto item = static_cast<Spc::Id666::Extended::Item*>(&structure);
             item->id->SetUInt32(Spc::Id666::Extended::mutedVoicesInfo.id);
             item->type->SetUInt32(Spc::Id666::Extended::lengthType);
             item->data->SetUInt32(muted.ToUInt32());
@@ -407,11 +407,11 @@ void FileTests::MockFileWrites()
         MockNonExtendedDataWrites();
 
         EXPECT_CALL(*mockFileStream, 
-                    Write(testing::A<const Binary::DataStructure*>()))
+                    Write(testing::A<const Binary::DataStructure&>()))
             .WillOnce(testing::Invoke([expectedChunkSize](
-                const Binary::DataStructure* structure)
+                const Binary::DataStructure& structure)
             {
-                auto header = static_cast<const Binary::ChunkHeader*>(structure);
+                auto header = static_cast<const Binary::ChunkHeader*>(&structure);
                 auto expectedHeader = std::make_shared<Binary::ChunkHeader>();
                 expectedHeader->id.SetValue("xid6");
                 expectedHeader->dataSize.SetValue(
@@ -422,12 +422,12 @@ void FileTests::MockFileWrites()
             }));
 
         EXPECT_CALL(*mockFileStream,
-                    Write(testing::A<const Binary::DataStructure*>()))
+                    Write(testing::A<const Binary::DataStructure&>()))
             .WillOnce(testing::Invoke([expectedExtendedData](
-                const Binary::DataStructure* structure)
+                const Binary::DataStructure& structure)
             {
                 auto extendedData =
-                    static_cast<const Spc::Id666::Extended::Data*>(structure);
+                    static_cast<const Spc::Id666::Extended::Data*>(&structure);
 
                 EXPECT_EQ(extendedData->Header().id.Value(),
                           expectedExtendedData->Header().id.Value());
@@ -883,9 +883,9 @@ TEST_F(FileTests, ConvertsFilenameToTagProperly)
         .WillByDefault(testing::Return());
     ON_CALL(*mockFileStream, IsOpen())
         .WillByDefault(testing::Return(true));
-    ON_CALL(*mockFileStream, Write(testing::A<const Binary::DataStructure*>()))
+    ON_CALL(*mockFileStream, Write(testing::A<const Binary::DataStructure&>()))
         .WillByDefault(testing::Return());
-    ON_CALL(*mockFileStream, Write(testing::A<const Binary::DataField*>()))
+    ON_CALL(*mockFileStream, Write(testing::A<const Binary::DataField&>()))
         .WillByDefault(testing::Return());
     ON_CALL(*mockFileStream, Close())
         .WillByDefault(testing::Return());
@@ -907,9 +907,9 @@ TEST_F(FileTests, ConvertsFilenameToTagProperlyWithLiteralPrefix)
         .WillByDefault(testing::Return());
     ON_CALL(*mockFileStream, IsOpen())
         .WillByDefault(testing::Return(true));
-    ON_CALL(*mockFileStream, Write(testing::A<const Binary::DataStructure*>()))
+    ON_CALL(*mockFileStream, Write(testing::A<const Binary::DataStructure&>()))
         .WillByDefault(testing::Return());
-    ON_CALL(*mockFileStream, Write(testing::A<const Binary::DataField*>()))
+    ON_CALL(*mockFileStream, Write(testing::A<const Binary::DataField&>()))
         .WillByDefault(testing::Return());
     ON_CALL(*mockFileStream, Close())
         .WillByDefault(testing::Return());
@@ -919,6 +919,25 @@ TEST_F(FileTests, ConvertsFilenameToTagProperlyWithLiteralPrefix)
     Spc::Id666::Tag tag = file.Tag();
     EXPECT_TRUE(success);
     EXPECT_EQ(tag.GameTitle().Value(), "Game");
+    EXPECT_EQ(tag.OstTrack().Value(), "10");
+}
+
+TEST_F(FileTests, DoesNotPartiallyUpdateTagWhenFilenameParsingFails)
+{
+    Spc::File file("Before-100.spc", mockFileStream);
+    Spc::Id666::Tag initialTag;
+    initialTag.SetGameTitle("Original Game");
+    initialTag.SetOstTrack("10");
+    file.SetTag(initialTag);
+
+    // Save() should not be called when parsing fails validation.
+    EXPECT_CALL(*mockFileStream, Open(testing::_)).Times(0);
+
+    bool success = file.FileNameToTag("%game%-%track%.spc");
+
+    Spc::Id666::Tag tag = file.Tag();
+    EXPECT_FALSE(success);
+    EXPECT_EQ(tag.GameTitle().Value(), "Original Game");
     EXPECT_EQ(tag.OstTrack().Value(), "10");
 }
 

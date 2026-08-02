@@ -18,13 +18,17 @@
 
 using namespace Spc;
 
-void TextField::SetValue(std::string value)
+void TextField::SetValue(const std::string& value)
 {
     for (int i = 0; i < size; i++)
     {
         if (i < value.size())
+        {
             rawData[i] = value[i];
+        }
         else
+        {
             rawData[i] = 0;
+        }
     }
 }

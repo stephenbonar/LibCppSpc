@@ -60,7 +60,7 @@ struct TestSetParams
     size_t offset;
     size_t size;
     std::string setValue;
-    void (Spc::Id666::Tag::*setMethodPtr)(std::string value);
+    void (Spc::Id666::Tag::*setMethodPtr)(const std::string& value);
 };
 
 template<typename T>
@@ -71,7 +71,7 @@ struct TestSetExtendedParams
     std::string setValue;
     std::string expectedValue;
     std::shared_ptr<Spc::Id666::Extended::Item>* itemPtrPtr;
-    void (Spc::Id666::Tag::*setMethodPtr)(std::string value);
+    void (Spc::Id666::Tag::*setMethodPtr)(const std::string& value);
 };
 
 class ID666TagTests : public ::testing::Test 
@@ -119,7 +119,7 @@ protected:
     template<typename T>
     std::shared_ptr<Spc::Id666::Extended::Item> InitExtendedItem(
         Spc::Id666::Extended::ItemInfo extendedInfo, 
-        std::string setValue)
+        const std::string& setValue)
     {
         auto item = std::make_shared<Spc::Id666::Extended::Item>();
         item->id->SetInt32(extendedInfo.id);
@@ -139,7 +139,7 @@ protected:
     template<typename T>
     std::shared_ptr<Spc::Id666::Extended::Item> InitNumericExtendedItem(
         Spc::Id666::Extended::ItemInfo extendedInfo, 
-        std::string setValue)
+        const std::string& setValue)
     {
         auto item = std::make_shared<Spc::Id666::Extended::Item>();
         item->id->SetInt32(extendedInfo.id);
@@ -286,7 +286,7 @@ protected:
         Spc::FieldInfo info{ params.offset, params.size };
         T field{ "Test Field", info };
         tag->FieldData()->SetPosition(params.offset - Spc::Id666::tagOffset);
-        tag->FieldData()->Read(&field);
+        tag->FieldData()->Read(field);
 
         /*
         for (size_t i = 0; i < field.Size(); i++)
@@ -340,7 +340,7 @@ protected:
         Spc::FieldInfo info{ params.offset, params.size };
         T field{ "Test Field", info };
         tag->FieldData()->SetPosition(params.offset - Spc::Id666::tagOffset);
-        tag->FieldData()->Read(&field);
+        tag->FieldData()->Read(field);
 
         /*
         for (size_t i = 0; i < field.Size(); i++)
@@ -432,14 +432,14 @@ protected:
         T field{ "Test Field", info };
         size_t existingPosition = fieldData->Position();
         fieldData->SetPosition(params.offset - Spc::Id666::tagOffset);
-        fieldData->Read(&field);
+        fieldData->Read(field);
         fieldData->SetPosition(existingPosition);
 
         EXPECT_EQ(params.expectedValue, field.ToString());
     }
 
     void SetEmptyAndExpectRawFieldCleared(
-        void (Spc::Id666::Tag::*setMethodPtr)(std::string value),
+        void (Spc::Id666::Tag::*setMethodPtr)(const std::string& value),
         size_t offset,
         size_t size)
     {
@@ -463,7 +463,7 @@ protected:
     }
 
     void SetEmptyAndExpectExtendedItemCleared(
-        void (Spc::Id666::Tag::*setMethodPtr)(std::string value),
+        void (Spc::Id666::Tag::*setMethodPtr)(const std::string& value),
         std::shared_ptr<Spc::Id666::Extended::Item>* itemPtr)
     {
         ASSERT_NE(tag, nullptr);

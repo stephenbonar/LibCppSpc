@@ -29,21 +29,21 @@ public:
     MOCK_METHOD(std::string, FilePath, (), (const, override));
     MOCK_METHOD(bool, IsOpen, (), (const, override));
     MOCK_METHOD(bool, FileExists, (), (const, override));
-    MOCK_METHOD(uintmax_t, FileSize, (), (const, override));
+    MOCK_METHOD(size_t, FileSize, (), (const, override));
     MOCK_METHOD(Binary::FileMode, Mode, (), (const, override));
     MOCK_METHOD(void, Open, (Binary::FileMode mode), (override));
     MOCK_METHOD(void, Close, (), (override));
 
     // Stream methods (from Binary::Stream)
-    MOCK_METHOD(void, Read, (Binary::DataField* field), (const, override));
-    MOCK_METHOD(void, Read, (Binary::DataStructure* structure), (const, override));
-    MOCK_METHOD(std::shared_ptr<Binary::ChunkHeader>, FindNextChunk, (std::string ID), (const override));
-    MOCK_METHOD(void, Write, (const Binary::DataField* field), (override));
-    MOCK_METHOD(void, Write, (const Binary::DataStructure* structure), (override));
-    MOCK_METHOD(uintmax_t, Position, (), (const, override));
-    MOCK_METHOD(void, SetPosition, (uintmax_t position), (const, override));
-    MOCK_METHOD(uintmax_t, Beginning, (), (const, override));
-    MOCK_METHOD(uintmax_t, End, (), (const, override));
+    MOCK_METHOD(void, Read, (Binary::DataField& field), (const, override));
+    MOCK_METHOD(void, Read, (Binary::DataStructure& structure), (const, override));
+    MOCK_METHOD(std::shared_ptr<Binary::ChunkHeader>, FindNextChunk, (const std::string& id), (const, override));
+    MOCK_METHOD(void, Write, (const Binary::DataField& field), (override));
+    MOCK_METHOD(void, Write, (const Binary::DataStructure& structure), (override));
+    MOCK_METHOD(size_t, Position, (), (const, override));
+    MOCK_METHOD(void, SetPosition, (size_t position), (const, override));
+    MOCK_METHOD(size_t, Beginning, (), (const, override));
+    MOCK_METHOD(size_t, End, (), (const, override));
 };
 
 #endif

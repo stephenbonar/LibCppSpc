@@ -61,7 +61,9 @@ std::vector<Field*> Data::SpcFields() const
             std::vector<Field*> fields = item->SpcFields();
 
             for (Field* field : fields)
+            {
                 nonNullFields.push_back(field);
+            }
         }
     }
 

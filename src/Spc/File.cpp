@@ -88,12 +88,12 @@ void File::Load()
 
     try
     {
-        fileStream->Read(&header);
-        fileStream->Read(tag.FieldData().get());
-        fileStream->Read(&ram);
-        fileStream->Read(&dspRegisters);
-        fileStream->Read(&unused);
-        fileStream->Read(&extraRam);
+        fileStream->Read(header);
+        fileStream->Read(*tag.FieldData());
+        fileStream->Read(ram);
+        fileStream->Read(dspRegisters);
+        fileStream->Read(unused);
+        fileStream->Read(extraRam);
 
         std::shared_ptr<Binary::ChunkHeader> extendedHeader =
             fileStream->FindNextChunk(Id666::Extended::chunkId);
@@ -111,7 +111,7 @@ void File::Load()
             while (sizeRemaining >= Id666::Extended::itemHeaderSize)
             {
                 auto item = std::make_shared<Spc::Id666::Extended::Item>();
-                fileStream->Read(item.get());
+                fileStream->Read(*item);
 
                 const size_t itemSize = item->Size();
 
@@ -171,20 +171,20 @@ void File::Save()
 
     try
     {
-        fileStream->Write(&header);
-        fileStream->Write(tag.FieldData().get());
-        fileStream->Write(&ram);
-        fileStream->Write(&dspRegisters);
-        fileStream->Write(&unused);
-        fileStream->Write(&extraRam);
+        fileStream->Write(header);
+        fileStream->Write(*tag.FieldData());
+        fileStream->Write(ram);
+        fileStream->Write(dspRegisters);
+        fileStream->Write(unused);
+        fileStream->Write(extraRam);
 
         std::shared_ptr<Id666::Extended::Data> extendedData = tag.ExtendedData();
 
         if (extendedData->Size() > 0)
         {
             Binary::ChunkHeader extendedHeader = extendedData->Header();
-            fileStream->Write(&extendedHeader);
-            fileStream->Write(extendedData.get());
+            fileStream->Write(extendedHeader);
+            fileStream->Write(*extendedData);
         }
 
         fileStream->Close();
@@ -214,7 +214,7 @@ void File::LoadStringItem(std::shared_ptr<Id666::Extended::Item> item,
     };
     item->extendedData = std::make_shared<Spc::TextField>("Extended Data",
                                                           itemDataInfo);
-    fileStream->Read(item->extendedData.get());
+    fileStream->Read(*item->extendedData);
     sizeRemaining -= itemDataSize;
     LoadPadding(item, sizeRemaining);
 
@@ -270,7 +270,7 @@ void File::LoadPadding(std::shared_ptr<Id666::Extended::Item> item,
                                     paddingSize };
         item->padding = std::make_shared<Spc::TextField>("Padding",
                                                          paddingInfo);
-        fileStream->Read(item->padding.get());
+        fileStream->Read(*item->padding);
         sizeRemaining -= paddingSize;
     }
 }
@@ -316,7 +316,7 @@ void File::LoadIntegerItem(std::shared_ptr<Id666::Extended::Item> item,
         "Extended Data", 
         Spc::FieldInfo{ Spc::Id666::Extended::dataOffset, integerSize },
         Spc::NumericType::Binary);
-    fileStream->Read(extendedData.get());
+    fileStream->Read(*extendedData);
     item->extendedData = extendedData;
     sizeRemaining -= integerSize;
 
@@ -345,7 +345,7 @@ void File::LoadIntegerItem(std::shared_ptr<Id666::Extended::Item> item,
     }
 }
 
-bool File::TagToFileName(std::string pattern)
+bool File::TagToFileName(const std::string& pattern)
 {
     std::vector<Id666::Pattern::Node> nodes = ParsePattern(pattern);
     std::stringstream stream;
@@ -422,13 +422,23 @@ bool File::TagToFileName(std::string pattern)
     return copied && !error;
 }
 
-bool File::FileNameToTag(std::string pattern)
+bool File::FileNameToTag(const std::string& pattern)
 {
     std::vector<Id666::Pattern::Node> nodes = ParsePattern(pattern);
     std::filesystem::path p(path);
     std::string filename = p.filename().string();
     std::stringstream stream{ filename };
     bool success{ true };
+    std::string songTitle;
+    std::string songArtist;
+    std::string gameTitle;
+    std::string ostDisc;
+    std::string ostTrack;
+    bool hasSongTitle{ false };
+    bool hasSongArtist{ false };
+    bool hasGameTitle{ false };
+    bool hasOstDisc{ false };
+    bool hasOstTrack{ false };
     
     for (int i = 0; i < nodes.size(); i++)
     {
@@ -446,11 +456,60 @@ bool File::FileNameToTag(std::string pattern)
                 success = MatchLiteral(stream, node);
                 break;
             case Id666::Pattern::NodeType::TextPlaceholder:
-                success = MatchText(stream, node, nextNode);
+            {
+                std::string parsedText;
+                success = MatchText(stream,
+                                    filename,
+                                    node,
+                                    nextNode,
+                                    parsedText);
+
+                if (success)
+                {
+                    if (node.lexeme == Id666::Pattern::songPlaceholder)
+                    {
+                        songTitle = parsedText;
+                        hasSongTitle = true;
+                    }
+                    else if (node.lexeme == Id666::Pattern::artistPlaceholder)
+                    {
+                        songArtist = parsedText;
+                        hasSongArtist = true;
+                    }
+                    else if (node.lexeme == Id666::Pattern::gamePlaceholder)
+                    {
+                        gameTitle = parsedText;
+                        hasGameTitle = true;
+                    }
+                }
+
                 break;
+            }
             case Id666::Pattern::NodeType::NumericPlaceholder:
-                success = MatchNumeric(stream, node, nextNode);
+            {
+                std::string parsedNumeric;
+                success = MatchNumeric(stream,
+                                       filename,
+                                       node,
+                                       nextNode,
+                                       parsedNumeric);
+
+                if (success)
+                {
+                    if (node.lexeme == Id666::Pattern::discPlaceholder)
+                    {
+                        ostDisc = parsedNumeric;
+                        hasOstDisc = true;
+                    }
+                    else if (node.lexeme == Id666::Pattern::trackPlaceholder)
+                    {
+                        ostTrack = parsedNumeric;
+                        hasOstTrack = true;
+                    }
+                }
+
                 break;
+            }
             case Id666::Pattern::NodeType::End:
                 success = MatchEnd(stream);
                 break;
@@ -462,14 +521,62 @@ bool File::FileNameToTag(std::string pattern)
         }
     }
 
+    auto applyParsedValues =
+        [&](Spc::Id666::Tag& targetTag)
+        {
+            if (hasSongTitle)
+            {
+                targetTag.SetSongTitle(songTitle);
+            }
+
+            if (hasSongArtist)
+            {
+                targetTag.SetSongArtist(songArtist);
+            }
+
+            if (hasGameTitle)
+            {
+                targetTag.SetGameTitle(gameTitle);
+            }
+
+            if (hasOstDisc)
+            {
+                targetTag.SetOstDisc(ostDisc);
+            }
+
+            if (hasOstTrack)
+            {
+                targetTag.SetOstTrack(ostTrack);
+            }
+        };
+
+    try
+    {
+        // Validate first so we don't partially mutate the file's tag.
+        Spc::Id666::Tag validationTag;
+        applyParsedValues(validationTag);
+
+        applyParsedValues(tag);
+    }
+    catch (const std::invalid_argument&)
+    {
+        return false;
+    }
+    catch (const std::out_of_range&)
+    {
+        return false;
+    }
+
     Save();
 
     return true;
 }
 
 bool File::MatchNumeric(std::stringstream& stream, 
+                        const std::string& fileName,
                         Id666::Pattern::Node node,
-                        Id666::Pattern::Node* nextNode)
+                        Id666::Pattern::Node* nextNode,
+                        std::string& numericString)
 {
     if (nextNode == nullptr)
     {
@@ -484,10 +591,15 @@ bool File::MatchNumeric(std::stringstream& stream,
         return false;
     }
 
-    std::string fullStreamContent = stream.str();
-    std::string remainingContent =
-        fullStreamContent.substr(static_cast<size_t>(currentPos));
-    std::string_view contentView{ remainingContent };
+    const size_t startIndex = static_cast<size_t>(currentPos);
+
+    if (startIndex > fileName.size())
+    {
+        return false;
+    }
+
+    std::string_view contentView{ fileName };
+    contentView = contentView.substr(startIndex);
 
     if (nextNode->type == Id666::Pattern::NodeType::Literal)
     {
@@ -508,26 +620,17 @@ bool File::MatchNumeric(std::stringstream& stream,
     {
         return false;
     }
-    
-    std::string numericString(numericStringSize, '\0');
+
+    if (node.lexeme != Id666::Pattern::discPlaceholder &&
+        node.lexeme != Id666::Pattern::trackPlaceholder)
+    {
+        return false;
+    }
+
+    numericString.assign(numericStringSize, '\0');
     stream.read(numericString.data(), numericStringSize);
 
-    try
-    {
-        if (node.lexeme == Id666::Pattern::discPlaceholder)
-        {
-            tag.SetOstDisc(numericString);
-        }
-        else if (node.lexeme == Id666::Pattern::trackPlaceholder)
-        {
-            tag.SetOstTrack(numericString);
-        }
-        else
-        {
-            return false;
-        }
-    }
-    catch (const std::invalid_argument& exception)
+    if (stream.gcount() != static_cast<std::streamsize>(numericStringSize))
     {
         return false;
     }
@@ -536,8 +639,10 @@ bool File::MatchNumeric(std::stringstream& stream,
 }
 
 bool File::MatchText(std::stringstream& stream,
+                     const std::string& fileName,
                      Id666::Pattern::Node node,
-                     Id666::Pattern::Node* nextNode)
+                     Id666::Pattern::Node* nextNode,
+                     std::string& textString)
 {
     if (nextNode == nullptr)
     {
@@ -552,10 +657,15 @@ bool File::MatchText(std::stringstream& stream,
         return false;
     }
 
-    std::string fullStreamContent = stream.str();
-    std::string remainingContent =
-        fullStreamContent.substr(static_cast<size_t>(currentPos));
-    std::string_view contentView{ remainingContent };
+    const size_t startIndex = static_cast<size_t>(currentPos);
+
+    if (startIndex > fileName.size())
+    {
+        return false;
+    }
+
+    std::string_view contentView{ fileName };
+    contentView = contentView.substr(startIndex);
 
     if (nextNode->type == Id666::Pattern::NodeType::Literal)
     {
@@ -576,30 +686,18 @@ bool File::MatchText(std::stringstream& stream,
     {
         return false;
     }
-    
-    std::string textString(textStringSize, '\0');
+
+    if (node.lexeme != Id666::Pattern::songPlaceholder &&
+        node.lexeme != Id666::Pattern::artistPlaceholder &&
+        node.lexeme != Id666::Pattern::gamePlaceholder)
+    {
+        return false;
+    }
+
+    textString.assign(textStringSize, '\0');
     stream.read(textString.data(), textStringSize);
 
-    try
-    {
-        if (node.lexeme == Id666::Pattern::songPlaceholder)
-        {
-            tag.SetSongTitle(textString);
-        }
-        else if (node.lexeme == Id666::Pattern::artistPlaceholder)
-        {
-            tag.SetSongArtist(textString);
-        }
-        else if (node.lexeme == Id666::Pattern::gamePlaceholder)
-        {
-            tag.SetGameTitle(textString);
-        }
-        else
-        {
-            return false;
-        }
-    }
-    catch (const std::invalid_argument& exception)
+    if (stream.gcount() != static_cast<std::streamsize>(textStringSize))
     {
         return false;
     }

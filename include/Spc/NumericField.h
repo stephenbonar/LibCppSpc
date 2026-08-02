@@ -47,7 +47,8 @@ namespace Spc
         /// @param label The label to use when outputing the field. 
         /// @param info Sets offset and size of the field.
         /// @param isPresent Indicates whether field is present in the SPC file.
-        NumericField(std::string label, FieldInfo info, bool isPresent = true)
+        NumericField(const std::string& label, FieldInfo info, 
+                     bool isPresent = true)
             : Field{ label, info, isPresent }, type{ NumericType::Either }
         { };
 
@@ -56,8 +57,8 @@ namespace Spc
         /// @param info Sets offset and size of the field.
         /// @param type Determines the numeric type of the field.
         /// @param isPresent Indicates whether field is present in the SPC file.
-        NumericField(std::string label, FieldInfo info, NumericType type,
-                     bool isPresent = true)
+        NumericField(const std::string& label, FieldInfo info, 
+                     NumericType type, bool isPresent = true)
             : Field{ label, info, isPresent }, type{ type }
         { };
 
@@ -133,7 +134,7 @@ namespace Spc
         /// @pre The value represents a valid number.
         /// @post The field's data is updated to represent the provided value.
         /// @post Value is truncated if it exceeds the field size.
-        virtual void SetValue(std::string value) override;
+        virtual void SetValue(const std::string& value) override;
 
         /// @brief Sets the numeric type of the field.
         /// @param t The NumericType to set.

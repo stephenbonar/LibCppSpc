@@ -18,7 +18,8 @@
 
 using namespace Spc;
 
-std::string Spc::FormatValue(std::string label, std::string value)
+std::string Spc::FormatValue(const std::string& label,
+                             const std::string& value)
 {
     std::stringstream stream;
     stream << std::setw(labelSize) << std::left << label << ": ";
@@ -36,7 +37,9 @@ std::string Spc::FormatValue(std::string label, std::string value)
             // If there's still enough to wrap another line, we do so to keep
             // the output format aligned.
             if (i + valueChunkSize < value.length())
+            {
                 stream << std::endl << std::setw(labelSize) << " " << "  ";
+            }
         }
     }
     else
@@ -47,14 +50,14 @@ std::string Spc::FormatValue(std::string label, std::string value)
     return stream.str();
 }
 
-std::string Spc::FormatField(const Field* field)
+std::string Spc::FormatField(const Field& field)
 {
-    if (field->IsPresent())
+    if (field.IsPresent())
     {
-        return Spc::FormatValue(field->Label(), field->ToString());
+        return Spc::FormatValue(field.Label(), field.ToString());
     }
     else
     {
-        return Spc::FormatValue(field->Label(), "-");
+        return Spc::FormatValue(field.Label(), "-");
     }
 }

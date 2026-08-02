@@ -37,7 +37,8 @@ namespace Spc
         /// @param label The label to use when outputing the field. 
         /// @param info Sets offset and size of the field.
         /// @param isPresent Indicates whether field is present in the SPC file.
-        EmulatorField(std::string label, FieldInfo info, bool isPresent = true)
+        EmulatorField(const std::string& label, FieldInfo info, 
+                      bool isPresent = true)
             : NumericField{ label, info, isPresent }
         { }
 
@@ -46,8 +47,8 @@ namespace Spc
         /// @param info Sets offset and size of the field.
         /// @param type Determines the numeric type of the field.
         /// @param isPresent Indicates whether field is present in the SPC file.
-        EmulatorField(std::string label, FieldInfo info, NumericType type,
-                      bool isPresent = true)
+        EmulatorField(const std::string& label, FieldInfo info, 
+                      NumericType type, bool isPresent = true)
             : NumericField{ label, info, type, isPresent }
         { }
         
@@ -58,7 +59,7 @@ namespace Spc
         /// @param value A string representation of the value.
         /// @post The value is updated to match the specified value.
         /// @post The value is set to Unknown if specified value not recognized.
-        virtual void SetValue(std::string value) override;
+        virtual void SetValue(const std::string& value) override;
     };
 }
 

@@ -67,7 +67,9 @@ std::vector<Field*> Item::SpcFields() const
         fields.push_back(extendedData.get());
 
         if (padding != nullptr)
+        {
             fields.push_back(padding.get());
+        }
     }
 
     return fields;

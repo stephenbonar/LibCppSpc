@@ -57,7 +57,7 @@ std::string TrackField::ToString() const
     return stream.str();
 }
 
-void TrackField::SetValue(std::string value)
+void TrackField::SetValue(const std::string& value)
 {
     if (value.empty())
     {

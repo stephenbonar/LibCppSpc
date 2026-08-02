@@ -40,7 +40,7 @@ namespace Spc::Id666::Pattern
     public:
         /// @brief Constructs a Parser with the given tokens.
         /// @param tokens The tokens to parse into a syntax tree.
-        Parser(std::vector<Token> tokens) 
+        Parser(const std::vector<Token>& tokens)
             : tokens{ tokens }
         { }
 

@@ -43,7 +43,8 @@ namespace Spc
         /// @param label The label to use when outputing the field. 
         /// @param info Sets offset and size of the field.
         /// @param isPresent Indicates whether field is present in the SPC file.
-        DateField(std::string label, FieldInfo info, bool isPresent = true);
+        DateField(const std::string& label, FieldInfo info, 
+                  bool isPresent = true);
             
         /// @copydoc NumericField::IsText()
         virtual bool IsText() const override;
@@ -60,7 +61,7 @@ namespace Spc
         /// @param value The date value as a string.
         /// @pre The value should be in MM/DD/YYYY format.
         /// @post The field's data is updated to represent the specified value.
-        virtual void SetValue(std::string value) override;
+        virtual void SetValue(const std::string& value) override;
 
         /// @copydoc Field::ToString()
         virtual std::string ToString() const override;
@@ -69,13 +70,13 @@ namespace Spc
         /// @param value The date value as a string.
         /// @pre The value should be in MM/DD/YYYY format.
         /// @post The field's data is updated to represent the specified value.
-        void SetTextValue(std::string value);
+        void SetTextValue(const std::string& value);
 
         /// @brief Sets the date value and stores it in binary format.
         /// @param value The date value as a string.
         /// @pre The value should be in MM/DD/YYYY format.
         /// @post The field's data is updated to represent the specified value.
-        void SetBinaryValue(std::string value);
+        void SetBinaryValue(const std::string& value);
     };
 }
 

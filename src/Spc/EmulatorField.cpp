@@ -35,24 +35,36 @@ std::string EmulatorField::ToString() const
     }
 }
 
-void EmulatorField::SetValue(std::string value)
+void EmulatorField::SetValue(const std::string& value)
 {
     if (Type() == NumericType::Binary)
     {
         if (value == "ZSNES")
+        {
             SetInt32(1);
+        }
         else if (value == "SNES9X")
+        {
             SetInt32(2);
+        }
         else
+        {
             SetInt32(0);
+        }
     }
     else
     {
         if (value == "ZSNES")
+        {
             rawData[0] = asciiOne;
+        }
         else if (value == "SNES9X")
+        {
             rawData[0] = asciiTwo;
+        }
         else
+        {
             rawData[0] = asciiZero;
+        }
     }
 }   

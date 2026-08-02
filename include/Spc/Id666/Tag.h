@@ -277,7 +277,7 @@ namespace Spc::Id666
         /// @post If value is empty, the non-extended field is zeroed and the
         ///       extended item is removed.
         /// @throws std::out_of_range if value exceeds maximum string size.
-        void SetSongTitle(std::string value);
+        void SetSongTitle(const std::string& value);
 
         /// @brief Sets the title of the game.
         ///
@@ -292,7 +292,7 @@ namespace Spc::Id666
         /// @post If value is empty, the non-extended field is zeroed and the
         ///       extended item is removed.
         /// @throws std::out_of_range if value exceeds maximum string size.
-        void SetGameTitle(std::string value);
+        void SetGameTitle(const std::string& value);
 
         /// @brief Sets the name of the person who dumped the SPC file.
         ///
@@ -307,7 +307,7 @@ namespace Spc::Id666
         /// @post If value is empty, the non-extended field is zeroed and the
         ///       extended item is removed.
         /// @throws std::out_of_range if value exceeds maximum string size.
-        void SetDumperName(std::string value);
+        void SetDumperName(const std::string& value);
 
         /// @brief Sets the comments the tagger included in the tag.
         ///
@@ -322,7 +322,7 @@ namespace Spc::Id666
         /// @post If value is empty, the non-extended field is zeroed and the
         ///       extended item is removed.
         /// @throws std::out_of_range if value exceeds maximum string size.
-        void SetComments(std::string value);
+        void SetComments(const std::string& value);
 
         /// @brief Sets the date the SPC file was dumped.
         /// @param value The value to set the date dumped to.
@@ -330,7 +330,7 @@ namespace Spc::Id666
         /// @post If value is empty, the non-extended field is zeroed and the
         ///       extended item is removed.
         /// @throws std::invalid_argument if value is not in correct format.
-        void SetDateDumped(std::string value);
+        void SetDateDumped(const std::string& value);
 
         /// @brief Sets the length of the song, in seconds.
         /// @param value The value to set the song length to.
@@ -338,7 +338,7 @@ namespace Spc::Id666
         /// @post If value is empty, the non-extended field is zeroed.
         /// @throws std::out_of_range if value is out of range.
         /// @throws std::invalid_argument if value is not numeric.
-        void SetSongLength(std::string value);
+        void SetSongLength(const std::string& value);
 
         /// @brief Sets the length of the fade, in milliseconds.
         /// @param value The value to set the fade length to.
@@ -347,7 +347,7 @@ namespace Spc::Id666
         ///       extended item is removed.
         /// @throws std::out_of_range if value is out of range.
         /// @throws std::invalid_argument if value is not numeric.
-        void SetFadeLength(std::string value);
+        void SetFadeLength(const std::string& value);
 
         /// @brief Sets the artist of the song. 
         ///
@@ -362,7 +362,7 @@ namespace Spc::Id666
         /// @post If value is empty, the non-extended field is zeroed and the
         ///       extended item is removed.
         /// @throws std::out_of_range if value exceeds maximum string size.
-        void SetSongArtist(std::string value);
+        void SetSongArtist(const std::string& value);
 
         /// @brief Sets which channels are disabled at startup.
         ///
@@ -379,7 +379,7 @@ namespace Spc::Id666
         /// @pre Value must be empty or an 8-character string of 0s and 1s.
         /// @post If value is empty, the non-extended field is zeroed.
         /// @throws std::invalid_argument if value is not a valid bitmask.
-        void SetDefaultDisabledChannels(std::string value);
+        void SetDefaultDisabledChannels(const std::string& value);
 
         /// @brief Sets the emulator used to dump the SPC file.
         /// @param value The value to set the emulator used to.
@@ -390,7 +390,7 @@ namespace Spc::Id666
         /// @pre Value may be empty to clear the field.
         /// @post If value is empty, the non-extended field is zeroed and the
         ///       extended item is removed.
-        void SetEmulatorUsed(std::string value);
+        void SetEmulatorUsed(const std::string& value);
 
         /// @brief Sets the title of the original soundtrack (OST) album.
         ///
@@ -402,7 +402,7 @@ namespace Spc::Id666
         /// @pre Value must be empty or <= 256 characters.
         /// @post If value is empty, the extended item is removed.
         /// @throws std::out_of_range if value exceeds maximum string size.
-        void SetOstTitle(std::string value);
+        void SetOstTitle(const std::string& value);
 
         /// @brief Sets the disc number of the original soundtrack (OST) album.
         ///
@@ -415,7 +415,7 @@ namespace Spc::Id666
         /// @post If value is empty, the extended item is removed.
         /// @throws std::out_of_range if value is out of range.
         /// @throws std::invalid_argument if value is not numeric.
-        void SetOstDisc(std::string value);
+        void SetOstDisc(const std::string& value);
 
         /// @brief Sets the track number of the original soundtrack (OST) album.
         ///
@@ -431,7 +431,7 @@ namespace Spc::Id666
         /// @post If value is empty, the extended item is removed.
         /// @throws std::out_of_range if numeric part of value is out of range.
         /// @throws std::invalid_argument if value is not in correct format.
-        void SetOstTrack(std::string value);
+        void SetOstTrack(const std::string& value);
 
         /// @brief Sets the name of the publisher.
         ///
@@ -442,7 +442,7 @@ namespace Spc::Id666
         /// @pre Value must be empty or <= 256 characters.
         /// @post If value is empty, the extended item is removed.
         /// @throws std::out_of_range if value exceeds maximum string size.
-        void SetPublisherName(std::string value);
+        void SetPublisherName(const std::string& value);
 
         /// @brief Sets the copyright year.
         ///
@@ -454,7 +454,7 @@ namespace Spc::Id666
         /// @post If value is empty, the extended item is removed.
         /// @throws std::invalid_argument if value is not numeric or negative.
         /// @throws std::out_of_range if numeric conversion overflows.
-        void SetCopyrightYear(std::string value);
+        void SetCopyrightYear(const std::string& value);
 
         /// @brief Sets the length of the song intro, in ticks.
         ///
@@ -468,7 +468,7 @@ namespace Spc::Id666
         /// @post If value is empty, the extended item is removed.
         /// @throws std::invalid_argument if value is not numeric.
         /// @throws std::out_of_range if value is out of range.
-        void SetIntroLength(std::string value);
+        void SetIntroLength(const std::string& value);
 
         /// @brief Sets the length of the song loop, in ticks.
         ///
@@ -481,7 +481,7 @@ namespace Spc::Id666
         /// @post If value is empty, the extended item is removed.
         /// @throws std::invalid_argument if value is not numeric.
         /// @throws std::out_of_range if value is out of range.
-        void SetLoopLength(std::string value);
+        void SetLoopLength(const std::string& value);
 
         /// @brief Sets the length of the song ending, in ticks.
         ///
@@ -495,7 +495,7 @@ namespace Spc::Id666
         /// @post If value is empty, the extended item is removed.
         /// @throws std::invalid_argument if value is not numeric.
         /// @throws std::out_of_range if value is out of range.
-        void SetEndLength(std::string value);
+        void SetEndLength(const std::string& value);
 
         /// @brief Sets which voices are muted.
         ///
@@ -511,7 +511,7 @@ namespace Spc::Id666
         /// @pre Value must be empty or an 8-character string of 0s and 1s.
         /// @post If value is empty, the extended item is removed.
         /// @throws std::invalid_argument if value is not a valid bitmask.
-        void SetMutedVoices(std::string value);
+        void SetMutedVoices(const std::string& value);
 
         /// @brief Sets the number of times the song loops.
         ///
@@ -523,7 +523,7 @@ namespace Spc::Id666
         /// @post If value is empty, the extended item is removed.
         /// @throws std::invalid_argument if value is not numeric.
         /// @throws std::out_of_range if value is out of range.
-        void SetLoopTimes(std::string value);
+        void SetLoopTimes(const std::string& value);
 
         /// @brief Sets the preamp level.
         ///
@@ -535,7 +535,7 @@ namespace Spc::Id666
         /// @post If value is empty, the extended item is removed.
         /// @throws std::invalid_argument if value is not numeric.
         /// @throws std::out_of_range if value is out of range.
-        void SetPreampLevel(std::string value);
+        void SetPreampLevel(const std::string& value);
 
     private:
         std::shared_ptr<Binary::BufferStream> fieldData;
@@ -552,7 +552,7 @@ namespace Spc::Id666
         /// @param field The field to read from the buffer stream.
         /// @pre The field's offset must be the correct position in the tag.
         /// @post The field will contain the value read from the buffer stream.
-        void ReadField(Field* field) const;
+        void ReadField(Field& field) const;
 
         /// @brief Writes a field to the binary buffer stream of the tag.
         ///
@@ -566,7 +566,7 @@ namespace Spc::Id666
         /// @pre The field's offset must be the correct position in the tag.
         /// @post The field's value is written to buffer stream at the offset.
         /// @post The buffer stream's position is unchanged.
-        void WriteField(Field* field);
+        void WriteField(const Field& field);
 
         /// @brief Reads a text field from the non-extended tag data only.
         ///
@@ -581,8 +581,8 @@ namespace Spc::Id666
         /// @return A shared pointer to the field read from the tag.
         /// @pre The specified field info is correct for the desired field.
         template<typename T>
-        std::shared_ptr<T> ReadTextField(std::string label, 
-                                         TagFieldInfo info) const
+        std::shared_ptr<T> ReadTextField(const std::string& label, 
+                                         const TagFieldInfo& info) const
         {
             std::shared_ptr<T> field;
 
@@ -595,7 +595,7 @@ namespace Spc::Id666
                 field = std::make_shared<T>(label, info.text);
             }
 
-            ReadField(field.get());
+            ReadField(*field);
             return field;
         }
 
@@ -612,8 +612,8 @@ namespace Spc::Id666
         /// @return A shared pointer to the field read from the tag.
         /// @pre The specified field info is correct for the desired field.
         template<typename T>
-        std::shared_ptr<T> ReadNumericField(std::string label, 
-                                            TagFieldInfo info) const
+        std::shared_ptr<T> ReadNumericField(const std::string& label, 
+                                            const TagFieldInfo& info) const
         {
             std::shared_ptr<T> field;
 
@@ -635,7 +635,7 @@ namespace Spc::Id666
                 field->SetType(NumericType::Text);
             }
 
-            ReadField(field.get());
+            ReadField(*field);
             return field;
         }
 
@@ -658,9 +658,9 @@ namespace Spc::Id666
         /// @pre The specified field info is correct for the desired field.
         template<typename T>
         std::shared_ptr<T> ReadExtendedTextField(
-            std::string label, 
-            TagFieldInfo info, 
-            Extended::Item* item) const
+            const std::string& label, 
+            const TagFieldInfo& info, 
+            const Extended::Item* item) const
         {
             std::shared_ptr<T> field;
 
@@ -701,9 +701,9 @@ namespace Spc::Id666
         /// @pre The specified field info is correct for the desired field.
         template<typename T>
         std::shared_ptr<T> ReadExtendedNumericField(
-            std::string label, 
-            TagFieldInfo info, 
-            Extended::Item* item) const
+            const std::string& label, 
+            const TagFieldInfo& info, 
+            const Extended::Item* item) const
         {
             std::shared_ptr<T> field;
 
@@ -736,8 +736,8 @@ namespace Spc::Id666
         /// @param item The extended item to read from.
         /// @return A shared pointer to the field read from extended tag item.
         template<typename T>
-        std::shared_ptr<T> ReadExtendedField(std::string label, 
-                                             Extended::Item* item) const
+        std::shared_ptr<T> ReadExtendedField(const std::string& label, 
+                                             const Extended::Item* item) const
         {
             std::shared_ptr<T> field;
 
@@ -754,7 +754,7 @@ namespace Spc::Id666
                     // such. 
                     field = std::make_shared<T>(extendedLabel, 
                                                 Extended::dataInfo);
-                    item->data->CopyRawDataTo(field.get());
+                    item->data->CopyRawDataTo(*field);
                 }
                 else if (item->extendedData != nullptr)
                 {
@@ -792,7 +792,7 @@ namespace Spc::Id666
         /// @post The value is written to correct offset in the buffer stream.
         /// @post If value is empty, all bytes in the target field are set to 0.
         template<typename T>
-        void WriteTextField(TagFieldInfo info, std::string value)
+        void WriteTextField(const TagFieldInfo& info, const std::string& value)
         {
             std::shared_ptr<T> field;
 
@@ -817,7 +817,7 @@ namespace Spc::Id666
                 field->SetValue(value);
             }
 
-            WriteField(field.get());
+            WriteField(*field);
         }
 
         /// @brief Writes to a numeric field in the non-extended tag data.
@@ -835,8 +835,8 @@ namespace Spc::Id666
         /// @post The value is written to correct offset in the buffer stream.
         /// @post If value is empty, all bytes in the target field are set to 0.
         template<typename T>
-        void WriteNumericField(TagFieldInfo info, 
-                               std::string value)
+        void WriteNumericField(const TagFieldInfo& info,
+                               const std::string& value)
         {
             std::shared_ptr<T> field;
 
@@ -870,7 +870,7 @@ namespace Spc::Id666
                 field->SetValue(value);
             }
 
-            WriteField(field.get());
+            WriteField(*field);
         }
 
         /// @brief Writes to text field in extended or non-extended tag data.
@@ -901,10 +901,10 @@ namespace Spc::Id666
         ///       removed.
         template<typename T>
         void WriteExtendedTextField(
-            TagFieldInfo info,
+            const TagFieldInfo& info,
             Extended::ItemInfo extendedInfo, 
-            std::shared_ptr<Extended::Item>* itemPtrPtr, 
-            std::string value)
+            std::shared_ptr<Extended::Item>* itemPtrPtr,
+            const std::string& value)
         {
                 if (value.empty())
                 {
@@ -916,9 +916,13 @@ namespace Spc::Id666
                 size_t fieldSize;
 
                 if (DetermineType() == TagType::Binary)
+                {
                     fieldSize = info.binary.size;
+                }
                 else
+                {
                     fieldSize = info.text.size;
+                }
 
                 if (value.size() > fieldSize)
                 {
@@ -954,8 +958,8 @@ namespace Spc::Id666
         template<typename T>
         void WriteExtendedLengthField(
             Extended::ItemInfo extendedInfo,
-            std::shared_ptr<Extended::Item>* itemPtrPtr, 
-            std::string value)
+            std::shared_ptr<Extended::Item>* itemPtrPtr,
+            const std::string& value)
         {
             if (value.empty())
             {
@@ -972,7 +976,7 @@ namespace Spc::Id666
                 auto field = std::make_shared<T>("Temp", Extended::dataInfo);
                 field->SetType(Spc::NumericType::Binary);
                 field->SetValue(value);
-                field->CopyRawDataTo(item->data.get());
+                field->CopyRawDataTo(*item->data);
 
                 *(itemPtrPtr) = item;
             }
@@ -982,7 +986,7 @@ namespace Spc::Id666
                 auto field = std::make_shared<T>("Temp", Extended::dataInfo);
                 field->SetType(Spc::NumericType::Binary);
                 field->SetValue(value);
-                field->CopyRawDataTo(item->data.get());
+                field->CopyRawDataTo(*item->data);
             }
         }
 
@@ -1005,8 +1009,8 @@ namespace Spc::Id666
         ///       updated.
         template<typename T>
         void WriteExtendedIntField(Extended::ItemInfo extendedInfo,
-                                   std::shared_ptr<Extended::Item>* itemPtrPtr, 
-                                   std::string value)
+                       std::shared_ptr<Extended::Item>* itemPtrPtr,
+                       const std::string& value)
         {
             if (value.empty())
             {
@@ -1072,8 +1076,8 @@ namespace Spc::Id666
         template<typename T>
         void WriteExtendedStringField(
             Extended::ItemInfo extendedInfo,
-            std::shared_ptr<Extended::Item>* itemPtrPtr, 
-            std::string value)
+            std::shared_ptr<Extended::Item>* itemPtrPtr,
+            const std::string& value)
         {
             if (value.empty())
             {
@@ -1159,7 +1163,7 @@ namespace Spc::Id666
     /// @param max The maximum value of the range.
     /// @throws std::invalid_argument if value is not numeric.
     /// @throws std::out_of_range if value is outside [min, max].
-    void CheckRange(std::string value, int min, int max);
+    void CheckRange(const std::string& value, int min, int max);
 }
 
 #endif

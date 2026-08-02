@@ -25,7 +25,7 @@ const char* lengthError
     "Each byte must be represented by exactly two hex digits." 
 };
 
-void Field::SetValue(std::string value)
+void Field::SetValue(const std::string& value)
 {
     std::istringstream hexStream{ value };
     std::string token;

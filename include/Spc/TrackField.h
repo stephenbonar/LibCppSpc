@@ -43,7 +43,8 @@ namespace Spc
         /// @param label The label to use when outputing the field. 
         /// @param info Sets offset and size of the field.
         /// @param isPresent Indicates whether field is present in the SPC file.
-        TrackField(std::string label, FieldInfo info, bool isPresent = true) :
+        TrackField(const std::string& label, FieldInfo info, 
+                   bool isPresent = true) :
             NumericField{ label, info, isPresent }
         { }
 
@@ -69,7 +70,7 @@ namespace Spc
         /// @post The second data byte will be set to the track number.
         /// @throws std::invalid_argument if value is empty or malformed.
         /// @throws std::out_of_range if numeric portion is outside [0, 99].
-        virtual void SetValue(std::string value) override;
+        virtual void SetValue(const std::string& value) override;
     };
 }
 

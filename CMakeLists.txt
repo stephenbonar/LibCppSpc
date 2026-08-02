@@ -16,9 +16,11 @@
 
 cmake_minimum_required(VERSION 3.10.0)
 
+# Define the library project to establish the project name, version, 
+# and programming languages used.
 project(LibCppSpc VERSION 1.0.0 LANGUAGES C CXX)
 
-# Enable CTest integration and the BUILD_TESTING option.
+# Enable CTest integration so we can run the tests with CMake. 
 include(CTest)
 
 # Determine if Doxygen is available to build documentation.
@@ -58,13 +60,18 @@ if (WIN32)
     endif()
 endif()
 
-# Specify the C++ standard.
+# Define the minimum C++ standard required for this project to ensure 
+# compatibility with modern C++ features used in this library.
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# Configure the source code directory so the library source code can be built.
 add_subdirectory(src)
+
+# Configure the examples directory so the example programs can be built.
 add_subdirectory(examples)
 
+# Configure the tests directory so the unit tests can be built, if enabled.
 if(BUILD_TESTING)
     add_subdirectory(tests)
 endif()

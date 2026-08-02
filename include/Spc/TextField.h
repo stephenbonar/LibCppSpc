@@ -41,7 +41,8 @@ namespace Spc
         /// @param label The label to use when outputing the field. 
         /// @param info Sets offset and size of the field.
         /// @param isPresent Indicates whether field is present in the SPC file.
-        TextField(std::string label, FieldInfo info, bool isPresent = true) :
+        TextField(const std::string& label, FieldInfo info, 
+                  bool isPresent = true) :
             Field{ label, info, isPresent }
         { }
 
@@ -50,7 +51,7 @@ namespace Spc
         /// @post The field's data is updated to match the specified value.
         /// @post If the value is shorter than size, remaining bytes are 0.
         /// @post If the value is longer than size, it is truncated to fit.
-        void SetValue(std::string value) override;
+        void SetValue(const std::string& value) override;
         
         /// @copydoc Field::ToString()
         std::string ToString() const override

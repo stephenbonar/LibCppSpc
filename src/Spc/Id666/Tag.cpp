@@ -16,6 +16,8 @@
 
 #include "Spc/Id666/Tag.h"
 
+#include <cctype>
+
 using namespace Spc;
 using namespace Spc::Id666;
 
@@ -44,15 +46,15 @@ TagType Tag::DetermineType() const
     TextField songArtist{ "Song Artist", songArtistInfo.binary };
     TextField reserved{ "Reserved", reservedInfo.binary };
     fieldData->SetPosition(dateDumpedInfo.binary.offset - tagOffset);
-    fieldData->Read(&dateDumped);
+    fieldData->Read(dateDumped);
     fieldData->SetPosition(songLengthInfo.binary.offset - tagOffset);
-    fieldData->Read(&songLength);
+    fieldData->Read(songLength);
     fieldData->SetPosition(fadeLengthInfo.binary.offset - tagOffset);
-    fieldData->Read(&fadeLength);
+    fieldData->Read(fadeLength);
     fieldData->SetPosition(songArtistInfo.binary.offset - tagOffset);
-    fieldData->Read(&songArtist);
+    fieldData->Read(songArtist);
     fieldData->SetPosition(reservedInfo.binary.offset - tagOffset);
-    fieldData->Read(&reserved);
+    fieldData->Read(reserved);
 
     if (!dateDumped.IsText() || !songLength.IsText() || !fadeLength.IsText())
     {
@@ -144,7 +146,7 @@ DateField Tag::DateDumped() const
         extendedInfo.offset = Extended::dataOffset;
         extendedInfo.size = dateDumpedInfo.binary.size;
         DateField dateDumped{ "Date Dumped*", extendedInfo };
-        dateDumpedInt->CopyRawDataTo(&dateDumped);
+        dateDumpedInt->CopyRawDataTo(dateDumped);
         return dateDumped;
     }
     else
@@ -211,7 +213,7 @@ EmulatorField Tag::EmulatorUsed() const
         extendedInfo.offset = Extended::dataOffset;
         extendedInfo.size = emulatorUsedInfo.binary.size;
         EmulatorField emulatorUsed{ "Emulator Used*", extendedInfo };
-        emulatorUsedInt->CopyRawDataTo(&emulatorUsed);
+        emulatorUsedInt->CopyRawDataTo(emulatorUsed);
         return emulatorUsed;
     }
     else
@@ -285,7 +287,7 @@ BinaryField Tag::MutedVoices() const
         // a standard BinaryField to return.
         Spc::FieldInfo extendedInfo{ Extended::dataOffset, 1 };
         BinaryField mutedVoices{ "Muted Voices*", extendedInfo };
-        mutedVoicesInt->CopyRawDataTo(&mutedVoices);
+        mutedVoicesInt->CopyRawDataTo(mutedVoices);
         return mutedVoices;
     }
     else
@@ -307,7 +309,7 @@ NumericField Tag::PreampLevel() const
                                             extendedData->preampLevel.get());
 }
 
-void Tag::SetSongTitle(std::string value) 
+void Tag::SetSongTitle(const std::string& value)
 {
     WriteExtendedTextField<TextField>(songTitleInfo,
                                       Extended::songTitleInfo, 
@@ -315,7 +317,7 @@ void Tag::SetSongTitle(std::string value)
                                       value);
 }
 
-void Tag::SetGameTitle(std::string value) 
+void Tag::SetGameTitle(const std::string& value)
 {
     WriteExtendedTextField<TextField>(gameTitleInfo,
                                       Extended::gameTitleInfo, 
@@ -323,7 +325,7 @@ void Tag::SetGameTitle(std::string value)
                                       value);
 }
 
-void Tag::SetDumperName(std::string value) 
+void Tag::SetDumperName(const std::string& value)
 {
     WriteExtendedTextField<TextField>(dumperNameInfo,
                                       Extended::dumperNameInfo, 
@@ -331,7 +333,7 @@ void Tag::SetDumperName(std::string value)
                                       value);
 }
 
-void Tag::SetComments(std::string value) 
+void Tag::SetComments(const std::string& value)
 {
     WriteExtendedTextField<TextField>(commentsInfo,
                                       Extended::commentsInfo, 
@@ -339,7 +341,7 @@ void Tag::SetComments(std::string value)
                                       value);
 }
 
-void Tag::SetDateDumped(std::string value) 
+void Tag::SetDateDumped(const std::string& value)
 {
     if (value.empty())
     {
@@ -350,7 +352,7 @@ void Tag::SetDateDumped(std::string value)
                                  value);
 }
 
-void Tag::SetSongLength(std::string value) 
+void Tag::SetSongLength(const std::string& value)
 {
     if (!value.empty())
     {
@@ -362,7 +364,7 @@ void Tag::SetSongLength(std::string value)
     WriteNumericField<NumericField>(songLengthInfo, value);
 }
 
-void Tag::SetFadeLength(std::string value)
+void Tag::SetFadeLength(const std::string& value)
 {
     // TODO: Consider adding logic to write to the extended area. It is not yet
     // clear under what conditions this field would be used
@@ -382,7 +384,7 @@ void Tag::SetFadeLength(std::string value)
     WriteNumericField<NumericField>(fadeLengthInfo, value);
 }
 
-void Tag::SetSongArtist(std::string value) 
+void Tag::SetSongArtist(const std::string& value)
 {
     WriteExtendedTextField<TextField>(songArtistInfo,
                                       Extended::songArtistInfo, 
@@ -390,7 +392,7 @@ void Tag::SetSongArtist(std::string value)
                                       value);
 }
 
-void Tag::SetDefaultDisabledChannels(std::string value) 
+void Tag::SetDefaultDisabledChannels(const std::string& value)
 {
     if (!value.empty() && value.size() != bitsPerByte)
     {
@@ -401,7 +403,7 @@ void Tag::SetDefaultDisabledChannels(std::string value)
     WriteNumericField<BinaryField>(defaultDisabledChannelsInfo, value);
 }
 
-void Tag::SetEmulatorUsed(std::string value) 
+void Tag::SetEmulatorUsed(const std::string& value)
 {
     if (value.empty())
     {
@@ -411,14 +413,14 @@ void Tag::SetEmulatorUsed(std::string value)
     WriteNumericField<EmulatorField>(emulatorUsedInfo, value);
 }
 
-void Tag::SetOstTitle(std::string value) 
+void Tag::SetOstTitle(const std::string& value)
 {
     WriteExtendedStringField<TextField>(Extended::ostTitleInfo, 
                                         &extendedData->ostTitle,
                                         value);
 }
 
-void Tag::SetOstDisc(std::string value) 
+void Tag::SetOstDisc(const std::string& value)
 {
     if (!value.empty())
     {
@@ -432,7 +434,7 @@ void Tag::SetOstDisc(std::string value)
                                            value);
 }
 
-void Tag::SetOstTrack(std::string value)
+void Tag::SetOstTrack(const std::string& value)
 {
     if (value.empty())
     {
@@ -447,7 +449,8 @@ void Tag::SetOstTrack(std::string value)
 
     size_t i = 0;
     
-    while (i < value.size() && isdigit(value[i])) 
+    while (i < value.size() &&
+           std::isdigit(static_cast<unsigned char>(value[i])))
     {
         numericPart += value[i];
         ++i;
@@ -472,14 +475,14 @@ void Tag::SetOstTrack(std::string value)
                                          value);
 }
 
-void Tag::SetPublisherName(std::string value)
+void Tag::SetPublisherName(const std::string& value)
 {
     WriteExtendedStringField<TextField>(Extended::publisherNameInfo, 
                                         &extendedData->publisherName,
                                         value);
 }
 
-void Tag::SetCopyrightYear(std::string value) 
+void Tag::SetCopyrightYear(const std::string& value)
 {
     if (value.empty())
     {
@@ -501,7 +504,7 @@ void Tag::SetCopyrightYear(std::string value)
                                            value);
 }
 
-void Tag::SetIntroLength(std::string value) 
+void Tag::SetIntroLength(const std::string& value)
 {
     if (!value.empty())
     {
@@ -513,7 +516,7 @@ void Tag::SetIntroLength(std::string value)
                                         value);
 }
 
-void Tag::SetLoopLength(std::string value) 
+void Tag::SetLoopLength(const std::string& value)
 {
     if (!value.empty())
     {
@@ -525,7 +528,7 @@ void Tag::SetLoopLength(std::string value)
                                         value);
 }
 
-void Tag::SetEndLength(std::string value) 
+void Tag::SetEndLength(const std::string& value)
 {
     if (!value.empty())
     {
@@ -537,7 +540,7 @@ void Tag::SetEndLength(std::string value)
                                         value);
 }
 
-void Tag::SetMutedVoices(std::string value)
+void Tag::SetMutedVoices(const std::string& value)
 {
     if (!value.empty() && value.size() != bitsPerByte)
     {
@@ -549,7 +552,7 @@ void Tag::SetMutedVoices(std::string value)
                                           value);
 }
 
-void Tag::SetLoopTimes(std::string value) 
+void Tag::SetLoopTimes(const std::string& value)
 {
     if (!value.empty())
     {
@@ -561,7 +564,7 @@ void Tag::SetLoopTimes(std::string value)
                                            value);
 }
 
-void Tag::SetPreampLevel(std::string value) 
+void Tag::SetPreampLevel(const std::string& value)
 {
     if (!value.empty())
     {
@@ -573,23 +576,23 @@ void Tag::SetPreampLevel(std::string value)
                                         value);
 }
 
-void Tag::ReadField(Field* field) const
+void Tag::ReadField(Field& field) const
 {
     size_t originalPosition = fieldData->Position();
-    fieldData->SetPosition(field->Offset() - tagOffset);
+    fieldData->SetPosition(field.Offset() - tagOffset);
     fieldData->Read(field);
     fieldData->SetPosition(originalPosition);
 }
 
-void Tag::WriteField(Field* field)
+void Tag::WriteField(const Field& field)
 {
     size_t originalPosition = fieldData->Position();
-    fieldData->SetPosition(field->Offset() - tagOffset);
+    fieldData->SetPosition(field.Offset() - tagOffset);
     fieldData->Write(field);
     fieldData->SetPosition(originalPosition);
 }
 
-void Spc::Id666::CheckRange(std::string value, int min, int max)
+void Spc::Id666::CheckRange(const std::string& value, int min, int max)
 {
     int intValue = std::stoi(value);
 

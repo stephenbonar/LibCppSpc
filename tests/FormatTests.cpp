@@ -69,7 +69,7 @@ TEST_F(FormatTests, FormatFieldUsesFieldLabelAndStringValue)
         std::string(Spc::labelSize - std::string("Header").size(), ' ') +
         ": AA BB";
 
-    EXPECT_EQ(Spc::FormatField(&field), expected);
+    EXPECT_EQ(Spc::FormatField(field), expected);
 }
 
 TEST_F(FormatTests, FormatFieldOutputsDashWhenFieldIsNotPresent)
@@ -82,5 +82,5 @@ TEST_F(FormatTests, FormatFieldOutputsDashWhenFieldIsNotPresent)
         std::string(Spc::labelSize - std::string("Header").size(), ' ') +
         ": -";
 
-    EXPECT_EQ(Spc::FormatField(&field), expected);
+    EXPECT_EQ(Spc::FormatField(field), expected);
 }

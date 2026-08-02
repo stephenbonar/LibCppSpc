@@ -121,6 +121,15 @@ TEST_F(DateFieldTests, SetBinaryValueThrowsExceptionForInvalidFormats)
     EXPECT_THROW(dateField->SetValue("MM/DD/YYYY"),std::invalid_argument);
 }
 
+TEST_F(DateFieldTests, SetValueThrowsExceptionForTrailingCharacters)
+{
+    dateField->SetType(Spc::NumericType::Text);
+    EXPECT_THROW(dateField->SetValue("02/06/2000xyz"), std::invalid_argument);
+
+    dateField->SetType(Spc::NumericType::Binary);
+    EXPECT_THROW(dateField->SetValue("02/06/2000xyz"), std::invalid_argument);
+}
+
 TEST_F(DateFieldTests, SetBinaryValueDoesNotThrowExceptionForValidFormats)
 {
     //EXPECT_NO_THROW(dateField->SetBinaryValue("02/06/2000"));

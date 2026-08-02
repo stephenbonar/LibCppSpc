@@ -45,7 +45,7 @@ namespace Spc
         /// Binary::FileStream instance.
         ///
         /// @param path The path to the SPC file on disk.
-        File(std::string path) : 
+        File(const std::string& path) : 
             path{ path }, 
             ram{ ramInfo.size }, 
             dspRegisters{ dspRegistersInfo.size }, 
@@ -64,7 +64,7 @@ namespace Spc
         ///
         /// @param path The path to the SPC file on disk.
         /// @param stream The Binary::FileStream to use.
-        File(std::string path, 
+        File(const std::string& path, 
              std::shared_ptr<Binary::FileStream> stream) :
              path{ path },
              ram{ ramInfo.size },
@@ -104,27 +104,36 @@ namespace Spc
 
         /// @brief Sets the header of the SPC file.
         /// @param h The Spc::Header object to set.
-        void SetHeader(Spc::Header h) { header = h; }
+        void SetHeader(const Spc::Header& header) { this->header = header; }
 
         /// @brief Sets the ID666 tag of the SPC file.
-        /// @param t The Spc::Id666::Tag object to set.
-        void SetTag(Spc::Id666::Tag t) { tag = t; }
+        /// @param tag The Spc::Id666::Tag object to set.
+        void SetTag(const Spc::Id666::Tag& tag) { this->tag = tag; }
 
         /// @brief Sets the SPC RAM dump contained within the file.
-        /// @param r The Binary::BufferStream containing the RAM dump.
-        void SetRam(Binary::BufferStream r) { ram = r; }
+        /// @param ram The Binary::BufferStream containing the RAM dump.
+        void SetRam(const Binary::BufferStream& ram) { this->ram = ram; }
 
         /// @brief Sets the DSP registers contained within the SPC file.
-        /// @param r The Binary::BufferStream containing the DSP registers.
-        void SetDspRegisters(Binary::BufferStream r) { dspRegisters = r; }
+        /// @param dspRegisters The Binary::BufferStream containing the DSP registers.
+        void SetDspRegisters(const Binary::BufferStream& dspRegisters)
+        {
+            this->dspRegisters = dspRegisters;
+        }
 
         /// @brief Sets the unused portion of the SPC file.
-        /// @param u The Binary::BufferStream containing the unused portion.
-        void SetUnused(Binary::BufferStream u) { unused = u; }
+        /// @param unused The Binary::BufferStream containing the unused portion.
+        void SetUnused(const Binary::BufferStream& unused) 
+        { 
+            this->unused = unused; 
+        }
 
         /// @brief Sets the extra RAM contained within the SPC file.
-        /// @param e The Binary::BufferStream containing the extra RAM.
-        void SetExtraRam(Binary::BufferStream e) { extraRam = e; }
+        /// @param extraRam The Binary::BufferStream containing the extra RAM.
+        void SetExtraRam(const Binary::BufferStream& extraRam) 
+        {
+            this->extraRam = extraRam; 
+        }
 
         /// @brief Loads the SPC file from disk.
         /// @pre The file path points to a valid SPC file that exists.
@@ -162,7 +171,7 @@ namespace Spc
         /// @return True if the file was successfully copied, false otherwise.
         /// @pre Must be a valid pattern with supported placeholders.
         /// @post The file on disk is copied to match the pattern if valid.
-        bool TagToFileName(std::string pattern);
+        bool TagToFileName(const std::string& pattern);
 
         /// @brief Updates the tag based on the file name.
         ///
@@ -185,7 +194,7 @@ namespace Spc
         /// @return True if the tag was successfully updated, false otherwise.
         /// @pre Must be a valid pattern with supported placeholders.
         /// @post The tag is updated based on the file name if pattern is valid.
-        bool FileNameToTag(std::string pattern);
+        bool FileNameToTag(const std::string& pattern);
     private:
         std::string path;
         Spc::Header header;
@@ -237,22 +246,30 @@ namespace Spc
 
         /// @brief Matches a numeric pattern node against the string stream.
         /// @param stream The string stream to match against.
+        /// @param fileName The full file name being matched.
         /// @param node The current pattern node to match.
         /// @param nextNode Pointer to the next pattern node.
+        /// @param numericString The parsed numeric string value.
         /// @return True if the numeric pattern matches, false otherwise.
         bool MatchNumeric(std::stringstream& stream, 
+                  const std::string& fileName,
                   Id666::Pattern::Node node,
-                  Id666::Pattern::Node* nextNode);
+                  Id666::Pattern::Node* nextNode,
+                  std::string& numericString);
 
 
         /// @brief Matches a text pattern node against the string stream.
         /// @param stream The string stream to match against.
+        /// @param fileName The full file name being matched.
         /// @param node The current pattern node to match.
         /// @param nextNode Pointer to the next pattern node.
+        /// @param textString The parsed text string value.
         /// @return True if the text pattern matches, false otherwise.
         bool MatchText(std::stringstream& stream,
+                   const std::string& fileName,
                    Id666::Pattern::Node node,
-                   Id666::Pattern::Node* nextNode);
+                   Id666::Pattern::Node* nextNode,
+                   std::string& textString);
     };
 
     /// @brief Matches a literal pattern node against the string stream.
