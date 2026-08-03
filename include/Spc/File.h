@@ -84,7 +84,7 @@ namespace Spc
 
         /// @brief Gets the ID666 tag of the SPC file.
         /// @return A Spc::Id666::Tag object representing the tag.
-        Spc::Id666::Tag Tag() { return tag; }
+        Spc::Id666::Tag Tag() const { return tag; }
 
         /// @brief Gets the SPC RAM dump contained within the file.
         /// @return A Binary::BufferStream containing the RAM dump.
