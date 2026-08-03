@@ -16,7 +16,7 @@ var class_spc_1_1_file =
     [ "SetRam", "class_spc_1_1_file.html#a9d1da43dd7cdc8014ac2bac120847d1f", null ],
     [ "SetTag", "class_spc_1_1_file.html#a09c460d6bd6640eb0a45d5aae126d277", null ],
     [ "SetUnused", "class_spc_1_1_file.html#aa33d028228d53722e8f9036ecc408204", null ],
-    [ "Tag", "class_spc_1_1_file.html#ad8ebec8c3bc119daef0496cbc71125c9", null ],
+    [ "Tag", "class_spc_1_1_file.html#a011d4b8638761415832da5c9b2ae61b6", null ],
     [ "TagToFileName", "class_spc_1_1_file.html#a1f86fe4ac1c2132d8e56d2745efe6284", null ],
     [ "Unused", "class_spc_1_1_file.html#a0249a69abf226c8416dbcb2f60db92db", null ]
 ];
