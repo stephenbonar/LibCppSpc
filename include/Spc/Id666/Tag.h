@@ -244,6 +244,17 @@ namespace Spc::Id666
         /// @return A NumericField representing the length of song after loop.
         NumericField EndLength() const;
 
+        /// @brief Get the length of the song fade out, in ticks.
+        ///
+        /// The end length is an extended tag item representing the length of 
+        /// the ending portion of the song. The end length is represented in 
+        /// ticks, which are 1/64000th of a second. Although there is a 
+        /// non-extended fade length field based on milliseconds in the header, 
+        /// this extended tag item is based on ticks and is used, if available.
+        ///
+        /// @return A NumericField representing the length of the song fade out.
+        NumericField FadeLengthExt() const;
+
         /// @brief Gets the muted voices of the song.
         ///
         /// The muted voices field is a bitmask representing which channels are 
@@ -496,6 +507,21 @@ namespace Spc::Id666
         /// @throws std::invalid_argument if value is not numeric.
         /// @throws std::out_of_range if value is out of range.
         void SetEndLength(const std::string& value);
+
+        /// @brief Sets the length of the song fade, in ticks.
+        ///
+        /// The fade length is an extended tag item representing the length of
+        /// the fade-out portion of the song. The fade length is represented in
+        /// ticks, which are 1/64000th of a second. Although there is a 
+        /// non-extended fade length field based on milliseconds in the header, 
+        /// this extended tag item is based on ticks and is used, if available.
+        ///
+        /// @param value The value to set the fade length to.
+        /// @pre Value must be empty or between 0 and 383999999 ticks.
+        /// @post If value is empty, the extended item is removed.
+        /// @throws std::invalid_argument if value is not numeric.
+        /// @throws std::out_of_range if value is out of range.
+        void SetFadeLengthExt(const std::string& value);
 
         /// @brief Sets which voices are muted.
         ///

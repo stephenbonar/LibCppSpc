@@ -35,7 +35,7 @@ TEST_F(BinaryFieldTests, ConstructorInitializesIsPresentProperly)
     EXPECT_FALSE(notPresent.IsPresent());
 }
 
-TEST_F(BinaryFieldTests, SetValueAccceptsBinaryString)
+TEST_F(BinaryFieldTests, SetValueAcceptsBinaryString)
 {
     Spc::BinaryField binaryField("Test Binary Field", *oneByteFieldInfo);
     EXPECT_NO_THROW(binaryField.SetValue("10101010"));
@@ -63,7 +63,7 @@ TEST_F(BinaryFieldTests, SetValueSetsCorrectValue)
     EXPECT_EQ(binaryField.ToInt32(), 15);
 }
 
-TEST_F(BinaryFieldTests, SetValueReturnsCorrectValueForMorethan1Byte)
+TEST_F(BinaryFieldTests, SetValueReturnsCorrectValueForMoreThan1Byte)
 {
     Spc::BinaryField binaryField("Test Binary Field", *twoByteFieldInfo);
     binaryField.SetValue("00001111");

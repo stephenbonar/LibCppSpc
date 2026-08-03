@@ -472,26 +472,6 @@ TEST_F(ID666TagTests, GetsMixedFadeLengthProperly)
     TestNumericGet<Spc::NumericField>(params, isText);
 }
 
-TEST_F(ID666TagTests, GetsExtendedFadeLengthProperly)
-{
-    tag->ExtendedData()->fadeLength = 
-        std::make_shared<Spc::Id666::Extended::Item>();
-    
-    TestGetExtendedParams<Spc::NumericField> params;
-    params.expectedLabel = "Fade Length (ticks)*";
-    params.expectedValue = "320000";
-    params.expectedSize = Spc::Id666::fadeLengthInfo.binary.size;
-    params.extendedID = Spc::Id666::Extended::fadeLengthInfo.id;
-    params.extendedType = Spc::Id666::Extended::integerType;
-
-    // The decimal representation of the binary format date.
-    params.extendedValue = "320000"; 
-
-    params.item = tag->ExtendedData()->fadeLength;
-    params.getMethodPtr = &Spc::Id666::Tag::FadeLength;
-    TestGetExtendedData<Spc::NumericField, Spc::NumericField>(params);
-}
-
 TEST_F(ID666TagTests, GetsTextArtistProperly)
 {
     TestGetParams<Spc::TextField> params;
@@ -777,6 +757,22 @@ TEST_F(ID666TagTests, GetsEndLengthProperly)
     params.extendedValue = "20000";
     params.item = tag->ExtendedData()->endLength;
     params.getMethodPtr = &Spc::Id666::Tag::EndLength;
+    TestGetExtendedData<Spc::NumericField, Spc::NumericField>(params);
+}
+
+TEST_F(ID666TagTests, GetsFadeLengthExtProperly)
+{
+    tag->ExtendedData()->fadeLength = 
+        std::make_shared<Spc::Id666::Extended::Item>();
+    TestGetExtendedParams<Spc::NumericField> params;
+    params.expectedLabel = "Fade Length (ticks)*";
+    params.expectedValue = "20000";
+    params.expectedSize = 4;
+    params.extendedID = Spc::Id666::Extended::fadeLengthInfo.id;
+    params.extendedType = Spc::Id666::Extended::fadeLengthInfo.type;
+    params.extendedValue = "20000";
+    params.item = tag->ExtendedData()->fadeLength;
+    params.getMethodPtr = &Spc::Id666::Tag::FadeLengthExt;
     TestGetExtendedData<Spc::NumericField, Spc::NumericField>(params);
 }
 
@@ -1887,6 +1883,45 @@ TEST_F(ID666TagTests, SetEndLengthEnforcesPreconditions)
     EXPECT_THROW(tag->SetEndLength(nonNumericString), std::invalid_argument);
 }
 
+TEST_F(ID666TagTests, SetsNewFadeLengthExtProperly)
+{
+    TestSetExtendedParams<Spc::NumericField> extParams;
+    extParams.setValue = "320000";
+    extParams.expectedValue = "320000";
+    extParams.extendedID = Spc::Id666::Extended::fadeLengthInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::fadeLengthInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->fadeLength;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetFadeLengthExt;
+    TestSetExtendedData<Spc::NumericField, Spc::NumericField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetsExistingFadeLengthExtProperly)
+{
+    auto item = InitNumericExtendedItem<Spc::NumericField>(
+        Spc::Id666::Extended::fadeLengthInfo,
+        "320000");
+    tag->ExtendedData()->fadeLength = item;
+    TestSetExtendedParams<Spc::NumericField> extParams;
+    extParams.setValue = "640000";
+    extParams.expectedValue = "640000";
+    extParams.extendedID = Spc::Id666::Extended::fadeLengthInfo.id;
+    extParams.extendedType = Spc::Id666::Extended::fadeLengthInfo.type;
+    extParams.itemPtrPtr = &tag->ExtendedData()->fadeLength;
+    extParams.setMethodPtr = &Spc::Id666::Tag::SetFadeLengthExt;
+    TestSetExtendedData<Spc::NumericField, Spc::NumericField>(extParams);
+}
+
+TEST_F(ID666TagTests, SetFadeLengthExtEnforcesPreconditions)
+{
+    std::string tooLowString{ "-1" };
+    std::string tooHighString{ "384000000" };
+    std::string nonNumericString{ "abc" };
+
+    EXPECT_THROW(tag->SetFadeLengthExt(tooLowString), std::out_of_range);
+    EXPECT_THROW(tag->SetFadeLengthExt(tooHighString), std::out_of_range);
+    EXPECT_THROW(tag->SetFadeLengthExt(nonNumericString), std::invalid_argument);
+}
+
 TEST_F(ID666TagTests, SetsNewMutedVoicesProperly)
 {
     TestSetExtendedParams<Spc::BinaryField> extParams;
@@ -2065,14 +2100,11 @@ TEST_F(ID666TagTests, SetSongLengthEmptyClearsStandardFieldData)
                                      Spc::Id666::songLengthInfo.text.size);
 }
 
-TEST_F(ID666TagTests, SetFadeLengthEmptyClearsStandardAndExtendedData)
+TEST_F(ID666TagTests, SetFadeLengthEmptyClearsStandardFieldData)
 {
-    tag->ExtendedData()->fadeLength = std::make_shared<Spc::Id666::Extended::Item>();
-
     SetEmptyAndExpectRawFieldCleared(&Spc::Id666::Tag::SetFadeLength,
                                      Spc::Id666::fadeLengthInfo.text.offset,
                                      Spc::Id666::fadeLengthInfo.text.size);
-    EXPECT_EQ(nullptr, tag->ExtendedData()->fadeLength);
 }
 
 TEST_F(ID666TagTests, SetSongArtistEmptyClearsStandardAndExtendedData)

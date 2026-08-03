@@ -163,23 +163,8 @@ NumericField Tag::SongLength() const
 
 NumericField Tag::FadeLength() const 
 {
-    std::shared_ptr<Extended::Item> item = extendedData->fadeLength;
-    
-    // Fade length is stored as an 32-bit integer in the extended area, so
-    // we need to read it differently from the standard fade length field.
-    std::shared_ptr<NumericField> fadeLengthInt;
-    fadeLengthInt = ReadExtendedField<NumericField>("Fade Length (ticks)", 
-                                                    item.get());
-
-    if (item != nullptr)
-    {
-        return *fadeLengthInt;
-    }
-    else
-    {
-        return *ReadNumericField<NumericField>("Fade Length (ms)", 
-                                               fadeLengthInfo);
-    }
+    return *ReadNumericField<NumericField>("Fade Length (ms)", 
+                                           fadeLengthInfo);
 }
 
 TextField Tag::SongArtist() const 
@@ -269,6 +254,12 @@ NumericField Tag::EndLength() const
 {
     return *ReadExtendedField<NumericField>("End Length (ticks)", 
                                             extendedData->endLength.get());
+}
+
+NumericField Tag::FadeLengthExt() const 
+{
+    return *ReadExtendedField<NumericField>("Fade Length (ticks)", 
+                                            extendedData->fadeLength.get());
 }
 
 BinaryField Tag::MutedVoices() const 
@@ -366,15 +357,7 @@ void Tag::SetSongLength(const std::string& value)
 
 void Tag::SetFadeLength(const std::string& value)
 {
-    // TODO: Consider adding logic to write to the extended area. It is not yet
-    // clear under what conditions this field would be used
-    // as opposed to the standard one. Would need to know the maximum number of
-    // ticks vs milliseconds.
-    if (value.empty())
-    {
-        extendedData->fadeLength = nullptr;
-    }
-    else
+    if (!value.empty())
     {
         constexpr int min{ 0 };
         constexpr int max{ 59999 };
@@ -537,6 +520,18 @@ void Tag::SetEndLength(const std::string& value)
 
     WriteExtendedIntField<NumericField>(Extended::endLengthInfo, 
                                         &extendedData->endLength,
+                                        value);
+}
+
+void Tag::SetFadeLengthExt(const std::string& value)
+{
+    if (!value.empty())
+    {
+        CheckRange(value, 0, maxTicks);
+    }
+
+    WriteExtendedIntField<NumericField>(Extended::fadeLengthInfo, 
+                                        &extendedData->fadeLength,
                                         value);
 }
 
