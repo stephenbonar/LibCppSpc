@@ -15,7 +15,7 @@ var class_binary_1_1_standard_file_stream =
     [ "Position", "class_binary_1_1_standard_file_stream.html#a987b47f56483ef8cf852e53cff014c1b", null ],
     [ "Read", "class_binary_1_1_standard_file_stream.html#a59ebb7b8fe7249c85ce1a4f0a19e7086", null ],
     [ "Read", "class_binary_1_1_standard_file_stream.html#a0f6ac482b17a04a9a9d03177c2e35413", null ],
-    [ "SetPosition", "class_binary_1_1_standard_file_stream.html#a172dc79d46a04322ad441c878b940264", null ],
+    [ "SetPosition", "class_binary_1_1_standard_file_stream.html#a83c9c5dcd8169264f6be6d892efb2efa", null ],
     [ "Write", "class_binary_1_1_standard_file_stream.html#ad2f5cbb8bf800486e6fd6be2e00a279b", null ],
     [ "Write", "class_binary_1_1_standard_file_stream.html#aae3cf6d3342e7e1e34c1c5357238724a", null ]
 ];

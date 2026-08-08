@@ -68,11 +68,11 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_binary_field_8h.html",
-"class_binary_1_1_stream.html#a86f8f57efc61b85f8fbc234436619e6b",
+"class_binary_1_1_stream.html#a7bc7aae61b3bb56f70701ad570d7aaa9",
 "class_spc_1_1_numeric_field.html#a41984756491322fb1a021f495c2f2b4e",
 "namespace_spc_1_1_id666_1_1_extended.html#aa77f53b2f5b9fa50d5aa757edf869106"
 ];
 
-var SYNCONMSG = 'click to disable panel synchronization';
-var SYNCOFFMSG = 'click to enable panel synchronization';
-var LISTOFALLMEMBERS = 'List of all members';
+const SYNCONMSG = 'click to disable panel synchronization';
+const SYNCOFFMSG = 'click to enable panel synchronization';
+const LISTOFALLMEMBERS = 'List of all members';

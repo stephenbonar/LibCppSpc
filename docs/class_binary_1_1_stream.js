@@ -7,7 +7,7 @@ var class_binary_1_1_stream =
     [ "Position", "class_binary_1_1_stream.html#a7bc7aae61b3bb56f70701ad570d7aaa9", null ],
     [ "Read", "class_binary_1_1_stream.html#a12568462653ab7bcd61d7d9606ec22ae", null ],
     [ "Read", "class_binary_1_1_stream.html#a666929edd30db0c5d5fb6476cfb3d028", null ],
-    [ "SetPosition", "class_binary_1_1_stream.html#aa04b0edd4bd68098aac6b225e5a27e84", null ],
+    [ "SetPosition", "class_binary_1_1_stream.html#a398f05000970e2d6703af5f8c7e6ccea", null ],
     [ "Write", "class_binary_1_1_stream.html#a57dd340d2eae3585b3d728ebea966349", null ],
     [ "Write", "class_binary_1_1_stream.html#a22f2da77358cdb3eb76be760ab41bbe2", null ]
 ];

@@ -104,36 +104,30 @@ namespace Spc
 
         /// @brief Sets the header of the SPC file.
         /// @param h The Spc::Header object to set.
-        void SetHeader(const Spc::Header& header) { this->header = header; }
+        void SetHeader(const Spc::Header& h) { header = h; }
 
         /// @brief Sets the ID666 tag of the SPC file.
-        /// @param tag The Spc::Id666::Tag object to set.
-        void SetTag(const Spc::Id666::Tag& tag) { this->tag = tag; }
+        /// @param t The Spc::Id666::Tag object to set.
+        void SetTag(const Spc::Id666::Tag& t) { tag = t; }
 
         /// @brief Sets the SPC RAM dump contained within the file.
-        /// @param ram The Binary::BufferStream containing the RAM dump.
-        void SetRam(const Binary::BufferStream& ram) { this->ram = ram; }
+        /// @param r The Binary::BufferStream containing the RAM dump.
+        void SetRam(const Binary::BufferStream& r) { ram = r; }
 
         /// @brief Sets the DSP registers contained within the SPC file.
-        /// @param dspRegisters The Binary::BufferStream containing the DSP registers.
-        void SetDspRegisters(const Binary::BufferStream& dspRegisters)
+        /// @param d The Binary::BufferStream containing the DSP registers.
+        void SetDspRegisters(const Binary::BufferStream& d) 
         {
-            this->dspRegisters = dspRegisters;
+            dspRegisters = d; 
         }
 
         /// @brief Sets the unused portion of the SPC file.
-        /// @param unused The Binary::BufferStream containing the unused portion.
-        void SetUnused(const Binary::BufferStream& unused) 
-        { 
-            this->unused = unused; 
-        }
+        /// @param u The Binary::BufferStream containing the unused portion.
+        void SetUnused(const Binary::BufferStream& u) { unused = u; }
 
         /// @brief Sets the extra RAM contained within the SPC file.
-        /// @param extraRam The Binary::BufferStream containing the extra RAM.
-        void SetExtraRam(const Binary::BufferStream& extraRam) 
-        {
-            this->extraRam = extraRam; 
-        }
+        /// @param e The Binary::BufferStream containing the extra RAM.
+        void SetExtraRam(const Binary::BufferStream& e) { extraRam = e; }
 
         /// @brief Loads the SPC file from disk.
         /// @pre The file path points to a valid SPC file that exists.

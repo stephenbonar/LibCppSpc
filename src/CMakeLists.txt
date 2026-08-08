@@ -47,7 +47,7 @@ endif()
 include(FetchContent)
 FetchContent_Declare(
     LibCppBinary
-    URL https://github.com/stephenbonar/LibCppBinary/archive/e5a0774c46209ae7ca7d4ab9f22640dc2bd07e6a.zip
+    URL https://github.com/stephenbonar/LibCppBinary/archive/57bddd3e7dc3f937d634c7a6399eee5a012a9200.zip
 )
 
 # Makes LibCppBinary available at configure time rather than build time.

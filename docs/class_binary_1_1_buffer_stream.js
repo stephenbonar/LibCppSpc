@@ -7,7 +7,7 @@ var class_binary_1_1_buffer_stream =
     [ "Position", "class_binary_1_1_buffer_stream.html#a7e048d13df1d3fed5432c8d69c21a732", null ],
     [ "Read", "class_binary_1_1_buffer_stream.html#a2c83a657350cf65f711dadab01e28d14", null ],
     [ "Read", "class_binary_1_1_buffer_stream.html#aebbb55eebd1905b90e24bce5a6f442b4", null ],
-    [ "SetPosition", "class_binary_1_1_buffer_stream.html#ade280275f2b66e7de3ef09c736046469", null ],
+    [ "SetPosition", "class_binary_1_1_buffer_stream.html#aabba5431199d72dc94d6f8016d2c3384", null ],
     [ "Write", "class_binary_1_1_buffer_stream.html#a548da05d8f9709819c3d360c79a09801", null ],
     [ "Write", "class_binary_1_1_buffer_stream.html#a0dfa604c0bfaf6825471eb6172ef3119", null ]
 ];
